@@ -1,1 +1,1 @@
-# openscience-priv
+# Private sources of the openscience project.
