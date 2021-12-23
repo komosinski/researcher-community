@@ -1,0 +1,72 @@
+{% from "helpers/form_helper.html" import render_register_field %}
+
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="profile-edit-wrapper">
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <h1>
+            Please Create your Account
+        </h1>
+        
+        <div class="double-input-wrapper">
+            {{render_register_field(form.first_name,"First Name")}}
+            {{render_register_field(form.second_name,"Second Name")}}
+        </div>
+       
+        {{render_register_field(form.email,"Email Address")}}
+        
+        <div class="double-input-wrapper">
+            {{render_register_field(form.password,"Password")}}
+            {{render_register_field(form.password_confirm,"Confirm Password")}}
+        </div>
+     
+        <p><strong>Optional fields:</strong></p>
+        <br>
+
+        <div class="double-input-wrapper">
+            {{render_register_field(form.affiliation,"Affiliation")}}
+            {{render_register_field(form.orcid,"ORCID")}}
+        </div>
+
+        <div class="double-input-wrapper">
+            {{render_register_field(form.google_scholar,"Google scholar")}}
+            {{render_register_field(form.personal_website,"Personal website url")}} 
+        </div>
+
+        {{render_register_field(form.about_me,"About me")}}
+
+        <div class="double-input-wrapper">
+            <div class="profile-edit-input-wrapper">
+                <div class="label-wrapper">{{ form.review_mails_limit.label() }}</div>
+                <div class="input-wrapper">{{ form.review_mails_limit()}} </div>
+            </div>   
+            <div class="profile-edit-input-wrapper">
+                <div class="label-wrapper">{{ form.notifications_frequency.label() }}</div>
+                <div class="input-wrapper">{{ form.notifications_frequency()}} </div>  
+            </div> 
+        </div>
+      
+        <br>
+
+        {{ form.profile_image.label()}}
+        {{ form.profile_image()}}
+        {% for error in form.profile_image.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+
+        <br><br>
+        {{ form.recaptcha }}
+        <br><br>
+
+        <div class="buttons-wrapper">
+            {{ form.submit(class="large-button main-button")}}
+        </div>  
+
+    </form>
+    <br>
+    Already have an account? <a href="{{url_for('login_page')}}">Sign in</a>
+</div>
+
+{% endblock %}

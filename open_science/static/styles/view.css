@@ -1,0 +1,68 @@
+.article-frame-wrapper{
+    width: 100%;
+    padding: 20px;
+}
+
+.article-view-iframe {
+    width: 100%;
+    height: 1000px;
+}
+
+.article-info-wrapper {
+    padding: 20px;
+}
+
+.article-page {
+    width: 80%;
+}
+
+.similar-articles-column {
+    width: 20%;
+}
+
+.article-page-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.author-wrapper {
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.2em;
+    white-space: nowrap;
+    width: fit-content;
+    padding-right: 12px;
+    margin-bottom: 12px;
+}
+
+.author-profile-pic {
+    max-height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.author-name {
+    padding-left: 8px;
+}
+
+.article-description-text {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.article-title {
+    margin: 0;
+}
+
+.stats-wrapper {
+    padding: 10px 0px 10px 0px;
+}
+
+.linked-icon {
+    display: inline-flex;
+    text-decoration: none;
+    color: black;
+}

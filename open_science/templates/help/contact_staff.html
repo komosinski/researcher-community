@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    <div class="">
+        <div class="">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <h1>
+                    <h1>Contact</h1>
+                </h1>
+                Contact our staff (please read our <a href="{{url_for('faq_page')}}">FAQ</a> first)
+                <br><br>
+                <div class="">
+                    Please pick a topic below:
+                    <br>
+                    {{ form.topic() }}
+                </div>
+                <br>
+                <div class="">
+                   
+                    {{ form.text(placeholder="your message") }}
+                </div>
+                <br>
+                <div class="">
+                    {{ form.submit() }}
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+

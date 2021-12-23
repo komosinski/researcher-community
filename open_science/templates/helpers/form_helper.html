@@ -1,0 +1,24 @@
+{% macro render_register_field(field, placeholder) %}
+<div class="profile-edit-input-wrapper">
+    <div class="label-wrapper"> {{ field.label}}</div>
+    <div class="input-wrapper"> {{ field(placeholder=placeholder,**kwargs)|safe }}</div>
+    {% if field.errors %}
+        {% for error in field.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endmacro %}
+
+{% macro render_edit_profile_field(field, placeholder) %}
+<div class="profile-edit-input-wrapper">
+    <div class="label-wrapper"> {{ field.label}}</div>
+    <div class="input-wrapper"> {{ field(placeholder=placeholder,**kwargs)|safe }}</div>
+    {% if field.errors %}
+        {% for error in field.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endmacro %}
+

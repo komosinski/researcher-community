@@ -1,0 +1,56 @@
+.login-form-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.login-form {
+    border: 1px solid gray;
+    border-radius: 20px;
+    padding: 20px;
+    width: 400px;
+}
+
+.login-form h1 {
+    margin: 0;
+}
+
+.login-form #submit {
+    width: 200px;
+    height: 40px;
+    background-color: green;
+    border: 0;
+    font-size: 16px;
+    color: white;
+    font-weight: 700;
+}
+
+.login-input-wrapper {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    padding: 5px;
+    align-items: center;
+}
+
+.login-input-wrapper #email,.login-input-wrapper #password {
+    height: 100%;
+    width: 70%;
+}
+
+.forgot-password-wrapper,.login-submit-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.login-submit-wrapper {
+    margin-bottom: 8px;
+}
+
+.forgot-password-wrapper {
+    font-size: 13px;
+}
+
+.g-recaptcha {
+    display: flex;
+    justify-content: center;
+}

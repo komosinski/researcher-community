@@ -1,0 +1,36 @@
+<div class="main-header">
+    <div class="header-logo-wrapper">
+        <a class="header-text" href="{{url_for('home_page')}}">OpenScience</a>
+    </div>
+
+    <div>
+        {% with search_text=""%}
+        {% include 'utils/basic_search_form.html' %}
+        {% endwith %}
+        <a href="{{ url_for('advanced_search_page')}}">Advanced search</a>
+    </div>
+  
+    {% if current_user.is_authenticated %}  
+        <div class="header-user-control">
+            <div class="author-wrapper">
+                <div>
+                    {% set notifications_count=current_user.get_new_notifications_count() %}
+                    {% if notifications_count %}
+                    <span class="">{{ notifications_count }}</span>
+                    {% endif %}
+                </div>
+                <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~current_user.get_id()~'.png' if current_user.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}"/>
+                <a class="author-name header-username" href="{{url_for('profile_page', user_id=current_user.get_id()|int)}}">{{current_user.first_name + " " + current_user.second_name}}</a>
+                |
+                <a href="{{ url_for('logout_page') }}"><i class="fas fa-sign-out-alt fa-center logout-icon" ></i></a>
+            </div>
+        </div>
+    {% else %}
+        <div class="header-user-control">        
+            <a class="" href="{{ url_for('login_page') }}">Sign in</a>
+            <span class="header-login-span">|</span>
+            <a class="" href="{{ url_for('register_page') }}">Sign up</a>
+        </div>
+    {% endif %}
+
+</div>

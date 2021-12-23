@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    {% with search_text=request.args.get('search_text') %}
+    {% include 'utils/basic_search_form.html' %}
+    {% endwith %}
+
+    <a href="{{ url_for('advanced_search_page')}}">Advanced search</a>
+    
+
+    <h2>Results</h2>
+     <a class="link-button  {% if request.args.get('order_by') == 'newest' %}pressed{% endif %}"
+    href="{{ url_for('search_papers_page',order_by='newest', search_text=request.args.get('search_text'),search_option=request.args.get('search_option') )}}">NEWEST</a>
+     
+    <a class="link-button  {% if request.args.get('order_by') == 'oldest' %}pressed{% endif %}"
+    href="{{ url_for('search_papers_page',order_by='oldest', search_text=request.args.get('search_text'),search_option=request.args.get('search_option') )}}">OLDEST</a>
+     
+    <a class="link-button  {% if request.args.get('order_by') == 'score' %}pressed{% endif %}"
+    href="{{ url_for('search_papers_page',order_by='score', search_text=request.args.get('search_text'),search_option=request.args.get('search_option') )}}">SCORE</a>
+     
+
+    <ol>
+        {% for paper in papers.items%}
+        {% with item=paper%}
+            {% include 'search/article_item.html' %}
+        {% endwith %}
+        {%endfor%}
+    </ol>
+
+    <div >
+        {% if papers.page != 1 %}
+        <a href="{{ url_for('search_papers_page', page=papers.prev_num, search_text=request.args.get('search_text'),search_option=request.args.get('search_option'), order_by=request.args.get('order_by') ) }}"
+            class="page-number">
+            &laquo;
+        </a>
+        {% endif %}
+        
+        {% for page_num in papers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if papers.page == page_num %}
+                <a href="{{ url_for('search_papers_page', page=page_num, search_text=request.args.get('search_text'),search_option=request.args.get('search_option'), order_by=request.args.get('order_by') ) }}"
+                   class="page-number pressed">
+                    {{ page_num }}
+                </a>
+                {% else %}
+                <a href="{{ url_for('search_papers_page', page=page_num, search_text=request.args.get('search_text'),search_option=request.args.get('search_option'), order_by=request.args.get('order_by')) }}"
+                   class="page-number">
+                    {{ page_num }}
+                </a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+
+        {% if papers.page != papers.pages %}
+        <a href="{{ url_for('search_papers_page', page=papers.next_num, search_text=request.args.get('search_text'),search_option=request.args.get('search_option'), order_by=request.args.get('order_by') ) }}"
+            class="page-number">
+            &raquo;
+        </a>
+        {% endif %}
+    </div>
+
+    <p>
+    Showing page {{ papers.page }} of {{ papers.pages }}
+    </p>
+
+{% endblock %}

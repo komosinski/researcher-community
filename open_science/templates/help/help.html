@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Help</h1>
+    <div>
+        <a href="{{url_for('faq_page')}}">Frequently Asked Questions</a>
+        <br>
+        <form class="user-action" action="{{url_for('contact_staff_page')}}" method="GET">    
+            <button type="submit">Contact our staff</button>
+        </form>
+    </div>
+
+
+{% endblock %}

@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Openscience 
+open_science/articles
+open_science/static/articles
+articles
+migrations
+temporary_config.py

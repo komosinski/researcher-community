@@ -1,0 +1,13 @@
+<li class="">
+    <article>
+        <div class = "">
+            <div class="">
+                <h4></h4>
+                <a class="" href="{{ url_for('article',id=item.author)}}">{{item.title}}</a>
+                <p><strong>Paper title: </strong>NOT_IMPLEMENTED</p>
+                <p><strong>Date: </strong> {{item.ready_date.strftime("%Y-%m-%d %H:%M")}}</p>
+                <p><strong>Review's score: </strong> {{item.votes_score}}</p>
+            </div>
+        </div>
+    </article>
+</li>

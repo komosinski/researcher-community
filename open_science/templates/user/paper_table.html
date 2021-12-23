@@ -1,0 +1,45 @@
+{%block styles%}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+{%endblock%}
+
+<table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>            
+        <th>Publication date</th> 
+        <th>Score</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+{%block scripts%}
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+<script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        lengthChange: false,
+        ajax: '/api/user_papers',
+        serverSide: true,
+        columns: [
+          {data: 'title'},
+          {data: 'publication_date'},
+          {data: 'votes_score'},
+          {"defaultContent": "<button>Edit</button>", orderable: false },
+          {"defaultContent": "<button>Delete</button>", orderable: false}
+        ],
+      });
+    });
+</script>
+
+{%endblock%}
+
+
+

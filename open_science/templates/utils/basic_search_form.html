@@ -1,0 +1,19 @@
+<form action="{{url_for('search_papers_page')}}" method=['POST']>
+    <div class="header-search-wrapper">
+      <div class="header-searchbox-wrapper">
+        <input type="text"  name="search_text" value="{{search_text}}" placeholder="Search..." class="header-searchbox">
+        <input type = "hidden" name = "order_by" value = "newest" class="invisible"/>
+        <select name="search_option" class="header-selector">
+            <option value="title" {% if request.args.get('search_option')=='title' %}selected{% endif %}>Title</option>
+            <option value="description" {% if request.args.get('search_option')=='description' %}selected{% endif %}>Abstract</option>
+            <option value="author" {% if request.args.get('search_option')=='author' %}selected{% endif %}>Author</option>
+            <option value="text"  {% if request.args.get('search_option')=='text' %}selected{% endif %}>Full text</option>
+            <option value="all" {% if request.args.get('search_option')=='all' %}selected{% endif %}>All fields</option>
+          </select>
+      </div>
+      <div class="search-button">
+        <button class="search-input" type="submit"><i class="fas fa-search fa-center search-button-icon"></i></button>
+      </div>
+    </div>
+</form>
+

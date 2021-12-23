@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <br>
+        Accept, I expect to prepare my review in
+        <br>
+        {{form.prepare_time()}}
+        {{form.submit_accept()}}
+        <br>
+        Decline,reason:
+        <br>
+        {{form.declined_reason()}}
+        {{form.submit_decline()}}
+    </form>
+</div>
+
+{% endblock %}
