@@ -24,7 +24,7 @@ First setup
   
     pip install -r requirements.txt
   
-  4. (Temporary step*) Create temporary_config.py file in main directory with must contain the following code:
+  4. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
 
     DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
   

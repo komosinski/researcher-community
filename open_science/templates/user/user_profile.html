@@ -17,19 +17,19 @@
             <div class="stats-wrapper">
                 <div class="stats-element-wraper">
                     <i class="fas fa-file-alt fa-center"></i>
-                    <a class="stat-value" href="{{url_for('advanced_search_papers_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{content['articles_num']}}</a>
+                    <a class="stat-value" href="{{url_for('advanced_search_papers_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['articles_num']}}</a>
                 </div>
                 <div class="stats-element-wraper">
                     <i class="fas  fa-center"></i>
-                    <a class="stat-value" href="{{url_for('reviews_list_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{content['reviews_num']}}</a>
+                    <a class="stat-value" href="{{url_for('reviews_list_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['reviews_num']}}</a>
                 </div>
                 <div class="stats-element-wraper">
                     <i class="fas fa-comment-alt fa-center"></i>
-                    <p class="stat-value" ">{{content['comments_num']}}</p>
+                    <p class="stat-value" ">{{data['comments_num']}}</p>
                 </div>
                 <div class="stats-element-wraper">
                     <i class="fas fa-heart fa-center"></i>
-                    <p class="stat-value">{{content['votes_score']}}</p>
+                    <p class="stat-value">{{data['reputation']}}</p>
                 </div>
             </div>
         </div>

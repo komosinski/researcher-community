@@ -5,7 +5,7 @@ from wtforms.fields.simple import SubmitField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired
 from open_science import db
-from open_science.models import Comment, Paper, Post, Review, User, MessageToStaff, VoteComment, VotePaper, VotePost, VoteReview, Notification
+from open_science.models import Comment, Paper, Review, User, MessageToStaff, VoteComment, Notification
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm
 from flask.helpers import url_for
 from flask.templating import render_template
@@ -113,26 +113,7 @@ def like():
 
     if None in [likeType, aid, action]: abort(400)
     
-    if likeType == 'paper':
-        like = VotePaper()
-        paper = db.session.query(Paper).get(aid)
-
-        if paper is None:
-            abort(400)
-        else:
-            like.rel_to_paper = paper
-
-    elif likeType == 'review':
-        like = VoteReview()
-
-        review = db.session.query(Review).get(aid)
-
-        if review is None:
-            abort(400)
-        else:
-            like.rel_to_review = review
-
-    elif likeType == 'comment':
+    if likeType == 'comment':
         like = VoteComment()
 
         comment = db.session.query(Comment).get(aid)
@@ -141,16 +122,6 @@ def like():
             abort(400)
         else:
             like.rel_to_comment = comment
-
-    elif likeType == 'post':
-        like = VotePost()
-
-        post = db.session.query(Post).get(aid)
-
-        if post is None:
-            abort(400)
-        else:
-            like.rel_to_post = post
 
     else: abort(400)
 
@@ -162,7 +133,7 @@ def like():
 
     db.session.commit()
 
-    return json.dumps({'success':True}), 201, {'ContentType':'application/json'} 
+    return json.dumps({'success':True}), 201, {'ContentType':'application/json'}  
 
 def search_papers_page():
   
@@ -226,8 +197,7 @@ def advanced_search_users_page(page,search_data,order_by):
     if isinstance(search_data,str):
         search_data = ast.literal_eval(search_data)
 
-    if isinstance(page,str):
-        page = int(page)
+    page = int(page)
 
     users = []
     order = search_helper.get_user_order(order_by)
@@ -241,14 +211,13 @@ def advanced_search_tags_page(page,search_data,order_by):
     if isinstance(search_data,str):
          search_data = ast.literal_eval(search_data)
 
-    if isinstance(page,str):
-        page = int(page)
-
+    page = int(page)
+  
     tags = []
     order = search_helper.get_tag_order(order_by)
     tags = search_helper.get_tags_advanced_search(page,search_data,order)
 
-    return render_template('search/advancedSearchTags.html',page=page, tags=tags, search_data=search_data,order_by=order_by)
+    return render_template('search/advanced_search_tag.html',page=page, tags=tags, search_data=search_data,order_by=order_by)
     
 
 def reviews_list_page(page,search_data,order_by):
@@ -256,8 +225,7 @@ def reviews_list_page(page,search_data,order_by):
     if isinstance(search_data,str):
         search_data = ast.literal_eval(search_data)
 
-    if isinstance(page,str):
-        page = int(page)
+    page = int(page)
 
     reviews = []
     order = Review.creation_date.desc()
