@@ -1,1 +1,2 @@
 FLASK_APP=open_science
+FLASK_ENV=development

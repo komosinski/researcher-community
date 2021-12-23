@@ -1,13 +1,9 @@
-from enum import unique
 from sqlalchemy import Table, DDL, event
 from sqlalchemy.orm import validates
-from sqlalchemy.sql.functions import user
-from wtforms.validators import Email
 
 from open_science.extensions import db, login_manager, bcrypt, admin
 
 from flask_login import UserMixin
-import datetime as dt
 
 import open_science.config.models_config as mc
 from open_science.db_queries import *
@@ -19,15 +15,11 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-association_paper_user = Table('association_paper_user', db.metadata,
-                               db.Column('paper_id', db.Integer, db.ForeignKey('papers.id'), primary_key=True),
-                               db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
-                               )
-
-association_comment_post = Table('association_comment_post', db.metadata,
-                                 db.Column('comment_id', db.Integer, db.ForeignKey('comments.id'), primary_key=True),
-                                 db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True)
-                                 )
+association_paper_version_user = Table('association_paper_version_user', db.metadata,
+                                       db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_versions.id'),
+                                                 primary_key=True),
+                                       db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
+                                       )
 
 association_comment_paper_version = Table('association_comment_paper_version', db.metadata,
                                           db.Column('comment_id', db.Integer, db.ForeignKey('comments.id'),
@@ -52,6 +44,14 @@ association_tag_user = Table('association_tag_user', db.metadata,
                              db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
                              )
 
+# relationships
+association_paper_version_license = Table('association_paper_version_license', db.metadata,
+                                          db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_versions.id'),
+                                                    primary_key=True),
+                                          db.Column('license_id', db.Integer, db.ForeignKey('licenses.id'),
+                                                    primary_key=True)
+                                          )
+
 
 class User(db.Model, UserMixin):
     __tablename__ = "users"
@@ -66,7 +66,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(length=mc.USER_PASS_HASH_L), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=True)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
-    confirmed_on = db.Column(db.DateTime,nullable=True)
+    confirmed_on = db.Column(db.DateTime, nullable=True)
     affiliation = db.Column(db.String(length=mc.USER_AFFILIATION_L))
     orcid = db.Column(db.String(length=mc.USER_ORCID_L))
     google_scholar = db.Column(db.String(length=mc.USER_GOOGLE_SCHOLAR_L))
@@ -74,46 +74,43 @@ class User(db.Model, UserMixin):
     personal_website = db.Column(db.String(length=mc.USER_PERSONAL_WEBSITE_L))
     review_mails_limit = db.Column(db.Integer(), nullable=False, default=1)
     notifications_frequency = db.Column(db.Integer(), nullable=False)
-    votes_score = db.Column(db.Integer(), nullable=False, default=100)
     new_email = db.Column(db.String(length=mc.USER_NEW_MAIL_L), unique=True)
     has_photo = db.Column(db.Boolean, nullable=False, default=False)
     last_seen = db.Column(db.DateTime, nullable=True)
     weight = db.Column(db.Float, nullable=False, default=1.0)
- 
+    red_flags_count = db.Column(db.Integer(), nullable=False)
 
     # foreign keys
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
 
     # relationships
-    rel_created_papers = db.relationship("Paper", secondary=association_paper_user, back_populates="rel_creators")
+    rel_created_paper_versions = db.relationship("PaperVersion", secondary=association_paper_version_user,
+                                                 back_populates="rel_creators")
     rel_tags_to_user = db.relationship("Tag", secondary=association_tag_user, back_populates="rel_users_with_this_tag")
     rel_privileges_set = db.relationship("PrivilegeSet", back_populates="rel_users")
     rel_created_tags = db.relationship("Tag", back_populates="rel_creator")
     rel_created_reviews = db.relationship("Review", back_populates="rel_creator")
     rel_created_comments = db.relationship("Comment", back_populates="rel_creator")
-    rel_created_posts = db.relationship("Post", back_populates="rel_creator")
-    rel_user_votes_received = db.relationship("VoteUser", back_populates="rel_to_user",
-                                              foreign_keys="VoteUser.to_user")
-    rel_user_votes_created = db.relationship("VoteUser", back_populates="rel_creator",
-                                             foreign_keys="VoteUser.creator")
-    rel_paper_votes_created = db.relationship("VotePaper", back_populates="rel_creator",
-                                              foreign_keys="VotePaper.creator")
-    rel_review_votes_created = db.relationship("VoteReview", back_populates="rel_creator",
-                                               foreign_keys="VoteReview.creator")
     rel_comment_votes_created = db.relationship("VoteComment", back_populates="rel_creator",
                                                 foreign_keys="VoteComment.creator")
-    rel_post_votes_created = db.relationship("VotePost", back_populates="rel_creator",
-                                             foreign_keys="VotePost.creator")
     rel_related_review_requests = db.relationship("ReviewRequest", back_populates="rel_requested_user")
     rel_related_staff_messages = db.relationship("MessageToStaff", back_populates="rel_sender")
+    rel_comment_red_flags = db.relationship("RedFlagComment", back_populates="rel_creator", foreign_keys="RedFlagComment.creator")
+    rel_paper_version_red_flags = db.relationship("RedFlagPaperVersion", back_populates="rel_creator")
+    rel_review_red_flags = db.relationship("RedFlagReview", back_populates="rel_creator")
+    rel_tag_red_flags = db.relationship("RedFlagTag", back_populates="rel_creator")
+    rel_user_red_flags = db.relationship("RedFlagUser", back_populates="rel_creator",
+                                         foreign_keys="RedFlagUser.creator")
+    rel_red_flags_received = db.relationship("RedFlagUser", back_populates="rel_to_user",
+                                             foreign_keys="RedFlagUser.to_user")
 
     # one to many, unidirectional 
-    rel_notifications = db.relationship("Notification",lazy='dynamic') # foreign_keys="Notification.user_id"
+    rel_notifications = db.relationship("Notification", lazy='dynamic')  # foreign_keys="Notification.user_id"
 
     def __init__(self, first_name, second_name, email, plain_text_password, confirmed=False, confirmed_on=None,
                  affiliation="", orcid="", google_scholar="", about_me="", personal_website="", review_mails_limit=1,
-                 notifications_frequency=7, votes_score=100, photo_url="", last_seen=None, weight=1.0,
-                 registered_on=None):
+                 notifications_frequency=7, photo_url="", last_seen=None, weight=1.0, registered_on=None,
+                 red_flags_count=0):
         self.first_name = first_name
         self.second_name = second_name
         self.email = email
@@ -128,10 +125,10 @@ class User(db.Model, UserMixin):
         self.personal_website = personal_website
         self.review_mails_limit = review_mails_limit
         self.notifications_frequency = notifications_frequency
-        self.votes_score = votes_score
         self.photoUrl = photo_url
         self.last_seen = last_seen
         self.weight = weight
+        self.red_flags_count = red_flags_count
 
     @property
     def password(self):
@@ -146,8 +143,7 @@ class User(db.Model, UserMixin):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
     def get_new_notifications_count(self):
-        return Notification.query.filter(Notification.user_id==self.id, Notification.was_seen==False).count()
-            
+        return Notification.query.filter(Notification.user_id == self.id, Notification.was_seen == False).count()
 
 
 class PrivilegeSet(db.Model):
@@ -174,6 +170,7 @@ class PrivilegeSet(db.Model):
     def __repr__(self):
         return f'<PrivilegeSet {self.id} {self.name}>'
 
+
 class Tag(db.Model):
     __tablename__ = "tags"
 
@@ -184,6 +181,7 @@ class Tag(db.Model):
     name = db.Column(db.String(length=mc.TAG_NAME_L), nullable=False, unique=True)
     description = db.Column(db.String(length=mc.TAG_DESCRIPTION_L))
     deadline = db.Column(db.DateTime)
+    red_flags_count = db.Column(db.Integer(), nullable=False)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -193,6 +191,7 @@ class Tag(db.Model):
                                                  back_populates="rel_related_tags")
     rel_users_with_this_tag = db.relationship("User", secondary=association_tag_user, back_populates="rel_tags_to_user")
     rel_creator = db.relationship("User", back_populates="rel_created_tags")
+    rel_red_flags_received = db.relationship("RedFlagTag", back_populates="rel_to_tag")
 
     @validates('name')
     def convert_lower(self, key, value):
@@ -205,22 +204,12 @@ class Paper(db.Model):
     # primary keys
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
-    # columns
-    license = db.Column(db.String(length=mc.PAPER_LICENSE_L))
-    confidence_level = db.Column(db.SmallInteger(), default=0, nullable=False)
-    votes_score = db.Column(db.Integer(), default=0, nullable=False)
-
     # relationships
-    rel_creators = db.relationship("User", secondary=association_paper_user, back_populates="rel_created_papers")
-    rel_paper_votes_received = db.relationship("VotePaper", back_populates="rel_to_paper")
     rel_related_versions = db.relationship("PaperVersion", back_populates="rel_parent_paper")
 
     def to_dict(self):
         return {
-            'id': self.id,
-            'license': self.license,
-            'confidence_level': self.confidence_level,
-            'votes_score': self.votes_score
+            'id': self.id
         }
 
 
@@ -231,11 +220,14 @@ class PaperVersion(db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
-    version = db.Column(db.Integer(),default = 1,nullable=False)
+    version = db.Column(db.Integer(), default=1, nullable=False)
     pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=False)
     title = db.Column(db.String(length=mc.PV_TITLE_L), nullable=False)
     abstract = db.Column(db.String(length=mc.PV_ABSTRACT_L), nullable=False)
+    summarized_changes = db.Column(db.String(length=mc.PV_CHANGES_L), nullable=False)
     publication_date = db.Column(db.DateTime)
+    confidence_level = db.Column(db.SmallInteger(), default=0, nullable=False)
+    red_flags_count = db.Column(db.Integer(), nullable=False)
 
     # foreign keys
     parent_paper = db.Column(db.Integer, db.ForeignKey('papers.id'))
@@ -248,6 +240,11 @@ class PaperVersion(db.Model):
     rel_related_reviews = db.relationship("Review", back_populates="rel_related_paper_version")
     rel_parent_paper = db.relationship("Paper", back_populates="rel_related_versions")
     rel_related_review_requests = db.relationship("ReviewRequest", back_populates="rel_related_paper_version")
+    rel_creators = db.relationship("User", secondary=association_paper_version_user,
+                                   back_populates="rel_created_paper_versions")
+    rel_related_licenses = db.relationship("License", secondary=association_paper_version_license,
+                                           back_populates="rel_related_paper_versions")
+    rel_red_flags_received = db.relationship("RedFlagPaperVersion", back_populates="rel_to_paper_version")
 
     def to_dict(self):
         return {
@@ -265,11 +262,11 @@ class Review(db.Model):
 
     # columns
     weight = db.Column(db.Float, nullable=True)
-    text = db.Column(db.String(mc.REVIEW_TEXT_L),nullable=True)
-    votes_score = db.Column(db.Integer(), nullable=True)
+    text = db.Column(db.String(mc.REVIEW_TEXT_L), nullable=True)
     review_score = db.Column(db.Integer(), nullable=True)
-    creation_datetime = db.Column(db.DateTime,nullable=True)
-    deadline_date = db.Column(db.Date,nullable=True)
+    creation_datetime = db.Column(db.DateTime, nullable=True)
+    deadline_date = db.Column(db.Date, nullable=True)
+    red_flags_count = db.Column(db.Integer(), nullable=False)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -280,7 +277,7 @@ class Review(db.Model):
                                                   back_populates="rel_related_review")
     rel_creator = db.relationship("User", back_populates="rel_created_reviews")
     rel_related_paper_version = db.relationship("PaperVersion", back_populates="rel_related_reviews")
-    rel_review_votes_received = db.relationship("VoteReview", back_populates="rel_to_review")
+    rel_red_flags_received = db.relationship("RedFlagReview", back_populates="rel_to_review")
 
 
 class ReviewRequest(db.Model):
@@ -315,40 +312,19 @@ class Comment(db.Model):
     # columns
     text = db.Column(db.String(length=mc.COMMENT_TEXT_L))
     votes_score = db.Column(db.Integer(), nullable=False)
-
-    # foreign keys
-    creator = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    # relationships
-    rel_related_post = db.relationship("Post", secondary=association_comment_post,
-                                       back_populates="rel_comments_to_this_post")
-    rel_related_paper_version = db.relationship("PaperVersion", secondary=association_comment_paper_version,
-                                                back_populates="rel_related_comments")
-    rel_related_review = db.relationship("Review", secondary=association_comment_review,
-                                         back_populates="rel_comments_to_this_review")
-    rel_creator = db.relationship("User", back_populates="rel_created_comments")
-    rel_comment_votes_received = db.relationship("VoteComment", back_populates="rel_to_comment")
-
-
-class Post(db.Model):
-    __tablename__ = "posts"
-
-    # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-
-    # columns
-    text = db.Column(db.String(length=mc.POST_TEXT_L))
-    votes_score = db.Column(db.Integer(), nullable=False)
     red_flags_count = db.Column(db.Integer(), nullable=False)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # relationships
-    rel_comments_to_this_post = db.relationship("Comment", secondary=association_comment_post,
-                                                back_populates="rel_related_post")
-    rel_creator = db.relationship("User", back_populates="rel_created_posts")
-    rel_post_votes_received = db.relationship("VotePost", back_populates="rel_to_post")
+    rel_related_paper_version = db.relationship("PaperVersion", secondary=association_comment_paper_version,
+                                                back_populates="rel_related_comments")
+    rel_related_review = db.relationship("Review", secondary=association_comment_review,
+                                         back_populates="rel_comments_to_this_review")
+    rel_creator = db.relationship("User", back_populates="rel_created_comments")
+    rel_comment_votes_received = db.relationship("VoteComment", back_populates="rel_to_comment")
+    rel_red_flags_received = db.relationship("RedFlagComment", back_populates="rel_to_comment", foreign_keys="RedFlagComment.to_comment")
 
 
 class MessageToStaff(db.Model):
@@ -383,16 +359,14 @@ class DeclinedReason(db.Model):
     # relationships
     rel_related_review_requests = db.relationship("ReviewRequest", back_populates="rel_declined_reason")
 
-    reasons = ("Conflict of interest","Lack of expertise","Don’t have time","Paper matched incorrectly","Other")
+    reasons = ("Conflict of interest", "Lack of expertise", "Don’t have time", "Paper matched incorrectly", "Other")
 
     def insert_reasons():
         for t in DeclinedReason.reasons:
-             if not DeclinedReason.query.filter(DeclinedReason.reason==t).first():
+            if not DeclinedReason.query.filter(DeclinedReason.reason == t).first():
                 reason = DeclinedReason(reason=t)
                 db.session.add(reason)
         db.session.commit()
-      
-
 
 
 class MessageTopic(db.Model):
@@ -407,10 +381,8 @@ class MessageTopic(db.Model):
     # relationships
     rel_related_staff_messages = db.relationship("MessageToStaff", back_populates="rel_topic")
 
-    def __repr__(self):
-        return f'<MessageTopic {self.id} {self.topic}>'
+    topics = ('Endorsement', 'Technical issues, corrections', 'Other')
 
-    topics = ('Endorsement','Technical issues, corrections', 'Other' )
     def insert_topics():
         for t in MessageTopic.topics:
              if not MessageTopic.query.filter(MessageTopic.topic==t).first():
@@ -418,61 +390,67 @@ class MessageTopic(db.Model):
                 db.session.add(message_topic)
         db.session.commit()
 
+    def __repr__(self):
+        return f'<MessageTopic {self.id} {self.topic}>'
+
 
 class EmailType(db.Model):
     __tablename__ = 'email_types'
     # primary keys
     id = db.Column(db.Integer(), primary_key=True)
     # columns
-    name = db.Column(db.String(length=mc.EM_TYPE_NAME_L),nullable=False,unique=True)
+    name = db.Column(db.String(length=mc.EM_TYPE_NAME_L), nullable=False, unique=True)
     rel_email_logs = db.relationship("EmailLog")
 
     # types
-    types = ('registration_confirm', 'password_change', 'email_change', 'user_invite', 
-    'review_request', 'notification', 'staff_answer',  'account_delete')
+    types = ('registration_confirm', 'password_change', 'email_change', 'user_invite',
+             'review_request', 'notification', 'staff_answer', 'account_delete')
 
     def insert_types():
         for t in EmailType.types:
-             if not EmailType.query.filter(EmailType.name==t).first():
+            if not EmailType.query.filter(EmailType.name == t).first():
                 email_type = EmailType(name=t)
                 db.session.add(email_type)
         db.session.commit()
-      
+
     def __repr__(self):
         return f'<EmailType {self.id} {self.name}>'
 
+
 class EmailLog(db.Model):
     __tablename__ = 'email_logs'
+
     # primary keys
     id = db.Column(db.Integer(), primary_key=True)
 
     # columns
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    receiver_id = db.Column(db.Integer,nullable=True)
+    receiver_id = db.Column(db.Integer, nullable=True)
     receiver_email = db.Column(db.String(length=mc.USER_EMAIL_L), nullable=False)
-    date = db.Column(db.DateTime,nullable=True)
+    date = db.Column(db.DateTime, nullable=True)
 
     # foreign keys
     email_type_id = db.Column(db.Integer, db.ForeignKey('email_types.id'))
 
-    def __init__(self,sender_id,reciever_id,reciever_email,date,email_type):
+    def __init__(self, sender_id, reciever_id, reciever_email, date, email_type):
         self.sender_id = sender_id
         self.receiver_id = reciever_id
         self.receiver_email = reciever_email
         self.date = date
-        if isinstance(email_type,int):
+        if isinstance(email_type, int):
             self.email_type_id = email_type
         else:
-            self.email_type_id = EmailType.query.filter(EmailType.name==email_type).one().id
-
+            self.email_type_id = EmailType.query.filter(EmailType.name == email_type).one().id
 
 
 class NotificationType(db.Model):
     __tablename__ = 'notification_types'
+
     # primary keys
     id = db.Column(db.Integer(), primary_key=True)
+
     # columns
-    name = db.Column(db.String(length=mc.EM_TYPE_NAME_L),nullable=False,unique=True)
+    name = db.Column(db.String(length=mc.EM_TYPE_NAME_L), nullable=False, unique=True)
     rel_email_logs = db.relationship("Notification")
 
     # types
@@ -480,101 +458,53 @@ class NotificationType(db.Model):
 
     def insert_types():
         for t in NotificationType.types:
-             if not NotificationType.query.filter(NotificationType.name==t).first():
+            if not NotificationType.query.filter(NotificationType.name == t).first():
                 notification_type = NotificationType(name=t)
                 db.session.add(notification_type)
         db.session.commit()
-          
+
     def __repr__(self):
         return f'<NotificationType {self.id} {self.name}>'
 
+
 class Notification(db.Model):
     __tablename__ = 'notifications'
+
     # primary keys
     id = db.Column(db.Integer(), primary_key=True)
 
     # columns
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    datetime = db.Column(db.DateTime,nullable=True)
+    datetime = db.Column(db.DateTime, nullable=True)
     title = db.Column(db.String(length=mc.NOTIFICATION_TITLE_L), nullable=False)
     text = db.Column(db.String(length=mc.NOTIFICATION_TEXT_L), nullable=False)
     action_url = db.Column(db.String(length=mc.NOTIFICATION_ACTION_URL_L), nullable=False)
-    was_seen =  db.Column(db.Boolean,nullable=False, default=False)
+    was_seen = db.Column(db.Boolean, nullable=False, default=False)
+
     # foreign keys
     notification_type_id = db.Column(db.Integer, db.ForeignKey('notification_types.id'))
 
-    def __init__(self,user_id, datetime, text, action_url, notification_type):
+    def __init__(self, user_id, datetime, text, action_url, notification_type):
         self.user_id = user_id
         self.datetime = datetime
         self.text = text
         self.action_url = action_url
         self.set_title(notification_type)
 
-        if isinstance(notification_type,int):
+        if isinstance(notification_type, int):
             self.notification_type_id = notification_type
         else:
-            self.notification_type_id = db.session.query(NotificationType.id).filter(NotificationType.name==notification_type).one().id
+            self.notification_type_id = db.session.query(NotificationType.id).filter(
+                NotificationType.name == notification_type).one().id
 
     def set_title(self, notification_type):
-        if isinstance(notification_type,str):
+        if isinstance(notification_type, str):
             type_string = notification_type
         else:
-            type_string =  db.session.query(NotificationType.name).filter(NotificationType.id==notification_type).one().name
-        
-        self.title = type_string.replace('_',' ').capitalize()
+            type_string = db.session.query(NotificationType.name).filter(
+                NotificationType.id == notification_type).one().name
 
-class VoteUser(db.Model):
-    __tablename__ = "votes_users"
-
-    # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-
-    # columns
-    is_up = db.Column(db.Boolean, nullable=False)
-
-    # foreign keys
-    creator = db.Column(db.Integer, db.ForeignKey('users.id'))
-    to_user = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    # relationships
-    rel_creator = db.relationship("User", back_populates="rel_user_votes_created", foreign_keys=[creator])
-    rel_to_user = db.relationship("User", back_populates="rel_user_votes_received", foreign_keys=[to_user])
-
-
-class VotePaper(db.Model):
-    __tablename__ = "votes_papers"
-
-    # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-
-    # columns
-    is_up = db.Column(db.Boolean, nullable=False)
-
-    # foreign keys
-    creator = db.Column(db.Integer, db.ForeignKey('users.id'))
-    to_paper = db.Column(db.Integer, db.ForeignKey('papers.id'))
-
-    # relationships
-    rel_creator = db.relationship("User", back_populates="rel_paper_votes_created")
-    rel_to_paper = db.relationship("Paper", back_populates="rel_paper_votes_received")
-
-
-class VoteReview(db.Model):
-    __tablename__ = "votes_reviews"
-
-    # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-
-    # columns
-    is_up = db.Column(db.Boolean, nullable=False)
-
-    # foreign keys
-    creator = db.Column(db.Integer, db.ForeignKey('users.id'))
-    to_review = db.Column(db.Integer, db.ForeignKey('reviews.id'))
-
-    # relationships
-    rel_creator = db.relationship("User", back_populates="rel_review_votes_created")
-    rel_to_review = db.relationship("Review", back_populates="rel_review_votes_received")
+        self.title = type_string.replace('_', ' ').capitalize()
 
 
 class VoteComment(db.Model):
@@ -595,75 +525,105 @@ class VoteComment(db.Model):
     rel_to_comment = db.relationship("Comment", back_populates="rel_comment_votes_received")
 
 
-class VotePost(db.Model):
-    __tablename__ = "votes_posts"
+class RedFlagComment(db.Model):
+    __tablename__ = "red_flags_comment"
 
     # primary keys
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
-    # columns
-    is_up = db.Column(db.Boolean, nullable=False)
+    # foreign keys
+    creator = db.Column(db.Integer, db.ForeignKey('users.id'))
+    to_comment = db.Column(db.Integer, db.ForeignKey('comments.id'))
+
+    # relationships
+    rel_creator = db.relationship("User", back_populates="rel_comment_red_flags", foreign_keys=[creator])
+    rel_to_comment = db.relationship("Comment", back_populates="rel_red_flags_received",  foreign_keys=[to_comment])
+
+
+class RedFlagPaperVersion(db.Model):
+    __tablename__ = "red_flags_paper_version"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
-    to_post = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    to_paper_version = db.Column(db.Integer, db.ForeignKey('paper_versions.id'))
 
     # relationships
-    rel_creator = db.relationship("User", back_populates="rel_post_votes_created", foreign_keys=creator)
-    rel_to_post = db.relationship("Post", back_populates="rel_post_votes_received", foreign_keys=to_post)
+    rel_creator = db.relationship("User", back_populates="rel_paper_version_red_flags")
+    rel_to_paper_version = db.relationship("PaperVersion", back_populates="rel_red_flags_received")
+
+
+class RedFlagReview(db.Model):
+    __tablename__ = "red_flags_review"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # foreign keys
+    creator = db.Column(db.Integer, db.ForeignKey('users.id'))
+    to_review = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+
+    # relationships
+    rel_creator = db.relationship("User", back_populates="rel_review_red_flags")
+    rel_to_review = db.relationship("Review", back_populates="rel_red_flags_received")
+
+
+class RedFlagTag(db.Model):
+    __tablename__ = "red_flags_tag"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # foreign keys
+    creator = db.Column(db.Integer, db.ForeignKey('users.id'))
+    to_tag = db.Column(db.Integer, db.ForeignKey('tags.id'))
+
+    # relationships
+    rel_creator = db.relationship("User", back_populates="rel_tag_red_flags")
+    rel_to_tag = db.relationship("Tag", back_populates="rel_red_flags_received")
+
+
+class RedFlagUser(db.Model):
+    __tablename__ = "red_flags_user"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # foreign keys
+    creator = db.Column(db.Integer, db.ForeignKey('users.id'))
+    to_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    # relationships
+    rel_creator = db.relationship("User", back_populates="rel_user_red_flags", foreign_keys=[creator])
+    rel_to_user = db.relationship("User", back_populates="rel_red_flags_received", foreign_keys=[to_user])
+
+
+class License(db.Model):
+    __tablename__ = "licenses"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True)
+
+    # columns
+    license = db.Column(db.String(length=mc.L_LICENSE_L), nullable=False)
+
+    # relationships
+    rel_related_paper_versions = db.relationship("PaperVersion", secondary=association_paper_version_license,
+                                                 back_populates="rel_related_licenses")
+
+    def __repr__(self):
+        return f'<MessageTopic {self.id} {self.topic}>'
 
 
 # db functions
-db_fun_update_user_score = DDL(q_update_user_score)
-db_fun_update_paper_score = DDL(q_update_paper_score)
-db_fun_update_review_score = DDL(q_update_review_score)
 db_fun_update_comment_score = DDL(q_update_comment_score)
-db_fun_update_post_score = DDL(q_update_post_score)
 
 # db triggers
-db_trig_update_user_score = DDL(qt_update_user_score)
-db_trig_update_paper_score = DDL(qt_update_paper_score)
-db_trig_update_review_score = DDL(qt_update_review_score)
 db_trig_update_comment_score = DDL(qt_update_comment_score)
-db_trig_update_post_score = DDL(qt_update_post_score)
 
 # events to enable functions, procedures, triggers etc
-event.listen(
-    VoteUser.__table__,
-    'after_create',
-    db_fun_update_user_score.execute_if(dialect='postgresql')
-)
-
-event.listen(
-    VoteUser.__table__,
-    'after_create',
-    db_trig_update_user_score.execute_if(dialect='postgresql')
-)
-
-event.listen(
-    VotePaper.__table__,
-    'after_create',
-    db_fun_update_paper_score.execute_if(dialect='postgresql')
-)
-
-event.listen(
-    VotePaper.__table__,
-    'after_create',
-    db_trig_update_paper_score.execute_if(dialect='postgresql')
-)
-
-event.listen(
-    VoteReview.__table__,
-    'after_create',
-    db_fun_update_review_score.execute_if(dialect='postgresql')
-)
-
-event.listen(
-    VoteReview.__table__,
-    'after_create',
-    db_trig_update_review_score.execute_if(dialect='postgresql')
-)
-
 event.listen(
     VoteComment.__table__,
     'after_create',
@@ -676,18 +636,6 @@ event.listen(
     db_trig_update_comment_score.execute_if(dialect='postgresql')
 )
 
-event.listen(
-    VotePost.__table__,
-    'after_create',
-    db_fun_update_post_score.execute_if(dialect='postgresql')
-)
-
-event.listen(
-    VotePost.__table__,
-    'after_create',
-    db_trig_update_post_score.execute_if(dialect='postgresql')
-)
-
 admin.add_view(MessageToStaffView(MessageToStaff, db.session))
 admin.add_view(UserView(User, db.session))
 admin.add_view(MyModelView(Paper, db.session))
@@ -696,4 +644,3 @@ admin.add_view(MyModelView(Tag, db.session))
 admin.add_view(MyModelView(Review, db.session))
 admin.add_view(MyModelView(ReviewRequest, db.session))
 admin.add_view(MyModelView(Comment, db.session))
-

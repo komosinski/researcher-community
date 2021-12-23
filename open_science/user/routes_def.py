@@ -164,14 +164,15 @@ def profile_page(user_id):
         flash('User does not exists', category='error')
         return redirect(url_for('home_page'))
 
-    content = {
+    data = {
         'articles_num' : len(user.rel_created_papers),
-        'votes_score' : user.votes_score,
+        # TODO: get user reputation ...
+        'reputation' : 0,
         'comments_num' : len(user.rel_created_comments),
         'reviews_num' : len(user.rel_created_reviews)
     }
 
-    return render_template('user/user_profile.html', user=user,content=content)
+    return render_template('user/user_profile.html', user=user,data=data)
 
 def edit_profile_page():
     form = EditProfileForm( review_mails_limit = current_user.review_mails_limit,notifications_frequency = current_user.notifications_frequency)
