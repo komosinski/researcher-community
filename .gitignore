@@ -134,3 +134,4 @@ open_science/static/articles
 articles
 migrations
 temporary_config.py
+open_science/static/res/profileImages
