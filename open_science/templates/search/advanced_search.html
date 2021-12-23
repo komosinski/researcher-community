@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<a href="{{ url_for('search_papers_page',search_text='')}}">Simple search</a>
+
+<h3>Papers</h3>
+{% include 'search/advanced_search_paper_form.html' %}
+<br>
+<h3>Users</h3>
+{% include 'search/advanced_search_user_form.html' %}
+<br>
+<h3>Tags</h3>
+{% include 'search/advanced_search_tag_form.html' %}
+
+{% endblock %}

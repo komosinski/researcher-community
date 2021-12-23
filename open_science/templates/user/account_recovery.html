@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>Enter your email address and we’ll send you a recovery link.</p>
+<div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <br>
+        {{ form.email( placeholder="Email Address") }}
+        <br>
+        {{ form.submit()}}
+    </form>
+</div>
+
+{% endblock %}

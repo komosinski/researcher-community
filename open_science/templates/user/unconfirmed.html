@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>You have not confirmed your account. Please check your inbox (and your spam folder) - you should have received an email with a confirmation link.</p>
+
+<br>
+<p>Didn't get the email?  Resend verification message:</p>
+
+    <div>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <br>
+            {{ form.email( placeholder="Email Address") }}
+            <br>
+            {{ form.submit()}}
+        </form>
+    </div>
+
+
+{% endblock %}

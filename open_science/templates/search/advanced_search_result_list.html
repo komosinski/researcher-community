@@ -1,0 +1,55 @@
+<ol>
+    {% for result in results.items%}
+
+        {% with item=result%}
+            {% if 'papers' in route_name %}
+                {% include 'search/article_item.html' %}
+            {% elif 'users' in route_name %}
+                {% include 'search/user_item.html' %}
+            {% elif 'tags' in route_name %}
+                {% include 'search/tag_item.html' %}
+            {% elif 'review' in route_name %}
+                {% include 'search/review_item.html' %}
+            {% endif %}
+        {% endwith %}
+    {%endfor%}
+ </ol>
+ 
+ <div >
+    {% if results.page != 1 %}
+    <a href="{{ url_for(route_name, page=results.prev_num, search_data=search_data, order_by=order_by ) }}"
+        class="page-number">
+        &laquo;
+    </a>
+    {% endif %}
+    
+    {% for page_num in results.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if results.page == page_num %}
+            <a href="{{ url_for(route_name, page=page_num,search_data=search_data, order_by=order_by ) }}"
+               class="page-number pressed">
+                {{ page_num }}
+            </a>
+            {% else %}
+            <a href="{{ url_for(route_name, page=page_num, search_data=search_data, order_by=order_by) }}"
+               class="page-number">
+                {{ page_num }}
+            </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+ 
+    {% if results.page != results.pages %}
+    <a href="{{ url_for(route_name, page=results.next_num, search_data=search_data, order_by=order_by  ) }}"
+        class="page-number">
+        &raquo;
+    </a>
+    {% endif %}
+ </div>
+ 
+ <p>
+ Showing page {{ results.page }} of {{ results.pages }}
+ </p>
+ 

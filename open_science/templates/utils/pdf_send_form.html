@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+<script>
+    window.onload = () => {
+        let coauthors = []
+
+        const appendCoauthor = (author) => {
+            const authorName = document.getElementById("coauthor-name").value;
+            const authorLastName = document.getElementById("coauthor-lastname").value;
+            const authorEmail = document.getElementById("coauthor-email").value;
+
+            coauthors.push({
+                authorName,
+                authorLastName,
+                authorEmail
+            });
+            console.log(coauthors);
+
+            document.getElementById("coauthor-name").value = "";
+            document.getElementById("coauthor-lastname").value = "";
+            document.getElementById("coauthor-email").value = "";
+        }
+        
+        const fillCoauthorsField = (e) => {
+            e.preventDefault();
+
+            document.getElementById("coauthors-input-field").value = JSON.stringify(coauthors);
+            document.getElementById("articleUploadForm").submit();
+        }
+
+        document.getElementById("add-coauthor").addEventListener('click', appendCoauthor);
+        document.getElementById("articleUploadForm").addEventListener('submit', fillCoauthorsField);
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+
+<form id="articleUploadForm" method="POST" action="/article/add" enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+    {{form.title.label}} {{form.title()}}
+    {{form.description.label}} {{form.description}}
+    {{form.file.label}} {{form.file()}}
+    {{form.license.label}} {{form.license()}}
+    {{form.submitbtn.label}} {{form.submitbtn()}}
+    {{form.coauthors(hidden=False)}}
+    Add co-authors
+    <input id="coauthor-name" type="text"/>
+    <input id="coauthor-lastname" type="text"/>
+    <input id="coauthor-email" type="text"/>
+    <button id="add-coauthor" type="button">Add</button>
+</form>
+
+{% endblock %}

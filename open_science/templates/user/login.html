@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/login.css')}}" />
+{% endblock %}
+
+{% block content %}
+
+<div class="login-form-wrapper">
+    <div class="login-form">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <h1>
+                Sign in
+            </h1>
+            <br>
+            <div class="login-input-wrapper">
+                {{ form.email.label() }}
+                {{ form.email(placeholder="Email") }}
+            </div>
+            <div class="login-input-wrapper">
+                {{ form.password.label() }}
+                {{ form.password(placeholder="Password") }}
+            </div>
+            <br>
+            <div>
+                {{ form.recaptcha }}
+            </div>    
+            <br>
+            <div class="login-submit-wrapper">
+                {{ form.submit() }}
+            </div>
+        </form>
+        <div class="forgot-password-wrapper">
+            <a href="{{ url_for('account_recovery_page') }}">Forgot password?</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

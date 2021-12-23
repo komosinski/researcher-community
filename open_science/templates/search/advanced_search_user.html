@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Users</h2>
+    
+{% with route_name="advanced_search_users_page" , results=users, page=page, search_data=search_data, order_by=order_by %}
+{% include 'search/advanced_search_result_list.html' %}
+{% endwith %}
+
+
+{% endblock %}

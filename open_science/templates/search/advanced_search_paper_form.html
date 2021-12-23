@@ -1,0 +1,24 @@
+<div>
+    <form  method="GET">
+        <!-- #TODO: #Posiuu complete this form -->
+        {{ paper_form.search_text.label() }}
+        {{ paper_form.search_text() }}
+        <br>
+        {{ paper_form.title.label() }}
+        {{ paper_form.title() }}
+        <br>
+        {{ paper_form.description.label() }}
+        {{ paper_form.description() }}
+        <br>
+        {{ paper_form.author.label()}}
+        {{ paper_form.author()}}
+        <br>
+        {{ paper_form.text.label()}}
+        {{ paper_form.text()}}
+        <br>
+        {{ paper_form.per_page.label()}}
+        {{ paper_form.per_page()}}
+        <br>
+        {{ paper_form.submit_paper() }}
+    </form>
+</div>

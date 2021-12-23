@@ -1,0 +1,14 @@
+<li class="">
+    <article>
+        <div class = "">
+            <div class="">
+                <h4></h4>
+                <a class="" href="{{ url_for('profile_page',user_id=item.id)}}">
+                    <p>{{item.first_name}} {{item.second_name}}</p>
+                </a>
+                <p><strong>Score: </strong>{{item.votes_score}}</p>
+                <p><strong>ORCID: </strong>{{ item.orcid if item.orcid else '----'}}</p>
+            </div>
+        </div>
+    </article>
+</li>

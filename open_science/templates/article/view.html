@@ -1,0 +1,108 @@
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}" />
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const likeClickHandler = () => {
+
+    }
+</script>
+{% endblock %}
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="article-page-wrapper">
+    <div class="article-page">
+        <div class="article-info-wrapper">
+            <h2 class="article-title">{{article.title}}</h2>
+            <div class="stats-wrapper">
+                <div class="stats-element-wraper">
+                    <a href="/login" class="linked-icon">
+                        <i class="fas fa-heart fa-center"></i>
+                        <p class="stat-value">{{article.votes_score}}</p>
+                    </a>
+                </div>
+                <div class="stats-element-wraper">
+                    <i class="fas fa-comment fa-center"></i>
+                    <p class="stat-value">{{article.rel_comments_to_this_paper|length if article.rel_comments_to_this_paper is not none else '0'}}</p>
+                </div>
+                <div class="reviews-wrapper">
+                    <p class="reviews-header">
+                        Reviews: ({{score}})
+                    </p>
+                    {% for review in article.rel_related_reviews %}
+                        {% if review.decision %}
+                            <a href="/review/{{review.id}}" class="reviews-entry reviews-entry-accepted">
+                                {{review.votes_score}}
+                            </a>
+                        {%else%}
+                            <a href="/review/{{review.id}}" class="reviews-entry reviews-entry-declined">
+                                {{review.votes_score}}
+                            </a>
+                        {%endif%}
+                    {%endfor%}
+                </div>
+            </div>
+            <div class="article-authors-wrapper">
+                {% for user in article.rel_creators %}
+                    <div class="author-wrapper">
+                        <img class="author-profile-pic" src="{{user.photo_url}}"/>
+                        <a class="author-name" href="{{url_for('profile_page', user_id=user.id)}}">{{user.first_name + " " + user.second_name}}</a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="article-description-wrapper">
+                <p class="article-description-text">{{article.description}}</p>
+            </div>
+            <div class="tags-wrapper">
+                {% for tag in article.rel_tags_to_this_paper %}
+                    <a href="{{url_for('advanced_search_tags_page',page=1,search_data={'seach_text' : '{{tag.name}}' },order_by='newest')}}">#{{tag.name}}</a>
+                {%endfor%}
+            </div>
+        </div>
+        <div class="article-frame-wrapper">
+            <iframe class="article-view-iframe" src="{{article.url}}"></iframe>
+        </div>
+        <h3 class="comments-header">
+            Comments
+        </h3>
+        <div class="comments-wrapper">
+            {% for comment in article.rel_comments_to_this_paper %}
+            {% with author=comment.rel_creator %}
+                <div class="comment">
+                    <div class="comment-header-wrapper">
+                        <div class="author-wrapper comment-author">
+                            <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~author.get_id()~'.png' if author.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}"/>
+                            <a class="author-name header-username" href="{{url_for('profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
+                        </div>
+                        <div class="comment-info-wrapper">
+                            <div class="stats-element-wraper">
+                                <a href="/login" class="linked-icon">
+                                    <i class="fas fa-heart fa-center"></i>
+                                    <p class="stat-value">{{comment.votes_score}}</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="comment-text-wrapper">
+                        {{comment.text}}
+                    </div>
+                </div>
+            {%endwith%}
+            {%endfor%}
+        </div>
+    </div>
+    <div class="similar-articles-column">
+        <h3>Similar articles</h3>
+        <ol>
+            {% for result in similar%}
+        
+                {% with item=result%}
+                    {% include 'search/article_item.html' %}
+                {% endwith %}
+            {%endfor%}
+         </ol>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+<div>
+       <!-- #TODO: #Posiuu complete this form -->
+    <form method="GET">
+        {{ user_form.search_text.label() }}
+        {{ user_form.search_text() }}
+        <br>
+        {{ user_form.orcid.label() }}
+        {{ user_form.orcid() }}
+        <br>
+        {{ user_form.per_page.label()}}
+        {{ user_form.per_page()}}
+        <br>
+        {{ user_form.submit_user() }}
+    </form>
+</div>
+
+

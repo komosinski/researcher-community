@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/main.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/search_form.css')}}">
+    {% block styles %}
+    {% endblock %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/76299a18fd.js" crossorigin="anonymous"></script>
+    <script>
+        const delete_flash = (flash) => {
+            $(flash).parent().remove();
+        }
+    </script>
+    {% block scripts %}
+    {% endblock %}
+    <title>OpenScience</title>
+</head>
+<body>
+    <div id="root">
+        {% include 'header.html' %}
+
+        <div id="content-wrapper">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+              <div class="message message-{{category}}">
+                  <!-- TODO: Zrobić aby po naciśnięciu przycisku informacja znikła -->
+                  <button type="button" class="message-button" data-dismiss="alert" aria-label="Close" onclick=delete_flash(this)>
+                    <i class="fas fa-times fa-center"></i>
+                  </button>
+                  <p>{{ message }}</p>
+              </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+        {% block content %}
+            <div class="sample-content">Content</div>
+        {% endblock %}
+        </div>
+        {% include 'footer.html' %}
+    </div>
+</body>
+</html>

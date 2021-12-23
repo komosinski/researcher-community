@@ -1,0 +1,365 @@
+@font-face {
+    font-family: Ubuntu;
+    src: url(/static/fonts/Ubuntu-Light.ttf);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Ubuntu';
+}
+
+body {
+    margin: 0;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+}
+
+#content-wrapper {
+    height: calc(100vh - 100px);
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+.header-text {
+    margin: 0;
+    text-decoration: none;
+    color: black;
+}
+
+.main-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: aliceblue;
+    height: fit-content;
+    text-align: center;
+    padding: 4px 0px 4px 0px;
+    height: 80px;
+}
+
+.header-logo-wrapper {
+    font-size: 2em;
+    font-weight: 600;
+    padding: 0px 10px 0px 10px;
+}
+
+.header-user-control {
+    padding: 0px 10px 0px 10px;
+}
+
+.author-wrapper {
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.2em;
+    white-space: nowrap;
+    width: fit-content;
+    padding-right: 12px;
+    margin-bottom: 12px;
+}
+
+.author-profile-pic {
+    max-height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.author-name {
+    padding-left: 8px;
+}
+
+.logout-icon {
+    margin-left: 5px;
+    color: black;
+}
+
+.header-username {
+    margin-right: 5px;
+}
+
+.main-footer {
+    background-color: darksalmon;
+    width: 100%;
+    text-align: center;
+    padding: 4px 0px 4px 0px;
+    height: 20px;
+    font-size: 14px;
+}
+
+.user-profile-wrapper {
+    padding: 20px;
+}
+
+.user-profile-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 5px;
+    height: 250px;
+}
+
+.profile-picture-wrapper {
+    padding: 0px 5px 0px 0px;
+}
+
+.profile-picture {
+    height: 100%;
+}
+
+.username, .afiliation {
+    margin: 0;
+}
+
+.username {
+    font-size: 2em;
+}
+
+.user-info-wrapper {
+    padding: 0px 5px 5px 15px;
+}
+
+.stats-element-wraper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: fit-content;
+    padding: 4px 20px 4px 4px;
+}
+
+.stat-value {
+    margin: 0;
+    padding-left: 5px;
+    font-size: 0.95em;
+
+}
+
+.fa-center { line-height: inherit!important; vertical-align: middle; }
+
+.stats-wrapper {
+    display: flex;
+}
+
+#verified-user-icon::before {
+    color: dodgerblue;
+    font-size: 1.4em;
+    padding-left: 8px;
+}
+
+.username-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.username-wrapper,.afiliation,.stats-wrapper {
+    padding-bottom: 4px;
+}
+
+.page-number {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgb(62, 62, 65);
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.pressed {
+    background-color: rgb(62, 62, 65) !important;
+    color: white !important;
+}
+
+.link-button {
+    display: inline-flex;
+    height: 40px;
+    width: fit-content;
+    padding: 0px 10px 0px 10px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(62, 62, 65);
+    border-radius: 0px;
+    text-decoration: none;
+    color: black;
+}
+
+.actions-wrapper {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.user-action {
+    margin-right: 10px;
+}
+
+.message {
+    display: flex;
+    border-radius: 12px;
+    margin: 0px 0px 10px 0px;
+}
+
+.message-error {
+    background-color: #ff7e7e;
+    border: 3px solid #d60101;
+}
+
+.message-warning {
+    background-color: #ffe97e;
+    border: 3px solid #caa800;
+}
+
+.message-button {
+    border: none;
+    background-color: transparent;
+    font-size: 1.6em;
+    padding: 0px 4px 0px 4px;
+    margin: 0px 5px 0px 10px;
+    cursor: pointer;
+}
+
+.message-error .message-button {
+    color: #d60101;
+}
+
+.message-warning .message-button {
+    color: #caa800;
+}
+
+.message-success .message-button {
+    color: #0cca00;
+}
+
+.message-success {
+    background-color: #7effa0;
+    border: 3px solid #0cca00;
+}
+
+/* .message-success-button {
+    border: none;
+    background-color: transparent;
+    font-size: 1.6em;
+    padding: 0px 4px 0px 4px;
+    margin: 0px 5px 0px 10px;
+} */
+
+.input-wrapper {
+    width: 300px;
+}
+
+.input-wrapper input, .input-wrapper textarea {
+    width: 100%;
+}
+
+.profile-edit-input-wrapper {
+    margin: 10px;
+}
+
+.profile-pic-selection-wrapper {
+    display: flex;
+}
+
+.edit-profile-picture {
+    width: 100px;
+    height: 100px;
+}
+
+.input-wrapper textarea {
+    width: 620px;
+    height: 100px;
+}
+
+.label-wrapper {
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.double-input-wrapper {
+    display: flex;
+}
+
+.large-button {
+    width: 200px;
+    height: 40px;
+    /* background-color: green; */
+    border: 0;
+    font-size: 16px;
+    /* color: white; */
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.main-button {
+    background-color: green;
+    color: white;
+}
+
+.secondary-button {
+    background-color: grey;
+    color: white;
+}
+
+.buttons-wrapper {
+    padding: 0px 10px 0px 10px;
+}
+
+.input-wrapper select {
+    width: 150px;
+}
+
+.comment-header-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.comment-info-wrapper {
+    display: flex;
+}
+
+.comment {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.author-wrapper .comment-author {
+    margin: 0;
+}
+
+.reviews-wrapper {
+    display: inline-flex;
+    align-items: center;
+}
+
+.reviews-header {
+    margin: 0;
+}
+
+.reviews-entry {
+    margin: 0;
+    display: inline-block;
+    margin: 0px 5px 0px 5px;
+    background-color: aqua;
+    border-radius: 5px;
+    padding: 2px 10px 2px 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+
+.reviews-entry-accepted {
+    background-color: green;
+}
+
+.reviews-entry-declined {
+    background-color: red;
+}
