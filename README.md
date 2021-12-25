@@ -24,17 +24,15 @@ First setup
   
   4. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
 
-      DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
-  
-    or set Flask enviroment variable: 
+          DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
+ 
+      or set Flask enviroment variable: 
       
-      Linux
-        export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'  
+          Linux
+            export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'  
       
-      Windows
-        $env:SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
-
-    SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
+          Windows
+            $env:SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
 
   5. Create tables in DB
 
