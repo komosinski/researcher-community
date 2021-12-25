@@ -1,13 +1,14 @@
+from flask import config
 from sqlalchemy import Table, DDL, event
 from sqlalchemy.orm import validates
-
 from open_science.extensions import db, login_manager, bcrypt, admin
-
 from flask_login import UserMixin
-
 import open_science.config.models_config as mc
 from open_science.db_queries import *
 from open_science.admin import MyModelView, UserView, MessageToStaffView
+import datetime as dt
+from sqlalchemy import func
+from open_science import app
 
 
 @login_manager.user_loader
@@ -79,6 +80,7 @@ class User(db.Model, UserMixin):
     last_seen = db.Column(db.DateTime, nullable=True)
     weight = db.Column(db.Float, nullable=False, default=1.0)
     red_flags_count = db.Column(db.Integer(), nullable=False)
+    reputation = db.Column(db.Integer(),default=0,nullable=False)
 
     # foreign keys
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
@@ -145,6 +147,30 @@ class User(db.Model, UserMixin):
     def get_new_notifications_count(self):
         return Notification.query.filter(Notification.user_id == self.id, Notification.was_seen == False).count()
 
+    def can_request_endorsement(self,endorser_id):
+       
+        endorser_priviliege = User.query.filter_by(id = endorser_id).first().rel_privileges_set.name
+     
+        if self.id == endorser_id:
+            return False
+    
+        if self.rel_privileges_set.name == 'standard_user' and endorser_priviliege == 'scientific_user':
+            endorsement_log = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id==self.id, EndorsementRequestLog.endorser_id==endorser_id).first()
+            if endorsement_log:
+                return False
+            elif EndorsementRequestLog.get_endorsement_request_count(self.id,1) < app.config['REQUEST_ENDORSEMENT_L']:
+                return True    
+        
+        return False
+
+
+    def obtained_required_endorsement(self):
+       
+        if EndorsementRequestLog.get_endorsement_request_count(self.id,365) >= app.config['ENDORSEMENT_THRESHOLD']:
+                return True    
+        return False
+
+
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
@@ -158,11 +184,11 @@ class PrivilegeSet(db.Model):
     # relationships
     rel_users = db.relationship("User", back_populates="rel_privileges_set")
 
-    types = ('standard_user', 'scientific_user','admin')
+    types = ('standard_user', 'scientific_user', 'admin')
 
     def insert_types():
         for t in PrivilegeSet.types:
-             if not PrivilegeSet.query.filter(PrivilegeSet.name==t).first():
+             if not PrivilegeSet.query.filter(PrivilegeSet.name == t).first():
                 privilege_set = PrivilegeSet(name=t)
                 db.session.add(privilege_set)
         db.session.commit()
@@ -368,6 +394,8 @@ class DeclinedReason(db.Model):
                 db.session.add(reason)
         db.session.commit()
 
+    def __repr__(self):
+        return f'<DeclinedReason {self.id} {self.reason}>'
 
 class MessageTopic(db.Model):
     __tablename__ = "message_topics"
@@ -454,7 +482,7 @@ class NotificationType(db.Model):
     rel_email_logs = db.relationship("Notification")
 
     # types
-    types = ('review_request', 'new_review', 'comment_answer', 'review_answer', 'system_message')
+    types = ('review_request', 'new_review', 'comment_answer', 'review_answer', 'system_message', 'endorsement_request' )
 
     def insert_types():
         for t in NotificationType.types:
@@ -478,13 +506,13 @@ class Notification(db.Model):
     datetime = db.Column(db.DateTime, nullable=True)
     title = db.Column(db.String(length=mc.NOTIFICATION_TITLE_L), nullable=False)
     text = db.Column(db.String(length=mc.NOTIFICATION_TEXT_L), nullable=False)
-    action_url = db.Column(db.String(length=mc.NOTIFICATION_ACTION_URL_L), nullable=False)
+    action_url = db.Column(db.String(length=mc.NOTIFICATION_ACTION_URL_L), nullable=True)
     was_seen = db.Column(db.Boolean, nullable=False, default=False)
 
     # foreign keys
     notification_type_id = db.Column(db.Integer, db.ForeignKey('notification_types.id'))
 
-    def __init__(self, user_id, datetime, text, action_url, notification_type):
+    def __init__(self, user_id, datetime, text, notification_type, action_url=''):
         self.user_id = user_id
         self.datetime = datetime
         self.text = text
@@ -613,8 +641,26 @@ class License(db.Model):
     rel_related_paper_versions = db.relationship("PaperVersion", secondary=association_paper_version_license,
                                                  back_populates="rel_related_licenses")
 
-    def __repr__(self):
-        return f'<MessageTopic {self.id} {self.topic}>'
+
+class EndorsementRequestLog(db.Model):
+
+    __tablename__ = "endorsement_request_logs"
+
+    # columns
+    decision = db.Column(db.Boolean(), default=False, nullable=False)
+    date = db.Column(db.Date(), nullable=False)
+    considered = db.Column(db.Boolean(), default=False, nullable=False)
+
+    # foreign keys
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    endorser_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+
+    def get_endorsement_request_count(user_id, days):
+   
+        date_after = dt.datetime.utcnow().date() - dt.timedelta(days = days)
+        count = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id==user_id, 
+            func.DATE(EndorsementRequestLog.date) > date_after, EndorsementRequestLog.decision == True).count()
+        return count
 
 
 # db functions
@@ -644,3 +690,34 @@ admin.add_view(MyModelView(Tag, db.session))
 admin.add_view(MyModelView(Review, db.session))
 admin.add_view(MyModelView(ReviewRequest, db.session))
 admin.add_view(MyModelView(Comment, db.session))
+
+def create_essential_data():
+
+    PrivilegeSet.insert_types()
+    DeclinedReason.insert_reasons()
+    MessageTopic.insert_topics()
+    EmailType.insert_types()
+    NotificationType.insert_types()
+
+    # site as user to log emails send from site and use ForeignKey in EmailLog model
+    # confirmed=False hides user
+    if not User.query.filter(User.id == 0).first():
+        
+        user_0 = User(
+            first_name="site",
+            second_name="site",
+            email="open.science.mail@gmail.com",
+            plain_text_password="QWerty12#$%^&*()jumbo",
+            confirmed=False,
+            review_mails_limit=0,
+            notifications_frequency=0,
+        )
+        user_0.rel_privileges_set =  PrivilegeSet.query.filter(PrivilegeSet.name=='standard_user').first()  
+        user_0.id = 0
+        db.session.add(user_0)
+
+    db.session.commit()
+    print("The essential data has been created") 
+
+    return True
+    

@@ -39,7 +39,7 @@ def get_papers_basic_search(search_like, search_option, order,page_num, rows_per
 
 def get_user_order(order_by):
    
-    order = User.votes_score.desc()
+    order = User.reputation.desc()
     return order
 
 def get_tag_order(order_by):
@@ -96,7 +96,7 @@ def get_users_advanced_search(page, search_data, order):
     search_like = "%{}%".format(search_text)
 
     # TEMPORARY QUERY
-    users =  db.session.query(User.first_name,User.second_name,User.votes_score,User.orcid,User.id,User.has_photo).filter(User.confirmed==True).order_by(order).paginate(page=page, per_page=per_page)
+    users =  db.session.query(User.first_name,User.second_name,User.reputation,User.orcid,User.id,User.has_photo).filter(User.confirmed==True).order_by(order).paginate(page=page, per_page=per_page)
     
     return users
 

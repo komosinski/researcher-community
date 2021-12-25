@@ -4,38 +4,9 @@ from open_science.models import *
 import datetime as dt
 from flask import url_for
 
-# TODO: move this somewhere else
-def create_essential_data():
-
-    PrivilegeSet.insert_types()
-    DeclinedReason.insert_reasons()
-    MessageTopic.insert_topics()
-    EmailType.insert_types()
-    NotificationType.insert_types()
-
-    # site as user to log emails send from site and use ForeignKey in EmailLog model
-    # confirmed=False hides user
-    if not User.query.filter_by(User.id == 0).first():
-        
-        user_0 = User(
-            first_name="site",
-            second_name="site",
-            email="open.science.mail@gmail.com",
-            plain_text_password="QWerty12#$%^&*()jumbo",
-            confirmed=False,
-            review_mails_limit=0,
-            notifications_frequency=0,
-        )
-        user_0.rel_privileges_set =  PrivilegeSet.query.filter(PrivilegeSet.name=='standard_user').first()  
-        user_0.id = 0
-        db.session.add(user_0)
-
-    db.session.commit()
-    return True
-
-
 def create_test_data():
     # check if the test data has been created
+    create_essential_data()
     existing_paper_version = db.session.query(PaperVersion.id).filter(PaperVersion.title == 'title1').first()
     if existing_paper_version:
         return False
@@ -456,7 +427,7 @@ def create_test_data():
     )
     u1.rel_created_paper_versions = [pve1, pve2, pve4, pve5, pve6, pve7, pve8, pve9]
     u1.rel_tags_to_user = [t1, t2]
-    u1.rel_privileges_set = PrivilegeSet.query.filter_by(PrivilegeSet.name == 'scientific_user').first()
+    u1.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'scientific_user').first()
     u1.rel_created_tags = [t3]
     u1.rel_created_reviews = [r1, r2]
     u1.rel_created_comments = [c1, c2, c3, c4, c5, c6, c7, c8]
@@ -491,7 +462,7 @@ def create_test_data():
     )
     u2.rel_created_paper_versions = [pve3, pve10, pve11]
     u2.rel_tags_to_user = [t3]
-    u2.rel_privileges_set = PrivilegeSet.query.filter_by(PrivilegeSet.name == 'scientific_user').first()
+    u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'scientific_user').first()
     u2.rel_created_tags = [t1, t2]
     u2.rel_created_reviews = [r3]
     u2.rel_created_comments = [c9]
@@ -519,7 +490,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u3.rel_privileges_set = PrivilegeSet.query.filter_by(PrivilegeSet.name == 'standard_user').first()
+    u3.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'standard_user').first()
     db.session.add(u3)
 
     u4 = User(
@@ -539,7 +510,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u4.rel_privileges_set = PrivilegeSet.query.filter_by(PrivilegeSet.name == 'standard_user').first()
+    u4.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'standard_user').first()
     db.session.add(u4)
 
     u5 = User(
@@ -560,7 +531,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u5.rel_privileges_set = PrivilegeSet.query.filter_by(PrivilegeSet.name == 'admin').first()
+    u5.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'admin').first()
     db.session.add(u5)
 
     rr1 = ReviewRequest(
@@ -691,7 +662,7 @@ def create_test_data():
         replied=True
     )
     mts1.rel_sender = u1
-    mts1.rel_topic = MessageTopic.query.filter_by(MessageTopic.topic == 'Endorsement').first()
+    mts1.rel_topic = MessageTopic.query.filter(MessageTopic.topic == 'Endorsement').first()
     db.session.add(mts1)
 
     mts2 = MessageToStaff(
@@ -700,7 +671,7 @@ def create_test_data():
         replied=False
     )
     mts2.rel_sender = u1
-    mts2.rel_topic = MessageTopic.query.filter_by(MessageTopic.topic == 'Other').first()
+    mts2.rel_topic = MessageTopic.query.filter(MessageTopic.topic == 'Other').first()
     db.session.add(mts2)
 
     mts3 = MessageToStaff(
@@ -709,14 +680,14 @@ def create_test_data():
         replied=False
     )
     mts3.rel_sender = u2
-    mts3.rel_topic = MessageTopic.query.filter_by(MessageTopic.topic == 'Technical issues, corrections').first()
+    mts3.rel_topic = MessageTopic.query.filter(MessageTopic.topic == 'Technical issues, corrections').first()
     db.session.add(mts3)
 
     # notifications
     notification1 = Notification(1, dt.datetime.utcnow(), 'New review request',
-                                 url_for('review_request_page', request_id=1), 'review_request')
+                                 'review_request', url_for('review_request_page', request_id=1))
     notification2 = Notification(1, dt.datetime.utcnow(), 'New review request',
-                                 url_for('review_request_page', request_id=2), 'review_request')
+                                 'review_request', url_for('review_request_page', request_id=2))
     db.session.add(notification1)
     db.session.add(notification2)
 

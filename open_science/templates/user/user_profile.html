@@ -10,7 +10,9 @@
                 <h3 class="username">
                     {{user.first_name}} {{user.second_name}}
                 </h3>
+                {% if user.rel_privileges_set.name == 'scientific_user' %}
                 <i id="verified-user-icon" class="fas fa-check-circle fa-center"></i>
+                {% endif %}
             </div>
             <h6 class="afiliation">{{user.affiliation}}</h6>
             <div>Last seen: {{ user.last_seen.strftime("%Y-%m-%d %H:%M") if user.last_seen else 'never'  }}</div>
@@ -25,7 +27,7 @@
                 </div>
                 <div class="stats-element-wraper">
                     <i class="fas fa-comment-alt fa-center"></i>
-                    <p class="stat-value" ">{{data['comments_num']}}</p>
+                    <p class="stat-value">{{data['comments_num']}}</p>
                 </div>
                 <div class="stats-element-wraper">
                     <i class="fas fa-heart fa-center"></i>
@@ -45,6 +47,18 @@
          </form>
     </div>
     {% endif %}
+
+    {% if current_user.is_authenticated %}
+        {% if current_user.can_request_endorsement(user.id) %}
+            <div class="actions-wrapper">
+                <form class="user-action" action="{{url_for('request_endorsement', endorser_id = user.id)}}" method="GET">    
+                    <button type="submit">Request endorsement</button>
+                </form>
+            </div>
+        {% endif %}
+    {% endif %}
+
+
     <div>
         <h3>About me:</h3>
         {{user.about_me}}
@@ -55,7 +69,7 @@
 
         <div>
             <h3>My Papers</h3>
-            {% include 'user/papersTable.html' %}
+            {% include 'user/paper_table.html' %}
         </div>
       
     {% endif %}

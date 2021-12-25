@@ -5,7 +5,7 @@ from wtforms.fields.simple import SubmitField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired
 from open_science import db
-from open_science.models import Comment, Paper, Review, User, MessageToStaff, VoteComment, Notification
+from open_science.models import Comment, Paper, Review, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm
 from flask.helpers import url_for
 from flask.templating import render_template
