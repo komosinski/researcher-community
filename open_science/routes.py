@@ -149,3 +149,14 @@ def review_request_page(request_id):
 @login_required
 def notifications_page(page,unread):
     return user_rd.notifications_page(page,unread) 
+
+@app.route('/endorsement/request/<endorser_id>')
+@login_required
+def request_endorsement(endorser_id):
+    return user_rd.request_endorsement(endorser_id) 
+
+@app.route('/endorsement/confirm/<notification_id>/<user_id>/<endorser_id>', methods=['GET', 'POST'])
+@login_required
+@rd.scientific_user_required
+def confirm_endorsement_page(notification_id,user_id, endorser_id):
+    return user_rd.confirm_endorsement_page(notification_id, user_id,endorser_id)

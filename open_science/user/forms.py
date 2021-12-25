@@ -171,3 +171,9 @@ class ReviewRequestForm(FlaskForm):
         super().__init__()
         self.declined_reason.choices = [(r.id, r.reason) for r in DeclinedReason.query.all()]
 
+
+
+class EndorsementRequestForm(FlaskForm):
+
+    submit_accept = SubmitField(label='Accept')
+    submit_decline = SubmitField(label='Decline')

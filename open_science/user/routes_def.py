@@ -1,19 +1,20 @@
 from open_science.user.forms import RegisterForm, LoginForm, ResendConfirmationForm, AccountRecoveryForm, SetNewPasswordForm
-from open_science.user.forms import InviteUserForm, EditProfileForm, ReviewRequestForm
+from open_science.user.forms import InviteUserForm, EditProfileForm, ReviewRequestForm, EndorsementRequestForm
 from open_science import db
 from open_science.tokens import confirm_password_token, confirm_account_recovery_token, confirm_email_change_token
-from open_science.models import Notification, Paper, PrivilegeSet, User, ReviewRequest, Review
+from open_science.models import Notification, Paper, PrivilegeSet, User, ReviewRequest, Review, EndorsementRequestLog
 import open_science.email as em
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask_login import login_user, logout_user, current_user
 from flask import render_template, redirect, url_for, flash, request
+from flask import abort
 import datetime as dt
 from werkzeug.utils import secure_filename
 import os
 from PIL import Image
 from open_science import app
-
+import open_science.user.helpers as helper
 
 def register_page():
     form = RegisterForm()
@@ -163,11 +164,10 @@ def profile_page(user_id):
     if not user or not user.confirmed:
         flash('User does not exists', category='error')
         return redirect(url_for('home_page'))
-
+    # TODO: limit reviews to submitted reviews
     data = {
-        'articles_num' : len(user.rel_created_papers),
-        # TODO: get user reputation ...
-        'reputation' : 0,
+        'articles_num' : len(user.rel_created_paper_versions),
+        'reputation' : user.reputation,
         'comments_num' : len(user.rel_created_comments),
         'reviews_num' : len(user.rel_created_reviews)
     }
@@ -271,7 +271,7 @@ def invite_user_page():
 
     if form.validate_on_submit():
       
-        emails_limit = CONFIG['INVITE_USER_ML'] - em.get_emails_cout_last_days(current_user.id,'user_invite',1)
+        emails_limit = app.config['INVITE_USER_ML'] - em.get_emails_cout_last_days(current_user.id,'user_invite',1)
      
         email = form.email.data
                                 
@@ -301,6 +301,8 @@ def invite_user_page():
 
 def review_request_page(request_id):
     # TODO: show paper abstract ...
+    if not helper.check_numeric_args(request_id):
+        abort(404)
 
     review_request = ReviewRequest.query.filter(ReviewRequest.id == request_id, ReviewRequest.requested_user == current_user.id).first_or_404()
     if review_request.acceptation_date is not None or review_request.declined_reason is not None:
@@ -333,6 +335,8 @@ def review_request_page(request_id):
     return render_template('user/review_request.html',form=form)
 
 def notifications_page(page,unread):
+    if not helper.check_numeric_args(page):
+        abort(404)
     page = int(page)
 
     if unread =='False':
@@ -345,6 +349,81 @@ def notifications_page(page,unread):
         return redirect(url_for('profile_page', user_id=current_user.id))
 
     return render_template('notification/notifications_page.html',page=page,unread=unread,results=notifications)
+
+def request_endorsement(endorser_id):
+    if not helper.check_numeric_args(endorser_id):
+        abort(404)
+
+    if current_user.can_request_endorsement(endorser_id):
+        endorsement_log = EndorsementRequestLog(user_id=current_user.id, endorser_id=endorser_id, date = dt.datetime.utcnow().date())
+
+        notification = Notification(endorser_id,dt.datetime.utcnow(),'Endorsement request','endorsement_request')
+        db.session.add(notification)
+        db.session.flush()
+        db.session.refresh(notification)
+        notification.action_url = url_for('confirm_endorsement_page',notification_id=notification.id, user_id=current_user.id, endorser_id=endorser_id)
+        
+        db.session.add(endorsement_log)
+        db.session.commit()
+        flash('The Endorsement request was successfully sent', category='success')
+        return redirect(url_for('profile_page', user_id=endorser_id))
+    else:
+        flash('You cannot send your endorsement request', category='error')
+        return redirect(url_for('profile_page', user_id=endorser_id))
+
+
+
+
+def confirm_endorsement_page(notification_id, user_id, endorser_id):
+    if not helper.check_numeric_args(user_id,endorser_id):
+        abort(404)
+
+    notification_id = int(notification_id)
+    user_id = int(user_id)
+    endorser_id = int(endorser_id)
+
+    form = EndorsementRequestForm()
+    user = User.query.filter(User.id == user_id).first()
+    endorsement_log = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id == user_id, EndorsementRequestLog.endorser_id == endorser_id).first()
+    notification = Notification.query.filter(Notification.id == notification_id).first()
+
+    if not notification:
+        flash('Endorsement request not exists', category='error')
+        return redirect(url_for('notifications_page', page=1, unread=False))
+
+    if not user or current_user.id != endorser_id or not endorsement_log:
+        print(user, endorsement_log)
+        print( current_user.id )
+        flash('Endorsement request not exists', category='error')
+        return redirect(url_for('notifications_page', page=1, unread=False))
+
+    if endorsement_log.considered == True:
+        flash('Endorsement request has been already considered', category='warning')
+        return redirect(url_for('notifications_page', page=1, unread=False))
+
+    if form.validate_on_submit():
+        if form.submit_accept.data:
+            endorsement_log.decision = True
+            endorsement_log.considered = True
+            db.session.commit()
+            if user.obtained_required_endorsement():
+                user.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'scientific_user').first()
+                db.session.add(user)
+              
+        elif form.submit_decline.data:
+            endorsement_log.decision = False
+            endorsement_log.considered = True
+            db.session.add(endorsement_log)
+           
+        db.session.delete(notification)
+        db.session.commit()
+
+        flash('The form has been completed', category='success')
+        return redirect(url_for('notifications_page', page=1, unread=False))
+
+    print("AAA 4")
+    return render_template('user/endorsement_request.html', form=form, user=user)
+
 
 def user_papers_data():
    

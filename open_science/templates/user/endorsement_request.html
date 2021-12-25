@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+        The user <a href="{{url_for('profile_page',user_id=user.id)}}">{{user.first_name}} {{user.second_name}}</a>with the email address {{user.email}} asks you to approve endorsement.
+        </div>
+        <br>
+        {{form.submit_accept()}}
+        <br>
+        {{form.submit_decline()}}
+    </form>
+</div>
+
+{% endblock %}

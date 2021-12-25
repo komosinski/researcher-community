@@ -1,10 +1,10 @@
 #from flask_migrate import migrate
 from flask import Flask
 from open_science.admin import MyAdminIndexView
-from open_science.schedule.schedule import daily_jobs, monthly_jobs
 from open_science.extensions import db, login_manager,bcrypt, mail, limiter, scheduler, admin, migrate
 import atexit
 from config import Config
+
 
 def register_extensions(app):
     db.init_app(app)
@@ -23,12 +23,10 @@ def register_extensions(app):
     admin.template_mode='bootstrap4'
     migrate.init_app(app,db)
     scheduler.init_app(app)
-    #Two schedulers will be launched when Flask is in debug mode
-    scheduler.add_job(id ='Monthly jobs', func = monthly_jobs, start_date='2022-1-1 03:00:00', trigger = 'interval', days = 31)
-    scheduler.add_job(id ='Daily jobs', func = daily_jobs, start_date='2022-1-1 03:30:00', trigger = 'interval', days = 1)
-    scheduler.start()
+    # #Two schedulers will be launched when Flask is in debug mode
     atexit.register(lambda: scheduler.shutdown())
-
+    
+  
 def create_app(config_class=Config):
 
     app = Flask(__name__)
@@ -39,4 +37,9 @@ def create_app(config_class=Config):
     return app
 
 app = create_app()
-from open_science import routes
+from open_science import routes, models
+
+from open_science.schedule.schedule import daily_jobs, monthly_jobs
+scheduler.add_job(id ='Monthly jobs', func = monthly_jobs, start_date='2022-1-1 03:00:00', trigger = 'interval', days = 31)
+scheduler.add_job(id ='Daily jobs', func = daily_jobs, start_date='2022-1-1 03:30:00', trigger = 'interval', days = 1)
+scheduler.start()

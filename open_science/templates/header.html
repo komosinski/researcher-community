@@ -13,7 +13,9 @@
     {% if current_user.is_authenticated %}  
         <div class="header-user-control">
             <div class="author-wrapper">
-                <div>
+                {% set notifications_url = url_for('notifications_page',page=1,unread='False') %}
+                <div onclick="location.href='{{notifications_url}}';" style="cursor: pointer;">
+                    #NOTIFICATION_BELL
                     {% set notifications_count=current_user.get_new_notifications_count() %}
                     {% if notifications_count %}
                     <span class="">{{ notifications_count }}</span>

@@ -1,5 +1,4 @@
 from open_science.models import EmailLog, EmailType
-from open_science.extensions import db
 import datetime as dt
 from sqlalchemy import func
 

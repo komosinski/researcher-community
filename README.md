@@ -14,11 +14,9 @@ First setup
 
     Linux
       $ source venv/bin/activate
-      (venv) $ _
  
     Windows 
       $ venv\Scripts\activate
-      (venv) $ _
  
   3. Install requirements
   
@@ -26,17 +24,22 @@ First setup
   
   4. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
 
-    DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
+      DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
   
+    or set Flask enviroment variable: 
+      
+      Linux
+        export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'  
+      
+      Windows
+        $env:SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
+
+    SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
+
   5. Create tables in DB
 
-    Start the Python interpreter and write:
+    python3 db_init.py
   
-      from open_science import db
-      db.create_all()
-      db.session.commit()
-      exit()
-
 Run
 ------------
 
