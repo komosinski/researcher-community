@@ -1,6 +1,6 @@
-from flask import config
 from sqlalchemy import Table, DDL, event
 from sqlalchemy.orm import validates
+from wtforms.validators import Length
 from open_science.extensions import db, login_manager, bcrypt, admin
 from flask_login import UserMixin
 import open_science.config.models_config as mc
@@ -254,6 +254,7 @@ class PaperVersion(db.Model):
     publication_date = db.Column(db.DateTime)
     confidence_level = db.Column(db.SmallInteger(), default=0, nullable=False)
     red_flags_count = db.Column(db.Integer(), nullable=False)
+    anonymized_pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=True)
 
     # foreign keys
     parent_paper = db.Column(db.Integer, db.ForeignKey('papers.id'))
@@ -278,7 +279,7 @@ class PaperVersion(db.Model):
             'title': self.title,
             'publication_date': self.publication_date
         }
-
+   
 
 class Review(db.Model):
     __tablename__ = "reviews"
@@ -290,7 +291,9 @@ class Review(db.Model):
     weight = db.Column(db.Float, nullable=True)
     text = db.Column(db.String(mc.REVIEW_TEXT_L), nullable=True)
     review_score = db.Column(db.Integer(), nullable=True)
+    # datetime of review's submission
     creation_datetime = db.Column(db.DateTime, nullable=True)
+    # deadline of submitting review
     deadline_date = db.Column(db.Date, nullable=True)
     red_flags_count = db.Column(db.Integer(), nullable=False)
 
@@ -306,6 +309,7 @@ class Review(db.Model):
     rel_red_flags_received = db.relationship("RedFlagReview", back_populates="rel_to_review")
 
 
+
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
 
@@ -313,21 +317,45 @@ class ReviewRequest(db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
-    decision = db.Column(db.Boolean, nullable=False, default=False)
+    decision = db.Column(db.Boolean, nullable=True)
     creation_datetime = db.Column(db.DateTime)
     acceptation_date = db.Column(db.Date)
+    # deadline of showing request
     deadline_date = db.Column(db.Date)
 
+    # decilne reasons
+    reason_1 = db.Column(db.Boolean, nullable=False, default=False)
+    reason_2 = db.Column(db.Boolean, nullable=False, default=False)
+    reason_3 = db.Column(db.Boolean, nullable=False, default=False)
+    reason_4 = db.Column(db.Boolean, nullable=False, default=False)
+    reason_5 = db.Column(db.Boolean, nullable=False, default=False)
+    other_reason =  db.Column(db.String(length=mc.DR_REASON_L), nullable=True)
+
     # foreign keys
-    declined_reason = db.Column(db.Integer, db.ForeignKey('declined_reasons.id'))
     requested_user = db.Column(db.Integer, db.ForeignKey('users.id'))
     paper_version = db.Column(db.Integer, db.ForeignKey('paper_versions.id'))
 
     # relationships
-    rel_declined_reason = db.relationship("DeclinedReason", back_populates="rel_related_review_requests")
     rel_requested_user = db.relationship("User", back_populates="rel_related_review_requests")
     rel_related_paper_version = db.relationship("PaperVersion", back_populates="rel_related_review_requests")
 
+    def set_reasons(self, reason_ids):
+
+        # not elegant solution
+        for id in reason_ids:
+            if id == 1:
+                self.reason_1 = True
+            elif id == 2:
+                self.reason_2 = True
+            elif id == 3:
+                self.reason_3 = True
+            elif id == 4:
+                self.reason_4 = True
+            elif id == 5:
+                self.reason_5 = True
+                
+        if self.other_reason is not None:
+            self.reason_5 = True
 
 class Comment(db.Model):
     __tablename__ = "comments"
@@ -382,10 +410,7 @@ class DeclinedReason(db.Model):
     # columns
     reason = db.Column(db.String(length=mc.DR_REASON_L), nullable=False)
 
-    # relationships
-    rel_related_review_requests = db.relationship("ReviewRequest", back_populates="rel_declined_reason")
-
-    reasons = ("Conflict of interest", "Lack of expertise", "Don’t have time", "Paper matched incorrectly", "Other")
+    reasons = ('Conflict of interest', 'Lack of expertise', 'Don’t have time', 'Paper matched incorrectly', 'Other')
 
     def insert_reasons():
         for t in DeclinedReason.reasons:
@@ -482,7 +507,7 @@ class NotificationType(db.Model):
     rel_email_logs = db.relationship("Notification")
 
     # types
-    types = ('review_request', 'new_review', 'comment_answer', 'review_answer', 'system_message', 'endorsement_request' )
+    types = ('review_request', 'new_review', 'comment_answer', 'review_answer', 'system_message', 'endorsement_request', 'review_reminder')
 
     def insert_types():
         for t in NotificationType.types:

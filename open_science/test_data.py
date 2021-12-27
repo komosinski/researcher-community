@@ -535,7 +535,6 @@ def create_test_data():
     db.session.add(u5)
 
     rr1 = ReviewRequest(
-        decision=False,
         creation_datetime=dt.datetime.utcnow()
     )
 
@@ -544,7 +543,6 @@ def create_test_data():
     db.session.add(rr1)
 
     rr2 = ReviewRequest(
-        decision=False,
         creation_datetime=dt.datetime.utcnow()
     )
     rr2.rel_requested_user = u2
@@ -561,79 +559,80 @@ def create_test_data():
     rr3.rel_related_paper_version = pve1
     db.session.add(rr3)
 
-    rr4 = ReviewRequest(
-        decision=False,
-        creation_datetime=dt.datetime.utcnow(),
-        acceptation_date=dt.datetime.utcnow().date(),
-        deadline_date=dt.datetime.utcnow().date()
-    )
+    # TODO: check logic. initially decision is None
+    # rr4 = ReviewRequest(
+    #     decision=False,
+    #     creation_datetime=dt.datetime.utcnow(),
+    #     acceptation_date=dt.datetime.utcnow().date(),
+    #     deadline_date=dt.datetime.utcnow().date()
+    # )
 
-    rr4.rel_requested_user = u4
-    rr4.rel_related_paper_version = pve4
-    db.session.add(rr4)
+    # rr4.rel_requested_user = u4
+    # rr4.rel_related_paper_version = pve4
+    # db.session.add(rr4)
 
-    rr5 = ReviewRequest(
-        decision=False,
-        creation_datetime=dt.datetime.utcnow(),
-        acceptation_date=dt.datetime.utcnow().date(),
-        deadline_date=dt.datetime.utcnow().date()
-    )
+    # rr5 = ReviewRequest(
+    #     decision=False,
+    #     creation_datetime=dt.datetime.utcnow(),
+    #     acceptation_date=dt.datetime.utcnow().date(),
+    #     deadline_date=dt.datetime.utcnow().date()
+    # )
 
-    rr5.rel_requested_user = u5
-    rr5.rel_related_paper_version = pve5
-    db.session.add(rr5)
+    # rr5.rel_requested_user = u5
+    # rr5.rel_related_paper_version = pve5
+    # db.session.add(rr5)
 
-    rr6 = ReviewRequest(
-        decision=False,
-        creation_datetime=dt.datetime.utcnow(),
-        acceptation_date=dt.datetime.utcnow().date(),
-        deadline_date=dt.datetime.utcnow().date()
-    )
+    # rr6 = ReviewRequest(
+    #     decision=False,
+    #     creation_datetime=dt.datetime.utcnow(),
+    #     acceptation_date=dt.datetime.utcnow().date(),
+    #     deadline_date=dt.datetime.utcnow().date()
+    # )
 
-    rr6.rel_requested_user = u1
-    rr6.rel_related_paper_version = pve6
-    db.session.add(rr6)
+    # rr6.rel_requested_user = u1
+    # rr6.rel_related_paper_version = pve6
+    # db.session.add(rr6)
 
-    rr7 = ReviewRequest(
-        decision=False,
-        creation_datetime=dt.datetime.utcnow(),
-        acceptation_date=dt.datetime.utcnow().date(),
-        deadline_date=dt.datetime.utcnow().date()
-    )
+    # rr7 = ReviewRequest(
+    #     decision=False,
+    #     creation_datetime=dt.datetime.utcnow(),
+    #     acceptation_date=dt.datetime.utcnow().date(),
+    #     deadline_date=dt.datetime.utcnow().date()
+    # )
 
-    rr7.rel_requested_user = u2
-    rr7.rel_related_paper_version = pve7
-    db.session.add(rr7)
+    # rr7.rel_requested_user = u2
+    # rr7.rel_related_paper_version = pve7
+    # db.session.add(rr7)
 
-    rr8 = ReviewRequest(
-        decision=True,
-        creation_datetime=dt.datetime.utcnow(),
-        acceptation_date=dt.datetime.utcnow().date(),
-        deadline_date=dt.datetime.utcnow().date()
-    )
-    rr8.rel_requested_user = u3
-    rr8.rel_related_paper_version = pve8
-    db.session.add(rr8)
+    # rr8 = ReviewRequest(
+    #     decision=True,
+    #     creation_datetime=dt.datetime.utcnow(),
+    #     acceptation_date=dt.datetime.utcnow().date(),
+    #     deadline_date=dt.datetime.utcnow().date()
+    # )
+    # rr8.rel_requested_user = u3
+    # rr8.rel_related_paper_version = pve8
+    # db.session.add(rr8)
 
-    rr9 = ReviewRequest(
-        decision=True,
-        creation_datetime=dt.datetime.utcnow(),
-        acceptation_date=dt.datetime.utcnow().date(),
-        deadline_date=dt.datetime.utcnow().date()
-    )
-    rr9.rel_requested_user = u4
-    rr9.rel_related_paper_version = pve9
-    db.session.add(rr9)
+    # rr9 = ReviewRequest(
+    #     decision=True,
+    #     creation_datetime=dt.datetime.utcnow(),
+    #     acceptation_date=dt.datetime.utcnow().date(),
+    #     deadline_date=dt.datetime.utcnow().date()
+    # )
+    # rr9.rel_requested_user = u4
+    # rr9.rel_related_paper_version = pve9
+    # db.session.add(rr9)
 
-    rr10 = ReviewRequest(
-        decision=True,
-        creation_datetime=dt.datetime.utcnow(),
-        acceptation_date=dt.datetime.utcnow().date(),
-        deadline_date=dt.datetime.utcnow().date()
-    )
-    rr10.rel_requested_user = u5
-    rr10.rel_related_paper_version = pve10
-    db.session.add(rr10)
+    # rr10 = ReviewRequest(
+    #     decision=True,
+    #     creation_datetime=dt.datetime.utcnow(),
+    #     acceptation_date=dt.datetime.utcnow().date(),
+    #     deadline_date=dt.datetime.utcnow().date()
+    # )
+    # rr10.rel_requested_user = u5
+    # rr10.rel_related_paper_version = pve10
+    # db.session.add(rr10)
 
     vc1 = VoteComment(
         is_up=True

@@ -3,6 +3,7 @@ from open_science import app
 from open_science import routes_def as rd
 from open_science.test_data import create_test_data
 from open_science.user import routes_def as user_rd
+from open_science.review import routes_def as review_rd
 from flask_login import login_required
 from open_science import limiter
 
@@ -82,6 +83,8 @@ def article(id):
 
 
 @app.route('/article/add', methods=['GET', 'POST'])
+@login_required
+@rd.scientific_user_required
 def uploadFilePage():
     return rd.fileUploadPage()
 
@@ -140,10 +143,10 @@ def contact_staff_page():
 def user_papers_data():
     return user_rd.user_papers_data()
 
-@app.route('/user/review_request/<request_id>', methods=['GET', 'POST'])
+@app.route('/review/request/<request_id>', methods=['GET', 'POST'])
 @login_required
 def review_request_page(request_id):
-    return user_rd.review_request_page(request_id)
+    return review_rd.review_request_page(request_id)
 
 @app.route('/user/notifications/<page>/<unread>')
 @login_required
@@ -160,3 +163,14 @@ def request_endorsement(endorser_id):
 @rd.scientific_user_required
 def confirm_endorsement_page(notification_id,user_id, endorser_id):
     return user_rd.confirm_endorsement_page(notification_id, user_id,endorser_id)
+
+@app.route('/review/edit/<review_id>', methods=['GET', 'POST'])
+@login_required
+@rd.scientific_user_required
+def review_edit_page(review_id):
+    return review_rd.review_edit_page(review_id) 
+
+@app.route('/user/notifications/update')
+@login_required
+def update_notification_and_redirect():
+    return user_rd.update_notification_and_redirect()

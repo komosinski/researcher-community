@@ -5,13 +5,15 @@ from wtforms.fields.simple import TextAreaField
 from open_science.models import User, DeclinedReason
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, RadioField
-from wtforms.validators import Length, EqualTo, Email, DataRequired, Optional, ValidationError, StopValidation
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import Length, EqualTo, Email, DataRequired, Optional, ValidationError
 import re
 import open_science.config.models_config as mc
 import open_science.email as em
 from config import Config
 from flask_login import current_user
+
+
 
 def validate_password(form, password):
         if not re.search("[a-z]", password.data):
@@ -148,31 +150,6 @@ class InviteUserForm(FlaskForm):
     email = StringField(label='E-mail', validators=[Email(),DataRequired()])
     submit = SubmitField(label='Send an invitation')
   
-
-class ReviewRequestForm(FlaskForm):
-
-    def validate_declined_reason(form, field):
-        if form.submit_decline.data:
-            if not field.data:
-                raise StopValidation('Choose the reason for rejection')
-
-    def validate_prepare_time(form, field):
-        if form.submit_accept.data:
-            if not field.data:
-                raise StopValidation('Choose the time needed to prepare the review')
-
-              
-    declined_reason = RadioField(validators=[validate_declined_reason,Optional()])
-    prepare_time = RadioField(validators=[validate_prepare_time,Optional()], choices=[(7,'1 week'),(14,'2 weeks'),(21,'3 weeks'),(28,'4 weeks')])
-    submit_accept = SubmitField(label='Accept')
-    submit_decline = SubmitField(label='Decline')
-
-    def __init__(self):
-        super().__init__()
-        self.declined_reason.choices = [(r.id, r.reason) for r in DeclinedReason.query.all()]
-
-
-
 class EndorsementRequestForm(FlaskForm):
 
     submit_accept = SubmitField(label='Accept')
