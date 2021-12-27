@@ -46,3 +46,4 @@ class ContactStaffForm(FlaskForm):
      topic = SelectField(label='Topic', choices=[('Endorsement','Endorsement'),('Technical issues','Technical issues, corrections'),('Other','Other')])
      text = TextAreaField(label='Text', validators=[Length(max=mc.MTS_TEXT_L),DataRequired()])
      submit = SubmitField(label='Send')
+

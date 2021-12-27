@@ -42,3 +42,5 @@ class Config(object):
  
     ENDORSEMENT_THRESHOLD =  int(os.environ.get('ENDORSEMENT_THRESHOLD') or 2)
     
+    # Number of days to the end of the assumed review writing time
+    REVIEW_DEADLINE_REMIND = int(os.environ.get('REVIEW_DEADLINE_REMIND') or 2)

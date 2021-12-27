@@ -19,6 +19,7 @@ import functools
 from flask_login.config import EXEMPT_METHODS
 
 
+
 # Routes decorator
 def scientific_user_required(func):
     @functools.wraps(func)
@@ -31,6 +32,13 @@ def scientific_user_required(func):
         return func(*args, **kwargs)
     return decorated_view
 
+def check_numeric_args(*argv):
+    try:
+        for arg  in argv:
+            arg  = int(arg)
+    except:
+        return False
+    return True
 
 def validatePDF(content):
     return content.decode("ascii", "ignore").startswith("%PDF-")
@@ -48,7 +56,7 @@ class FileUploadForm(FlaskForm):
 def home_page():
     return render_template("home_page.html")
 
-@login_required
+
 def fileUploadPage():
     form = FileUploadForm()
 
@@ -259,3 +267,4 @@ def contact_staff_page():
             flash(f'{err_msg}', category='error')
 
     return render_template('help/contact_staff.html', form=form)
+

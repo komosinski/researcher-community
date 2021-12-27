@@ -1,5 +1,6 @@
 from open_science.user.forms import RegisterForm, LoginForm, ResendConfirmationForm, AccountRecoveryForm, SetNewPasswordForm
-from open_science.user.forms import InviteUserForm, EditProfileForm, ReviewRequestForm, EndorsementRequestForm
+from open_science.user.forms import InviteUserForm, EditProfileForm , EndorsementRequestForm
+from open_science.review.forms import ReviewRequestForm
 from open_science import db
 from open_science.tokens import confirm_password_token, confirm_account_recovery_token, confirm_email_change_token
 from open_science.models import Notification, Paper, PrivilegeSet, User, ReviewRequest, Review, EndorsementRequestLog
@@ -14,7 +15,7 @@ from werkzeug.utils import secure_filename
 import os
 from PIL import Image
 from open_science import app
-import open_science.user.helpers as helper
+from open_science.routes_def import check_numeric_args
 
 def register_page():
     form = RegisterForm()
@@ -299,43 +300,9 @@ def invite_user_page():
 
     return render_template('user/invite_user.html', form=form)
 
-def review_request_page(request_id):
-    # TODO: show paper abstract ...
-    if not helper.check_numeric_args(request_id):
-        abort(404)
-
-    review_request = ReviewRequest.query.filter(ReviewRequest.id == request_id, ReviewRequest.requested_user == current_user.id).first_or_404()
-    if review_request.acceptation_date is not None or review_request.declined_reason is not None:
-        flash(f'Review request has been resolved',category='warning')
-        return redirect(url_for('profile_page', user_id=current_user.id))
-
-    form = ReviewRequestForm()
-    if form.validate_on_submit():
-        if form.submit_accept.data:
-            review_request.decision = True
-            review_request.acceptation_date = dt.date.utctoday()
-            review = Review(creator = current_user.id, related_paper_version=review_request.paper_version)
-            review.deadline_date = dt.datetime.utcnow().date() + dt.timedelta(days = int(form.prepare_time.data))
-            db.session.add(review)
-            flash(f'Review request accepted',category='success')
-        elif form.submit_decline.data:
-            review_request.decision = False
-            review_request.declined_reason = form.declined_reason.data
-            flash(f'Review request declined',category='warning')
-
-        db.session.add(review_request)
-        db.session.commit()
-        
-        return redirect(url_for('profile_page', user_id=current_user.id))
-
-    if form.errors != {}:
-        for err_msg in form.errors.values():
-            flash(f'{err_msg}', category='error')
-
-    return render_template('user/review_request.html',form=form)
 
 def notifications_page(page,unread):
-    if not helper.check_numeric_args(page):
+    if not check_numeric_args(page):
         abort(404)
     page = int(page)
 
@@ -350,8 +317,24 @@ def notifications_page(page,unread):
 
     return render_template('notification/notifications_page.html',page=page,unread=unread,results=notifications)
 
+def update_notification_and_redirect():
+
+    notification_id = int(request.args.get('notification_id'))
+    url = request.args.get('url')
+
+    notification = Notification.query.filter(Notification.id == notification_id).first()
+  
+    if current_user.id != notification.user_id:
+        abort(404)
+    
+    notification.was_seen = True
+    db.session.commit()
+
+    return redirect(url)
+
+
 def request_endorsement(endorser_id):
-    if not helper.check_numeric_args(endorser_id):
+    if not check_numeric_args(endorser_id):
         abort(404)
 
     if current_user.can_request_endorsement(endorser_id):
@@ -375,7 +358,7 @@ def request_endorsement(endorser_id):
 
 
 def confirm_endorsement_page(notification_id, user_id, endorser_id):
-    if not helper.check_numeric_args(user_id,endorser_id):
+    if not check_numeric_args(user_id,endorser_id):
         abort(404)
 
     notification_id = int(notification_id)
@@ -421,12 +404,11 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         flash('The form has been completed', category='success')
         return redirect(url_for('notifications_page', page=1, unread=False))
 
-    print("AAA 4")
     return render_template('user/endorsement_request.html', form=form, user=user)
 
 
 def user_papers_data():
-   
+    
    #TODO: Use current_user.id() to get only user's papers
 
     query = Paper.query
