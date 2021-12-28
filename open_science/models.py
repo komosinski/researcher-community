@@ -1,3 +1,4 @@
+from flask.helpers import url_for
 from sqlalchemy import Table, DDL, event
 from sqlalchemy.orm import validates
 from wtforms.validators import Length
@@ -9,7 +10,6 @@ from open_science.admin import MyModelView, UserView, MessageToStaffView
 import datetime as dt
 from sqlalchemy import func
 from open_science import app
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -292,10 +292,20 @@ class Review(db.Model):
     text = db.Column(db.String(mc.REVIEW_TEXT_L), nullable=True)
     review_score = db.Column(db.Integer(), nullable=True)
     # datetime of review's submission
-    creation_datetime = db.Column(db.DateTime, nullable=True)
+    publication_datetime = db.Column(db.DateTime, nullable=True)
     # deadline of submitting review
     deadline_date = db.Column(db.Date, nullable=True)
-    red_flags_count = db.Column(db.Integer(), nullable=False)
+    red_flags_count = db.Column(db.Integer(), nullable=False, default=0)
+    edit_counter = db.Column(db.Integer(),nullable=False, default=0)
+    is_anonymous = db.Column(db.Boolean, nullable=False, default=False)
+    is_hidden = db.Column(db.Boolean, nullable=False, default=False)
+
+    # evaluation criteria
+    evaluation_novel = db.Column(db.Float(precision=2), nullable=False, default=0.0)
+    evaluation_conclusion = db.Column(db.Float(precision=2), nullable=False, default=0.0)
+    evaluation_error = db.Column(db.Float(precision=2), nullable=False, default=0.0)
+    evaluation_organize = db.Column(db.Float(precision=2), nullable=False, default=0.0)
+    confidence = db.Column(db.Float(precision=2), nullable=False, default=0.0)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -308,7 +318,13 @@ class Review(db.Model):
     rel_related_paper_version = db.relationship("PaperVersion", back_populates="rel_related_reviews")
     rel_red_flags_received = db.relationship("RedFlagReview", back_populates="rel_to_review")
 
-
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'paper_title': db.session.query(PaperVersion.title).filter(PaperVersion.id==self.related_paper_version).scalar(),
+            'publication_datetime': self.publication_datetime,
+            'edit_url': url_for('review_edit_page', review_id = self.id)
+        }
 
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
@@ -367,6 +383,7 @@ class Comment(db.Model):
     text = db.Column(db.String(length=mc.COMMENT_TEXT_L))
     votes_score = db.Column(db.Integer(), nullable=False)
     red_flags_count = db.Column(db.Integer(), nullable=False)
+    is_hidden = db.Column(db.Boolean, nullable=False, default=False)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))

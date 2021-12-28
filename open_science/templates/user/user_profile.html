@@ -65,13 +65,18 @@
     </div>
 
 
-    {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) %}
+    {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) and  current_user.rel_privileges_set.name == 'scientific_user' %}
 
-        <div>
+        <!-- <div>
             <h3>My Papers</h3>
             {% include 'user/paper_table.html' %}
-        </div>
+        </div> -->
       
+        <div>
+            <h3>My Reviews</h3>
+            {% include 'user/review_table.html' %}
+        </div>
+
     {% endif %}
 </div>
 

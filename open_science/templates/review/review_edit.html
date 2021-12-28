@@ -1,31 +1,84 @@
 {% extends 'base.html' %}
+{% from "helpers/form_helper.html" import render_checkbox_field %}
 
 {% block scripts%}
 <script>
-function outputUpdate(value) {
+function outputUpdateNovel(value) {
+    document.querySelector('#selected-evaluation_novel').value = value;
+}
+function outputUpdateConclusion(value) {
+    document.querySelector('#selected-evaluation_conclusion').value = value;
+}
+function outputUpdateError(value) {
+    document.querySelector('#selected-evaluation_error').value = value;
+}
+function outputUpdateOrganize(value) {
+    document.querySelector('#selected-evaluation_organize').value = value;
+}
+function outputUpdateConfidence(value) {
     document.querySelector('#selected-confidence').value = value;
 }
 </script>
 {% endblock %}
 
 {% block content %}
-    
+
+  
     <div class="">
         <div class="">
             <form method="POST">
                 {{ form.hidden_tag() }}
+                <div>
+                    {{form.text()}}
+                </div>
+            
+                <br>
+                {{ render_checkbox_field(form.check_no_conflict) }}
+               
                 <p>
-                    {{ form.confidence.label }}:
-                    {{ form.confidence(min=0, max=100,step=1, oninput="outputUpdate(value)") }}
-                    <output for="confidence" id="selected-confidence">{{ form.confidence.data }}</output>
+                    {{ form.evaluation_novel.label }}:
+                    {{ form.evaluation_novel(min=0, max=100,step=1, oninput="outputUpdateNovel(value)") }}
+                    <output for="evaluation_novel" id="selected-evaluation_novel">{{ form.evaluation_novel.data }}</output>%
+                </p>
+                
+                <p>
+                    {{ form.evaluation_conclusion.label }}:
+                    {{ form.evaluation_conclusion(min=0, max=100,step=1, oninput="outputUpdateConclusion(value)") }}
+                    <output for="evaluation_conclusion" id="selected-evaluation_conclusion">{{ form.evaluation_conclusion.data }}</output>%
+                </p>
+                
+                <p>
+                    {{ form.evaluation_error.label }}:
+                    {{ form.evaluation_error(min=0, max=100,step=1, oninput="outputUpdateError(value)") }}
+                    <output for="evaluation_error" id="selected-evaluation_error">{{ form.evaluation_error.data }}</output>%
+                </p>
+
+                        
+                <p>
+                    {{ form.evaluation_organize.label }}:
+                    {{ form.evaluation_organize(min=0, max=100,step=1, oninput="outputUpdateOrganize(value)") }}
+                    <output for="evaluation_organized" id="selected-evaluation_organize">{{ form.evaluation_organize.data }}</output>%
                 </p>
 
                 <br>
+                <p>
+                    {{ form.confidence.label }}:
+                    {{ form.confidence(min=0, max=100,step=1, oninput="outputUpdateConfidence(value)") }}
+                    <output for="confidence" id="selected-confidence">{{ form.confidence.data }}</output>%
+                </p>
+
+                <br>
+                {{ render_checkbox_field(form.check_anonymous) }}
+                <br>
+
                 <div class="">
                     {{ form.save() }}
                     {{ form.submit() }}
                 </div>
             </form>
+            {{ ckeditor.load(pkg_type="basic") }}
+            {{ ckeditor.config(name='text') }}
+
         </div>
     </div>
 

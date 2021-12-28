@@ -4,10 +4,16 @@ from flask_wtf import FlaskForm
 import open_science.config.models_config as mc
 from open_science.models import DeclinedReason
 from wtforms.fields.html5 import DecimalRangeField
+from flask_ckeditor import CKEditorField
 
 class MultiCheckboxField(SelectMultipleField):
     widget = widgets.ListWidget(prefix_label=False)
     option_widget = widgets.CheckboxInput()
+
+class CheckboxTableField(SelectMultipleField):
+    widget = widgets.TableWidget(with_table_tag=False)
+    option_widget = widgets.CheckboxInput()
+
 
 class ReviewRequestForm(FlaskForm):
 
@@ -39,9 +45,21 @@ class ReviewEditForm(FlaskForm):
             if not field.data:
                 raise StopValidation('Review text cannot be empty')
 
-    text = TextAreaField(label='Your review', validators=[Length(max=mc.REVIEW_TEXT_L),validate_text, Optional()])
+    def validate_no_conflict(form, field):
+        if form.submit.data:
+            if not field.data:
+                raise StopValidation('You must declare no conflict of interest')
+
+    text = CKEditorField(label='Your review', validators=[Length(max=mc.REVIEW_TEXT_L),validate_text, Optional()])
     
+    evaluation_novel =  DecimalRangeField('Novel and substantial compared to previous papers by the author(s) and the existing literature', default=0)
+    evaluation_conclusion = DecimalRangeField('Claims and conclusions reasonable and justified', default=0)
+    evaluation_error = DecimalRangeField(' Free of essential and technical errors', default=0)
+    evaluation_organize = DecimalRangeField('Well organized, well presented, readable', default=0)
     confidence = DecimalRangeField('How confident I am', default=0)
+
+    check_no_conflict = CheckboxTableField(label='I state that I have no conflict of interest',choices=[(True,'')],validators=[validate_no_conflict,Optional()],coerce=bool)
+    check_anonymous = CheckboxTableField(label='I want my review to be anonymous (you will be visible as "ReviewerX")', choices=[(True,'')],validators=[Optional()],coerce=bool)
 
     submit = SubmitField(label='Send')
     save = SubmitField(label='Save')

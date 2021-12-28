@@ -174,3 +174,8 @@ def review_edit_page(review_id):
 @login_required
 def update_notification_and_redirect():
     return user_rd.update_notification_and_redirect()
+
+@app.route('/api/user_reviews')
+@login_required
+def user_reviews_data():
+    return user_rd.user_reviews_data()
