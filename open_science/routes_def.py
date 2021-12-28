@@ -236,7 +236,7 @@ def reviews_list_page(page,search_data,order_by):
     page = int(page)
 
     reviews = []
-    order = Review.creation_date.desc()
+    order = Review.publication_datetime.desc()
     reviews = Review.query.filter(Review.creator==int(search_data['user_id'])).order_by(order).paginate(page=page, per_page=30)
     
     if reviews.pages==0:

@@ -17,3 +17,4 @@ Flask-Admin ~= 1.5.8
 Flask-APScheduler ~= 1.12.3
 python-dotenv
 Pillow
+flask-ckeditor

@@ -6,6 +6,8 @@ from flask.templating import render_template
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request
 from flask import abort
+
+
 import datetime as dt
 from open_science.routes_def import check_numeric_args
 
@@ -49,6 +51,53 @@ def review_request_page(request_id):
 # TODO: complete this page
 def review_edit_page(review_id):
 
+    review = Review.query.filter(Review.id == review_id).first_or_404()
+
     form = ReviewEditForm()
+
+    if form.validate_on_submit():
+        if form.save.data:
+            review.evaluation_novel = form.evaluation_novel.data/100
+            review.evaluation_conclusion = form.evaluation_conclusion.data/100
+            review.evaluation_error = form.evaluation_error.data/100
+            review.evaluation_organize = form.evaluation_organize.data/100
+            review.confidence = form.confidence.data/100
+            review.text = form.text.data
+            if review.publication_datetime != None:
+                review.edit_counter = review.edit_counter + 1
+            if True in form.check_anonymous.data:
+                review.is_anonymous = True
+            else:
+                review.is_anonymous = False
+
+            db.session.commit()
+            flash('The review has been saved', category='success')
+            return redirect(url_for('profile_page', user_id=current_user.id))
+        elif form.submit.data:
+            review.evaluation_novel = form.evaluation_novel.data/100
+            review.evaluation_conclusion = form.evaluation_conclusion.data/100
+            review.evaluation_error = form.evaluation_error.data/100
+            review.evaluation_organize = form.evaluation_organize.data/100
+            review.confidence = form.confidence.data/100
+            review.text = form.text.data
+            review.publication_datetime = dt.datetime.utcnow()
+            if True in form.check_anonymous.data:
+                review.is_anonymous = True
+            else:
+                review.is_anonymous = False
+
+            db.session.commit()
+            flash('The review has been added', category='success')
+            return redirect(url_for('profile_page', user_id=current_user.id))
+
+            
+
+    elif request.method == 'GET':
+        form.evaluation_novel.data = int(review.evaluation_novel*100)
+        form.evaluation_conclusion.data = int(review.evaluation_conclusion*100)
+        form.evaluation_error.data = int(review.evaluation_error*100)
+        form.evaluation_organize.data = int(review.evaluation_organize*100)
+        form.confidence.data = int(review.confidence*100)
+        form.text.data = review.text
 
     return render_template('review/review_edit.html', form=form)

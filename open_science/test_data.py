@@ -75,13 +75,7 @@ def create_test_data():
     )
     db.session.add(c9)
 
-    r1 = Review(
-        weight=1.1,
-        text="comment1",
-        review_score=5,
-        creation_datetime=dt.datetime.utcnow(),
-        red_flags_count=0
-    )
+    r1 = Review()
     r1.rel_comments_to_this_review = [c4, c5]
     db.session.add(r1)
 
@@ -89,7 +83,7 @@ def create_test_data():
         weight=2.2,
         text="comment2",
         review_score=5,
-        creation_datetime=dt.datetime.utcnow(),
+        publication_datetime=dt.datetime.utcnow(),
         red_flags_count=0
     )
     r2.rel_comments_to_this_review = [c6]
@@ -99,7 +93,7 @@ def create_test_data():
         weight=3.3,
         text="comment3",
         review_score=5,
-        creation_datetime=dt.datetime.utcnow(),
+        publication_datetime=dt.datetime.utcnow(),
         red_flags_count=0
     )
     db.session.add(r3)

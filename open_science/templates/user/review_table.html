@@ -6,11 +6,10 @@
 <table id="data" class="table table-striped">
     <thead>
       <tr>
-        <th>Title</th>            
+        <th>Paper's Title</th>            
         <th>Publication date</th> 
-        <th>Score</th>
         <th>Edit</th>
-        <th>Delete</th>
+        <th>Hide</th>
       </tr>
     </thead>
     <tbody>
@@ -22,18 +21,19 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
 
+
+
 <script>
     $(document).ready(function () {
       $('#data').DataTable({
         lengthChange: false,
-        ajax: '/api/user_papers',
+        ajax: '/api/user_reviews',
         serverSide: true,
         columns: [
-          {data: 'title'},
-          {data: 'publication_date'},
-          {data: 'votes_score'},
-          {"defaultContent": "<button >Edit</button>", orderable: false },
-          {"defaultContent": "<button>Delete</button>", orderable: false}
+          {data: 'paper_title'},
+          {data: 'publication_datetime'},
+          {"defaultContent": "<button>Edit</button>", orderable: false },
+          {"defaultContent": "<button>Hide</button>", orderable: false}
         ],
       });
     });

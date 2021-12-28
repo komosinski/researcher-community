@@ -22,3 +22,14 @@
 </div>
 {% endmacro %}
 
+{% macro render_checkbox_field(field) %}
+<div class="profile-edit-input-wrapper">
+    <div> {{ field() }} {{ field.label}}</div>
+    {% if field.errors %}
+        {% for error in field.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endmacro %}
+

@@ -375,8 +375,6 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         return redirect(url_for('notifications_page', page=1, unread=False))
 
     if not user or current_user.id != endorser_id or not endorsement_log:
-        print(user, endorsement_log)
-        print( current_user.id )
         flash('Endorsement request not exists', category='error')
         return redirect(url_for('notifications_page', page=1, unread=False))
 
@@ -450,6 +448,51 @@ def user_papers_data():
         'data': [paper.to_dict() for paper in query],
         'recordsFiltered': total_filtered,
         'recordsTotal': Paper.query.count(),
+        'draw': request.args.get('draw', type=int),
+    }
+
+
+def user_reviews_data():
+    
+    query = Review.query.filter(Review.creator == current_user.id)
+   
+    # search filter
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(db.or_(
+            Review.text.like(f'%{search}%')
+        ))
+    total_filtered = query.count()
+
+    # sorting
+    order = []
+    i = 0
+    while True:
+        col_index = request.args.get(f'order[{i}][column]')
+        if col_index is None:
+            break
+        col_name = request.args.get(f'columns[{col_index}][data]')
+        if col_name not in ['publication_datetime']:
+            col_name = 'publication_datetime'
+        descending = request.args.get(f'order[{i}][dir]') == 'desc'
+        col = getattr(Review, col_name)
+        if descending:
+            col = col.desc()
+        order.append(col)
+        i += 1
+    if order:
+        query = query.order_by(*order)
+
+    # pagination
+    start = request.args.get('start', type=int)
+    length = request.args.get('length', type=int)
+    query = query.offset(start).limit(length)
+  
+    # response
+    return {
+        'data': [review.to_dict() for review in query],
+        'recordsFiltered': 1,#total_filtered,
+        'recordsTotal': 1,# Paper.query.count(),
         'draw': request.args.get('draw', type=int),
     }
 

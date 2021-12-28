@@ -7,6 +7,7 @@ from flask_limiter.util import get_remote_address
 from flask_apscheduler import APScheduler
 from flask_admin import Admin
 from flask_migrate import Migrate
+from flask_ckeditor import CKEditor
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -16,4 +17,4 @@ limiter = Limiter(key_func=get_remote_address, default_limits=["100 per minute"]
 scheduler = APScheduler()
 admin = Admin()
 migrate = Migrate()
-
+ckeditor = CKEditor()
