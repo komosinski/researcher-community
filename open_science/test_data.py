@@ -11,69 +11,116 @@ def create_test_data():
     if existing_paper_version:
         return False
 
- 
     c1 = Comment(
         text="text1",
         votes_score=0,
-        red_flags_count=0
+        red_flags_count=0,
+        level=0,
+        date=dt.datetime.utcnow()
     )
     db.session.add(c1)
 
     c2 = Comment(
         text="text2",
         votes_score=0,
-        red_flags_count=0
+        red_flags_count=0,
+        level=0,
+        date=dt.datetime.utcnow()
     )
     db.session.add(c2)
 
     c3 = Comment(
         text="text3",
         votes_score=0,
-        red_flags_count=0
+        red_flags_count=0,
+        level=0,
+        date=dt.datetime.utcnow()
     )
     db.session.add(c3)
 
     c4 = Comment(
         text="text4",
         votes_score=0,
-        red_flags_count=0
+        red_flags_count=0,
+        level=0,
+        date=dt.datetime.utcnow()
     )
     db.session.add(c4)
 
     c5 = Comment(
         text="text5",
         votes_score=0,
-        red_flags_count=0
+        red_flags_count=0,
+        level=0,
+        date=dt.datetime.utcnow()
     )
     db.session.add(c5)
 
     c6 = Comment(
         text="text6",
         votes_score=0,
-        red_flags_count=0
+        red_flags_count=0,
+        level=0,
+        date=dt.datetime.utcnow()
     )
     db.session.add(c6)
 
     c7 = Comment(
         text="text7",
         votes_score=0,
-        red_flags_count=0
+        red_flags_count=0,
+        level=0,
+        date=dt.datetime.utcnow()
     )
     db.session.add(c7)
 
     c8 = Comment(
         text="text8",
         votes_score=0,
-        red_flags_count=0
+        red_flags_count=0,
+        level=0,
+        date=dt.datetime.utcnow()
     )
     db.session.add(c8)
 
     c9 = Comment(
         text="text9",
         votes_score=0,
-        red_flags_count=0
+        red_flags_count=0,
+        level=0,
+        date=dt.datetime.utcnow()
     )
     db.session.add(c9)
+
+    c10 = Comment(
+        text="text10",
+        votes_score=0,
+        red_flags_count=0,
+        level=1,
+        date=dt.datetime.utcnow()
+    )
+    c10.rel_related_comment = [c1]
+    db.session.add(c10)
+
+    c11 = Comment(
+        text="text11",
+        votes_score=0,
+        red_flags_count=0,
+        level=1,
+        date=dt.datetime.utcnow()
+    )
+    c11.rel_related_comment = [c2]
+    db.session.add(c11)
+
+    c12 = Comment(
+        text="text12",
+        votes_score=0,
+        red_flags_count=0,
+        level=1,
+        date=dt.datetime.utcnow()
+    )
+    c12.rel_related_comment = [c2]
+    db.session.add(c12)
 
     r1 = Review()
     r1.rel_comments_to_this_review = [c4, c5]
@@ -424,7 +471,7 @@ def create_test_data():
     u1.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'scientific_user').first()
     u1.rel_created_tags = [t3]
     u1.rel_created_reviews = [r1, r2]
-    u1.rel_created_comments = [c1, c2, c3, c4, c5, c6, c7, c8]
+    u1.rel_created_comments = [c1, c2, c3, c4, c5, c6, c7, c8, c10, c11, c12]
     db.session.add(u1)
 
     p1.rel_creators = [u1]

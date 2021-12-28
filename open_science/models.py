@@ -11,6 +11,7 @@ import datetime as dt
 from sqlalchemy import func
 from open_science import app
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -34,6 +35,13 @@ association_comment_review = Table('association_comment_review', db.metadata,
                                    db.Column('review_id', db.Integer, db.ForeignKey('reviews.id'), primary_key=True)
                                    )
 
+association_comment_comment = Table('association_comment_comment', db.metadata,
+                                    db.Column('comment_parent_id', db.Integer, db.ForeignKey('comments.id'),
+                                              primary_key=True),
+                                    db.Column('comment_child_id', db.Integer, db.ForeignKey('comments.id'),
+                                              primary_key=True)
+                                    )
+
 association_tag_paper_version = Table('association_tag_paper_version', db.metadata,
                                       db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
                                       db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_versions.id'),
@@ -45,7 +53,6 @@ association_tag_user = Table('association_tag_user', db.metadata,
                              db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
                              )
 
-# relationships
 association_paper_version_license = Table('association_paper_version_license', db.metadata,
                                           db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_versions.id'),
                                                     primary_key=True),
@@ -80,7 +87,7 @@ class User(db.Model, UserMixin):
     last_seen = db.Column(db.DateTime, nullable=True)
     weight = db.Column(db.Float, nullable=False, default=1.0)
     red_flags_count = db.Column(db.Integer(), nullable=False)
-    reputation = db.Column(db.Integer(),default=0,nullable=False)
+    reputation = db.Column(db.Integer(), default=0, nullable=False)
 
     # foreign keys
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
@@ -97,7 +104,8 @@ class User(db.Model, UserMixin):
                                                 foreign_keys="VoteComment.creator")
     rel_related_review_requests = db.relationship("ReviewRequest", back_populates="rel_requested_user")
     rel_related_staff_messages = db.relationship("MessageToStaff", back_populates="rel_sender")
-    rel_comment_red_flags = db.relationship("RedFlagComment", back_populates="rel_creator", foreign_keys="RedFlagComment.creator")
+    rel_comment_red_flags = db.relationship("RedFlagComment", back_populates="rel_creator",
+                                            foreign_keys="RedFlagComment.creator")
     rel_paper_version_red_flags = db.relationship("RedFlagPaperVersion", back_populates="rel_creator")
     rel_review_red_flags = db.relationship("RedFlagReview", back_populates="rel_creator")
     rel_tag_red_flags = db.relationship("RedFlagTag", back_populates="rel_creator")
@@ -147,29 +155,28 @@ class User(db.Model, UserMixin):
     def get_new_notifications_count(self):
         return Notification.query.filter(Notification.user_id == self.id, Notification.was_seen == False).count()
 
-    def can_request_endorsement(self,endorser_id):
-       
-        endorser_priviliege = User.query.filter_by(id = endorser_id).first().rel_privileges_set.name
-     
+    def can_request_endorsement(self, endorser_id):
+
+        endorser_priviliege = User.query.filter_by(id=endorser_id).first().rel_privileges_set.name
+
         if self.id == endorser_id:
             return False
-    
+
         if self.rel_privileges_set.name == 'standard_user' and endorser_priviliege == 'scientific_user':
-            endorsement_log = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id==self.id, EndorsementRequestLog.endorser_id==endorser_id).first()
+            endorsement_log = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id == self.id,
+                                                                 EndorsementRequestLog.endorser_id == endorser_id).first()
             if endorsement_log:
                 return False
-            elif EndorsementRequestLog.get_endorsement_request_count(self.id,1) < app.config['REQUEST_ENDORSEMENT_L']:
-                return True    
-        
-        return False
+            elif EndorsementRequestLog.get_endorsement_request_count(self.id, 1) < app.config['REQUEST_ENDORSEMENT_L']:
+                return True
 
+        return False
 
     def obtained_required_endorsement(self):
-       
-        if EndorsementRequestLog.get_endorsement_request_count(self.id,365) >= app.config['ENDORSEMENT_THRESHOLD']:
-                return True    
-        return False
 
+        if EndorsementRequestLog.get_endorsement_request_count(self.id, 365) >= app.config['ENDORSEMENT_THRESHOLD']:
+            return True
+        return False
 
 
 class PrivilegeSet(db.Model):
@@ -188,11 +195,11 @@ class PrivilegeSet(db.Model):
 
     def insert_types():
         for t in PrivilegeSet.types:
-             if not PrivilegeSet.query.filter(PrivilegeSet.name == t).first():
+            if not PrivilegeSet.query.filter(PrivilegeSet.name == t).first():
                 privilege_set = PrivilegeSet(name=t)
                 db.session.add(privilege_set)
         db.session.commit()
-    
+
     def __repr__(self):
         return f'<PrivilegeSet {self.id} {self.name}>'
 
@@ -279,7 +286,7 @@ class PaperVersion(db.Model):
             'title': self.title,
             'publication_date': self.publication_date
         }
-   
+
 
 class Review(db.Model):
     __tablename__ = "reviews"
@@ -296,7 +303,7 @@ class Review(db.Model):
     # deadline of submitting review
     deadline_date = db.Column(db.Date, nullable=True)
     red_flags_count = db.Column(db.Integer(), nullable=False, default=0)
-    edit_counter = db.Column(db.Integer(),nullable=False, default=0)
+    edit_counter = db.Column(db.Integer(), nullable=False, default=0)
     is_anonymous = db.Column(db.Boolean, nullable=False, default=False)
     is_hidden = db.Column(db.Boolean, nullable=False, default=False)
 
@@ -321,10 +328,12 @@ class Review(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'paper_title': db.session.query(PaperVersion.title).filter(PaperVersion.id==self.related_paper_version).scalar(),
+            'paper_title': db.session.query(PaperVersion.title).filter(
+                PaperVersion.id == self.related_paper_version).scalar(),
             'publication_datetime': self.publication_datetime,
-            'edit_url': url_for('review_edit_page', review_id = self.id)
+            'edit_url': url_for('review_edit_page', review_id=self.id)
         }
+
 
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
@@ -345,7 +354,7 @@ class ReviewRequest(db.Model):
     reason_3 = db.Column(db.Boolean, nullable=False, default=False)
     reason_4 = db.Column(db.Boolean, nullable=False, default=False)
     reason_5 = db.Column(db.Boolean, nullable=False, default=False)
-    other_reason =  db.Column(db.String(length=mc.DR_REASON_L), nullable=True)
+    other_reason = db.Column(db.String(length=mc.DR_REASON_L), nullable=True)
 
     # foreign keys
     requested_user = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -369,9 +378,10 @@ class ReviewRequest(db.Model):
                 self.reason_4 = True
             elif id == 5:
                 self.reason_5 = True
-                
+
         if self.other_reason is not None:
             self.reason_5 = True
+
 
 class Comment(db.Model):
     __tablename__ = "comments"
@@ -384,6 +394,8 @@ class Comment(db.Model):
     votes_score = db.Column(db.Integer(), nullable=False)
     red_flags_count = db.Column(db.Integer(), nullable=False)
     is_hidden = db.Column(db.Boolean, nullable=False, default=False)
+    level = db.Column(db.Integer(), nullable=False)
+    date = db.Column(db.DateTime)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -393,9 +405,20 @@ class Comment(db.Model):
                                                 back_populates="rel_related_comments")
     rel_related_review = db.relationship("Review", secondary=association_comment_review,
                                          back_populates="rel_comments_to_this_review")
+    rel_related_comment = db.relationship("Comment",
+                                          secondary=association_comment_comment,
+                                          primaryjoin=association_comment_comment.c.comment_parent_id == id,
+                                          secondaryjoin=association_comment_comment.c.comment_child_id == id,
+                                          back_populates="rel_comments_to_this_comment")
+    rel_comments_to_this_comment = db.relationship("Comment",
+                                                   secondary=association_comment_comment,
+                                                   primaryjoin=association_comment_comment.c.comment_child_id == id,
+                                                   secondaryjoin=association_comment_comment.c.comment_parent_id == id,
+                                                   back_populates="rel_related_comment")
     rel_creator = db.relationship("User", back_populates="rel_created_comments")
     rel_comment_votes_received = db.relationship("VoteComment", back_populates="rel_to_comment")
-    rel_red_flags_received = db.relationship("RedFlagComment", back_populates="rel_to_comment", foreign_keys="RedFlagComment.to_comment")
+    rel_red_flags_received = db.relationship("RedFlagComment", back_populates="rel_to_comment",
+                                             foreign_keys="RedFlagComment.to_comment")
 
 
 class MessageToStaff(db.Model):
@@ -439,6 +462,7 @@ class DeclinedReason(db.Model):
     def __repr__(self):
         return f'<DeclinedReason {self.id} {self.reason}>'
 
+
 class MessageTopic(db.Model):
     __tablename__ = "message_topics"
 
@@ -455,7 +479,7 @@ class MessageTopic(db.Model):
 
     def insert_topics():
         for t in MessageTopic.topics:
-             if not MessageTopic.query.filter(MessageTopic.topic==t).first():
+            if not MessageTopic.query.filter(MessageTopic.topic == t).first():
                 message_topic = MessageTopic(topic=t)
                 db.session.add(message_topic)
         db.session.commit()
@@ -524,7 +548,8 @@ class NotificationType(db.Model):
     rel_email_logs = db.relationship("Notification")
 
     # types
-    types = ('review_request', 'new_review', 'comment_answer', 'review_answer', 'system_message', 'endorsement_request', 'review_reminder')
+    types = ('review_request', 'new_review', 'comment_answer', 'review_answer', 'system_message', 'endorsement_request',
+             'review_reminder')
 
     def insert_types():
         for t in NotificationType.types:
@@ -607,7 +632,7 @@ class RedFlagComment(db.Model):
 
     # relationships
     rel_creator = db.relationship("User", back_populates="rel_comment_red_flags", foreign_keys=[creator])
-    rel_to_comment = db.relationship("Comment", back_populates="rel_red_flags_received",  foreign_keys=[to_comment])
+    rel_to_comment = db.relationship("Comment", back_populates="rel_red_flags_received", foreign_keys=[to_comment])
 
 
 class RedFlagPaperVersion(db.Model):
@@ -685,7 +710,6 @@ class License(db.Model):
 
 
 class EndorsementRequestLog(db.Model):
-
     __tablename__ = "endorsement_request_logs"
 
     # columns
@@ -698,10 +722,10 @@ class EndorsementRequestLog(db.Model):
     endorser_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
 
     def get_endorsement_request_count(user_id, days):
-   
-        date_after = dt.datetime.utcnow().date() - dt.timedelta(days = days)
-        count = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id==user_id, 
-            func.DATE(EndorsementRequestLog.date) > date_after, EndorsementRequestLog.decision == True).count()
+        date_after = dt.datetime.utcnow().date() - dt.timedelta(days=days)
+        count = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id == user_id,
+                                                   func.DATE(EndorsementRequestLog.date) > date_after,
+                                                   EndorsementRequestLog.decision == True).count()
         return count
 
 
@@ -733,8 +757,8 @@ admin.add_view(MyModelView(Review, db.session))
 admin.add_view(MyModelView(ReviewRequest, db.session))
 admin.add_view(MyModelView(Comment, db.session))
 
-def create_essential_data():
 
+def create_essential_data():
     PrivilegeSet.insert_types()
     DeclinedReason.insert_reasons()
     MessageTopic.insert_topics()
@@ -744,7 +768,6 @@ def create_essential_data():
     # site as user to log emails send from site and use ForeignKey in EmailLog model
     # confirmed=False hides user
     if not User.query.filter(User.id == 0).first():
-        
         user_0 = User(
             first_name="site",
             second_name="site",
@@ -754,12 +777,11 @@ def create_essential_data():
             review_mails_limit=0,
             notifications_frequency=0,
         )
-        user_0.rel_privileges_set =  PrivilegeSet.query.filter(PrivilegeSet.name=='standard_user').first()  
+        user_0.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'standard_user').first()
         user_0.id = 0
         db.session.add(user_0)
 
     db.session.commit()
-    print("The essential data has been created") 
+    print("The essential data has been created")
 
     return True
-    
