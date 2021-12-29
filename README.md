@@ -8,7 +8,7 @@ First setup
 
   1. Move to main directory and create python virtual env
 
-    python3 -m venv venv
+    python3 -m virtualenv venv
   
   2. Activate virtual env
 
