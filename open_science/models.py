@@ -305,6 +305,12 @@ class PaperVersion(db.Model):
             'publication_date': self.publication_date
         }
 
+    def get_active_reviews_list(self):
+        return [review for review in self.rel_related_reviews if review.publication_datetime is not None]
+
+    def get_missing_reviews_count(self):
+        return max(0, self.confidence_level - len(self.get_active_reviews_list()))
+
 
 class Review(db.Model):
     __tablename__ = "reviews"
