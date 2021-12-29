@@ -369,9 +369,17 @@ class Review(db.Model):
     def is_published(self):
         return self.publication_datetime != None
 
+    # returns reviews connected to previous paper versions
     def get_previous_reviews(self):
-        #reviews = Review.query.join(PaperVersion, and_(PaperVersion.id == Review.related_paper_version))
-        raise NotImplementedError
+        paper_versions = self.rel_related_paper_version.rel_parent_paper.rel_related_versions
+        previous_paper_versions = [version for version in paper_versions
+                                   if version.version < self.rel_related_paper_version.version]
+        previous_reviews = []
+        for version in previous_paper_versions:
+            for review in version.rel_related_reviews:
+                previous_reviews.append(review)
+
+        return previous_reviews
 
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
