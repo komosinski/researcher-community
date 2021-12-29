@@ -1,4 +1,5 @@
 from flask_wtf.form import FlaskForm
+from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
 from wtforms.fields.core import SelectField, StringField
 from wtforms.fields.simple import SubmitField
@@ -100,6 +101,8 @@ def fileUploadPage():
 
         db.session.add(paper)
         db.session.commit()
+        #paper.send_review_requests()
+
         return json.dumps({'success':True}), 201, {'ContentType':'application/json'} 
     
     return render_template("utils/pdf_send_form.html", form=form)
@@ -234,15 +237,16 @@ def reviews_list_page(page,search_data,order_by):
         search_data = ast.literal_eval(search_data)
 
     page = int(page)
-
+    user_id = int(search_data['user_id'])
     reviews = []
     order = Review.publication_datetime.desc()
-    reviews = Review.query.filter(Review.creator==int(search_data['user_id'])).order_by(order).paginate(page=page, per_page=30)
+    reviews = Review.query.filter(Review.creator==user_id,
+    Review.is_hidden == False, Review.is_anonymous == False, Review.publication_datetime != None).order_by(order).paginate(page=page, per_page=30)
     
     if reviews.pages==0:
-        return redirect(url_for('profile_page',user_id=search_data['user_id']))
+        return redirect(url_for('profile_page',user_id=user_id))
 
-    return render_template('search/reviews_list.html',page=page, reviews=reviews, search_data=search_data,order_by=order_by)
+    return render_template('search/review_result_list.html',page=page, reviews=reviews, search_data=search_data,order_by=order_by)
     
 def faq_page():
     #TODO: implement search etc

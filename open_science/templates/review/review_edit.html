@@ -18,12 +18,14 @@ function outputUpdateOrganize(value) {
 function outputUpdateConfidence(value) {
     document.querySelector('#selected-confidence').value = value;
 }
+
+
 </script>
 {% endblock %}
 
 {% block content %}
 
-  
+
     <div class="">
         <div class="">
             <form method="POST">
@@ -33,7 +35,9 @@ function outputUpdateConfidence(value) {
                 </div>
             
                 <br>
-                {{ render_checkbox_field(form.check_no_conflict) }}
+                {% if not is_published %}
+                    {{ render_checkbox_field(form.check_no_conflict) }}
+                {% endif %}
                
                 <p>
                     {{ form.evaluation_novel.label }}:
@@ -71,10 +75,21 @@ function outputUpdateConfidence(value) {
                 {{ render_checkbox_field(form.check_anonymous) }}
                 <br>
 
+
+                <div class="buttons-wrapper">
+                
+                    {{ form.save(class="large-button secondary-button") }}
+                    {% if not is_published %}
+                    {{ form.submit(class="large-button main-button", onclick="return confirm('Are you sure you want to publish this review? (Remember: your review will be publicly visible)')") }}
+                    {% endif %}
+
+                </div>  
+                
                 <div class="">
-                    {{ form.save() }}
-                    {{ form.submit() }}
+                  
                 </div>
+            
+
             </form>
             {{ ckeditor.load(pkg_type="basic") }}
             {{ ckeditor.config(name='text') }}
