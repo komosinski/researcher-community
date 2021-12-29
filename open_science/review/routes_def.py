@@ -46,7 +46,16 @@ def review_request_page(request_id):
         for err_msg in form.errors.values():
             flash(f'{err_msg}', category='error')
 
-    return render_template('user/review_request.html',form=form)
+    paper_version = review_request.rel_related_paper_version
+
+    data = {
+        'abstract' : paper_version.abstract,
+        'pdf_url' : paper_version.pdf_url,
+        'anonymized_pdf_url' : paper_version.anonymized_pdf_url
+    }
+    return render_template('user/review_request.html',form=form, data=data)
+
+
 
 # TODO: complete this page
 def review_edit_page(review_id):
@@ -90,8 +99,6 @@ def review_edit_page(review_id):
             flash('The review has been added', category='success')
             return redirect(url_for('profile_page', user_id=current_user.id))
 
-            
-
     elif request.method == 'GET':
         form.evaluation_novel.data = int(review.evaluation_novel*100)
         form.evaluation_conclusion.data = int(review.evaluation_conclusion*100)
@@ -100,4 +107,4 @@ def review_edit_page(review_id):
         form.confidence.data = int(review.confidence*100)
         form.text.data = review.text
 
-    return render_template('review/review_edit.html', form=form)
+    return render_template('review/review_edit.html', form=form, is_published=review.is_published())

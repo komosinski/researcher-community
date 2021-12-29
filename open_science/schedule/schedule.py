@@ -34,6 +34,7 @@ def monthly_jobs():
 def daily_jobs():
     delete_old_logs(1,'registration_confirm')
     create_review_deadline_notificaiton()
+    
 
     # , 'password change', 'email change', , 
     # 'review request', 'notification', 'staff answer',  'account delete'

@@ -1,10 +1,23 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
-<h2>Reviews</h2>
+    {% if reviews %}
 
-{% with route_name="reviews_list_page" , results=reviews, page=page, search_data=search_data, order_by=order_by %}
-{% include 'search/advanced_search_result_list.html' %}
-{% endwith %}
+  
+        <h2>
+            <a class="" href="{{ url_for('profile_page',user_id=reviews.items[0].creator)}}">
+            {{reviews.items[0].get_author_name()}}'s 
+            </a>
+            reviews
+        </h2>
+
+        {% with route_name="reviews_list_page" , results=reviews, page=page, search_data=search_data, order_by=order_by %}
+            {% include 'search/advanced_search_result_list.html' %}
+        {% endwith %}
+
+    {% else %}
+        <h2>No reviews found</h2>
+    {% endif %}
 
 {% endblock %}

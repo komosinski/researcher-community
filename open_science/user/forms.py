@@ -1,18 +1,16 @@
-from typing import Text
-from sqlalchemy.sql.functions import current_timestamp
 from wtforms.fields.core import SelectField
 from wtforms.fields.simple import TextAreaField
-from open_science.models import User, DeclinedReason
+from open_science.models import User, Tag
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, DateField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, Optional, ValidationError
 import re
 import open_science.config.models_config as mc
 import open_science.email as em
 from config import Config
 from flask_login import current_user
-
+from wtforms.fields.html5 import DateField
 
 
 def validate_password(form, password):
@@ -154,3 +152,29 @@ class EndorsementRequestForm(FlaskForm):
 
     submit_accept = SubmitField(label='Accept')
     submit_decline = SubmitField(label='Decline')
+
+
+def validate_tag_name(self, name):
+    if not name.data.isalnum():
+        raise ValidationError('Only letters and numbers without spaces')
+    
+    tag = Tag.query.filter(Tag.name == name.data.upper()).first()
+    if tag is not None:
+        raise ValidationError('This tag already exists')
+    
+        
+class CreateTagForm(FlaskForm):
+        
+    name = StringField(label='Name', validators=[Length(max=mc.TAG_NAME_L), validate_tag_name,DataRequired()])
+    description = TextAreaField(label='Description', validators=[Length(max=mc.TAG_DESCRIPTION_L),DataRequired()])
+    deadline = DateField(label='Deadline (Optional)',format='%Y-%m-%d',validators=[Optional()])
+
+    submit = SubmitField(label='Create tag')
+
+
+class EditTagForm(FlaskForm):
+
+    name = StringField(label='Name', validators=[Length(max=mc.TAG_NAME_L),validate_tag_name, DataRequired()])
+    description = TextAreaField(label='Description', validators=[Length(max=mc.TAG_DESCRIPTION_L),DataRequired()])
+
+    submit = SubmitField(label='Save changes')
