@@ -1,6 +1,11 @@
-{% macro render_register_field(field, placeholder) %}
+{% macro render_register_field(field, placeholder, field_info) %}
 <div class="profile-edit-input-wrapper">
     <div class="label-wrapper"> {{ field.label}}</div>
+
+    {% if field_info is defined %}
+        <div class="label-wrapper"> {{ field_info}}</div>
+    {% endif %}
+
     <div class="input-wrapper"> {{ field(placeholder=placeholder,**kwargs)|safe }}</div>
     {% if field.errors %}
         {% for error in field.errors %}
@@ -21,6 +26,25 @@
     {% endif %}
 </div>
 {% endmacro %}
+
+{% macro render_tag_creation_field(field, placeholder, field_info) %}
+<div class="profile-edit-input-wrapper">
+    <div class="label-wrapper"> {{ field.label}}</div>
+
+    {% if field_info is defined %}
+        <div class="label-wrapper"> {{ field_info }}</div>
+    {% endif %}
+
+    <div class="input-wrapper"> {{ field(placeholder=placeholder,**kwargs)|safe }}</div>
+    {% if field.errors %}
+        {% for error in field.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endmacro %}
+
+
 
 {% macro render_checkbox_field(field) %}
 <div class="profile-edit-input-wrapper">

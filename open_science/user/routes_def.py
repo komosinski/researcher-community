@@ -1,9 +1,9 @@
 from open_science.user.forms import RegisterForm, LoginForm, ResendConfirmationForm, AccountRecoveryForm, SetNewPasswordForm
-from open_science.user.forms import InviteUserForm, EditProfileForm , EndorsementRequestForm
+from open_science.user.forms import InviteUserForm, EditProfileForm , EndorsementRequestForm, CreateTagForm, EditTagForm
 from open_science.review.forms import ReviewRequestForm
 from open_science import db
 from open_science.tokens import confirm_password_token, confirm_account_recovery_token, confirm_email_change_token
-from open_science.models import Notification, Paper, PrivilegeSet, User, ReviewRequest, Review, EndorsementRequestLog
+from open_science.models import Notification, Paper, PrivilegeSet, User, Tag, Review, EndorsementRequestLog
 import open_science.email as em
 from flask.helpers import url_for
 from flask.templating import render_template
@@ -27,7 +27,7 @@ def register_page():
                               email=form.email.data,
                               plain_text_password=form.password.data,
                               affiliation = form.affiliation.data,
-                              orcid = form.orcid.data.upper().replace("-",""),
+                              orcid = form.orcid.data,
                               google_scholar = form.google_scholar.data,
                               about_me = form.about_me.data,
                               personal_website = form.personal_website.data,
@@ -170,7 +170,7 @@ def profile_page(user_id):
         'articles_num' : len(user.rel_created_paper_versions),
         'reputation' : user.reputation,
         'comments_num' : len(user.rel_created_comments),
-        'reviews_num' : len(user.rel_created_reviews)
+        'reviews_num' : user.get_reviews_count()
     }
 
     return render_template('user/user_profile.html', user=user,data=data)
@@ -404,6 +404,45 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
 
     return render_template('user/endorsement_request.html', form=form, user=user)
 
+def create_tag_page():
+    form = CreateTagForm()
+
+    if form.validate_on_submit():
+        tag = Tag(
+            name = form.name.data,
+            description = form.description.data,
+            deadline = form.deadline.data,
+            creator = current_user.id
+        )   
+        db.session.add(tag)
+        db.session.commit()
+
+        flash('Tag created successfully', category='success')
+        return redirect(url_for('profile_page', user_id=current_user.id))
+    
+    return render_template('tag/create_tag.html',form=form)
+
+
+def edit_tag_page(tag_id):
+
+    tag = Tag.query.filter(Tag.id == tag_id, Tag.creator == current_user.id).first_or_404()
+    
+    form = EditTagForm()
+
+    if form.validate_on_submit():
+     
+        tag.name = form.name.data
+        tag.description = form.description.data
+        db.session.commit()
+
+        flash('Tag edited successfully', category='success')
+        return redirect(url_for('profile_page', user_id=current_user.id))
+    
+    elif request.method == 'GET':
+        form.name.data = tag.name
+        form.description.data = tag.description
+
+    return render_template('tag/edit_tag.html',form=form, tag_name=tag.name)
 
 def user_papers_data():
     

@@ -2,11 +2,15 @@
     <article>
         <div class = "">
             <div class="">
-                <h4></h4>
-                <a class="" href="{{ url_for('article',id=item.author)}}">{{item.title}}</a>
-                <p><strong>Paper title: </strong>NOT_IMPLEMENTED</p>
-                <p><strong>Date: </strong> {{item.ready_date.strftime("%Y-%m-%d %H:%M")}}</p>
-                <p><strong>Review's score: </strong> {{item.votes_score}}</p>
+                
+                <p><strong>Paper title: </strong>
+                    <a class="" href="{{ url_for('article',id=item.related_paper_version)}}">
+                        {{item.get_paper_title()}}
+                    </a>
+                </p>
+              
+                <p><strong>Date: </strong> {{item.publication_datetime.strftime("%Y-%m-%d %H:%M")}}</p>
+                <p><strong>Review's score: </strong> {{item.review_score}}</p>
             </div>
         </div>
     </article>

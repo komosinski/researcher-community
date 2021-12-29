@@ -1,6 +1,18 @@
 {% from "helpers/form_helper.html" import render_register_field %}
 
 {% extends 'base.html' %}
+
+{% block scripts%}
+<script>
+function showReviewWarning(value) {
+    var mails_limit = document.querySelector('#review_mails_limit').value;
+    if (mails_limit==0){
+        alert("This has consequences…");
+    }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 <div class="profile-edit-wrapper">
@@ -15,8 +27,9 @@
             {{render_register_field(form.second_name,"Second Name")}}
         </div>
        
-        {{render_register_field(form.email,"Email Address")}}
-        
+  
+        {{render_register_field(form.email,"Email Address","(preferably institutional email address. Will not be displayed publicly except from \"Verified email at [domain]\")")}}
+    
         <div class="double-input-wrapper">
             {{render_register_field(form.password,"Password")}}
             {{render_register_field(form.password_confirm,"Confirm Password")}}
@@ -35,22 +48,37 @@
             {{render_register_field(form.personal_website,"Personal website url")}} 
         </div>
 
-        {{render_register_field(form.about_me,"About me")}}
+        {{render_register_field(form.about_me,"About me","(Will be displayed on your profile page, you may write any information you wish to be publicly visible)")}}
 
         <div class="double-input-wrapper">
             <div class="profile-edit-input-wrapper">
                 <div class="label-wrapper">{{ form.review_mails_limit.label() }}</div>
-                <div class="input-wrapper">{{ form.review_mails_limit()}} </div>
+                <div class="label-wrapper">
+                    Scientific community relies on peer review.
+                    <br>
+                    We will periodically send you emails with new papers similar to your scientific profile of interest (based on your papers you provided).
+                    <br>
+                    Authors of some of these new papers may ask for an opinion or a review. How many emails per month do you wish to receive?
+                </div>
+                <div class="input-wrapper">{{ form.review_mails_limit(id='review_mails_limit',oninput="showReviewWarning(value)")}} </div>
             </div>   
+
             <div class="profile-edit-input-wrapper">
                 <div class="label-wrapper">{{ form.notifications_frequency.label() }}</div>
+                <div class="label-wrapper">
+                    When others post messages under my papers, I want to be notified every:
+                </div>
                 <div class="input-wrapper">{{ form.notifications_frequency()}} </div>  
+                <div class="label-wrapper">
+                    (Note: you will always be notified immediately when a reviewer posts a message under your paper).
+                </div>
             </div> 
         </div>
       
         <br>
 
-        {{ form.profile_image.label()}}
+        <div class="label-wrapper">{{ form.profile_image.label()}}</div>
+        <div class="label-wrapper">(Please use a photo of your face if you decide to set a photo)</div>
         {{ form.profile_image()}}
         {% for error in form.profile_image.errors %}
         <span style="color: red;">[{{ error }}]</span>
