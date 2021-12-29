@@ -1,5 +1,5 @@
 from flask.helpers import url_for
-from sqlalchemy import Table, DDL, event
+from sqlalchemy import Table, DDL, event, and_
 from sqlalchemy.orm import validates
 from wtforms.validators import Length
 from open_science.extensions import db, login_manager, bcrypt, admin
@@ -87,7 +87,7 @@ class User(db.Model, UserMixin):
     last_seen = db.Column(db.DateTime, nullable=True)
     weight = db.Column(db.Float, nullable=False, default=1.0)
     red_flags_count = db.Column(db.Integer(), nullable=False)
-    reputation = db.Column(db.Integer(), default=0, nullable=False)
+    reputation = db.Column(db.Integer(), default=100, nullable=False)
 
     # foreign keys
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
@@ -149,6 +149,11 @@ class User(db.Model, UserMixin):
         self.password_hash = bcrypt.generate_password_hash(
             plain_text_password).decode('utf-8')
 
+    @validates('orcid')
+    def set_orcid(self, key, value):
+        return value.upper().replace("-","")
+
+
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
@@ -178,6 +183,18 @@ class User(db.Model, UserMixin):
             return True
         return False
 
+    def get_orcid(self):
+        return f'{self.orcid[:4]}-{self.orcid[4:8]}-{self.orcid[8:12]}-{self.orcid[12:]}'
+
+    # TODO: change display format
+    def get_google_scholar(self):
+        return self.google_scholar
+
+    def get_reviews_count(self):
+        return  Review.query.filter(Review.creator==self.id,
+    Review.is_hidden == False, Review.is_anonymous == False, Review.publication_datetime != None).count()
+  
+     
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
@@ -211,10 +228,11 @@ class Tag(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
 
     # columns
+    # uppercase letters and digits (.isalnum())
     name = db.Column(db.String(length=mc.TAG_NAME_L), nullable=False, unique=True)
-    description = db.Column(db.String(length=mc.TAG_DESCRIPTION_L))
-    deadline = db.Column(db.DateTime)
-    red_flags_count = db.Column(db.Integer(), nullable=False)
+    description = db.Column(db.String(length=mc.TAG_DESCRIPTION_L), nullable=False)
+    deadline = db.Column(db.Date, nullable=True)
+    red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -227,8 +245,8 @@ class Tag(db.Model):
     rel_red_flags_received = db.relationship("RedFlagTag", back_populates="rel_to_tag")
 
     @validates('name')
-    def convert_lower(self, key, value):
-        return value.lower()
+    def convert_upper(self, key, value):
+        return value.upper()
 
 
 class Paper(db.Model):
@@ -325,15 +343,29 @@ class Review(db.Model):
     rel_related_paper_version = db.relationship("PaperVersion", back_populates="rel_related_reviews")
     rel_red_flags_received = db.relationship("RedFlagReview", back_populates="rel_to_review")
 
+    def get_paper_title(self):
+        return db.session.query(PaperVersion.title).filter(
+                PaperVersion.id == self.related_paper_version).scalar()
+
     def to_dict(self):
         return {
             'id': self.id,
-            'paper_title': db.session.query(PaperVersion.title).filter(
-                PaperVersion.id == self.related_paper_version).scalar(),
+            'paper_title': self.get_paper_title(),
             'publication_datetime': self.publication_datetime,
             'edit_url': url_for('review_edit_page', review_id=self.id)
         }
 
+    def get_author_name(self):
+        names = db.session.query(User.first_name,User.second_name).filter(User.id==self.rel_creator.id).first()
+        print(names)
+        return f'{names[0]} {names[1]}'
+
+    def is_published(self):
+        return self.publication_datetime != None
+
+    def get_previous_reviews(self):
+        #reviews = Review.query.join(PaperVersion, and_(PaperVersion.id == Review.related_paper_version))
+        raise NotImplementedError
 
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
@@ -750,7 +782,6 @@ event.listen(
 
 admin.add_view(MessageToStaffView(MessageToStaff, db.session))
 admin.add_view(UserView(User, db.session))
-admin.add_view(MyModelView(Paper, db.session))
 admin.add_view(MyModelView(PaperVersion, db.session))
 admin.add_view(MyModelView(Tag, db.session))
 admin.add_view(MyModelView(Review, db.session))

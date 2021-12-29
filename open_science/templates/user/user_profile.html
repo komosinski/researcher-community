@@ -14,15 +14,32 @@
                 <i id="verified-user-icon" class="fas fa-check-circle fa-center"></i>
                 {% endif %}
             </div>
+
             <h6 class="afiliation">{{user.affiliation}}</h6>
+
+            <div>Verified email at {{user.email.split('@')[1]}}</div>
+
             <div>Last seen: {{ user.last_seen.strftime("%Y-%m-%d %H:%M") if user.last_seen else 'never'  }}</div>
+
+            {% if user.orcid%}
+                <div>ORCID: {{user.get_orcid()}}</div>
+            {% endif %}
+
+            {% if user.google_scholar%}
+                <div>Google scholar: {{user.get_google_scholar()}}</div>
+            {% endif %}
+
+            {% if user.personal_website%}
+            <div>Personal website: {{user.personal_website}}</div>
+            {% endif %}
+
             <div class="stats-wrapper">
                 <div class="stats-element-wraper">
                     <i class="fas fa-file-alt fa-center"></i>
                     <a class="stat-value" href="{{url_for('advanced_search_papers_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['articles_num']}}</a>
                 </div>
                 <div class="stats-element-wraper">
-                    <i class="fas  fa-center"></i>
+                    <i class="fas  fa-center">Reviews:</i>
                     <a class="stat-value" href="{{url_for('reviews_list_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['reviews_num']}}</a>
                 </div>
                 <div class="stats-element-wraper">
@@ -42,9 +59,17 @@
         <form class="user-action" action="{{url_for('edit_profile_page')}}" method="GET">    
             <button type="submit">Edit profile</button>
          </form>
+
          <form class="user-action" action="{{url_for('invite_user_page')}}" method="GET">    
             <button type="submit">Invite users</button>
          </form>
+
+         {% if current_user.rel_privileges_set.name == 'scientific_user' %}
+            <form class="user-action" action="{{url_for('create_tag_page')}}" method="GET">    
+                <button type="submit">Create Tag</button>
+            </form>
+         {% endif %}
+
     </div>
     {% endif %}
 

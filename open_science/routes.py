@@ -179,3 +179,15 @@ def update_notification_and_redirect():
 @login_required
 def user_reviews_data():
     return user_rd.user_reviews_data()
+
+@app.route('/tag/create', methods=['GET', 'POST'])
+@login_required
+@rd.scientific_user_required
+def create_tag_page():
+    return user_rd.create_tag_page()
+
+@app.route('/tag/edit/<tag_id>', methods=['GET', 'POST'])
+@login_required
+@rd.scientific_user_required
+def edit_tag_page(tag_id):
+    return user_rd.edit_tag_page(tag_id)
