@@ -25,51 +25,130 @@ function outputUpdateConfidence(value) {
 
 {% block content %}
 
+  <div>
+    <a href="{{data['paper_url']}}">Related Paper</a>
+  </div>
 
     <div class="">
         <div class="">
             <form method="POST">
                 {{ form.hidden_tag() }}
-                <div>
-                    {{form.text()}}
-                </div>
-            
-                <br>
+
+
                 {% if not is_published %}
                     {{ render_checkbox_field(form.check_no_conflict) }}
                 {% endif %}
-               
-                <p>
-                    {{ form.evaluation_novel.label }}:
-                    {{ form.evaluation_novel(min=0, max=100,step=1, oninput="outputUpdateNovel(value)") }}
-                    <output for="evaluation_novel" id="selected-evaluation_novel">{{ form.evaluation_novel.data }}</output>%
-                </p>
-                
-                <p>
-                    {{ form.evaluation_conclusion.label }}:
-                    {{ form.evaluation_conclusion(min=0, max=100,step=1, oninput="outputUpdateConclusion(value)") }}
-                    <output for="evaluation_conclusion" id="selected-evaluation_conclusion">{{ form.evaluation_conclusion.data }}</output>%
-                </p>
-                
-                <p>
-                    {{ form.evaluation_error.label }}:
-                    {{ form.evaluation_error(min=0, max=100,step=1, oninput="outputUpdateError(value)") }}
-                    <output for="evaluation_error" id="selected-evaluation_error">{{ form.evaluation_error.data }}</output>%
-                </p>
 
-                        
-                <p>
-                    {{ form.evaluation_organize.label }}:
-                    {{ form.evaluation_organize(min=0, max=100,step=1, oninput="outputUpdateOrganize(value)") }}
-                    <output for="evaluation_organized" id="selected-evaluation_organize">{{ form.evaluation_organize.data }}</output>%
-                </p>
-
+                <div class="input-wrapper">
+                    {{form.text(placeholder='Your review')}}
+                </div>
+            
                 <br>
-                <p>
-                    {{ form.confidence.label }}:
-                    {{ form.confidence(min=0, max=100,step=1, oninput="outputUpdateConfidence(value)") }}
-                    <output for="confidence" id="selected-confidence">{{ form.confidence.data }}</output>%
-                </p>
+             
+                <table>
+                    <tr>
+                      <th>Evaluation criteria</th>
+                     
+                      {% for prev_review in previous_reviews%}
+                        <th>
+                          <a href="{{url_for('review_page',review_id=prev_review.id)}}">Revision {{loop.index}}</a>
+                        </th>
+                       {% endfor %}
+
+                      <th>Current grade</th>
+                    </tr>
+
+                    <tr>
+                      <td>  
+                          {{ form.evaluation_novel.label }}
+                      </td>
+                   
+                      {% for prev_review in previous_reviews%}
+                        <td>
+                          {{ (prev_review.evaluation_novel*100)|int }}%
+                        </td>
+                      {% endfor %}
+
+                      <td>
+                        {{ form.evaluation_novel(min=0, max=100,step=1, oninput="outputUpdateNovel(value)") }}
+                        <output for="evaluation_novel" id="selected-evaluation_novel">{{ form.evaluation_novel.data }}</output>%
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>  {{ form.evaluation_conclusion.label }} </td>
+                     
+
+                      {% for prev_review in previous_reviews%}
+                        <td>
+                          {{ (prev_review.evaluation_conclusion*100)|int }}%
+                        </td>
+                      {% endfor %}
+
+
+                      <td>
+                        {{ form.evaluation_conclusion(min=0, max=100,step=1, oninput="outputUpdateConclusion(value)") }}
+                        <output for="evaluation_conclusion" id="selected-evaluation_conclusion">{{ form.evaluation_conclusion.data }}</output>%
+                      </td>
+                    </tr>
+
+                    <tr>
+                        <td>  
+                          {{ form.evaluation_error.label }}
+                        </td>
+                     
+                      {% for prev_review in previous_reviews%}
+                        <td>
+                          {{ (prev_review.evaluation_error*100)|int }}%
+                        </td>
+                      {% endfor %}
+
+                      <td>
+                        {{ form.evaluation_error(min=0, max=100,step=1, oninput="outputUpdateError(value)") }}
+                        <output for="evaluation_error" id="selected-evaluation_error">{{ form.evaluation_error.data }}</output>%
+                      </td>
+                      
+                    </tr>
+
+                    <tr>
+                      <td>  
+                          {{ form.evaluation_organize.label }}
+                      </td>
+                     
+                    {% for prev_review in previous_reviews%}
+                      <td>
+                        {{ (prev_review.evaluation_organize*100)|int }}%
+                      </td>
+                    {% endfor %}
+
+                      <td>
+                        {{ form.evaluation_organize(min=0, max=100,step=1, oninput="outputUpdateOrganize(value)") }}
+                        <output for="evaluation_organized" id="selected-evaluation_organize">{{ form.evaluation_organize.data }}</output>%
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        {{ form.confidence.label }}
+                      </td>
+                      
+                    {% for prev_review in previous_reviews%}
+                      <td>
+                        {{ (prev_review.confidence*100)|int }}%
+                      </td>
+                    {% endfor %}
+
+                       
+                      <td>
+                        {{ form.confidence(min=0, max=100,step=1, oninput="outputUpdateConfidence(value)") }}
+                        <output for="confidence" id="selected-confidence">{{ form.confidence.data }}</output>%
+                      </td>
+                    </tr>
+
+                  </table>
+
+               
+               
 
                 <br>
                 {{ render_checkbox_field(form.check_anonymous) }}
@@ -91,8 +170,8 @@ function outputUpdateConfidence(value) {
             
 
             </form>
-            {{ ckeditor.load(pkg_type="basic") }}
-            {{ ckeditor.config(name='text') }}
+            <!-- {{ ckeditor.load(pkg_type="basic") }}
+            {{ ckeditor.config(name='text') }} -->
 
         </div>
     </div>

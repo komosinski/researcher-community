@@ -29,10 +29,10 @@ def create_review_deadline_notificaiton():
     db.session.commit() 
 
 def monthly_jobs():
-    delete_old_logs(31,'user_invite')
+    delete_old_logs(31, EmailLog.email_types_enum.USER_INVITE.value)
     
 def daily_jobs():
-    delete_old_logs(1,'registration_confirm')
+    delete_old_logs(1, EmailLog.email_types_enum.REGISTRATION_CONFIRM.value)
     create_review_deadline_notificaiton()
     
 

@@ -53,9 +53,7 @@ def send_review_request(email,abstract, request_id):
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 def insert_email_log(sender_id, reciever_id, reciever_email, email_type):
-    email_type = EmailType.query.filter(EmailType.name == email_type).first()
-    mail_type_id = email_type.id
-    email_log = EmailLog(sender_id,reciever_id,reciever_email,dt.datetime.utcnow(),mail_type_id)
+    email_log = EmailLog(sender_id,reciever_id,reciever_email,dt.datetime.utcnow(),email_type)
     db.session.add(email_log)
     db.session.commit()
 

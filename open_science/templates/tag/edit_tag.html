@@ -10,19 +10,11 @@
     <div>Tags are used to define conferences or any events with deadlines.</div>
 </div>
 
-<div class="profile-edit-wrapper">
-    <form method="POST">
-        {{ form.hidden_tag() }}
 
-        {{render_tag_creation_field(form.name,"Tag name")}}
-        {{render_tag_creation_field(form.description,"Description")}} 
-            
-        <br><br>
+{% with form=form%}
+    % include 'tag/tag_form.html' %}
+{% endwith %}
 
-        <div class="buttons-wrapper">
-            {{ form.submit(class="large-button main-button")}}
-        </div>  
-    </form>
-</div>
+
 
 {% endblock %}

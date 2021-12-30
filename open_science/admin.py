@@ -10,14 +10,14 @@ class MyAdminIndexView(admin.AdminIndexView):
     def index(self):
         if not current_user.is_authenticated:
             return redirect(url_for('login_page'))
-        elif current_user.rel_privileges_set.name!='admin':
+        elif current_user.privileges_set != current_user.user_types_enum.ADMIN.value :
             return redirect(url_for('home_page'))
         return super(MyAdminIndexView, self).index()
 
 class MyModelView(sqla.ModelView):
 
     def is_accessible(self):
-        return current_user.is_authenticated and current_user.rel_privileges_set.name=='admin'
+        return current_user.is_authenticated and current_user.privileges_set == current_user.user_types_enum.ADMIN.value
 
 class UserView(MyModelView):
     can_create = True

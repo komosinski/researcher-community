@@ -1,6 +1,6 @@
 from open_science.review.forms import ReviewRequestForm, ReviewEditForm
 from open_science import db
-from open_science.models import  ReviewRequest, Review
+from open_science.models import  PaperVersion, ReviewRequest, Review
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask_login import current_user
@@ -33,9 +33,9 @@ def review_request_page(request_id):
             flash(f'Review request accepted',category='success')
         elif form.submit_decline.data:
             review_request.decision = False
-            review_request.other_reason = form.other_reason.data
+            review_request.other_reason_text = form.other_reason_text.data
             review_request.set_reasons(form.declined_reason.data)
-            flash(f'Review request declined',category='warning')
+            flash(f'Review request declined',category='success')
 
         db.session.add(review_request)
         db.session.commit()
@@ -53,7 +53,7 @@ def review_request_page(request_id):
         'pdf_url' : paper_version.pdf_url,
         'anonymized_pdf_url' : paper_version.anonymized_pdf_url
     }
-    return render_template('user/review_request.html',form=form, data=data)
+    return render_template('review/review_request.html',form=form, data=data)
 
 
 
@@ -61,6 +61,9 @@ def review_request_page(request_id):
 def review_edit_page(review_id):
 
     review = Review.query.filter(Review.id == review_id).first_or_404()
+
+
+    previous_reviews = review.get_previous_creator_reviews()
 
     form = ReviewEditForm()
 
@@ -107,4 +110,20 @@ def review_edit_page(review_id):
         form.confidence.data = int(review.confidence*100)
         form.text.data = review.text
 
-    return render_template('review/review_edit.html', form=form, is_published=review.is_published())
+    data ={
+        'is_published':review.is_published(),
+        # TODO: change 2nd link to anonymized version
+        'paper_url' :
+            url_for('article',id=review.related_paper_version, anonymous=False) 
+            if  db.session.query(PaperVersion.anonymized_pdf_url).filter(PaperVersion.id==review.related_paper_version).scalar()
+            else
+            url_for('article',id=review.related_paper_version, anonymous=True)
+    }
+
+    return render_template('review/review_edit.html', form=form, data=data, previous_reviews=previous_reviews)
+
+def review_page(review_id):
+    # TODO: hidden itp
+    review = Review.query.filter(Review.id==review_id).first_or_404()
+
+    return render_template('review/review.html', review=review)

@@ -1,5 +1,5 @@
 from open_science.user.forms import RegisterForm, LoginForm, ResendConfirmationForm, AccountRecoveryForm, SetNewPasswordForm
-from open_science.user.forms import InviteUserForm, EditProfileForm , EndorsementRequestForm, CreateTagForm, EditTagForm
+from open_science.user.forms import InviteUserForm, EditProfileForm , EndorsementRequestForm, EditTagForm
 from open_science.review.forms import ReviewRequestForm
 from open_science import db
 from open_science.tokens import confirm_password_token, confirm_account_recovery_token, confirm_email_change_token
@@ -16,11 +16,12 @@ import os
 from PIL import Image
 from open_science import app
 from open_science.routes_def import check_numeric_args
+from open_science.enums import EmailTypeEnum, NotificationTypeEnum
 
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
-        ps_standard_user = PrivilegeSet.query.filter(PrivilegeSet.name=='standard_user').first()
+        ps_standard_user = PrivilegeSet.query.filter(PrivilegeSet.id==User.user_types_enum.STANDARD_USER.value).first()
 
         user_to_create = User(first_name=form.first_name.data,
                               second_name=form.second_name.data,
@@ -110,9 +111,9 @@ def unconfirmed_email_page():
 
     form = ResendConfirmationForm()
     if form.validate_on_submit():
-        emails_limit = app.config['CONFIRM_REGISTRATION_ML'] - em.get_emails_count_to_address_last_days(form.email.data,'registration_confirm',1)
+        emails_limit = app.config['CONFIRM_REGISTRATION_ML'] - em.get_emails_count_to_address_last_days(form.email.data,EmailTypeEnum.REGISTRATION_CONFIRM.value,1)
         if emails_limit>0:
-            em.insert_email_log(0,None,form.email.data,'registration_confirm')
+            em.insert_email_log(0,None,form.email.data, EmailTypeEnum.REGISTRATION_CONFIRM.value)
             em.send_email_confirmation(form.email.data)
             flash('A new confirmation email has been sent.', 'success')
             return redirect(url_for('home_page'))
@@ -272,15 +273,15 @@ def invite_user_page():
 
     if form.validate_on_submit():
       
-        emails_limit = app.config['INVITE_USER_ML'] - em.get_emails_cout_last_days(current_user.id,'user_invite',1)
+        emails_limit = app.config['INVITE_USER_ML'] - em.get_emails_cout_last_days(current_user.id, EmailTypeEnum.USER_INVITE.value, 1)
      
         email = form.email.data
                                 
         if emails_limit>0:
             
             if not bool(db.session.query(User.id).filter(User.email==email).first()):
-                if em.get_emails_count_to_address_last_days(email,'user_invite',30)==0:
-                    em.insert_email_log(current_user.id,None,email,'user_invite')
+                if em.get_emails_count_to_address_last_days(email,EmailTypeEnum.USER_INVITE.value,30)==0:
+                    em.insert_email_log(current_user.id,None,email,EmailTypeEnum.USER_INVITE.value)
                     em.send_invite(email,current_user.first_name, current_user.second_name)
 
                     flash(f'An invitation email has been sent', category='success')
@@ -340,7 +341,7 @@ def request_endorsement(endorser_id):
     if current_user.can_request_endorsement(endorser_id):
         endorsement_log = EndorsementRequestLog(user_id=current_user.id, endorser_id=endorser_id, date = dt.datetime.utcnow().date())
 
-        notification = Notification(endorser_id,dt.datetime.utcnow(),'Endorsement request','endorsement_request')
+        notification = Notification(endorser_id,dt.datetime.utcnow(),'Endorsement request',NotificationTypeEnum.ENDORSEMENT_REQUEST.value)
         db.session.add(notification)
         db.session.flush()
         db.session.refresh(notification)
@@ -388,7 +389,7 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
             endorsement_log.considered = True
             db.session.commit()
             if user.obtained_required_endorsement():
-                user.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'scientific_user').first()
+                user.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == User.user_types_enum.SCIENTIST_USER.value).first()
                 db.session.add(user)
               
         elif form.submit_decline.data:
@@ -405,9 +406,15 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
     return render_template('user/endorsement_request.html', form=form, user=user)
 
 def create_tag_page():
-    form = CreateTagForm()
 
+    if not current_user.can_create_tag():
+        flash('You cannot create a tag', category='error')
+        return redirect(url_for('profile_page', user_id=current_user.id))
+
+    form = EditTagForm()
+ 
     if form.validate_on_submit():
+
         tag = Tag(
             name = form.name.data,
             description = form.description.data,
@@ -428,7 +435,9 @@ def edit_tag_page(tag_id):
     tag = Tag.query.filter(Tag.id == tag_id, Tag.creator == current_user.id).first_or_404()
     
     form = EditTagForm()
-
+    form.submit.label.text = 'Save changes'
+    form.previous_name.data = tag.name
+    
     if form.validate_on_submit():
      
         tag.name = form.name.data
@@ -441,6 +450,8 @@ def edit_tag_page(tag_id):
     elif request.method == 'GET':
         form.name.data = tag.name
         form.description.data = tag.description
+        form.deadline.data = tag.deadline
+        
 
     return render_template('tag/edit_tag.html',form=form, tag_name=tag.name)
 

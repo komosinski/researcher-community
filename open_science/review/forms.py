@@ -29,14 +29,14 @@ class ReviewRequestForm(FlaskForm):
 
               
     declined_reason = MultiCheckboxField(label='Declined reason', validators=[validate_declined_reason,Optional()], coerce=int)
-    other_reason = StringField(label='Other reason', validators=[Length(max=mc.DR_REASON_L),Optional()])
+    other_reason_text = StringField(label='Other reason', validators=[Length(max=mc.DR_REASON_L),Optional()])
     prepare_time = RadioField(validators=[validate_prepare_time,Optional()], choices=[(7,'1 week'),(14,'2 weeks'),(21,'3 weeks'),(28,'4 weeks')])
     submit_accept = SubmitField(label='Accept')
     submit_decline = SubmitField(label='Decline')
 
     def __init__(self):
         super().__init__()
-        self.declined_reason.choices = [(r.id, r.reason) for r in DeclinedReason.query.all()]
+        self.declined_reason.choices = [(r.id-1, r.reason) for r in DeclinedReason.query.all()]
 
 class ReviewEditForm(FlaskForm):
     

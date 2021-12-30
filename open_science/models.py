@@ -10,7 +10,7 @@ from open_science.admin import MyModelView, UserView, MessageToStaffView
 import datetime as dt
 from sqlalchemy import func
 from open_science import app
-
+from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -117,6 +117,9 @@ class User(db.Model, UserMixin):
     # one to many, unidirectional 
     rel_notifications = db.relationship("Notification", lazy='dynamic')  # foreign_keys="Notification.user_id"
 
+    # A 'static' variable to avoid importing the Enum class in files and use it in jinja
+    user_types_enum = UserTypeEnum
+
     def __init__(self, first_name, second_name, email, plain_text_password, confirmed=False, confirmed_on=None,
                  affiliation="", orcid="", google_scholar="", about_me="", personal_website="", review_mails_limit=1,
                  notifications_frequency=7, photo_url="", last_seen=None, weight=1.0, registered_on=None,
@@ -162,12 +165,12 @@ class User(db.Model, UserMixin):
 
     def can_request_endorsement(self, endorser_id):
 
-        endorser_priviliege = User.query.filter_by(id=endorser_id).first().rel_privileges_set.name
+        endorser_priviliege_id = db.session.query(User.privileges_set).filter_by(id=endorser_id).scalar()
 
         if self.id == endorser_id:
             return False
 
-        if self.rel_privileges_set.name == 'standard_user' and endorser_priviliege == 'scientific_user':
+        if self.privileges_set == UserTypeEnum.STANDARD_USER.value and endorser_priviliege_id == UserTypeEnum.SCIENTIST_USER.value:
             endorsement_log = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id == self.id,
                                                                  EndorsementRequestLog.endorser_id == endorser_id).first()
             if endorsement_log:
@@ -194,13 +197,25 @@ class User(db.Model, UserMixin):
         return  Review.query.filter(Review.creator==self.id,
     Review.is_hidden == False, Review.is_anonymous == False, Review.publication_datetime != None).count()
   
+    def can_create_tag(self):
+        if self.privileges_set >= UserTypeEnum.SCIENTIST_USER.value:
+            return True
+        else:
+            return False
      
+    def is_scientist(self):
+         if self.privileges_set >= UserTypeEnum.SCIENTIST_USER.value:
+             return True
+         else:
+            return False
+
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    # autoincrement=False becasue ID may represent a permission level
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=False)
 
     # columns
     name = db.Column(db.String(length=mc.PS_NAME_L), nullable=False, unique=True)
@@ -208,12 +223,10 @@ class PrivilegeSet(db.Model):
     # relationships
     rel_users = db.relationship("User", back_populates="rel_privileges_set")
 
-    types = ('standard_user', 'scientific_user', 'admin')
-
     def insert_types():
-        for t in PrivilegeSet.types:
-            if not PrivilegeSet.query.filter(PrivilegeSet.name == t).first():
-                privilege_set = PrivilegeSet(name=t)
+        for t in UserTypeEnum:
+            if not PrivilegeSet.query.filter(PrivilegeSet.name == t.name).first():
+                privilege_set = PrivilegeSet(id = t.value, name=t.name)
                 db.session.add(privilege_set)
         db.session.commit()
 
@@ -231,7 +244,7 @@ class Tag(db.Model):
     # uppercase letters and digits (.isalnum())
     name = db.Column(db.String(length=mc.TAG_NAME_L), nullable=False, unique=True)
     description = db.Column(db.String(length=mc.TAG_DESCRIPTION_L), nullable=False)
-    deadline = db.Column(db.Date, nullable=True)
+    deadline = db.Column(db.DateTime, nullable=True)
     red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
 
     # foreign keys
@@ -257,6 +270,8 @@ class Paper(db.Model):
 
     # relationships
     rel_related_versions = db.relationship("PaperVersion", back_populates="rel_parent_paper")
+
+   
 
     def to_dict(self):
         return {
@@ -381,6 +396,19 @@ class Review(db.Model):
 
         return previous_reviews
 
+      # returns reviews connected to previous paper versions wiritten by self.creator
+      # TODO: complete this..
+    def get_previous_creator_reviews(self):
+        paper_versions = self.rel_related_paper_version.rel_parent_paper.rel_related_versions
+        previous_paper_versions = [version for version in paper_versions
+                                   if version.version < self.rel_related_paper_version.version]
+        previous_reviews = []
+        for version in previous_paper_versions:
+            for review in version.rel_related_reviews:
+                previous_reviews.append(review)
+
+        return previous_reviews
+
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
 
@@ -395,12 +423,13 @@ class ReviewRequest(db.Model):
     deadline_date = db.Column(db.Date)
 
     # decilne reasons
-    reason_1 = db.Column(db.Boolean, nullable=False, default=False)
-    reason_2 = db.Column(db.Boolean, nullable=False, default=False)
-    reason_3 = db.Column(db.Boolean, nullable=False, default=False)
-    reason_4 = db.Column(db.Boolean, nullable=False, default=False)
-    reason_5 = db.Column(db.Boolean, nullable=False, default=False)
-    other_reason = db.Column(db.String(length=mc.DR_REASON_L), nullable=True)
+    reason_conflict_interest = db.Column(db.Boolean, nullable=False, default=False)
+    reason_lack_expertise = db.Column(db.Boolean, nullable=False, default=False)
+    reason_time = db.Column(db.Boolean, nullable=False, default=False)
+    reason_match_incorrectly = db.Column(db.Boolean, nullable=False, default=False)
+
+    reason_other = db.Column(db.Boolean, nullable=False, default=False)
+    other_reason_text = db.Column(db.String(length=mc.DR_REASON_L), nullable=True)
 
     # foreign keys
     requested_user = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -414,19 +443,17 @@ class ReviewRequest(db.Model):
 
         # not elegant solution
         for id in reason_ids:
-            if id == 1:
-                self.reason_1 = True
+            if id == 0:
+                self.reason_conflict_interest = True
+            elif id == 1:
+                self.reason_lack_expertise = True
             elif id == 2:
-                self.reason_2 = True
+                self.reason_time = True
             elif id == 3:
-                self.reason_3 = True
+                self.reason_match_incorrectly = True
             elif id == 4:
-                self.reason_4 = True
-            elif id == 5:
-                self.reason_5 = True
+                self.reason_other = True
 
-        if self.other_reason is not None:
-            self.reason_5 = True
 
 
 class Comment(db.Model):
@@ -486,7 +513,7 @@ class MessageToStaff(db.Model):
     rel_sender = db.relationship("User", back_populates="rel_related_staff_messages")
     rel_topic = db.relationship("MessageTopic", back_populates="rel_related_staff_messages")
 
-
+    
 class DeclinedReason(db.Model):
     __tablename__ = "declined_reasons"
 
@@ -542,14 +569,10 @@ class EmailType(db.Model):
     name = db.Column(db.String(length=mc.EM_TYPE_NAME_L), nullable=False, unique=True)
     rel_email_logs = db.relationship("EmailLog")
 
-    # types
-    types = ('registration_confirm', 'password_change', 'email_change', 'user_invite',
-             'review_request', 'notification', 'staff_answer', 'account_delete')
-
     def insert_types():
-        for t in EmailType.types:
-            if not EmailType.query.filter(EmailType.name == t).first():
-                email_type = EmailType(name=t)
+        for t in EmailTypeEnum:
+            if not EmailType.query.filter(EmailType.name == t.name).first():
+                email_type = EmailType(id = t.value, name=t.name)
                 db.session.add(email_type)
         db.session.commit()
 
@@ -572,6 +595,8 @@ class EmailLog(db.Model):
     # foreign keys
     email_type_id = db.Column(db.Integer, db.ForeignKey('email_types.id'))
 
+    email_types_enum = EmailTypeEnum
+
     def __init__(self, sender_id, reciever_id, reciever_email, date, email_type):
         self.sender_id = sender_id
         self.receiver_id = reciever_id
@@ -593,14 +618,10 @@ class NotificationType(db.Model):
     name = db.Column(db.String(length=mc.EM_TYPE_NAME_L), nullable=False, unique=True)
     rel_email_logs = db.relationship("Notification")
 
-    # types
-    types = ('review_request', 'new_review', 'comment_answer', 'review_answer', 'system_message', 'endorsement_request',
-             'review_reminder')
-
     def insert_types():
-        for t in NotificationType.types:
-            if not NotificationType.query.filter(NotificationType.name == t).first():
-                notification_type = NotificationType(name=t)
+        for t in NotificationTypeEnum:
+            if not NotificationType.query.filter(NotificationType.name == t.name).first():
+                notification_type = NotificationType(id = t.value, name=t.name)
                 db.session.add(notification_type)
         db.session.commit()
 
@@ -625,6 +646,8 @@ class Notification(db.Model):
     # foreign keys
     notification_type_id = db.Column(db.Integer, db.ForeignKey('notification_types.id'))
 
+    notification_types_enum = NotificationTypeEnum
+
     def __init__(self, user_id, datetime, text, notification_type, action_url=''):
         self.user_id = user_id
         self.datetime = datetime
@@ -645,7 +668,7 @@ class Notification(db.Model):
             type_string = db.session.query(NotificationType.name).filter(
                 NotificationType.id == notification_type).one().name
 
-        self.title = type_string.replace('_', ' ').capitalize()
+        self.title = type_string.replace('_', ' ').lower().capitalize()
 
 
 class VoteComment(db.Model):
@@ -822,7 +845,7 @@ def create_essential_data():
             review_mails_limit=0,
             notifications_frequency=0,
         )
-        user_0.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'standard_user').first()
+        user_0.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
         user_0.id = 0
         db.session.add(user_0)
 

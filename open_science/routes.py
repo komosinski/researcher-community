@@ -77,7 +77,7 @@ def confirm_email_change(token):
     return user_rd.confirm_email_change(token)
 
 
-@app.route('/article/<id>', methods=['GET'])
+@app.route('/article/<id>/', methods=['GET'])
 def article(id):
     return rd.view_article(id)
 
@@ -191,3 +191,7 @@ def create_tag_page():
 @rd.scientific_user_required
 def edit_tag_page(tag_id):
     return user_rd.edit_tag_page(tag_id)
+
+@app.route('/review/<review_id>',)
+def review_page(review_id):
+    return review_rd.review_page(review_id)
