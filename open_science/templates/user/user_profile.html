@@ -10,7 +10,7 @@
                 <h3 class="username">
                     {{user.first_name}} {{user.second_name}}
                 </h3>
-                {% if user.rel_privileges_set.name == 'scientific_user' %}
+                {% if user.is_scientist() %}
                 <i id="verified-user-icon" class="fas fa-check-circle fa-center"></i>
                 {% endif %}
             </div>
@@ -64,7 +64,7 @@
             <button type="submit">Invite users</button>
          </form>
 
-         {% if current_user.rel_privileges_set.name == 'scientific_user' %}
+         {% if current_user.can_create_tag() %}
             <form class="user-action" action="{{url_for('create_tag_page')}}" method="GET">    
                 <button type="submit">Create Tag</button>
             </form>
@@ -90,7 +90,7 @@
     </div>
 
 
-    {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) and  current_user.rel_privileges_set.name == 'scientific_user' %}
+    {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) and  current_user.is_scientist() %}
 
         <!-- <div>
             <h3>My Papers</h3>

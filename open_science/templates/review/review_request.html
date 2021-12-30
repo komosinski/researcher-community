@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% block scripts %}
+<script>
+    function showOtherReasonField() {
+        // Change 'declined_reason-4' if reasons are added (4 == Other)
+        var checkBox = document.getElementById("declined_reason-4");
+        var div = document.getElementById("other_reason");
+        if (checkBox.checked == true){
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+        }
+      }
+</script>
+{% endblock %}
+
 <div>
     <form method="POST">
 
@@ -35,8 +50,12 @@
         <br>
         Decline,reason:
         <br>
-        {{form.declined_reason()}}
-        {{form.other_reason(placeholder='Other reason')}}
+        {{form.declined_reason(onclick="showOtherReasonField()")}}
+
+        <div id="other_reason" style="display:none">
+            {{form.other_reason_text(placeholder='Other reason')}}
+        </div>
+      
         <br>
         {{form.submit_decline()}}
     </form>

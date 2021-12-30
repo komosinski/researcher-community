@@ -468,7 +468,7 @@ def create_test_data():
     )
     u1.rel_created_paper_versions = [pve1, pve2, pve4, pve5, pve6, pve7, pve8, pve9]
     u1.rel_tags_to_user = [t1, t2]
-    u1.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'scientific_user').first()
+    u1.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u1.rel_created_tags = [t3]
     u1.rel_created_reviews = [r1, r2]
     u1.rel_created_comments = [c1, c2, c3, c4, c5, c6, c7, c8, c10, c11, c12]
@@ -503,7 +503,7 @@ def create_test_data():
     )
     u2.rel_created_paper_versions = [pve3, pve10, pve11]
     u2.rel_tags_to_user = [t3]
-    u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'scientific_user').first()
+    u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u2.rel_created_tags = [t1, t2]
     u2.rel_created_reviews = [r3]
     u2.rel_created_comments = [c9]
@@ -531,7 +531,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u3.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'standard_user').first()
+    u3.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
     db.session.add(u3)
 
     u4 = User(
@@ -551,7 +551,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u4.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'standard_user').first()
+    u4.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
     db.session.add(u4)
 
     u5 = User(
@@ -572,7 +572,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u5.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.name == 'admin').first()
+    u5.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.ADMIN.value).first()
     db.session.add(u5)
 
     rr1 = ReviewRequest(
@@ -725,9 +725,9 @@ def create_test_data():
 
     # notifications
     notification1 = Notification(1, dt.datetime.utcnow(), 'New review request',
-                                 'review_request', url_for('review_request_page', request_id=1))
-    notification2 = Notification(1, dt.datetime.utcnow(), 'New review request',
-                                 'review_request', url_for('review_request_page', request_id=2))
+                                 NotificationTypeEnum.REVIEW_REQUEST.value, url_for('review_request_page', request_id=1))
+    notification2 = Notification(2, dt.datetime.utcnow(), 'New review request',
+                                   NotificationTypeEnum.REVIEW_REQUEST.value, url_for('review_request_page', request_id=2))
     db.session.add(notification1)
     db.session.add(notification2)
 

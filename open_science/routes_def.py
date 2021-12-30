@@ -1,3 +1,4 @@
+import re
 from flask_wtf.form import FlaskForm
 from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
@@ -27,8 +28,10 @@ def scientific_user_required(func):
     def decorated_view(*args, **kwargs):
         if request.method in EXEMPT_METHODS:
             return func(*args, **kwargs)
-        elif current_user.rel_privileges_set.name != 'scientific_user':  
-            flash('You must be a scientist user to access this', category='warning')
+        elif not current_user.is_authenticated:
+            return redirect(url_for('login_page'))
+        elif current_user.privileges_set < User.user_types_enum.SCIENTIST_USER.value:  
+            flash('You must be a scientist user to access this page', category='warning')
             return redirect(url_for('home_page'))
         return func(*args, **kwargs)
     return decorated_view
@@ -107,7 +110,12 @@ def fileUploadPage():
     
     return render_template("utils/pdf_send_form.html", form=form)
  
+ # anonym -     
 def view_article(id):
+
+    # string:   True / False
+    anonymous = request.args.get('anonymous')
+
     article = Paper.query.get(id)
     if not article: abort(404)
     if article.rel_related_reviews:
