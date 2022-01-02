@@ -67,6 +67,7 @@ def review_edit_page(review_id):
 
     form = ReviewEditForm()
 
+    
     if form.validate_on_submit():
         if form.save.data:
             review.evaluation_novel = form.evaluation_novel.data/100
@@ -81,6 +82,11 @@ def review_edit_page(review_id):
                 review.is_anonymous = True
             else:
                 review.is_anonymous = False
+
+            field = request.form.getlist('field[]')
+            field2 = request.form.getlist('field2[]')
+            for val, val2 in zip(field,field2):  
+                print(f'sug: {val} loc:{val2}')
 
             db.session.commit()
             flash('The review has been saved', category='success')

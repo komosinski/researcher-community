@@ -1,5 +1,5 @@
 from enum import Enum, unique
-f
+
 @unique
 class UserTypeEnum(Enum):
 
