@@ -19,7 +19,26 @@ function outputUpdateConfidence(value) {
     document.querySelector('#selected-confidence').value = value;
 }
 
-
+$(document).ready(function(){
+  var max_input_fields = 10;
+  var add_input = $('.add-input');
+  var input_wrapper = $('#suggestions');
+  var new_input = '<div><input type="text" name="field[]" placeholder="Suggestion" value=""/><input type="text"  placeholder="Location" name="field2[]" value=""/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>';
+  
+  var add_input_count = 1; 
+  $(add_input).click(function(){
+      if(add_input_count < max_input_fields){
+          add_input_count++; 
+          $(input_wrapper).append(new_input); 
+      }
+  });
+  $(input_wrapper).on('click', '.remove-input', function(e){
+      e.preventDefault();
+      $(this).parent('div').remove();
+      add_input_count--;
+  });
+});
+  
 </script>
 {% endblock %}
 
@@ -43,6 +62,16 @@ function outputUpdateConfidence(value) {
                     {{form.text(placeholder='Your review')}}
                 </div>
             
+
+                <div id="suggestions">
+                  <div>Suggestions (*are not remembered when saving the form): <br>
+                  <input type="text" name="field[]" placeholder="Suggestion" value=""/>
+                  <input type="text" name="field2[]" placeholder="Location" value=""/>
+                  <a href="javascript:void(0);" class="add-input" title="Add input"><img src="/static/res/add.png"/></a>
+                  </div>
+              </div>
+       
+
                 <br>
              
                 <table>
@@ -170,11 +199,11 @@ function outputUpdateConfidence(value) {
             
 
             </form>
-            <!-- {{ ckeditor.load(pkg_type="basic") }}
-            {{ ckeditor.config(name='text') }} -->
+
 
         </div>
     </div>
+
 
 {% endblock %}
 

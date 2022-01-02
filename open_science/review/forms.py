@@ -1,10 +1,9 @@
-from wtforms import StringField, SubmitField, RadioField, widgets, SelectMultipleField, TextAreaField
-from wtforms.validators import Length, Optional, StopValidation,  DataRequired
+from wtforms import StringField, SubmitField, RadioField, widgets, SelectMultipleField, TextAreaField, FieldList, TextField, FormField
+from wtforms.validators import Length, Optional, StopValidation, DataRequired
 from flask_wtf import FlaskForm
 import open_science.config.models_config as mc
 from open_science.models import DeclinedReason
 from wtforms.fields.html5 import DecimalRangeField
-from flask_ckeditor import CKEditorField
 
 class MultiCheckboxField(SelectMultipleField):
     widget = widgets.ListWidget(prefix_label=False)
@@ -38,6 +37,9 @@ class ReviewRequestForm(FlaskForm):
         super().__init__()
         self.declined_reason.choices = [(r.id-1, r.reason) for r in DeclinedReason.query.all()]
 
+
+
+
 class ReviewEditForm(FlaskForm):
     
     def validate_text(form, field):
@@ -50,8 +52,8 @@ class ReviewEditForm(FlaskForm):
             if not field.data:
                 raise StopValidation('You must declare no conflict of interest')
 
-    text = CKEditorField(label='Your review', validators=[Length(max=mc.REVIEW_TEXT_L),validate_text, Optional()])
-    
+    text = TextAreaField(label='Your review', validators=[Length(max=mc.REVIEW_TEXT_L),validate_text, Optional()])
+
     evaluation_novel =  DecimalRangeField('Novel and substantial compared to previous papers by the author(s) and the existing literature', default=0)
     evaluation_conclusion = DecimalRangeField('Claims and conclusions reasonable and justified', default=0)
     evaluation_error = DecimalRangeField(' Free of essential and technical errors', default=0)
