@@ -279,6 +279,23 @@ class Paper(db.Model):
         }
 
 
+
+class CalibrationPaper(db.Model):
+
+    __tablename__ = "calibration_papers"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # columns
+    pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=False)
+    preprocessed_text = db.Column(db.Text(), nullable=True)
+
+     #foreign keys
+    author = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+
 class PaperVersion(db.Model):
     __tablename__ = "paper_versions"
 
@@ -294,7 +311,11 @@ class PaperVersion(db.Model):
     publication_date = db.Column(db.DateTime)
     confidence_level = db.Column(db.SmallInteger(), default=0, nullable=False)
     red_flags_count = db.Column(db.Integer(), nullable=False)
+    # is blank if no anonymous version exists
     anonymized_pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=True)
+
+    #preprocessed text
+    preprocessed_text = db.Column(db.Text(), nullable=True)
 
     # foreign keys
     parent_paper = db.Column(db.Integer, db.ForeignKey('papers.id'))
