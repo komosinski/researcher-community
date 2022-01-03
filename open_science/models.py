@@ -88,12 +88,14 @@ class User(db.Model, UserMixin):
     weight = db.Column(db.Float, nullable=False, default=1.0)
     red_flags_count = db.Column(db.Integer(), nullable=False)
     reputation = db.Column(db.Integer(), default=100, nullable=False)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
 
     # foreign keys
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
 
     # relationships
-    rel_created_paper_versions = db.relationship("PaperVersion", secondary=association_paper_version_user,
+    rel_created_paper_versions = db.relationship("PaperRevision", secondary=association_paper_version_user,
                                                  back_populates="rel_creators")
     rel_tags_to_user = db.relationship("Tag", secondary=association_tag_user, back_populates="rel_users_with_this_tag")
     rel_privileges_set = db.relationship("PrivilegeSet", back_populates="rel_users")
@@ -246,12 +248,14 @@ class Tag(db.Model):
     description = db.Column(db.String(length=mc.TAG_DESCRIPTION_L), nullable=False)
     deadline = db.Column(db.DateTime, nullable=True)
     red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # relationships
-    rel_related_paper_versions = db.relationship("PaperVersion", secondary=association_tag_paper_version,
+    rel_related_paper_versions = db.relationship("PaperRevision", secondary=association_tag_paper_version,
                                                  back_populates="rel_related_tags")
     rel_users_with_this_tag = db.relationship("User", secondary=association_tag_user, back_populates="rel_tags_to_user")
     rel_creator = db.relationship("User", back_populates="rel_created_tags")
@@ -269,7 +273,7 @@ class Paper(db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # relationships
-    rel_related_versions = db.relationship("PaperVersion", back_populates="rel_parent_paper")
+    rel_related_versions = db.relationship("PaperRevision", back_populates="rel_parent_paper")
 
    
 
@@ -279,7 +283,24 @@ class Paper(db.Model):
         }
 
 
-class PaperVersion(db.Model):
+
+class CalibrationPaper(db.Model):
+
+    __tablename__ = "calibration_papers"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # columns
+    pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=False)
+    preprocessed_text = db.Column(db.Text(), nullable=True)
+
+     #foreign keys
+    author = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+
+class PaperRevision(db.Model):
     __tablename__ = "paper_versions"
 
     # primary keys
@@ -294,7 +315,13 @@ class PaperVersion(db.Model):
     publication_date = db.Column(db.DateTime)
     confidence_level = db.Column(db.SmallInteger(), default=0, nullable=False)
     red_flags_count = db.Column(db.Integer(), nullable=False)
+    # is blank if no anonymous version exists
     anonymized_pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=True)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
+
+    #preprocessed text
+    preprocessed_text = db.Column(db.Text(), nullable=True)
 
     # foreign keys
     parent_paper = db.Column(db.Integer, db.ForeignKey('papers.id'))
@@ -345,6 +372,8 @@ class Review(db.Model):
     edit_counter = db.Column(db.Integer(), nullable=False, default=0)
     is_anonymous = db.Column(db.Boolean, nullable=False, default=False)
     is_hidden = db.Column(db.Boolean, nullable=False, default=False)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
 
     # evaluation criteria
     evaluation_novel = db.Column(db.Float(precision=2), nullable=False, default=0.0)
@@ -361,12 +390,12 @@ class Review(db.Model):
     rel_comments_to_this_review = db.relationship("Comment", secondary=association_comment_review,
                                                   back_populates="rel_related_review")
     rel_creator = db.relationship("User", back_populates="rel_created_reviews")
-    rel_related_paper_version = db.relationship("PaperVersion", back_populates="rel_related_reviews")
+    rel_related_paper_version = db.relationship("PaperRevision", back_populates="rel_related_reviews")
     rel_red_flags_received = db.relationship("RedFlagReview", back_populates="rel_to_review")
 
     def get_paper_title(self):
-        return db.session.query(PaperVersion.title).filter(
-                PaperVersion.id == self.related_paper_version).scalar()
+        return db.session.query(PaperRevision.title).filter(
+            PaperRevision.id == self.related_paper_version).scalar()
 
     def to_dict(self):
         return {
@@ -396,8 +425,7 @@ class Review(db.Model):
 
         return previous_reviews
 
-      # returns reviews connected to previous paper versions wiritten by self.creator
-      # TODO: complete this..
+    # returns reviews connected to previous paper versions written by self.creator
     def get_previous_creator_reviews(self):
         paper_versions = self.rel_related_paper_version.rel_parent_paper.rel_related_versions
         previous_paper_versions = [version for version in paper_versions
@@ -405,7 +433,8 @@ class Review(db.Model):
         previous_reviews = []
         for version in previous_paper_versions:
             for review in version.rel_related_reviews:
-                previous_reviews.append(review)
+                if review.creator == self.creator:
+                    previous_reviews.append(review)
 
         return previous_reviews
 
@@ -437,7 +466,7 @@ class ReviewRequest(db.Model):
 
     # relationships
     rel_requested_user = db.relationship("User", back_populates="rel_related_review_requests")
-    rel_related_paper_version = db.relationship("PaperVersion", back_populates="rel_related_review_requests")
+    rel_related_paper_version = db.relationship("PaperRevision", back_populates="rel_related_review_requests")
 
     def set_reasons(self, reason_ids):
 
@@ -466,15 +495,16 @@ class Comment(db.Model):
     text = db.Column(db.String(length=mc.COMMENT_TEXT_L))
     votes_score = db.Column(db.Integer(), nullable=False)
     red_flags_count = db.Column(db.Integer(), nullable=False)
-    is_hidden = db.Column(db.Boolean, nullable=False, default=False)
     level = db.Column(db.Integer(), nullable=False)
     date = db.Column(db.DateTime)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # relationships
-    rel_related_paper_version = db.relationship("PaperVersion", secondary=association_comment_paper_version,
+    rel_related_paper_version = db.relationship("PaperRevision", secondary=association_comment_paper_version,
                                                 back_populates="rel_related_comments")
     rel_related_review = db.relationship("Review", secondary=association_comment_review,
                                          back_populates="rel_comments_to_this_review")
@@ -716,7 +746,7 @@ class RedFlagPaperVersion(db.Model):
 
     # relationships
     rel_creator = db.relationship("User", back_populates="rel_paper_version_red_flags")
-    rel_to_paper_version = db.relationship("PaperVersion", back_populates="rel_red_flags_received")
+    rel_to_paper_version = db.relationship("PaperRevision", back_populates="rel_red_flags_received")
 
 
 class RedFlagReview(db.Model):
@@ -774,7 +804,7 @@ class License(db.Model):
     license = db.Column(db.String(length=mc.L_LICENSE_L), nullable=False)
 
     # relationships
-    rel_related_paper_versions = db.relationship("PaperVersion", secondary=association_paper_version_license,
+    rel_related_paper_versions = db.relationship("PaperRevision", secondary=association_paper_version_license,
                                                  back_populates="rel_related_licenses")
 
 
@@ -819,7 +849,7 @@ event.listen(
 
 admin.add_view(MessageToStaffView(MessageToStaff, db.session))
 admin.add_view(UserView(User, db.session))
-admin.add_view(MyModelView(PaperVersion, db.session))
+admin.add_view(MyModelView(PaperRevision, db.session))
 admin.add_view(MyModelView(Tag, db.session))
 admin.add_view(MyModelView(Review, db.session))
 admin.add_view(MyModelView(ReviewRequest, db.session))
