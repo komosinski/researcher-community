@@ -44,3 +44,6 @@ class Config(object):
     
     # Number of days to the end of the assumed review writing time
     REVIEW_DEADLINE_REMIND = int(os.environ.get('REVIEW_DEADLINE_REMIND') or 2)
+
+    # Number of red flags required to hide item
+    RED_FLAGS_THRESHOLD = int(os.environ.get('RED_FLAGS_THRESHOLD') or 5)
