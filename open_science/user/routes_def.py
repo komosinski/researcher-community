@@ -22,7 +22,7 @@ def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
         ps_standard_user = PrivilegeSet.query.filter(PrivilegeSet.id==User.user_types_enum.STANDARD_USER.value).first()
-
+        print(form.password.data)
         user_to_create = User(first_name=form.first_name.data,
                               second_name=form.second_name.data,
                               email=form.email.data,
