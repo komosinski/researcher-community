@@ -7,7 +7,7 @@ from flask import url_for
 def create_test_data():
     # check if the test data has been created
     create_essential_data()
-    existing_paper_version = db.session.query(PaperVersion.id).filter(PaperVersion.title == 'title1').first()
+    existing_paper_version = db.session.query(PaperRevision.id).filter(PaperRevision.title == 'title1').first()
     if existing_paper_version:
         return False
 
@@ -190,24 +190,24 @@ def create_test_data():
     p15 = Paper()
     db.session.add(p15)
 
-    pve1 = PaperVersion(
+    pve1_1 = PaperRevision(
         version=1,
         pdf_url="https://paperurl1.com",
-        title="title1",
+        title="title1.1",
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
     )
-    pve1.rel_related_comments = [c1, c2]
-    pve1.rel_related_reviews = [r1]
-    pve1.rel_parent_paper = p1
-    db.session.add(pve1)
+    pve1_1.rel_related_comments = [c1, c2]
+    pve1_1.rel_related_reviews = [r1]
+    pve1_1.rel_parent_paper = p1
+    db.session.add(pve1_1)
 
-    pve2 = PaperVersion(
-        pdf_url="https://paperurl2.com",
-        title="title2",
+    pve1_2 = PaperRevision(
+        pdf_url="https://paperurl1_2.com",
+        title="title1.2",
         version=2,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         summarized_changes="summarized_changes",
@@ -215,14 +215,14 @@ def create_test_data():
         confidence_level=1,
         red_flags_count=0
     )
-    pve2.rel_related_comments = [c3, c4]
-    pve2.rel_related_reviews = [r2]
-    pve2.rel_parent_paper = p1
-    db.session.add(pve2)
+    pve1_2.rel_related_comments = [c3, c4]
+    pve1_2.rel_related_reviews = [r2]
+    pve1_2.rel_parent_paper = p1
+    db.session.add(pve1_2)
 
-    pve3 = PaperVersion(
-        pdf_url="https://paperurl3.com",
-        title="title3",
+    pve1_3 = PaperRevision(
+        pdf_url="https://paperurl1_3.com",
+        title="title1.3",
         version=3,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         summarized_changes="summarized_changes",
@@ -230,25 +230,51 @@ def create_test_data():
         confidence_level=1,
         red_flags_count=0
     )
-    pve3.rel_related_comments = [c5, c6, c7, c8, c9]
-    pve3.rel_related_reviews = [r3]
-    pve3.rel_parent_paper = p1
+    pve1_3.rel_related_comments = [c5, c6, c7, c8, c9]
+    pve1_3.rel_related_reviews = [r3]
+    pve1_3.rel_parent_paper = p1
+    db.session.add(pve1_3)
+
+    pve2 = PaperRevision(
+        pdf_url="https://paperurl2.com",
+        title="title2",
+        version=1,
+        abstract="description2 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        summarized_changes="summarized_changes",
+        publication_date=dt.datetime.utcnow(),
+        confidence_level=1,
+        red_flags_count=0
+    )
+    pve2.rel_parent_paper = p2
+    db.session.add(pve2)
+
+    pve3 = PaperRevision(
+        pdf_url="https://paperurl3.com",
+        title="title3",
+        version=1,
+        abstract="description3 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        summarized_changes="summarized_changes",
+        publication_date=dt.datetime.utcnow(),
+        confidence_level=3,
+        red_flags_count=0
+    )
+    pve3.rel_parent_paper = p3
     db.session.add(pve3)
 
-    pve4 = PaperVersion(
+    pve4 = PaperRevision(
         pdf_url="https://paperurl4.com",
         title="title4",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
-        confidence_level=1,
+        confidence_level=3,
         red_flags_count=0
     )
     pve4.rel_parent_paper = p4
     db.session.add(pve4)
 
-    pve5 = PaperVersion(
+    pve5 = PaperRevision(
         pdf_url="https://paperurl5.com",
         title="title5",
         version=1,
@@ -261,7 +287,7 @@ def create_test_data():
     pve5.rel_parent_paper = p5
     db.session.add(pve5)
 
-    pve6 = PaperVersion(
+    pve6 = PaperRevision(
         pdf_url="https://paperurl6.com",
         title="title6",
         version=1,
@@ -274,7 +300,7 @@ def create_test_data():
     pve6.rel_parent_paper = p6
     db.session.add(pve6)
 
-    pve7 = PaperVersion(
+    pve7 = PaperRevision(
         pdf_url="https://paperurl7.com",
         title="title7",
         version=1,
@@ -287,7 +313,7 @@ def create_test_data():
     pve7.rel_parent_paper = p7
     db.session.add(pve7)
 
-    pve8 = PaperVersion(
+    pve8 = PaperRevision(
         pdf_url="https://paperurl8.com",
         title="title8",
         version=1,
@@ -300,7 +326,7 @@ def create_test_data():
     pve8.rel_parent_paper = p8
     db.session.add(pve8)
 
-    pve9 = PaperVersion(
+    pve9 = PaperRevision(
         pdf_url="https://paperurl9.com",
         title="title9",
         version=1,
@@ -313,7 +339,7 @@ def create_test_data():
     pve9.rel_parent_paper = p9
     db.session.add(pve9)
 
-    pve10 = PaperVersion(
+    pve10 = PaperRevision(
         pdf_url="https://paperurl10.com",
         title="title10",
         version=1,
@@ -326,7 +352,7 @@ def create_test_data():
     pve10.rel_parent_paper = p10
     db.session.add(pve10)
 
-    pve11 = PaperVersion(
+    pve11 = PaperRevision(
         pdf_url="https://paperurl11.com",
         title="title11",
         version=1,
@@ -339,7 +365,7 @@ def create_test_data():
     pve11.rel_parent_paper = p11
     db.session.add(pve11)
 
-    pve12 = PaperVersion(
+    pve12 = PaperRevision(
         pdf_url="https://paperurl12.com",
         title="title12",
         version=1,
@@ -352,7 +378,7 @@ def create_test_data():
     pve12.rel_parent_paper = p12
     db.session.add(pve12)
 
-    pve13 = PaperVersion(
+    pve13 = PaperRevision(
         pdf_url="https://paperurl13.com",
         title="title13",
         version=1,
@@ -365,7 +391,7 @@ def create_test_data():
     pve13.rel_parent_paper = p13
     db.session.add(pve13)
 
-    pve14 = PaperVersion(
+    pve14 = PaperRevision(
         pdf_url="https://paperurl14.com",
         title="title14",
         version=1,
@@ -378,7 +404,7 @@ def create_test_data():
     pve14.rel_parent_paper = p14
     db.session.add(pve14)
 
-    pve15 = PaperVersion(
+    pve15 = PaperRevision(
         pdf_url="https://paperurl15.com",
         title="title15",
         version=1,
@@ -391,33 +417,6 @@ def create_test_data():
     pve15.rel_parent_paper = p15
     db.session.add(pve15)
 
-    # p2 p3
-    pve2_ = PaperVersion(
-        pdf_url="https://paperurl2.com",
-        title="title2",
-        version=1,
-        abstract="description2 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
-        publication_date=dt.datetime.utcnow(),
-        confidence_level=1,
-        red_flags_count=0
-    )
-    pve2_.rel_parent_paper = p2
-    db.session.add(pve2_)
-
-    pve3_ = PaperVersion(
-        pdf_url="https://paperurl3.com",
-        title="title3",
-        version=1,
-        abstract="description3 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
-        publication_date=dt.datetime.utcnow(),
-        confidence_level=1,
-        red_flags_count=0
-    )
-    pve3_.rel_parent_paper = p3
-    db.session.add(pve3_)
-
     # to read Papers' id from autoincrement
     db.session.flush()
 
@@ -427,7 +426,7 @@ def create_test_data():
         deadline=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    t1.rel_related_paper_versions = [pve1, pve2]
+    t1.rel_related_paper_versions = [pve1_1, pve1_2]
     db.session.add(t1)
 
     t2 = Tag(
@@ -444,7 +443,7 @@ def create_test_data():
         deadline=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    t3.rel_related_paper_versions = [pve1, pve6, pve7, pve8]
+    t3.rel_related_paper_versions = [pve1_1, pve6, pve7, pve8]
     db.session.add(t3)
 
     u1 = User(
@@ -466,7 +465,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u1.rel_created_paper_versions = [pve1, pve2, pve4, pve5, pve6, pve7, pve8, pve9]
+    u1.rel_created_paper_versions = [pve1_1, pve1_2, pve4, pve5, pve6, pve7, pve8, pve9]
     u1.rel_tags_to_user = [t1, t2]
     u1.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u1.rel_created_tags = [t3]
@@ -501,7 +500,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u2.rel_created_paper_versions = [pve3, pve10, pve11]
+    u2.rel_created_paper_versions = [pve1_3, pve10, pve11]
     u2.rel_tags_to_user = [t3]
     u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u2.rel_created_tags = [t1, t2]
@@ -580,14 +579,14 @@ def create_test_data():
     )
 
     rr1.rel_requested_user = u1
-    rr1.rel_related_paper_version = pve1
+    rr1.rel_related_paper_version = pve1_1
     db.session.add(rr1)
 
     rr2 = ReviewRequest(
         creation_datetime=dt.datetime.utcnow()
     )
     rr2.rel_requested_user = u2
-    rr2.rel_related_paper_version = pve1
+    rr2.rel_related_paper_version = pve1_1
     db.session.add(rr2)
 
     rr3 = ReviewRequest(
@@ -597,7 +596,7 @@ def create_test_data():
         deadline_date=dt.datetime.utcnow().date()
     )
     rr3.rel_requested_user = u3
-    rr3.rel_related_paper_version = pve1
+    rr3.rel_related_paper_version = pve1_1
     db.session.add(rr3)
 
     # TODO: check logic. initially decision is None
@@ -735,7 +734,7 @@ def create_test_data():
     l1 = License(
         license="license1"
     )
-    l1.rel_related_paper_versions = [pve1, pve2, pve3, pve4, pve5, pve6, pve7]
+    l1.rel_related_paper_versions = [pve1_1, pve1_2, pve1_3, pve4, pve5, pve6, pve7]
     db.session.add(l1)
 
     l2 = License(
@@ -747,7 +746,7 @@ def create_test_data():
     l3 = License(
         license="license3"
     )
-    l3.rel_related_paper_versions = [pve15, pve2_, pve3_]
+    l3.rel_related_paper_versions = [pve15, pve2, pve3]
     db.session.add(l3)
 
     # red flags
@@ -778,17 +777,17 @@ def create_test_data():
     #
     # rfpv1 = RedFlagPaperVersion()
     # rfpv1.creator = u1
-    # rfpv1.to_paper_version = pve1
+    # rfpv1.to_paper_version = pve1_1
     # db.session.add(rfpv1)
     #
     # rfpv2 = RedFlagPaperVersion()
     # rfpv2.creator = u2
-    # rfpv2.to_paper_version = pve2
+    # rfpv2.to_paper_version = pve1_2
     # db.session.add(rfpv2)
     #
     # rfpv3 = RedFlagPaperVersion()
     # rfpv3.creator = u3
-    # rfpv3.to_paper_version = pve3
+    # rfpv3.to_paper_version = pve1_3
     # db.session.add(rfpv3)
     #
     # rfpv4 = RedFlagPaperVersion()
