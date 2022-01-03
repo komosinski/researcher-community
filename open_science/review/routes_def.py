@@ -1,6 +1,6 @@
 from open_science.review.forms import ReviewRequestForm, ReviewEditForm
 from open_science import db
-from open_science.models import  PaperVersion, ReviewRequest, Review
+from open_science.models import  PaperRevision, ReviewRequest, Review
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask_login import current_user
@@ -121,7 +121,7 @@ def review_edit_page(review_id):
         # TODO: change 2nd link to anonymized version
         'paper_url' :
             url_for('article',id=review.related_paper_version, anonymous=False) 
-            if  db.session.query(PaperVersion.anonymized_pdf_url).filter(PaperVersion.id==review.related_paper_version).scalar()
+            if  db.session.query(PaperRevision.anonymized_pdf_url).filter(PaperRevision.id == review.related_paper_version).scalar()
             else
             url_for('article',id=review.related_paper_version, anonymous=True)
     }
