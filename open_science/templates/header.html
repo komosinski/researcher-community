@@ -14,11 +14,14 @@
         <div class="header-user-control">
             <div class="author-wrapper">
                 {% set notifications_url = url_for('notifications_page',page=1,unread='False') %}
-                <div onclick="location.href='{{notifications_url}}';" style="cursor: pointer;">
-                    #NOTIFICATION_BELL
+                <div class="notifications-wrapper" onclick="location.href='{{notifications_url}}';" style="cursor: pointer;">
+                    <i class="fas fa-bell"></i>
+                    <!-- {% set notifications_count=current_user.get_new_notifications_count() %} -->
                     {% set notifications_count=current_user.get_new_notifications_count() %}
-                    {% if notifications_count %}
-                    <span class="">{{ notifications_count }}</span>
+                    {% if notifications_count > 0 and notifications_count < 100 %}
+                    <span class="notif-counter">{{ notifications_count }}</span>
+                    {% elif notifications_count >= 100 %}
+                    <span class="notif-counter">99+</span>
                     {% endif %}
                 </div>
                 <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~current_user.get_id()~'.png' if current_user.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}"/>
