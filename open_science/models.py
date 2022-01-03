@@ -275,11 +275,20 @@ class Paper(db.Model):
     # relationships
     rel_related_versions = db.relationship("PaperRevision", back_populates="rel_parent_paper")
 
-   
+    def get_latest_revision(self):
+       return max(self.rel_related_versions, key = lambda v: v.publication_date)
 
+    # TODO: I think this new dict conversion will be better and should maintain backwards compatibility
+    # However, in case of problems just uncomment the old version below
+    # def to_dict(self):
+    #     return {
+    #         'id': self.id
+    #     }
     def to_dict(self):
         return {
-            'id': self.id
+            'id': self.id,
+            'paper_title': self.get_latest_revision().title,
+            'publication_datetime': self.get_latest_revision().publication_date
         }
 
 
@@ -311,10 +320,10 @@ class PaperRevision(db.Model):
     pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=False)
     title = db.Column(db.String(length=mc.PV_TITLE_L), nullable=False)
     abstract = db.Column(db.String(length=mc.PV_ABSTRACT_L), nullable=False)
-    summarized_changes = db.Column(db.String(length=mc.PV_CHANGES_L), nullable=False)
+    summarized_changes = db.Column(db.String(length=mc.PV_CHANGES_L), nullable=True)
     publication_date = db.Column(db.DateTime)
     confidence_level = db.Column(db.SmallInteger(), default=0, nullable=False)
-    red_flags_count = db.Column(db.Integer(), nullable=False)
+    red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
     # is blank if no anonymous version exists
     anonymized_pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=True)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)

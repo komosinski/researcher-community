@@ -25,16 +25,28 @@
 
 <script>
     $(document).ready(function () {
-      $('#data').DataTable({
+      const table = $('#data').DataTable({
         lengthChange: false,
         ajax: '/api/user_reviews',
         serverSide: true,
+        rowId: 'id',
         columns: [
           {data: 'paper_title'},
           {data: 'publication_datetime'},
-          {"defaultContent": "<button>Edit</button>", orderable: false },
-          {"defaultContent": "<button>Hide</button>", orderable: false}
+          {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false },
+          {"defaultContent": "<button class='dt-hide-btn'>Hide</button>", orderable: false}
         ],
+      });
+
+      $('#data').on('click', '.dt-edit-btn', function (e) {
+        const id = $(this).closest("tr").attr("id");
+        window.location.assign(`http://localhost:5000/review/edit/${id}`);
+      });
+
+      $('#data').on('click', '.dt-hide-btn', function (e) {
+        const id = $(this).closest("tr").attr("id");
+        //TODO: insert review hiding endpoint here
+        window.location.assign(`http://localhost:5000/review/hide/${id}`);
       });
     });
 </script>

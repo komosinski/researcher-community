@@ -7,7 +7,7 @@ from wtforms.fields.simple import SubmitField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired
 from open_science import db
-from open_science.models import Comment, Paper, Review, User, MessageToStaff, VoteComment
+from open_science.models import Comment, Paper, PaperRevision, Review, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm
 from flask.helpers import url_for
 from flask.templating import render_template
@@ -92,15 +92,24 @@ def fileUploadPage():
 
         f.save(path)
 
-        paper = Paper(
-            url=url,
-            title=title,
-            text="Lorem ipsum tralala",
-            description=description,
-            publication_date=dt.datetime.utcnow(),
-            license="CC-BY-ND 4.0",
+        # paper = Paper(
+        #     url=url,
+        #     title=title,
+        #     text="Lorem ipsum tralala",
+        #     description=description,
+        #     publication_date=dt.datetime.utcnow(),
+        #     license="CC-BY-ND 4.0",
+        #     rel_creators = [current_user] + users
+        # )
+        paper = Paper()
+        paper_version = PaperRevision(
+            pdf_url = url,
+            title = title,
+            abstract = description,
+            publication_date = dt.datetime.utcnow(),
             rel_creators = [current_user] + users
         )
+        paper.rel_related_versions.append(paper_version)
 
         db.session.add(paper)
         db.session.commit()
@@ -118,12 +127,15 @@ def view_article(id):
 
     article = Paper.query.get(id)
     if not article: abort(404)
-    if article.rel_related_reviews:
-        review_scores = [review.votes_score*review.weight for review in article.rel_related_reviews]
-        review_weight_sum = sum([review.weight for review in article.rel_related_reviews])
-        reviewMean = sum(review_scores)/review_weight_sum
+    pv = article.get_latest_revision()
+    if pv.rel_related_reviews:
+        review_scores = [review.review_score for review in pv.rel_related_reviews]
+        reviewMean = sum(review_scores)/len(review_scores)
+        # review_scores = [review.votes_score*review.weight for review in pv.rel_related_reviews]
+        # review_weight_sum = sum([review.weight for review in pv.rel_related_reviews])
+        # reviewMean = sum(review_scores)/review_weight_sum
     else: reviewMean = 0
-    return render_template("article/view.html", article=article, similar=[article, article, article], score=reviewMean)
+    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], score=reviewMean)
 
 def like():
     likeType = request.json.get('type')
