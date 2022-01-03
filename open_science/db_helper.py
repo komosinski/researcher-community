@@ -2,7 +2,7 @@ from operator import and_
 
 from sqlalchemy import func
 
-from open_science import db
+from open_science import db, app
 from open_science.models import PaperRevision, Review
 
 
@@ -28,3 +28,15 @@ def get_missing_reviews_pvs(page_num, rows_per_page):
         .paginate(page=page_num, per_page=rows_per_page)
 
     return paper_versions
+
+# returns true if object is not hidden by exceeding the red flags limit
+# handles force_show and force_hide
+def can_show_object(item):
+    if item.force_show and item.force_hide:
+        raise ValueError("Both force_show and force_hide values can't be true")
+    elif item.force_show:
+        return True
+    elif item.force_hide:
+        return False
+    else:
+        return item.red_flags_count < app.config['RED_FLAGS_THRESHOLD']

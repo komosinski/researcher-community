@@ -88,6 +88,8 @@ class User(db.Model, UserMixin):
     weight = db.Column(db.Float, nullable=False, default=1.0)
     red_flags_count = db.Column(db.Integer(), nullable=False)
     reputation = db.Column(db.Integer(), default=100, nullable=False)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
 
     # foreign keys
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
@@ -246,6 +248,8 @@ class Tag(db.Model):
     description = db.Column(db.String(length=mc.TAG_DESCRIPTION_L), nullable=False)
     deadline = db.Column(db.DateTime, nullable=True)
     red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -313,6 +317,8 @@ class PaperRevision(db.Model):
     red_flags_count = db.Column(db.Integer(), nullable=False)
     # is blank if no anonymous version exists
     anonymized_pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=True)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
 
     #preprocessed text
     preprocessed_text = db.Column(db.Text(), nullable=True)
@@ -366,6 +372,8 @@ class Review(db.Model):
     edit_counter = db.Column(db.Integer(), nullable=False, default=0)
     is_anonymous = db.Column(db.Boolean, nullable=False, default=False)
     is_hidden = db.Column(db.Boolean, nullable=False, default=False)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
 
     # evaluation criteria
     evaluation_novel = db.Column(db.Float(precision=2), nullable=False, default=0.0)
@@ -487,9 +495,10 @@ class Comment(db.Model):
     text = db.Column(db.String(length=mc.COMMENT_TEXT_L))
     votes_score = db.Column(db.Integer(), nullable=False)
     red_flags_count = db.Column(db.Integer(), nullable=False)
-    is_hidden = db.Column(db.Boolean, nullable=False, default=False)
     level = db.Column(db.Integer(), nullable=False)
     date = db.Column(db.DateTime)
+    force_hide = db.Column(db.Boolean, nullable=False, default=False)
+    force_show = db.Column(db.Boolean, nullable=False, default=False)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
