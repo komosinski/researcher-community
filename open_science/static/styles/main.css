@@ -363,3 +363,25 @@ body {
 .reviews-entry-declined {
     background-color: red;
 }
+
+.notifications-wrapper {
+    position: relative;
+    margin-right: 12px;
+}
+
+.notif-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    color: white;
+    font-weight: bolder;
+    font-size: 9px;
+    font-family: "Arial";
+    position: absolute;
+    right: -7px;
+    top: -4px;
+}
