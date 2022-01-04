@@ -3,7 +3,9 @@ from open_science import app
 from open_science import routes_def as rd
 from open_science.test_data import create_test_data
 from open_science.user import routes_def as user_rd
+from open_science.user import api as user_api
 from open_science.review import routes_def as review_rd
+from open_science.tag import routes_def as tag_rd
 from flask_login import login_required
 from open_science import limiter
 
@@ -140,8 +142,9 @@ def contact_staff_page():
 
 @app.route('/api/user_papers')
 @login_required
+@rd.scientific_user_required
 def user_papers_data():
-    return user_rd.user_papers_data()
+    return user_api.user_papers_data()
 
 @app.route('/review/request/<request_id>', methods=['GET', 'POST'])
 @login_required
@@ -177,21 +180,45 @@ def update_notification_and_redirect():
 
 @app.route('/api/user_reviews')
 @login_required
+@rd.scientific_user_required
 def user_reviews_data():
-    return user_rd.user_reviews_data()
+    return user_api.user_reviews_data()
 
 @app.route('/tag/create', methods=['GET', 'POST'])
 @login_required
 @rd.scientific_user_required
 def create_tag_page():
-    return user_rd.create_tag_page()
+    return tag_rd.create_tag_page()
 
 @app.route('/tag/edit/<tag_id>', methods=['GET', 'POST'])
 @login_required
 @rd.scientific_user_required
 def edit_tag_page(tag_id):
-    return user_rd.edit_tag_page(tag_id)
+    return tag_rd.edit_tag_page(tag_id)
 
 @app.route('/review/<review_id>',)
 def review_page(review_id):
     return review_rd.review_page(review_id)
+
+@app.route('/review/hide/<review_id>', methods=['GET', 'POST'])
+@login_required
+@rd.scientific_user_required
+def hide_review(review_id):
+    return review_rd.hide_review(review_id)
+
+@app.route('/api/user_tags')
+@login_required
+@rd.scientific_user_required
+def user_tags_data():
+    return user_api.user_tags_data()
+
+@app.route('/api/user_comments')
+@login_required
+def user_comments_data():
+    return user_api.user_comments_data()
+
+@app.route('/tag/<tag_id>')
+@login_required
+def tag_page(tag_id):
+    return tag_rd.tag_page(tag_id)
+

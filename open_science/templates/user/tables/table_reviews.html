@@ -3,12 +3,14 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
 {%endblock%}
 
-<table id="data" class="table table-striped">
+<table id="data_reviews" class="table table-striped">
     <thead>
       <tr>
-        <th>Paper's Title</th>            
-        <th>Publication date</th> 
+        <th>Paper's Title</th>    
+        <th>Paper's Revision</th>        
+        <th>Review's Publication date</th> 
         <th>Edit</th>
+        <th>Is visible</th>
         <th>Hide</th>
       </tr>
     </thead>
@@ -25,29 +27,41 @@
 
 <script>
     $(document).ready(function () {
-      const table = $('#data').DataTable({
+      const table = $('#data_reviews').DataTable({
         lengthChange: false,
         ajax: '/api/user_reviews',
         serverSide: true,
         rowId: 'id',
         columns: [
           {data: 'paper_title'},
+          {data: 'paper_version'},
           {data: 'publication_datetime'},
           {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false },
-          {"defaultContent": "<button class='dt-hide-btn'>Hide</button>", orderable: false}
+          {data: 'is_visible'},
+          {"defaultContent": "<button class='dt-hide-btn'>Hide</button>", orderable: false }
         ],
       });
 
-      $('#data').on('click', '.dt-edit-btn', function (e) {
-        const id = $(this).closest("tr").attr("id");
-        window.location.assign(`http://localhost:5000/review/edit/${id}`);
+      $('#data_reviews').on('click', '.dt-edit-btn', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().edit_url;
+        window.location.assign(url);
       });
 
-      $('#data').on('click', '.dt-hide-btn', function (e) {
-        const id = $(this).closest("tr").attr("id");
+      $('#data_reviews').on('click', '.dt-hide-btn', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().hide_url;
         //TODO: insert review hiding endpoint here
-        window.location.assign(`http://localhost:5000/review/hide/${id}`);
+        window.location.assign(url);
       });
+
+      $('#data_reviews').on('click', 'tr', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().show_url;
+        window.location.assign(url);
+      });
+
+
     });
 </script>
 

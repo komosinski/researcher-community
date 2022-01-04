@@ -133,3 +133,7 @@ def review_page(review_id):
     review = Review.query.filter(Review.id==review_id).first_or_404()
 
     return render_template('review/review.html', review=review)
+
+
+def hide_review(review_id):
+    return 'review hide'
