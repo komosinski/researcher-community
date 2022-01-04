@@ -12,6 +12,7 @@ from sqlalchemy import func
 from open_science import app
 from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -266,6 +267,17 @@ class Tag(db.Model):
         return value.upper()
 
 
+    # used in table with user's tag in user private profile
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': f'{self.description[:29]}...',
+            'deadline': self.deadline,
+            'edit_url': url_for('edit_tag_page',tag_id=self.id),
+            'show_url': url_for('tag_page', tag_id=self.id)
+        }
+
 class Paper(db.Model):
     __tablename__ = "papers"
 
@@ -353,7 +365,11 @@ class PaperRevision(db.Model):
         return {
             'id': self.id,
             'title': self.title,
-            'publication_date': self.publication_date
+            'publication_date': self.publication_date,
+            'version': self.version,
+            'show_url': url_for('article', id=self.id),
+            # TODO: change edit_url
+            'edit_url': url_for('article', id=self.id)
         }
 
     def get_active_reviews_list(self):
@@ -407,11 +423,17 @@ class Review(db.Model):
             PaperRevision.id == self.related_paper_version).scalar()
 
     def to_dict(self):
+        paper_revision = self.rel_related_paper_version
+      
         return {
             'id': self.id,
-            'paper_title': self.get_paper_title(),
+            'paper_title': paper_revision.title,
+            'paper_version': paper_revision.version,
             'publication_datetime': self.publication_datetime,
-            'edit_url': url_for('review_edit_page', review_id=self.id)
+            'edit_url': url_for('review_edit_page', review_id=self.id),
+            'is_visible' : 'No' if self.is_hidden else 'Yes',
+            'hide_url': url_for('hide_review', review_id=self.id),
+            'show_url': url_for('review_page', review_id=self.id)
         }
 
     def get_author_name(self):
@@ -514,9 +536,9 @@ class Comment(db.Model):
 
     # relationships
     rel_related_paper_version = db.relationship("PaperRevision", secondary=association_comment_paper_version,
-                                                back_populates="rel_related_comments")
+                                                back_populates="rel_related_comments", uselist=False)
     rel_related_review = db.relationship("Review", secondary=association_comment_review,
-                                         back_populates="rel_comments_to_this_review")
+                                         back_populates="rel_comments_to_this_review", uselist=False)
     rel_related_comment = db.relationship("Comment",
                                           secondary=association_comment_comment,
                                           primaryjoin=association_comment_comment.c.comment_parent_id == id,
@@ -532,6 +554,36 @@ class Comment(db.Model):
     rel_red_flags_received = db.relationship("RedFlagComment", back_populates="rel_to_comment",
                                              foreign_keys="RedFlagComment.to_comment")
 
+
+    # TODO: check correctness
+    def to_dict(self):
+        refers_to = ''
+        show_url =  url_for('home_page')
+        paper_verison = self.rel_related_paper_version
+        if paper_verison is not None:
+
+            refers_to = 'Paper'
+            show_url = url_for('article', id=paper_verison.id)
+        
+        review = self.rel_related_review
+        if review is not None:
+            refers_to = 'Review'
+            show_url = url_for('review_page', review_id=review.id)
+
+        comment = self.rel_related_comment
+        if comment is not None:
+            # TODO: check Type of comment(under Review/paper/comment) and prepare url 
+            refers_to = 'Comment'
+         
+  
+        return {
+            'id': self.id,
+            'text': f'{self.text[:50]}...',
+            'date': self.date,
+            'votes_score': self.votes_score,
+            'refers_to': refers_to,
+            'show_url': show_url
+        }
 
 class MessageToStaff(db.Model):
     __tablename__ = "messages_to_staff"

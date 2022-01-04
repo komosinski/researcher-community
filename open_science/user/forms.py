@@ -1,6 +1,6 @@
 from wtforms.fields.core import SelectField
 from wtforms.fields.simple import TextAreaField
-from open_science.models import User, Tag
+from open_science.models import User
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField
@@ -10,8 +10,7 @@ import open_science.config.models_config as mc
 import open_science.email as em
 from config import Config
 from flask_login import current_user
-from wtforms.fields.html5 import DateTimeLocalField
-import string
+
 
 def validate_password(form, password):
         if not re.search("[a-z]", password.data):
@@ -153,25 +152,3 @@ class EndorsementRequestForm(FlaskForm):
     submit_accept = SubmitField(label='Accept')
     submit_decline = SubmitField(label='Decline')
 
-class EditTagForm(FlaskForm):
-
-    def validate_tag_name(form, name):
-        
-        for char in name.data:
-            if char in string.whitespace:
-                raise ValidationError("Name can not contains whitespaces")
-      
-        if form.previous_name.data == None or form.previous_name.data != name.data.upper(): 
-            tag = Tag.query.filter(Tag.name == name.data.upper()).first()
-            if tag is not None:
-                raise ValidationError('This tag already exists')
-       
-    name = StringField(label='Name', validators=[Length(max=mc.TAG_NAME_L), validate_tag_name,DataRequired()])
-    description = TextAreaField(label='Description', validators=[Length(max=mc.TAG_DESCRIPTION_L),DataRequired()])
-    deadline = DateTimeLocalField(label='Deadline (Optional)',format='%Y-%m-%dT%H:%M',validators=[Optional()]) 
-
-    previous_name =  StringField()
-
-    submit = SubmitField(label='Create tag')
-
-  

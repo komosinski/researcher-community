@@ -1,0 +1,59 @@
+{%block styles%}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+{%endblock%}
+
+<table id="data_papers" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>            
+        <th>Version</th>
+        <th>Publication date</th> 
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+{%block scripts%}
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+<script>
+    $(document).ready(function () {
+      const table =  $('#data_papers').DataTable({
+        lengthChange: false,
+        ajax: '/api/user_papers',
+        serverSide: true,
+        rowId: 'id',
+        columns: [
+          {data: 'title'},
+          {data: 'version'},
+          {data: 'publication_date'},
+          {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false }
+        ],
+      });
+
+
+
+    $('#data_papers').on('click', '.dt-edit-btn', function (e) {
+      e.stopPropagation();
+      const url = table.row($(this).closest('tr')).data().edit_url;
+      window.location.assign(url);
+    });
+
+    $('#data_papers').on('click', 'tr', function (e) {
+      e.stopPropagation();
+      const url = table.row($(this).closest('tr')).data().show_url;
+      window.location.assign(url);
+    });
+    
+  });
+</script>
+
+{%endblock%}
+
+
+

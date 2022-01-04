@@ -92,14 +92,24 @@
 
     {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) and  current_user.is_scientist() %}
 
-        <!-- <div>
+        <div>
             <h3>My Papers</h3>
-            {% include 'user/paper_table.html' %}
-        </div> -->
-      
+            {% include 'user/tables/table_papers.html' %}
+        </div>
+        <br><br>
         <div>
             <h3>My Reviews</h3>
-            {% include 'user/review_table.html' %}
+            {% include 'user/tables/table_reviews.html' %}
+        </div>
+        <br><br>
+        <div>
+            <h3>My Posts</h3>
+            {% include 'user/tables/table_comments.html' %}
+        </div>
+        <br><br>
+        <div>
+            <h3>My Tags</h3>
+            {% include 'user/tables/table_tags.html' %}
         </div>
 
     {% endif %}

@@ -3,14 +3,13 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
 {%endblock%}
 
-<table id="data" class="table table-striped">
+<table id="data_tags" class="table table-striped">
     <thead>
       <tr>
-        <th>Title</th>            
-        <th>Publication date</th> 
-        <th>Score</th>
+        <th>Name</th>    
+        <th>Description</th>        
+        <th>Deadline</th> 
         <th>Edit</th>
-        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -22,20 +21,36 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
 
+
+
 <script>
     $(document).ready(function () {
-      $('#data').DataTable({
+      const table = $('#data_tags').DataTable({
         lengthChange: false,
-        ajax: '/api/user_papers',
+        ajax: '/api/user_tags',
         serverSide: true,
+        rowId: 'id',
         columns: [
-          {data: 'title'},
-          {data: 'publication_date'},
-          {data: 'votes_score'},
-          {"defaultContent": "<button >Edit</button>", orderable: false },
-          {"defaultContent": "<button>Delete</button>", orderable: false}
+          {data: 'name'},
+          {data: 'description'},
+          {data: 'deadline'},
+          {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false },
         ],
       });
+
+      $('#data_tags').on('click', '.dt-edit-btn', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().edit_url;
+        window.location.assign(url);
+      });
+
+      $('#data_tags').on('click', 'tr', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().show_url;
+        window.location.assign(url);
+      });
+
+
     });
 </script>
 
