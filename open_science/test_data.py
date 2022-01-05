@@ -2,6 +2,7 @@ from open_science.models import *
 import datetime as dt
 from flask import url_for
 
+
 def create_test_data():
     # check if the test data has been created
     create_essential_data()
@@ -498,7 +499,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u2.rel_created_paper_revisions = [pve1_3, pve10, pve11]
+    u2.rel_created_paper_revisions = [pve14, pve15, pve12, pve13, pve3, pve2]
     u2.rel_tags_to_user = [t3]
     u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u2.rel_created_tags = [t1, t2]
@@ -528,6 +529,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
+    u3.rel_created_paper_revisions = [pve1_3, pve10, pve11, pve15, pve4, pve5]
     u3.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
     db.session.add(u3)
 
@@ -720,12 +722,28 @@ def create_test_data():
     mts3.rel_topic = MessageTopic.query.filter(MessageTopic.topic == 'Technical issues, corrections').first()
     db.session.add(mts3)
 
+    # notification types
+    nt_review_request = NotificationType.query.get(NotificationTypeEnum.REVIEW_REQUEST.value)
+
     # notifications
-    notification1 = Notification(1, dt.datetime.utcnow(), 'New review request',
-                                 NotificationTypeEnum.REVIEW_REQUEST.value, url_for('review_request_page', request_id=1))
-    notification2 = Notification(2, dt.datetime.utcnow(), 'New review request',
-                                   NotificationTypeEnum.REVIEW_REQUEST.value, url_for('review_request_page', request_id=2))
+    notification1 = Notification(
+        datetime=dt.datetime.utcnow(),
+        title=Notification.set_title(nt_review_request),
+        text='New review request',
+        action_url=url_for('review_request_page', request_id=1)
+    )
+    notification1.rel_notification_type = nt_review_request
+    notification1.rel_user = u1
     db.session.add(notification1)
+
+    notification2 = Notification(
+        datetime=dt.datetime.utcnow(),
+        title=Notification.set_title(nt_review_request),
+        text='New review request',
+        action_url=url_for('review_request_page', request_id=2)
+    )
+    notification2.rel_notification_type = nt_review_request
+    notification2.rel_user = u2
     db.session.add(notification2)
 
     # licenses
@@ -819,6 +837,90 @@ def create_test_data():
     )
     s9.rel_review = r3
     db.session.add(s9)
+
+    cp1 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl1.com",
+        preprocessed_text="preprocessed_text1"
+    )
+    cp1.rel_author = u1
+    db.session.add(cp1)
+
+    cp2 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl2.com",
+        preprocessed_text="preprocessed_text2"
+    )
+    cp2.rel_author = u1
+    db.session.add(cp2)
+
+    cp3 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl3.com",
+        preprocessed_text="preprocessed_text3"
+    )
+    cp3.rel_author = u1
+    db.session.add(cp3)
+
+    cp4 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl4.com",
+        preprocessed_text="preprocessed_text4"
+    )
+    cp4.rel_author = u2
+    db.session.add(cp4)
+
+    cp5 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl5.com",
+        preprocessed_text="preprocessed_text5"
+    )
+    cp5.rel_author = u2
+    db.session.add(cp5)
+
+    cp6 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl6.com",
+        preprocessed_text="preprocessed_text6"
+    )
+    cp6.rel_author = u2
+    db.session.add(cp6)
+
+    cp7 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl7.com",
+        preprocessed_text="preprocessed_text7"
+    )
+    cp7.rel_author = u3
+    db.session.add(cp7)
+
+    cp8 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl8.com",
+        preprocessed_text="preprocessed_text8"
+    )
+    cp8.rel_author = u3
+    db.session.add(cp8)
+
+    cp9 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl9.com",
+        preprocessed_text="preprocessed_text9"
+    )
+    cp9.rel_author = u3
+    db.session.add(cp9)
+
+    cp10 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl10.com",
+        preprocessed_text="preprocessed_text10"
+    )
+    cp10.rel_author = u4
+    db.session.add(cp10)
+
+    cp11 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl11.com",
+        preprocessed_text="preprocessed_text11"
+    )
+    cp11.rel_author = u4
+    db.session.add(cp11)
+
+    cp12 = CalibrationPaper(
+        pdf_url="https://calibrationpaperurl12.com",
+        preprocessed_text="preprocessed_text12"
+    )
+    cp12.rel_author = u4
+    db.session.add(cp12)
 
     # red flags
     # rfc1 = RedFlagComment()

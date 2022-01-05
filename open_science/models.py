@@ -115,9 +115,8 @@ class User(db.Model, UserMixin):
                                          foreign_keys="RedFlagUser.creator")
     rel_red_flags_received = db.relationship("RedFlagUser", back_populates="rel_to_user",
                                              foreign_keys="RedFlagUser.to_user")
-
-    # one to many, unidirectional 
-    rel_notifications = db.relationship("Notification", lazy='dynamic')  # foreign_keys="Notification.user_id"
+    rel_calibration_papers = db.relationship("CalibrationPaper", back_populates="rel_author")
+    rel_notifications = db.relationship("Notification", back_populates="rel_user", lazy='dynamic')
 
     # A 'static' variable to avoid importing the Enum class in files and use it in jinja
     user_types_enum = UserTypeEnum
@@ -162,7 +161,7 @@ class User(db.Model, UserMixin):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
     def get_new_notifications_count(self):
-        return Notification.query.filter(Notification.user_id == self.id, Notification.was_seen == False).count()
+        return Notification.query.filter(Notification.user == self.id, Notification.was_seen == False).count()
 
     def can_request_endorsement(self, endorser_id):
 
@@ -240,7 +239,7 @@ class Tag(db.Model):
     __tablename__ = "tags"
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
     # uppercase letters and digits (.isalnum())
@@ -315,6 +314,9 @@ class CalibrationPaper(db.Model):
 
     # foreign keys
     author = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    # relationships
+    rel_author = db.relationship("User", back_populates="rel_calibration_papers")
 
 
 class PaperRevision(db.Model):
@@ -583,7 +585,7 @@ class MessageToStaff(db.Model):
     __tablename__ = "messages_to_staff"
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
     text = db.Column(db.String(length=mc.MTS_TEXT_L), nullable=False)
@@ -603,7 +605,7 @@ class DeclinedReason(db.Model):
     __tablename__ = "declined_reasons"
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
     reason = db.Column(db.String(length=mc.DR_REASON_L), nullable=False)
@@ -625,7 +627,7 @@ class MessageTopic(db.Model):
     __tablename__ = "message_topics"
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
     topic = db.Column(db.String(length=mc.MT_TOPIC_L), nullable=False)
@@ -648,8 +650,10 @@ class MessageTopic(db.Model):
 
 class EmailType(db.Model):
     __tablename__ = 'email_types'
+
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
     # columns
     name = db.Column(db.String(length=mc.EM_TYPE_NAME_L), nullable=False, unique=True)
     rel_email_logs = db.relationship("EmailLog")
@@ -669,7 +673,7 @@ class EmailLog(db.Model):
     __tablename__ = 'email_logs'
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -697,11 +701,14 @@ class NotificationType(db.Model):
     __tablename__ = 'notification_types'
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
     name = db.Column(db.String(length=mc.EM_TYPE_NAME_L), nullable=False, unique=True)
     rel_email_logs = db.relationship("Notification")
+
+    # relations
+    rel_notifications = db.relationship("Notification", back_populates="rel_notification_type", lazy='dynamic')
 
     def insert_types():
         for t in NotificationTypeEnum:
@@ -718,10 +725,9 @@ class Notification(db.Model):
     __tablename__ = 'notifications'
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     datetime = db.Column(db.DateTime, nullable=True)
     title = db.Column(db.String(length=mc.NOTIFICATION_TITLE_L), nullable=False)
     text = db.Column(db.String(length=mc.NOTIFICATION_TEXT_L), nullable=False)
@@ -729,31 +735,57 @@ class Notification(db.Model):
     was_seen = db.Column(db.Boolean, nullable=False, default=False)
 
     # foreign keys
-    notification_type_id = db.Column(db.Integer, db.ForeignKey('notification_types.id'))
+    notification_type = db.Column(db.Integer, db.ForeignKey('notification_types.id'))
+    user = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+
+    # relationships
+    rel_notification_type = db.relationship("NotificationType", back_populates="rel_notifications")
+    rel_user = db.relationship("User", back_populates="rel_notifications")
 
     notification_types_enum = NotificationTypeEnum
 
-    def __init__(self, user_id, datetime, text, notification_type, action_url=''):
-        self.user_id = user_id
-        self.datetime = datetime
-        self.text = text
-        self.action_url = action_url
-        self.set_title(notification_type)
-
-        if isinstance(notification_type, int):
-            self.notification_type_id = notification_type
-        else:
-            self.notification_type_id = db.session.query(NotificationType.id).filter(
-                NotificationType.name == notification_type).one().id
-
-    def set_title(self, notification_type):
+    def set_title(notification_type):
         if isinstance(notification_type, str):
             type_string = notification_type
+        elif isinstance(notification_type, NotificationType):
+            type_string = str(NotificationType.name)
         else:
             type_string = db.session.query(NotificationType.name).filter(
                 NotificationType.id == notification_type).one().name
 
-        self.title = type_string.replace('_', ' ').lower().capitalize()
+        return type_string.replace('_', ' ').lower().capitalize()
+
+
+class Suggestion(db.Model):
+    __tablename__ = "suggestions"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # columns
+    suggestion = db.Column(db.String(length=mc.S_SUGGESTION_L))
+    page = db.Column(db.Integer(), nullable=False)
+    paragraph = db.Column(db.Integer(), nullable=False)
+
+    # foreign keys
+    review = db.Column(db.Integer, db.ForeignKey('reviews.id'), primary_key=True)
+
+    # relationships
+    rel_review = db.relationship("Review", back_populates="rel_suggestions")
+
+
+class License(db.Model):
+    __tablename__ = "licenses"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # columns
+    license = db.Column(db.String(length=mc.L_LICENSE_L), nullable=False)
+
+    # relationships
+    rel_related_paper_revisions = db.relationship("PaperRevision", secondary=association_paper_version_license,
+                                                  back_populates="rel_related_licenses")
 
 
 class VoteComment(db.Model):
@@ -849,20 +881,6 @@ class RedFlagUser(db.Model):
     rel_to_user = db.relationship("User", back_populates="rel_red_flags_received", foreign_keys=[to_user])
 
 
-class License(db.Model):
-    __tablename__ = "licenses"
-
-    # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-
-    # columns
-    license = db.Column(db.String(length=mc.L_LICENSE_L), nullable=False)
-
-    # relationships
-    rel_related_paper_revisions = db.relationship("PaperRevision", secondary=association_paper_version_license,
-                                                  back_populates="rel_related_licenses")
-
-
 class EndorsementRequestLog(db.Model):
     __tablename__ = "endorsement_request_logs"
 
@@ -881,24 +899,6 @@ class EndorsementRequestLog(db.Model):
                                                    func.DATE(EndorsementRequestLog.date) > date_after,
                                                    EndorsementRequestLog.decision == True).count()
         return count
-
-
-class Suggestion(db.Model):
-    __tablename__ = "suggestions"
-
-    # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-
-    # columns
-    suggestion = db.Column(db.String(length=mc.S_SUGGESTION_L))
-    page = db.Column(db.Integer(), nullable=False)
-    paragraph = db.Column(db.Integer(), nullable=False)
-
-    # foreign keys
-    review = db.Column(db.Integer, db.ForeignKey('reviews.id'), primary_key=True)
-
-    # relationships
-    rel_review = db.relationship("Review", back_populates="rel_suggestions")
 
 
 # db functions
