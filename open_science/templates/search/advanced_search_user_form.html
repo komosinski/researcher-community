@@ -1,11 +1,19 @@
 <div>
-       <!-- #TODO: #Posiuu complete this form -->
     <form method="GET">
-        {{ user_form.search_text.label() }}
-        {{ user_form.search_text() }}
+        {{ user_form.first_name.label() }}
+        {{ user_form.first_name() }}
+        <br>
+        {{ user_form.second_name.label() }}
+        {{ user_form.second_name() }}
+        <br>
+        {{ user_form.affiliation.label() }}
+        {{ user_form.affiliation() }}
         <br>
         {{ user_form.orcid.label() }}
         {{ user_form.orcid() }}
+        <br>
+        {{ user_form.tag.label() }}
+        {{ user_form.tag() }}
         <br>
         {{ user_form.per_page.label()}}
         {{ user_form.per_page()}}

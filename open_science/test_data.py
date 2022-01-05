@@ -1,5 +1,3 @@
-from werkzeug.exceptions import PreconditionFailed
-from open_science import db
 from open_science.models import *
 import datetime as dt
 from flask import url_for
@@ -426,7 +424,7 @@ def create_test_data():
         deadline=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    t1.rel_related_paper_versions = [pve1_1, pve1_2]
+    t1.rel_related_paper_revisions = [pve1_1, pve1_2]
     db.session.add(t1)
 
     t2 = Tag(
@@ -443,7 +441,7 @@ def create_test_data():
         deadline=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    t3.rel_related_paper_versions = [pve1_1, pve6, pve7, pve8]
+    t3.rel_related_paper_revisions = [pve1_1, pve6, pve7, pve8]
     db.session.add(t3)
 
     u1 = User(
@@ -465,7 +463,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u1.rel_created_paper_versions = [pve1_1, pve1_2, pve4, pve5, pve6, pve7, pve8, pve9]
+    u1.rel_created_paper_revisions = [pve1_1, pve1_2, pve4, pve5, pve6, pve7, pve8, pve9]
     u1.rel_tags_to_user = [t1, t2]
     u1.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u1.rel_created_tags = [t3]
@@ -500,7 +498,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u2.rel_created_paper_versions = [pve1_3, pve10, pve11]
+    u2.rel_created_paper_revisions = [pve1_3, pve10, pve11]
     u2.rel_tags_to_user = [t3]
     u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u2.rel_created_tags = [t1, t2]
@@ -734,19 +732,19 @@ def create_test_data():
     l1 = License(
         license="license1"
     )
-    l1.rel_related_paper_versions = [pve1_1, pve1_2, pve1_3, pve4, pve5, pve6, pve7]
+    l1.rel_related_paper_revisions = [pve1_1, pve1_2, pve1_3, pve4, pve5, pve6, pve7]
     db.session.add(l1)
 
     l2 = License(
         license="license2"
     )
-    l2.rel_related_paper_versions = [pve8, pve9, pve10, pve11, pve12, pve13, pve14]
+    l2.rel_related_paper_revisions = [pve8, pve9, pve10, pve11, pve12, pve13, pve14]
     db.session.add(l2)
 
     l3 = License(
         license="license3"
     )
-    l3.rel_related_paper_versions = [pve15, pve2, pve3]
+    l3.rel_related_paper_revisions = [pve15, pve2, pve3]
     db.session.add(l3)
 
     # suggestions

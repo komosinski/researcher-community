@@ -15,9 +15,6 @@
     <a class="link-button  {% if request.args.get('order_by') == 'oldest' %}pressed{% endif %}"
     href="{{ url_for('search_papers_page',order_by='oldest', search_text=request.args.get('search_text'),search_option=request.args.get('search_option') )}}">OLDEST</a>
      
-    <a class="link-button  {% if request.args.get('order_by') == 'score' %}pressed{% endif %}"
-    href="{{ url_for('search_papers_page',order_by='score', search_text=request.args.get('search_text'),search_option=request.args.get('search_option') )}}">SCORE</a>
-     
 
     <ol>
         {% for paper in papers.items%}

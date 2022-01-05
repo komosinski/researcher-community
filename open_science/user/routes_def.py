@@ -167,7 +167,7 @@ def profile_page(user_id):
         return redirect(url_for('home_page'))
     # TODO: limit reviews to submitted reviews
     data = {
-        'articles_num' : len(user.rel_created_paper_versions),
+        'articles_num' : len(user.rel_created_paper_revisions),
         'reputation' : user.reputation,
         'comments_num' : len(user.rel_created_comments),
         'reviews_num' : user.get_reviews_count()

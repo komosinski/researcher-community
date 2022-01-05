@@ -1,6 +1,6 @@
-from operator import and_
+from operator import and_, or_
 
-from sqlalchemy import func
+from sqlalchemy import func, true, false
 
 from open_science import db, app
 from open_science.models import PaperRevision, Review
@@ -13,21 +13,23 @@ def get_missing_reviews_pvs(page_num, rows_per_page):
                          .group_by(PaperRevision.parent_paper)
                          ).subquery()
 
-    subq_reviews_count = (db.session.query(PaperRevision.id, func.count(Review.publication_datetime).label("reviews_count"))
-                          .join(Review, isouter=True)
-                          .join(subq_max_versions, and_(PaperRevision.parent_paper == subq_max_versions.c.parent_paper,
-                                                        PaperRevision.version == subq_max_versions.c.max_version))
-                          .group_by(PaperRevision.id)
-                          .order_by(PaperRevision.id)
-                          ).subquery()
+    subq_reviews_count = (
+        db.session.query(PaperRevision.id, func.count(Review.publication_datetime).label("reviews_count"))
+        .join(Review, isouter=True)
+        .join(subq_max_versions, and_(PaperRevision.parent_paper == subq_max_versions.c.parent_paper,
+                                      PaperRevision.version == subq_max_versions.c.max_version))
+        .group_by(PaperRevision.id)
+        .order_by(PaperRevision.id)
+        ).subquery()
 
-    paper_versions = db.session.query(PaperRevision)\
+    paper_revisions = db.session.query(PaperRevision) \
         .join(subq_reviews_count, and_(PaperRevision.id == subq_reviews_count.c.id,
-                                       PaperRevision.confidence_level > subq_reviews_count.c.reviews_count))\
-        .order_by(PaperRevision.id)\
+                                       PaperRevision.confidence_level > subq_reviews_count.c.reviews_count)) \
+        .order_by(PaperRevision.id) \
         .paginate(page=page_num, per_page=rows_per_page)
 
-    return paper_versions
+    return paper_revisions
+
 
 # returns true if item is not hidden by exceeding the red flags limit
 # handles force_show and force_hide
@@ -40,3 +42,10 @@ def can_show_object(item):
         return False
     else:
         return item.red_flags_count < app.config['RED_FLAGS_THRESHOLD']
+
+
+# returns filter for hidden items based on red flags, force hide and force show for given class
+def get_hidden_filter(item_class):
+    return and_(or_(item_class.force_show == true(),
+                    item_class.red_flags_count < app.config['RED_FLAGS_THRESHOLD']),
+                item_class.force_hide == false())
