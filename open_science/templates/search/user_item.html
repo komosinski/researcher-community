@@ -6,8 +6,8 @@
                 <a class="" href="{{ url_for('profile_page',user_id=item.id)}}">
                     <p>{{item.first_name}} {{item.second_name}}</p>
                 </a>
-                <p><strong>Reputation: </strong>{{item.reputation}}</p>
-                <p><strong>ORCID: </strong>{{ item.orcid if item.orcid else '----'}}</p>
+                <p><strong>Affiliation: </strong>{{item.affiliation}}</p>
+                <p><strong>Email: </strong>{{ item.email }}</p>
             </div>
         </div>
     </article>

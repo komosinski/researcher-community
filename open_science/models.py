@@ -1,7 +1,6 @@
 from flask.helpers import url_for
-from sqlalchemy import Table, DDL, event, and_
+from sqlalchemy import Table, DDL, event
 from sqlalchemy.orm import validates
-from wtforms.validators import Length
 from open_science.extensions import db, login_manager, bcrypt, admin
 from flask_login import UserMixin
 import open_science.config.models_config as mc
@@ -19,7 +18,7 @@ def load_user(user_id):
 
 
 association_paper_version_user = Table('association_paper_version_user', db.metadata,
-                                       db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_versions.id'),
+                                       db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_revisions.id'),
                                                  primary_key=True),
                                        db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
                                        )
@@ -27,7 +26,7 @@ association_paper_version_user = Table('association_paper_version_user', db.meta
 association_comment_paper_version = Table('association_comment_paper_version', db.metadata,
                                           db.Column('comment_id', db.Integer, db.ForeignKey('comments.id'),
                                                     primary_key=True),
-                                          db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_versions.id'),
+                                          db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_revisions.id'),
                                                     primary_key=True)
                                           )
 
@@ -45,7 +44,7 @@ association_comment_comment = Table('association_comment_comment', db.metadata,
 
 association_tag_paper_version = Table('association_tag_paper_version', db.metadata,
                                       db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
-                                      db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_versions.id'),
+                                      db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_revisions.id'),
                                                 primary_key=True)
                                       )
 
@@ -55,7 +54,7 @@ association_tag_user = Table('association_tag_user', db.metadata,
                              )
 
 association_paper_version_license = Table('association_paper_version_license', db.metadata,
-                                          db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_versions.id'),
+                                          db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_revisions.id'),
                                                     primary_key=True),
                                           db.Column('license_id', db.Integer, db.ForeignKey('licenses.id'),
                                                     primary_key=True)
@@ -96,8 +95,8 @@ class User(db.Model, UserMixin):
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
 
     # relationships
-    rel_created_paper_versions = db.relationship("PaperRevision", secondary=association_paper_version_user,
-                                                 back_populates="rel_creators")
+    rel_created_paper_revisions = db.relationship("PaperRevision", secondary=association_paper_version_user,
+                                                  back_populates="rel_creators")
     rel_tags_to_user = db.relationship("Tag", secondary=association_tag_user, back_populates="rel_users_with_this_tag")
     rel_privileges_set = db.relationship("PrivilegeSet", back_populates="rel_users")
     rel_created_tags = db.relationship("Tag", back_populates="rel_creator")
@@ -157,8 +156,7 @@ class User(db.Model, UserMixin):
 
     @validates('orcid')
     def set_orcid(self, key, value):
-        return value.upper().replace("-","")
-
+        return value.upper().replace("-", "")
 
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
@@ -197,19 +195,20 @@ class User(db.Model, UserMixin):
         return self.google_scholar
 
     def get_reviews_count(self):
-        return  Review.query.filter(Review.creator==self.id,
-    Review.is_hidden == False, Review.is_anonymous == False, Review.publication_datetime != None).count()
-  
+        return Review.query.filter(Review.creator == self.id,
+                                   Review.is_hidden == False, Review.is_anonymous == False,
+                                   Review.publication_datetime != None).count()
+
     def can_create_tag(self):
         if self.privileges_set >= UserTypeEnum.SCIENTIST_USER.value:
             return True
         else:
             return False
-     
+
     def is_scientist(self):
-         if self.privileges_set >= UserTypeEnum.SCIENTIST_USER.value:
-             return True
-         else:
+        if self.privileges_set >= UserTypeEnum.SCIENTIST_USER.value:
+            return True
+        else:
             return False
 
 
@@ -229,7 +228,7 @@ class PrivilegeSet(db.Model):
     def insert_types():
         for t in UserTypeEnum:
             if not PrivilegeSet.query.filter(PrivilegeSet.name == t.name).first():
-                privilege_set = PrivilegeSet(id = t.value, name=t.name)
+                privilege_set = PrivilegeSet(id=t.value, name=t.name)
                 db.session.add(privilege_set)
         db.session.commit()
 
@@ -256,8 +255,8 @@ class Tag(db.Model):
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # relationships
-    rel_related_paper_versions = db.relationship("PaperRevision", secondary=association_tag_paper_version,
-                                                 back_populates="rel_related_tags")
+    rel_related_paper_revisions = db.relationship("PaperRevision", secondary=association_tag_paper_version,
+                                                  back_populates="rel_related_tags")
     rel_users_with_this_tag = db.relationship("User", secondary=association_tag_user, back_populates="rel_tags_to_user")
     rel_creator = db.relationship("User", back_populates="rel_created_tags")
     rel_red_flags_received = db.relationship("RedFlagTag", back_populates="rel_to_tag")
@@ -266,7 +265,6 @@ class Tag(db.Model):
     def convert_upper(self, key, value):
         return value.upper()
 
-
     # used in table with user's tag in user private profile
     def to_dict(self):
         return {
@@ -274,9 +272,10 @@ class Tag(db.Model):
             'name': self.name,
             'description': f'{self.description[:29]}...',
             'deadline': self.deadline,
-            'edit_url': url_for('edit_tag_page',tag_id=self.id),
+            'edit_url': url_for('edit_tag_page', tag_id=self.id),
             'show_url': url_for('tag_page', tag_id=self.id)
         }
+
 
 class Paper(db.Model):
     __tablename__ = "papers"
@@ -288,7 +287,7 @@ class Paper(db.Model):
     rel_related_versions = db.relationship("PaperRevision", back_populates="rel_parent_paper")
 
     def get_latest_revision(self):
-       return max(self.rel_related_versions, key = lambda v: v.publication_date)
+        return max(self.rel_related_versions, key=lambda v: v.publication_date)
 
     # TODO: I think this new dict conversion will be better and should maintain backwards compatibility
     # However, in case of problems just uncomment the old version below
@@ -304,9 +303,7 @@ class Paper(db.Model):
         }
 
 
-
 class CalibrationPaper(db.Model):
-
     __tablename__ = "calibration_papers"
 
     # primary keys
@@ -316,13 +313,12 @@ class CalibrationPaper(db.Model):
     pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=False)
     preprocessed_text = db.Column(db.Text(), nullable=True)
 
-     #foreign keys
+    # foreign keys
     author = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
-
 class PaperRevision(db.Model):
-    __tablename__ = "paper_versions"
+    __tablename__ = "paper_revisions"
 
     # primary keys
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
@@ -340,8 +336,7 @@ class PaperRevision(db.Model):
     anonymized_pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=True)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
     force_show = db.Column(db.Boolean, nullable=False, default=False)
-
-    #preprocessed text
+    # preprocessed text
     preprocessed_text = db.Column(db.Text(), nullable=True)
 
     # foreign keys
@@ -351,14 +346,14 @@ class PaperRevision(db.Model):
     rel_related_comments = db.relationship("Comment", secondary=association_comment_paper_version,
                                            back_populates="rel_related_paper_version")
     rel_related_tags = db.relationship("Tag", secondary=association_tag_paper_version,
-                                       back_populates="rel_related_paper_versions")
+                                       back_populates="rel_related_paper_revisions")
     rel_related_reviews = db.relationship("Review", back_populates="rel_related_paper_version")
     rel_parent_paper = db.relationship("Paper", back_populates="rel_related_versions")
     rel_related_review_requests = db.relationship("ReviewRequest", back_populates="rel_related_paper_version")
     rel_creators = db.relationship("User", secondary=association_paper_version_user,
-                                   back_populates="rel_created_paper_versions")
+                                   back_populates="rel_created_paper_revisions")
     rel_related_licenses = db.relationship("License", secondary=association_paper_version_license,
-                                           back_populates="rel_related_paper_versions")
+                                           back_populates="rel_related_paper_revisions")
     rel_red_flags_received = db.relationship("RedFlagPaperVersion", back_populates="rel_to_paper_version")
 
     def to_dict(self):
@@ -409,7 +404,7 @@ class Review(db.Model):
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
-    related_paper_version = db.Column(db.Integer, db.ForeignKey('paper_versions.id'))
+    related_paper_version = db.Column(db.Integer, db.ForeignKey('paper_revisions.id'))
 
     # relationships
     rel_comments_to_this_review = db.relationship("Comment", secondary=association_comment_review,
@@ -425,20 +420,20 @@ class Review(db.Model):
 
     def to_dict(self):
         paper_revision = self.rel_related_paper_version
-      
+
         return {
             'id': self.id,
             'paper_title': paper_revision.title,
             'paper_version': paper_revision.version,
             'publication_datetime': self.publication_datetime,
             'edit_url': url_for('review_edit_page', review_id=self.id),
-            'is_visible' : 'No' if self.is_hidden else 'Yes',
+            'is_visible': 'No' if self.is_hidden else 'Yes',
             'hide_url': url_for('hide_review', review_id=self.id),
             'show_url': url_for('review_page', review_id=self.id)
         }
 
     def get_author_name(self):
-        names = db.session.query(User.first_name,User.second_name).filter(User.id==self.rel_creator.id).first()
+        names = db.session.query(User.first_name, User.second_name).filter(User.id == self.rel_creator.id).first()
         print(names)
         return f'{names[0]} {names[1]}'
 
@@ -447,11 +442,11 @@ class Review(db.Model):
 
     # returns reviews connected to previous paper versions
     def get_previous_reviews(self):
-        paper_versions = self.rel_related_paper_version.rel_parent_paper.rel_related_versions
-        previous_paper_versions = [version for version in paper_versions
-                                   if version.version < self.rel_related_paper_version.version]
+        paper_revisions = self.rel_related_paper_version.rel_parent_paper.rel_related_versions
+        previous_paper_revisions = [version for version in paper_revisions
+                                    if version.version < self.rel_related_paper_version.version]
         previous_reviews = []
-        for version in previous_paper_versions:
+        for version in previous_paper_revisions:
             for review in version.rel_related_reviews:
                 previous_reviews.append(review)
 
@@ -459,16 +454,17 @@ class Review(db.Model):
 
     # returns reviews connected to previous paper versions written by self.creator
     def get_previous_creator_reviews(self):
-        paper_versions = self.rel_related_paper_version.rel_parent_paper.rel_related_versions
-        previous_paper_versions = [version for version in paper_versions
-                                   if version.version < self.rel_related_paper_version.version]
+        paper_revisions = self.rel_related_paper_version.rel_parent_paper.rel_related_versions
+        previous_paper_revisions = [version for version in paper_revisions
+                                    if version.version < self.rel_related_paper_version.version]
         previous_reviews = []
-        for version in previous_paper_versions:
+        for version in previous_paper_revisions:
             for review in version.rel_related_reviews:
                 if review.creator == self.creator:
                     previous_reviews.append(review)
 
         return previous_reviews
+
 
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
@@ -494,7 +490,7 @@ class ReviewRequest(db.Model):
 
     # foreign keys
     requested_user = db.Column(db.Integer, db.ForeignKey('users.id'))
-    paper_version = db.Column(db.Integer, db.ForeignKey('paper_versions.id'))
+    paper_version = db.Column(db.Integer, db.ForeignKey('paper_revisions.id'))
 
     # relationships
     rel_requested_user = db.relationship("User", back_populates="rel_related_review_requests")
@@ -514,7 +510,6 @@ class ReviewRequest(db.Model):
                 self.reason_match_incorrectly = True
             elif id == 4:
                 self.reason_other = True
-
 
 
 class Comment(db.Model):
@@ -555,17 +550,15 @@ class Comment(db.Model):
     rel_red_flags_received = db.relationship("RedFlagComment", back_populates="rel_to_comment",
                                              foreign_keys="RedFlagComment.to_comment")
 
-
     # TODO: check correctness
     def to_dict(self):
         refers_to = ''
-        show_url =  url_for('home_page')
+        show_url = url_for('home_page')
         paper_verison = self.rel_related_paper_version
         if paper_verison is not None:
-
             refers_to = 'Paper'
             show_url = url_for('article', id=paper_verison.id)
-        
+
         review = self.rel_related_review
         if review is not None:
             refers_to = 'Review'
@@ -575,8 +568,7 @@ class Comment(db.Model):
         if comment is not None:
             # TODO: check Type of comment(under Review/paper/comment) and prepare url 
             refers_to = 'Comment'
-         
-  
+
         return {
             'id': self.id,
             'text': f'{self.text[:50]}...',
@@ -585,6 +577,7 @@ class Comment(db.Model):
             'refers_to': refers_to,
             'show_url': show_url
         }
+
 
 class MessageToStaff(db.Model):
     __tablename__ = "messages_to_staff"
@@ -605,7 +598,7 @@ class MessageToStaff(db.Model):
     rel_sender = db.relationship("User", back_populates="rel_related_staff_messages")
     rel_topic = db.relationship("MessageTopic", back_populates="rel_related_staff_messages")
 
-    
+
 class DeclinedReason(db.Model):
     __tablename__ = "declined_reasons"
 
@@ -664,7 +657,7 @@ class EmailType(db.Model):
     def insert_types():
         for t in EmailTypeEnum:
             if not EmailType.query.filter(EmailType.name == t.name).first():
-                email_type = EmailType(id = t.value, name=t.name)
+                email_type = EmailType(id=t.value, name=t.name)
                 db.session.add(email_type)
         db.session.commit()
 
@@ -713,7 +706,7 @@ class NotificationType(db.Model):
     def insert_types():
         for t in NotificationTypeEnum:
             if not NotificationType.query.filter(NotificationType.name == t.name).first():
-                notification_type = NotificationType(id = t.value, name=t.name)
+                notification_type = NotificationType(id=t.value, name=t.name)
                 db.session.add(notification_type)
         db.session.commit()
 
@@ -804,7 +797,7 @@ class RedFlagPaperVersion(db.Model):
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
-    to_paper_version = db.Column(db.Integer, db.ForeignKey('paper_versions.id'))
+    to_paper_version = db.Column(db.Integer, db.ForeignKey('paper_revisions.id'))
 
     # relationships
     rel_creator = db.relationship("User", back_populates="rel_paper_version_red_flags")
@@ -866,8 +859,8 @@ class License(db.Model):
     license = db.Column(db.String(length=mc.L_LICENSE_L), nullable=False)
 
     # relationships
-    rel_related_paper_versions = db.relationship("PaperRevision", secondary=association_paper_version_license,
-                                                 back_populates="rel_related_licenses")
+    rel_related_paper_revisions = db.relationship("PaperRevision", secondary=association_paper_version_license,
+                                                  back_populates="rel_related_licenses")
 
 
 class EndorsementRequestLog(db.Model):
@@ -955,7 +948,8 @@ def create_essential_data():
             review_mails_limit=0,
             notifications_frequency=0,
         )
-        user_0.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
+        user_0.rel_privileges_set = PrivilegeSet.query.filter(
+            PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
         user_0.id = 0
         db.session.add(user_0)
 
