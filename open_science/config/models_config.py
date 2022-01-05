@@ -58,3 +58,6 @@ NOTIFICATION_ACTION_URL_L = 128
 
 # license
 L_LICENSE_L = 256
+
+# suggestion
+S_SUGGESTION_L = 1024

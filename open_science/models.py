@@ -417,6 +417,7 @@ class Review(db.Model):
     rel_creator = db.relationship("User", back_populates="rel_created_reviews")
     rel_related_paper_version = db.relationship("PaperRevision", back_populates="rel_related_reviews")
     rel_red_flags_received = db.relationship("RedFlagReview", back_populates="rel_to_review")
+    rel_suggestions = db.relationship("Suggestion", back_populates="rel_review")
 
     def get_paper_title(self):
         return db.session.query(PaperRevision.title).filter(
@@ -859,7 +860,7 @@ class License(db.Model):
     __tablename__ = "licenses"
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
     license = db.Column(db.String(length=mc.L_LICENSE_L), nullable=False)
@@ -887,6 +888,24 @@ class EndorsementRequestLog(db.Model):
                                                    func.DATE(EndorsementRequestLog.date) > date_after,
                                                    EndorsementRequestLog.decision == True).count()
         return count
+
+
+class Suggestion(db.Model):
+    __tablename__ = "suggestions"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # columns
+    suggestion = db.Column(db.String(length=mc.S_SUGGESTION_L))
+    page = db.Column(db.Integer(), nullable=False)
+    paragraph = db.Column(db.Integer(), nullable=False)
+
+    # foreign keys
+    review = db.Column(db.Integer, db.ForeignKey('reviews.id'), primary_key=True)
+
+    # relationships
+    rel_review = db.relationship("Review", back_populates="rel_suggestions")
 
 
 # db functions
