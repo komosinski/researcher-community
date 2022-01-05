@@ -749,6 +749,79 @@ def create_test_data():
     l3.rel_related_paper_versions = [pve15, pve2, pve3]
     db.session.add(l3)
 
+    # suggestions
+    s1 = Suggestion(
+        suggestion="suggestion1",
+        page=1,
+        paragraph=1
+    )
+    s1.rel_review = r1
+    db.session.add(s1)
+
+    s2 = Suggestion(
+        suggestion="suggestion2",
+        page=2,
+        paragraph=1
+    )
+    s2.rel_review = r1
+    db.session.add(s2)
+
+    s3 = Suggestion(
+        suggestion="suggestion3",
+        page=3,
+        paragraph=1
+    )
+    s3.rel_review = r1
+    db.session.add(s3)
+
+    s4 = Suggestion(
+        suggestion="suggestion4",
+        page=1,
+        paragraph=1
+    )
+    s4.rel_review = r2
+    db.session.add(s4)
+
+    s5 = Suggestion(
+        suggestion="suggestion5",
+        page=2,
+        paragraph=1
+    )
+    s5.rel_review = r2
+    db.session.add(s5)
+
+    s6 = Suggestion(
+        suggestion="suggestion6",
+        page=3,
+        paragraph=1
+    )
+    s6.rel_review = r2
+    db.session.add(s6)
+
+    s7 = Suggestion(
+        suggestion="suggestion7",
+        page=1,
+        paragraph=1
+    )
+    s7.rel_review = r3
+    db.session.add(s7)
+
+    s8 = Suggestion(
+        suggestion="suggestion8",
+        page=2,
+        paragraph=1
+    )
+    s8.rel_review = r3
+    db.session.add(s8)
+
+    s9 = Suggestion(
+        suggestion="suggestion9",
+        page=3,
+        paragraph=1
+    )
+    s9.rel_review = r3
+    db.session.add(s9)
+
     # red flags
     # rfc1 = RedFlagComment()
     # rfc1.creator = u1

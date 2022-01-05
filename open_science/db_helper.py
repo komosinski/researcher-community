@@ -29,7 +29,7 @@ def get_missing_reviews_pvs(page_num, rows_per_page):
 
     return paper_versions
 
-# returns true if object is not hidden by exceeding the red flags limit
+# returns true if item is not hidden by exceeding the red flags limit
 # handles force_show and force_hide
 def can_show_object(item):
     if item.force_show and item.force_hide:
