@@ -4,6 +4,12 @@
             <div class="">
                 <h4></h4>
                 <a class="" href="{{ url_for('article',id=item.id)}}">{{item.title}}</a>
+                <p>
+                    <strong>Authors: </strong>
+                        {% for a in item.rel_creators %}
+                            <a href="{{url_for('profile_page', user_id=a.id)}}"> {{a.first_name}} {{a.second_name}} </a>
+                        {% endfor %}
+                </p>
                 <p><strong>publication date: </strong>{{item.publication_date}}</p>
             </div>
         </div>

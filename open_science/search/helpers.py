@@ -27,9 +27,8 @@ def get_paper_order(order_by):
 def get_papers_basic_search(search_like, search_option, order, page_num, rows_per_page):
     paper_revisions = []
 
-    paper_revisions = db.session.query(PaperRevision.id,
-                                       PaperRevision.title,
-                                       PaperRevision.publication_date) \
+    paper_revisions = PaperRevision.query \
+        .options(db.defer('preprocessed_text')) \
         .join(subq_max_versions, and_(PaperRevision.parent_paper == subq_max_versions.c.parent_paper,
                                       PaperRevision.version == subq_max_versions.c.max_version)) \
         .filter(pv_hidden_filter)
@@ -77,9 +76,8 @@ def get_tag_order(order_by):
 def get_papers_advanced_search(page, search_data, order):
     paper_revisions = []
 
-    paper_revisions = db.session.query(PaperRevision.id,
-                                       PaperRevision.title,
-                                       PaperRevision.publication_date) \
+    paper_revisions = PaperRevision.query \
+        .options(db.defer('preprocessed_text')) \
         .filter(pv_hidden_filter)
 
     if 'show_all' in search_data:
