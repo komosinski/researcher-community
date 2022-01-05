@@ -550,22 +550,23 @@ class Comment(db.Model):
     rel_red_flags_received = db.relationship("RedFlagComment", back_populates="rel_to_comment",
                                              foreign_keys="RedFlagComment.to_comment")
 
-    # TODO: check correctness
+    
     def to_dict(self):
         refers_to = ''
         show_url = url_for('home_page')
         paper_verison = self.rel_related_paper_version
-        if paper_verison is not None:
+        if paper_verison:
             refers_to = 'Paper'
             show_url = url_for('article', id=paper_verison.id)
 
         review = self.rel_related_review
-        if review is not None:
+        if review:
             refers_to = 'Review'
             show_url = url_for('review_page', review_id=review.id)
 
         comment = self.rel_related_comment
-        if comment is not None:
+        if comment:
+
             # TODO: check Type of comment(under Review/paper/comment) and prepare url 
             refers_to = 'Comment'
 
