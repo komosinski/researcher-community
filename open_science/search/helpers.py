@@ -102,6 +102,11 @@ def get_papers_advanced_search(page, search_data, order):
             .filter((User.first_name.ilike("%{}%".format(search_data['author'])))
                     | (User.second_name.ilike("%{}%".format(search_data['author'])))) \
             .group_by(PaperRevision.id)
+    if 'user_id' in search_data and search_data['user_id'] != '':
+        paper_revisions = paper_revisions \
+            .join(User, PaperRevision.rel_creators) \
+            .filter(User.id == search_data['user_id']) \
+            .group_by(PaperRevision.id)
     if 'tag' in search_data and search_data['tag'] != '':
         paper_revisions = paper_revisions \
             .join(Tag, PaperRevision.rel_related_tags) \
@@ -132,7 +137,8 @@ def get_users_advanced_search(page, search_data, order):
                              User.email) \
         .filter(user_hidden_filter
                 & (User.id != 0)  # don't show site user
-                & (User.privileges_set != 30))  # don't show admin users
+                & (User.privileges_set != 30)  # don't show admin users
+                & User.confirmed)  # don't show unconfirmed users
 
     if 'first_name' in search_data and search_data['first_name'] != '':
         users = users \

@@ -1,13 +1,13 @@
 from open_science import db
-from open_science.models import  Tag, Review, Comment, PaperRevision
+from open_science.models import Tag, Review, Comment, PaperRevision, User
 from flask_login import current_user
 from flask import request
 
 def user_papers_data():
-    
-   #TODO: Use current_user.id() to get only user's papers
+    query = PaperRevision.query \
+        .join(User, PaperRevision.rel_creators) \
+        .filter(User.id == current_user.id)
 
-    query = PaperRevision.query
     total_results = query.count()
 
     # search filter

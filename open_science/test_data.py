@@ -480,7 +480,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u2.rel_created_paper_revisions = [pve14, pve15, pve12, pve13, pve3, pve2]
+    u2.rel_created_paper_revisions = [pve14, pve15, pve12, pve13, pve3, pve2, pve1_3, pve10, pve11, pve4, pve5]
     u2.rel_tags_to_user = [t3]
     u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u2.rel_created_tags = [t1, t2]
@@ -510,7 +510,6 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u3.rel_created_paper_revisions = [pve1_3, pve10, pve11, pve15, pve4, pve5]
     u3.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
     db.session.add(u3)
 
