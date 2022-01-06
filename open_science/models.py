@@ -108,7 +108,7 @@ class User(db.Model, UserMixin):
     rel_related_staff_messages = db.relationship("MessageToStaff", back_populates="rel_sender")
     rel_comment_red_flags = db.relationship("RedFlagComment", back_populates="rel_creator",
                                             foreign_keys="RedFlagComment.creator")
-    rel_paper_version_red_flags = db.relationship("RedFlagPaperVersion", back_populates="rel_creator")
+    rel_paper_version_red_flags = db.relationship("RedFlagPaperRevision", back_populates="rel_creator")
     rel_review_red_flags = db.relationship("RedFlagReview", back_populates="rel_creator")
     rel_tag_red_flags = db.relationship("RedFlagTag", back_populates="rel_creator")
     rel_user_red_flags = db.relationship("RedFlagUser", back_populates="rel_creator",
@@ -355,7 +355,7 @@ class PaperRevision(db.Model):
                                    back_populates="rel_created_paper_revisions")
     rel_related_licenses = db.relationship("License", secondary=association_paper_version_license,
                                            back_populates="rel_related_paper_revisions")
-    rel_red_flags_received = db.relationship("RedFlagPaperVersion", back_populates="rel_to_paper_version")
+    rel_red_flags_received = db.relationship("RedFlagPaperRevision", back_populates="rel_to_paper_revision")
     rel_changes = db.relationship("RevisionChangesComponent", back_populates="rel_paper_revision")
 
     def to_dict(self):
@@ -837,19 +837,19 @@ class RedFlagComment(db.Model):
     rel_to_comment = db.relationship("Comment", back_populates="rel_red_flags_received", foreign_keys=[to_comment])
 
 
-class RedFlagPaperVersion(db.Model):
-    __tablename__ = "red_flags_paper_version"
+class RedFlagPaperRevision(db.Model):
+    __tablename__ = "red_flags_paper_revision"
 
     # primary keys
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
-    to_paper_version = db.Column(db.Integer, db.ForeignKey('paper_revisions.id'))
+    to_paper_revision = db.Column(db.Integer, db.ForeignKey('paper_revisions.id'))
 
     # relationships
     rel_creator = db.relationship("User", back_populates="rel_paper_version_red_flags")
-    rel_to_paper_version = db.relationship("PaperRevision", back_populates="rel_red_flags_received")
+    rel_to_paper_revision = db.relationship("PaperRevision", back_populates="rel_red_flags_received")
 
 
 class RedFlagReview(db.Model):
@@ -920,10 +920,20 @@ class EndorsementRequestLog(db.Model):
 # db functions
 db_fun_update_comment_score = DDL(q_update_comment_score)
 db_fun_update_user_reputation = DDL(q_update_user_reputation)
+db_fun_update_user_red_flags_count = DDL(q_update_user_red_flags_count)
+db_fun_update_tag_red_flags_count = DDL(q_update_tag_red_flags_count)
+db_fun_update_review_red_flags_count = DDL(q_update_review_red_flags_count)
+db_fun_update_revision_red_flags_count = DDL(q_update_revision_red_flags_count)
+db_fun_update_comment_red_flags_count = DDL(q_update_comment_red_flags_count)
 
 # db triggers
 db_trig_update_comment_score = DDL(qt_update_comment_score)
 db_trig_update_user_reputation = DDL(qt_update_user_reputation)
+db_trig_update_user_red_flags_count = DDL(qt_update_user_red_flags_count)
+db_trig_update_tag_red_flags_count = DDL(qt_update_tag_red_flags_count)
+db_trig_update_review_red_flags_count = DDL(qt_update_review_red_flags_count)
+db_trig_update_revision_red_flags_count = DDL(qt_update_revision_red_flags_count)
+db_trig_update_comment_red_flags_count = DDL(qt_update_comment_red_flags_count)
 
 # events to enable functions, procedures, triggers etc
 event.listen(
@@ -948,6 +958,66 @@ event.listen(
     Comment.__table__,
     'after_create',
     db_trig_update_user_reputation.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagUser.__table__,
+    'after_create',
+    db_fun_update_user_red_flags_count.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagUser.__table__,
+    'after_create',
+    db_trig_update_user_red_flags_count.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagTag.__table__,
+    'after_create',
+    db_fun_update_tag_red_flags_count.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagTag.__table__,
+    'after_create',
+    db_trig_update_tag_red_flags_count.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagReview.__table__,
+    'after_create',
+    db_fun_update_review_red_flags_count.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagReview.__table__,
+    'after_create',
+    db_trig_update_review_red_flags_count.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagPaperRevision.__table__,
+    'after_create',
+    db_fun_update_revision_red_flags_count.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagPaperRevision.__table__,
+    'after_create',
+    db_trig_update_revision_red_flags_count.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagComment.__table__,
+    'after_create',
+    db_fun_update_comment_red_flags_count.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    RedFlagComment.__table__,
+    'after_create',
+    db_trig_update_comment_red_flags_count.execute_if(dialect='postgresql')
 )
 
 admin.add_view(MessageToStaffView(MessageToStaff, db.session))
