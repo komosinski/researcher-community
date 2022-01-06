@@ -33,9 +33,6 @@ PV_CHANGES_L = 8192
 # comment
 COMMENT_TEXT_L = 512
 
-# review
-REVIEW_TEXT_L = 16384
-
 # post
 POST_TEXT_L = 16384
 
@@ -61,3 +58,6 @@ L_LICENSE_L = 256
 
 # suggestion
 S_SUGGESTION_L = 1024
+
+# revision change component
+RCC_CHANGE_DESCRIPTION_L = 1024

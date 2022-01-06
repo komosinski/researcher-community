@@ -6,7 +6,7 @@ from flask import url_for
 def create_test_data():
     # check if the test data has been created
     create_essential_data()
-    existing_paper_version = db.session.query(PaperRevision.id).filter(PaperRevision.title == 'title1').first()
+    existing_paper_version = db.session.query(PaperRevision.id).filter(PaperRevision.title == 'title1.1').first()
     if existing_paper_version:
         return False
 
@@ -127,7 +127,6 @@ def create_test_data():
 
     r2 = Review(
         weight=2.2,
-        text="comment2",
         review_score=5,
         publication_datetime=dt.datetime.utcnow(),
         red_flags_count=0
@@ -137,7 +136,6 @@ def create_test_data():
 
     r3 = Review(
         weight=3.3,
-        text="comment3",
         review_score=5,
         publication_datetime=dt.datetime.utcnow(),
         red_flags_count=0
@@ -194,7 +192,6 @@ def create_test_data():
         pdf_url="https://paperurl1.com",
         title="title1.1",
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -209,7 +206,6 @@ def create_test_data():
         title="title1.2",
         version=2,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -224,7 +220,6 @@ def create_test_data():
         title="title1.3",
         version=3,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -239,7 +234,6 @@ def create_test_data():
         title="title2",
         version=1,
         abstract="description2 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -252,7 +246,6 @@ def create_test_data():
         title="title3",
         version=1,
         abstract="description3 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=3,
         red_flags_count=0
@@ -265,7 +258,6 @@ def create_test_data():
         title="title4",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=3,
         red_flags_count=0
@@ -278,7 +270,6 @@ def create_test_data():
         title="title5",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -291,7 +282,6 @@ def create_test_data():
         title="title6",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -304,7 +294,6 @@ def create_test_data():
         title="title7",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -317,7 +306,6 @@ def create_test_data():
         title="title8",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -330,7 +318,6 @@ def create_test_data():
         title="title9",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -343,7 +330,6 @@ def create_test_data():
         title="title10",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -356,7 +342,6 @@ def create_test_data():
         title="title11",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -369,7 +354,6 @@ def create_test_data():
         title="title12",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -382,7 +366,6 @@ def create_test_data():
         title="title13",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -395,7 +378,6 @@ def create_test_data():
         title="title14",
         version=1,
         abstract="description14 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -408,7 +390,6 @@ def create_test_data():
         title="title15",
         version=1,
         abstract="description15 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        summarized_changes="summarized_changes",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -815,25 +796,20 @@ def create_test_data():
     db.session.add(s6)
 
     s7 = Suggestion(
-        suggestion="suggestion7",
-        page=1,
-        paragraph=1
+        suggestion="suggestion7"
     )
     s7.rel_review = r3
     db.session.add(s7)
 
     s8 = Suggestion(
         suggestion="suggestion8",
-        page=2,
-        paragraph=1
+        page=2
     )
     s8.rel_review = r3
     db.session.add(s8)
 
     s9 = Suggestion(
-        suggestion="suggestion9",
-        page=3,
-        paragraph=1
+        suggestion="suggestion9"
     )
     s9.rel_review = r3
     db.session.add(s9)
@@ -921,6 +897,49 @@ def create_test_data():
     )
     cp12.rel_author = u4
     db.session.add(cp12)
+
+    # revision changes components
+    rcc1 = RevisionChangesComponent(
+        change_description="change_description1",
+        page=1,
+        paragraph=1
+    )
+    rcc1.rel_paper_revision = pve1_2
+    db.session.add(rcc1)
+
+    rcc2 = RevisionChangesComponent(
+        change_description="change_description2",
+        page=2,
+    )
+    rcc2.rel_paper_revision = pve1_2
+    db.session.add(rcc2)
+
+    rcc3 = RevisionChangesComponent(
+        change_description="change_description3",
+    )
+    rcc3.rel_paper_revision = pve1_2
+    db.session.add(rcc3)
+
+    rcc4 = RevisionChangesComponent(
+        change_description="change_description4",
+        page=1,
+        paragraph=1
+    )
+    rcc4.rel_paper_revision = pve1_3
+    db.session.add(rcc4)
+
+    rcc5 = RevisionChangesComponent(
+        change_description="change_description5",
+        page=2,
+    )
+    rcc5.rel_paper_revision = pve1_3
+    db.session.add(rcc5)
+
+    rcc6 = RevisionChangesComponent(
+        change_description="change_description6",
+    )
+    rcc6.rel_paper_revision = pve1_3
+    db.session.add(rcc6)
 
     # red flags
     # rfc1 = RedFlagComment()

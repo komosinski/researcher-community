@@ -330,7 +330,6 @@ class PaperRevision(db.Model):
     pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=False)
     title = db.Column(db.String(length=mc.PV_TITLE_L), nullable=False)
     abstract = db.Column(db.String(length=mc.PV_ABSTRACT_L), nullable=False)
-    summarized_changes = db.Column(db.String(length=mc.PV_CHANGES_L), nullable=True)
     publication_date = db.Column(db.DateTime)
     confidence_level = db.Column(db.SmallInteger(), default=0, nullable=False)
     red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
@@ -357,6 +356,7 @@ class PaperRevision(db.Model):
     rel_related_licenses = db.relationship("License", secondary=association_paper_version_license,
                                            back_populates="rel_related_paper_revisions")
     rel_red_flags_received = db.relationship("RedFlagPaperVersion", back_populates="rel_to_paper_version")
+    rel_changes = db.relationship("RevisionChangesComponent", back_populates="rel_paper_revision")
 
     def to_dict(self):
         return {
@@ -384,7 +384,6 @@ class Review(db.Model):
 
     # columns
     weight = db.Column(db.Float, nullable=True)
-    text = db.Column(db.String(mc.REVIEW_TEXT_L), nullable=True)
     review_score = db.Column(db.Integer(), nullable=True)
     # datetime of review's submission
     publication_datetime = db.Column(db.DateTime, nullable=True)
@@ -764,9 +763,9 @@ class Suggestion(db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
-    suggestion = db.Column(db.String(length=mc.S_SUGGESTION_L))
-    page = db.Column(db.Integer(), nullable=False)
-    paragraph = db.Column(db.Integer(), nullable=False)
+    suggestion = db.Column(db.String(length=mc.S_SUGGESTION_L), nullable=False)
+    page = db.Column(db.Integer())
+    paragraph = db.Column(db.Integer())
 
     # foreign keys
     review = db.Column(db.Integer, db.ForeignKey('reviews.id'), primary_key=True)
@@ -787,6 +786,24 @@ class License(db.Model):
     # relationships
     rel_related_paper_revisions = db.relationship("PaperRevision", secondary=association_paper_version_license,
                                                   back_populates="rel_related_licenses")
+
+
+class RevisionChangesComponent(db.Model):
+    __tablename__ = "revision_changes_components"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # columns
+    change_description = db.Column(db.String(length=mc.RCC_CHANGE_DESCRIPTION_L), nullable=False)
+    page = db.Column(db.Integer())
+    paragraph = db.Column(db.Integer())
+
+    # foreign keys
+    paper_revision = db.Column(db.Integer, db.ForeignKey('paper_revisions.id'), primary_key=True)
+
+    # relationships
+    rel_paper_revision = db.relationship("PaperRevision", back_populates="rel_changes")
 
 
 class VoteComment(db.Model):
