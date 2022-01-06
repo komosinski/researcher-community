@@ -749,48 +749,42 @@ def create_test_data():
     # suggestions
     s1 = Suggestion(
         suggestion="suggestion1",
-        page=1,
-        paragraph=1
+        location="location1"
     )
     s1.rel_review = r1
     db.session.add(s1)
 
     s2 = Suggestion(
         suggestion="suggestion2",
-        page=2,
-        paragraph=1
+        location="location2"
     )
     s2.rel_review = r1
     db.session.add(s2)
 
     s3 = Suggestion(
         suggestion="suggestion3",
-        page=3,
-        paragraph=1
+        location="location3"
     )
     s3.rel_review = r1
     db.session.add(s3)
 
     s4 = Suggestion(
         suggestion="suggestion4",
-        page=1,
-        paragraph=1
+        location="location4"
     )
     s4.rel_review = r2
     db.session.add(s4)
 
     s5 = Suggestion(
         suggestion="suggestion5",
-        page=2,
-        paragraph=1
+        location="location5"
     )
     s5.rel_review = r2
     db.session.add(s5)
 
     s6 = Suggestion(
         suggestion="suggestion6",
-        page=3,
-        paragraph=1
+        location="location6"
     )
     s6.rel_review = r2
     db.session.add(s6)
@@ -803,7 +797,7 @@ def create_test_data():
 
     s8 = Suggestion(
         suggestion="suggestion8",
-        page=2
+        location="location8"
     )
     s8.rel_review = r3
     db.session.add(s8)
@@ -901,15 +895,14 @@ def create_test_data():
     # revision changes components
     rcc1 = RevisionChangesComponent(
         change_description="change_description1",
-        page=1,
-        paragraph=1
+        location="location1"
     )
     rcc1.rel_paper_revision = pve1_2
     db.session.add(rcc1)
 
     rcc2 = RevisionChangesComponent(
         change_description="change_description2",
-        page=2,
+        location="location2"
     )
     rcc2.rel_paper_revision = pve1_2
     db.session.add(rcc2)
@@ -922,15 +915,14 @@ def create_test_data():
 
     rcc4 = RevisionChangesComponent(
         change_description="change_description4",
-        page=1,
-        paragraph=1
+        location="location4"
     )
     rcc4.rel_paper_revision = pve1_3
     db.session.add(rcc4)
 
     rcc5 = RevisionChangesComponent(
         change_description="change_description5",
-        page=2,
+        location="location5"
     )
     rcc5.rel_paper_revision = pve1_3
     db.session.add(rcc5)

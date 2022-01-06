@@ -58,6 +58,7 @@ L_LICENSE_L = 256
 
 # suggestion
 S_SUGGESTION_L = 1024
+S_LOCATION_L = 128
 
 # revision change component
 RCC_CHANGE_DESCRIPTION_L = 1024
