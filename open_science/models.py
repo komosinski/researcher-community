@@ -919,9 +919,11 @@ class EndorsementRequestLog(db.Model):
 
 # db functions
 db_fun_update_comment_score = DDL(q_update_comment_score)
+db_fun_update_user_reputation = DDL(q_update_user_reputation)
 
 # db triggers
 db_trig_update_comment_score = DDL(qt_update_comment_score)
+db_trig_update_user_reputation = DDL(qt_update_user_reputation)
 
 # events to enable functions, procedures, triggers etc
 event.listen(
@@ -934,6 +936,18 @@ event.listen(
     VoteComment.__table__,
     'after_create',
     db_trig_update_comment_score.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    Comment.__table__,
+    'after_create',
+    db_fun_update_user_reputation.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    Comment.__table__,
+    'after_create',
+    db_trig_update_user_reputation.execute_if(dialect='postgresql')
 )
 
 admin.add_view(MessageToStaffView(MessageToStaff, db.session))

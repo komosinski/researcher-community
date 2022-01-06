@@ -5,13 +5,13 @@ q_update_comment_score = '''
      language plpgsql
     as $function$
     begin
-        if not exists (select * from votes_comments where creator = new.creator) then
+        if not exists (select * from votes_comments where creator = new.creator and to_comment = new.to_comment) then
             if new.is_up then
                 update comments set votes_score = votes_score + 1 where id = new.to_comment;
             else
                 update comments set votes_score = votes_score - 1 where id = new.to_comment;
             end if;
-        elsif (select is_up from votes_comments where creator = new.creator) then
+        elsif (select is_up from votes_comments where creator = new.creator and to_comment = new.to_comment) then
             if new.is_up then
                 delete from votes_comments where creator = new.creator;
             else
@@ -26,7 +26,7 @@ q_update_comment_score = '''
                 delete from votes_comments where creator = new.creator;
             end if;
         end if;
-    return new;
+        return new;
     end;
     $function$;
 '''
@@ -47,6 +47,42 @@ qt_update_comment_score = '''
         on
         votes_comments
             for each row execute function update_comment_score();
+    end if;
+    end
+    $$;
+'''
+
+q_update_user_reputation = '''
+    create or replace
+    function public.update_user_reputation()
+     returns trigger
+     language plpgsql
+    as $function$
+    begin
+        if new.votes_score != old.votes_score then
+            update users set reputation = reputation + new.votes_score - old.votes_score where id = new.creator;
+        end if;
+        return new;
+    end;
+    $function$;
+'''
+
+qt_update_user_reputation = '''
+    do $$
+    begin
+        if not exists (
+    select
+        1
+    from
+        pg_trigger
+    where
+        tgname = 'update_user_reputation') then
+        create trigger update_user_reputation  
+            after
+    update
+        on
+        comments
+            for each row execute function update_user_reputation();
     end if;
     end
     $$;
