@@ -52,8 +52,6 @@ class ReviewEditForm(FlaskForm):
             if not field.data:
                 raise StopValidation('You must declare no conflict of interest')
 
-    text = TextAreaField(label='Your review', validators=[Length(max=mc.REVIEW_TEXT_L),validate_text, Optional()])
-
     evaluation_novel =  DecimalRangeField('Novel and substantial compared to previous papers by the author(s) and the existing literature', default=0)
     evaluation_conclusion = DecimalRangeField('Claims and conclusions reasonable and justified', default=0)
     evaluation_error = DecimalRangeField(' Free of essential and technical errors', default=0)

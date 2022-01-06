@@ -114,7 +114,6 @@ def review_edit_page(review_id):
         form.evaluation_error.data = int(review.evaluation_error*100)
         form.evaluation_organize.data = int(review.evaluation_organize*100)
         form.confidence.data = int(review.confidence*100)
-        form.text.data = review.text
 
     data ={
         'is_published':review.is_published(),

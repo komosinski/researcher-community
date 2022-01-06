@@ -58,10 +58,6 @@ $(document).ready(function(){
                 {% if not is_published %}
                     {{ render_checkbox_field(form.check_no_conflict) }}
                 {% endif %}
-
-                <div class="input-wrapper">
-                    {{form.text(placeholder='Your review')}}
-                </div>
             
 
                 <div id="suggestions">
