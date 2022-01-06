@@ -1081,130 +1081,80 @@ def create_test_data():
     db.session.add(rcc6)
 
     # red flags
-    # rfc1 = RedFlagComment()
-    # rfc1.creator = u1
-    # rfc1.to_comment = c1
-    # db.session.add(rfc1)
-    #
-    # rfc2 = RedFlagComment()
-    # rfc2.creator = u2
-    # rfc2.to_comment = c2
-    # db.session.add(rfc2)
-    #
-    # rfc3 = RedFlagComment()
-    # rfc3.creator = u3
-    # rfc3.to_comment = c3
-    # db.session.add(rfc3)
-    #
-    # rfc4 = RedFlagComment()
-    # rfc4.creator = u4
-    # rfc4.to_comment = c4
-    # db.session.add(rfc4)
-    #
-    # rfc5 = RedFlagComment()
-    # rfc5.creator = u5
-    # rfc5.to_comment = c5
-    # db.session.add(rfc5)
-    #
-    # rfpv1 = RedFlagPaperVersion()
-    # rfpv1.creator = u1
-    # rfpv1.to_paper_version = pve1_1
-    # db.session.add(rfpv1)
-    #
-    # rfpv2 = RedFlagPaperVersion()
-    # rfpv2.creator = u2
-    # rfpv2.to_paper_version = pve1_2
-    # db.session.add(rfpv2)
-    #
-    # rfpv3 = RedFlagPaperVersion()
-    # rfpv3.creator = u3
-    # rfpv3.to_paper_version = pve1_3
-    # db.session.add(rfpv3)
-    #
-    # rfpv4 = RedFlagPaperVersion()
-    # rfpv4.creator = u4
-    # rfpv4.to_paper_version = pve4
-    # db.session.add(rfpv4)
-    #
-    # rfpv5 = RedFlagPaperVersion()
-    # rfpv5.creator = u5
-    # rfpv5.to_paper_version = pve5
-    # db.session.add(rfpv5)
-    #
-    # rfr1 = RedFlagReview()
-    # rfr1.creator = u1
-    # rfr1.to_review = r1
-    # db.session.add(rfr1)
-    #
-    # rfr2 = RedFlagReview()
-    # rfr2.creator = u2
-    # rfr2.to_review = r2
-    # db.session.add(rfr2)
-    #
-    # rfr3 = RedFlagReview()
-    # rfr3.creator = u3
-    # rfr3.to_review = r3
-    # db.session.add(rfr3)
-    #
-    # rfr4 = RedFlagReview()
-    # rfr4.creator = u4
-    # rfr4.to_review = r1
-    # db.session.add(rfr4)
-    #
-    # rfr5 = RedFlagReview()
-    # rfr5.creator = u5
-    # rfr5.to_review = r2
-    # db.session.add(rfr5)
-    #
-    # rft1 = RedFlagTag()
-    # rft1.creator = u1
-    # rft1.to_tag = t1
-    # db.session.add(rft1)
-    #
-    # rft2 = RedFlagTag()
-    # rft2.creator = u2
-    # rft2.to_tag = t2
-    # db.session.add(rft2)
-    #
-    # rft3 = RedFlagTag()
-    # rft3.creator = u3
-    # rft3.to_tag = t3
-    # db.session.add(rft3)
-    #
-    # rft4 = RedFlagTag()
-    # rft4.creator = u4
-    # rft4.to_tag = t1
-    # db.session.add(rft4)
-    #
-    # rft5 = RedFlagTag()
-    # rft5.creator = u5
-    # rft5.to_tag = t2
-    # db.session.add(rft5)
-    #
-    # rfu1 = RedFlagUser()
-    # rfu1.creator = u1
-    # rfu1.to_user = u2
-    # db.session.add(rfu1)
-    #
-    # rfu2 = RedFlagUser()
-    # rfu2.creator = u2
-    # rfu2.to_user = u3
-    # db.session.add(rfu2)
-    #
-    # rfu3 = RedFlagUser()
-    # rfu3.creator = u3
-    # rfu3.to_user = u4
-    # db.session.add(rfu3)
-    #
-    # rfu4 = RedFlagUser()
-    # rfu4.creator = u4
-    # rfu4.to_user = u5
-    # db.session.add(rfu4)
-    #
-    # rfu5 = RedFlagUser()
-    # rfu5.creator = u5
-    # rfu5.to_user = u1
-    # db.session.add(rfu5)
+    rfc1 = RedFlagComment()
+    rfc1.rel_creator = u1
+    rfc1.rel_to_comment = c1
+    db.session.add(rfc1)
+
+    rfc2 = RedFlagComment()
+    rfc2.rel_creator = u2
+    rfc2.rel_to_comment = c2
+    db.session.add(rfc2)
+
+    rfc3 = RedFlagComment()
+    rfc3.rel_creator = u3
+    rfc3.rel_to_comment = c3
+    db.session.add(rfc3)
+
+    rfpv1 = RedFlagPaperRevision()
+    rfpv1.rel_creator = u1
+    rfpv1.rel_to_paper_revision = pve1_1
+    db.session.add(rfpv1)
+
+    rfpv2 = RedFlagPaperRevision()
+    rfpv2.rel_creator = u2
+    rfpv2.rel_to_paper_revision = pve1_2
+    db.session.add(rfpv2)
+
+    rfpv3 = RedFlagPaperRevision()
+    rfpv3.rel_creator = u3
+    rfpv3.rel_to_paper_revision = pve1_3
+    db.session.add(rfpv3)
+
+    rfr1 = RedFlagReview()
+    rfr1.rel_creator = u1
+    rfr1.rel_to_review = r1
+    db.session.add(rfr1)
+
+    rfr2 = RedFlagReview()
+    rfr2.rel_creator = u2
+    rfr2.rel_to_review = r2
+    db.session.add(rfr2)
+
+    rfr3 = RedFlagReview()
+    rfr3.rel_creator = u3
+    rfr3.rel_to_review = r3
+    db.session.add(rfr3)
+
+    rft1 = RedFlagTag()
+    rft1.rel_creator = u1
+    rft1.rel_to_tag = t1
+    db.session.add(rft1)
+
+    rft2 = RedFlagTag()
+    rft2.rel_creator = u2
+    rft2.rel_to_tag = t2
+    db.session.add(rft2)
+
+    rft3 = RedFlagTag()
+    rft3.rel_creator = u3
+    rft3.rel_to_tag = t3
+    db.session.add(rft3)
+
+    rfu1 = RedFlagUser()
+    rfu1.rel_creator = u1
+    rfu1.rel_to_user = u2
+    db.session.add(rfu1)
+
+    rfu3 = RedFlagUser()
+    rfu3.rel_creator = u3
+    rfu3.rel_to_user = u1
+    db.session.add(rfu3)
+
+    rfu4 = RedFlagUser()
+    rfu4.rel_creator = u2
+    rfu4.rel_to_user = u1
+    db.session.add(rfu4)
 
     db.session.commit()
 
