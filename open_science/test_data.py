@@ -450,7 +450,7 @@ def create_test_data():
     u1.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u1.rel_created_tags = [t3]
     u1.rel_created_reviews = [r1, r2]
-    u1.rel_created_comments = [c1, c2, c3, c4, c5, c6, c7, c8, c10, c11, c12]
+    u1.rel_created_comments = [c1, c4, c7, c10]
     db.session.add(u1)
 
     p1.rel_creators = [u1]
@@ -485,7 +485,7 @@ def create_test_data():
     u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.SCIENTIST_USER.value).first()
     u2.rel_created_tags = [t1, t2]
     u2.rel_created_reviews = [r3]
-    u2.rel_created_comments = [c9]
+    u2.rel_created_comments = [c2, c5, c8, c11]
     db.session.add(u2)
 
     p3.rel_creators = [u2]
@@ -511,6 +511,7 @@ def create_test_data():
         red_flags_count=0
     )
     u3.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
+    u3.rel_created_comments = [c3, c6, c9, c12]
     db.session.add(u3)
 
     u4 = User(
@@ -655,25 +656,172 @@ def create_test_data():
     # db.session.add(rr10)
 
     vc1 = VoteComment(
-        is_up=True
+        is_up=False
     )
     vc1.rel_creator = u1
-    vc1.rel_to_comment = c3
+    vc1.rel_to_comment = c2
     db.session.add(vc1)
 
     vc2 = VoteComment(
         is_up=True
     )
-    vc2.rel_creator = u2
+    vc2.rel_creator = u1
     vc2.rel_to_comment = c3
     db.session.add(vc2)
 
     vc3 = VoteComment(
         is_up=True
     )
-    vc3.rel_creator = u3
-    vc3.rel_to_comment = c1
+    vc3.rel_creator = u1
+    vc3.rel_to_comment = c5
     db.session.add(vc3)
+
+    vc4 = VoteComment(
+        is_up=True
+    )
+    vc4.rel_creator = u1
+    vc4.rel_to_comment = c6
+    db.session.add(vc4)
+
+    vc5 = VoteComment(
+        is_up=True
+    )
+    vc5.rel_creator = u1
+    vc5.rel_to_comment = c8
+    db.session.add(vc5)
+
+    vc6 = VoteComment(
+        is_up=True
+    )
+    vc6.rel_creator = u1
+    vc6.rel_to_comment = c9
+    db.session.add(vc6)
+
+    vc7 = VoteComment(
+        is_up=True
+    )
+    vc7.rel_creator = u1
+    vc7.rel_to_comment = c11
+    db.session.add(vc7)
+
+    vc8 = VoteComment(
+        is_up=True
+    )
+    vc8.rel_creator = u1
+    vc8.rel_to_comment = c12
+    db.session.add(vc8)
+
+    vc9 = VoteComment(
+        is_up=False
+    )
+    vc9.rel_creator = u2
+    vc9.rel_to_comment = c1
+    db.session.add(vc9)
+
+    vc10 = VoteComment(
+        is_up=False
+    )
+    vc10.rel_creator = u2
+    vc10.rel_to_comment = c3
+    db.session.add(vc10)
+
+    vc11 = VoteComment(
+        is_up=False
+    )
+    vc11.rel_creator = u2
+    vc11.rel_to_comment = c4
+    db.session.add(vc11)
+
+    vc12 = VoteComment(
+        is_up=True
+    )
+    vc12.rel_creator = u2
+    vc12.rel_to_comment = c6
+    db.session.add(vc12)
+
+    vc13 = VoteComment(
+        is_up=True
+    )
+    vc13.rel_creator = u2
+    vc13.rel_to_comment = c7
+    db.session.add(vc13)
+
+    vc14 = VoteComment(
+        is_up=True
+    )
+    vc14.rel_creator = u2
+    vc14.rel_to_comment = c9
+    db.session.add(vc14)
+
+    vc15 = VoteComment(
+        is_up=True
+    )
+    vc15.rel_creator = u2
+    vc15.rel_to_comment = c10
+    db.session.add(vc15)
+
+    vc16 = VoteComment(
+        is_up=True
+    )
+    vc16.rel_creator = u2
+    vc16.rel_to_comment = c12
+    db.session.add(vc16)
+
+    vc17 = VoteComment(
+        is_up=False
+    )
+    vc17.rel_creator = u3
+    vc17.rel_to_comment = c1
+    db.session.add(vc17)
+
+    vc18 = VoteComment(
+        is_up=False
+    )
+    vc18.rel_creator = u3
+    vc18.rel_to_comment = c2
+    db.session.add(vc18)
+
+    vc19 = VoteComment(
+        is_up=False
+    )
+    vc19.rel_creator = u3
+    vc19.rel_to_comment = c4
+    db.session.add(vc19)
+
+    vc20 = VoteComment(
+        is_up=False
+    )
+    vc20.rel_creator = u3
+    vc20.rel_to_comment = c5
+    db.session.add(vc20)
+
+    vc21 = VoteComment(
+        is_up=False
+    )
+    vc21.rel_creator = u3
+    vc21.rel_to_comment = c7
+    db.session.add(vc21)
+
+    vc22 = VoteComment(
+        is_up=False
+    )
+    vc22.rel_creator = u3
+    vc22.rel_to_comment = c8
+    db.session.add(vc22)
+
+    vc23 = VoteComment(
+        is_up=True
+    )
+    vc23.rel_creator = u3
+    vc23.rel_to_comment = c10
+    db.session.add(vc23)
+
+    vc24 = VoteComment(
+        is_up=True
+    )
+    vc24.rel_creator = u3
+    vc24.rel_to_comment = c11
+    db.session.add(vc24)
 
     mts1 = MessageToStaff(
         text="text1",
