@@ -764,8 +764,7 @@ class Suggestion(db.Model):
 
     # columns
     suggestion = db.Column(db.String(length=mc.S_SUGGESTION_L), nullable=False)
-    page = db.Column(db.Integer())
-    paragraph = db.Column(db.Integer())
+    location = db.Column(db.String(length=mc.S_LOCATION_L))
 
     # foreign keys
     review = db.Column(db.Integer, db.ForeignKey('reviews.id'), primary_key=True)
@@ -796,8 +795,7 @@ class RevisionChangesComponent(db.Model):
 
     # columns
     change_description = db.Column(db.String(length=mc.RCC_CHANGE_DESCRIPTION_L), nullable=False)
-    page = db.Column(db.Integer())
-    paragraph = db.Column(db.Integer())
+    location = db.Column(db.String(length=mc.S_LOCATION_L))
 
     # foreign keys
     paper_revision = db.Column(db.Integer, db.ForeignKey('paper_revisions.id'), primary_key=True)
