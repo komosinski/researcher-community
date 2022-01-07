@@ -87,7 +87,7 @@ def review_edit_page(review_id):
 
     form = ReviewEditForm()
 
-    
+        
     if form.validate_on_submit():
         if form.save.data:
             review.evaluation_novel = form.evaluation_novel.data/100
@@ -95,13 +95,14 @@ def review_edit_page(review_id):
             review.evaluation_error = form.evaluation_error.data/100
             review.evaluation_organize = form.evaluation_organize.data/100
             review.confidence = form.confidence.data/100
-            review.text = form.text.data
+       
             if review.publication_datetime != None:
+                # TODO: check if suggestions have changed
                 review.edit_counter = review.edit_counter + 1
-            if True in form.check_anonymous.data:
-                review.is_anonymous = True
-            else:
-                review.is_anonymous = False
+           
+            review.is_anonymous = form.check_anonymous.data
+            review.is_hidden = form.check_hide.data 
+                
 
             field = request.form.getlist('field[]')
             field2 = request.form.getlist('field2[]')
@@ -117,12 +118,12 @@ def review_edit_page(review_id):
             review.evaluation_error = form.evaluation_error.data/100
             review.evaluation_organize = form.evaluation_organize.data/100
             review.confidence = form.confidence.data/100
-            review.text = form.text.data
+            review.is_hidden = False
+
             review.publication_datetime = dt.datetime.utcnow()
-            if True in form.check_anonymous.data:
-                review.is_anonymous = True
-            else:
-                review.is_anonymous = False
+            
+            review.is_anonymous = form.check_anonymous.data
+            
 
             db.session.commit()
             flash('The review has been added', category='success')
@@ -134,9 +135,10 @@ def review_edit_page(review_id):
         form.evaluation_error.data = int(review.evaluation_error*100)
         form.evaluation_organize.data = int(review.evaluation_organize*100)
         form.confidence.data = int(review.confidence*100)
-
+        form.check_hide.data = review.is_hidden
+        form.check_anonymous.data = review.is_anonymous
     data ={
-        'is_published':review.is_published(),
+        'is_published': review.is_published(),
         # TODO: change 2nd link to anonymized version
         'paper_url' :
             url_for('article',id=review.related_paper_version, anonymous=False) 
@@ -155,4 +157,4 @@ def review_page(review_id):
 
 
 def hide_review(review_id):
-    return 'review hide'
+    pass
