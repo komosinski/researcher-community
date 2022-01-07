@@ -17,6 +17,7 @@ class Config(object):
     SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT') or'03b1aa0ca4845cebeb350af4440c284c'
     SECURITY_ACCOUNT_RECOVERY_SALT =  os.environ.get('SECURITY_ACCOUNT_RECOVERY_SALT') or '3a442018f74a034d1b499a405640c6a7'
     SECURITY_CHANGE_EMAIL_SALT = os.environ.get('SECURITY_CHANGE_EMAIL_SALT') or '10d7ce9ce5be51a09e678dc08ec55827'
+    SECURITY_PROFILE_DELETE_SALT =  os.environ.get('SECURITY_PROFILE_DELETE_SALT') or '5381ce88896f17316c40d7dcb8d6acbc'
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.gmail.com'
     MAIL_PORT= int(os.environ.get('MAIL_PORT') or 465)
     MAIL_USERNAME= 'kappa.science.mail@gmail.com'

@@ -7,7 +7,7 @@
                     <p>{{item.first_name}} {{item.second_name}}</p>
                 </a>
                 <p><strong>Affiliation: </strong>{{item.affiliation}}</p>
-                <p><strong>Email: </strong>{{ item.email }}</p>
+                <p><strong>Email at: </strong>{{ item.email.split('@')[1] }}</p>
             </div>
         </div>
     </article>

@@ -217,8 +217,17 @@ def user_tags_data():
 def user_comments_data():
     return user_api.user_comments_data()
 
-@app.route('/tag/<tag_id>')
+@app.route('/tag/<tag_name>')
 @login_required
-def tag_page(tag_id):
-    return tag_rd.tag_page(tag_id)
+def tag_page(tag_name):
+    return tag_rd.tag_page(tag_name)
 
+@app.route('/user/delete_profile', methods=['GET', 'POST'])
+@login_required
+def delete_profile_page():
+    return user_rd.delete_profile_page()
+
+@app.route('/user/delete_profile/confirm/<token>')
+@login_required
+def confirm_profile_delete(token):
+    return user_rd.confirm_profile_delete(token)

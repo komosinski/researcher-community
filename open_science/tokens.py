@@ -48,3 +48,18 @@ def confirm_email_change_token(token, expiration=7200):
     )
   
     return email
+
+
+def generate_profile_delete_token(email):
+    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    return serializer.dumps(email, salt=app.config['SECURITY_PROFILE_DELETE_SALT'])
+
+# throws exception if failed
+def confirm_profile_delete_token(token, expiration=7200):
+    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    email = serializer.loads(
+        token,
+        salt=app.config['SECURITY_PROFILE_DELETE_SALT'],
+        max_age=expiration
+    )
+    return email

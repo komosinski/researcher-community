@@ -9,9 +9,8 @@
         <th>Paper's Title</th>    
         <th>Paper's Revision</th>        
         <th>Review's Publication date</th> 
-        <th>Edit</th>
         <th>Is visible</th>
-        <th>Hide</th>
+        <th>Edit</th>
       </tr>
     </thead>
     <tbody>
@@ -22,8 +21,6 @@
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
-
-
 
 <script>
     $(document).ready(function () {
@@ -36,22 +33,14 @@
           {data: 'paper_title'},
           {data: 'paper_version'},
           {data: 'publication_datetime'},
-          {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false },
           {data: 'is_visible'},
-          {"defaultContent": "<button class='dt-hide-btn'>Hide</button>", orderable: false }
+          {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false }
         ],
       });
 
       $('#data_reviews').on('click', '.dt-edit-btn', function (e) {
         e.stopPropagation();
         const url = table.row($(this).closest('tr')).data().edit_url;
-        window.location.assign(url);
-      });
-
-      $('#data_reviews').on('click', '.dt-hide-btn', function (e) {
-        e.stopPropagation();
-        const url = table.row($(this).closest('tr')).data().hide_url;
-        //TODO: insert review hiding endpoint here
         window.location.assign(url);
       });
 

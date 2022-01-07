@@ -82,6 +82,7 @@ class User(db.Model, UserMixin):
     personal_website = db.Column(db.String(length=mc.USER_PERSONAL_WEBSITE_L))
     review_mails_limit = db.Column(db.Integer(), nullable=False, default=1)
     notifications_frequency = db.Column(db.Integer(), nullable=False)
+    # holds a new email address before being validated or information about attempt to delete account 'DELETE_PROFILE_ATTEMPT'
     new_email = db.Column(db.String(length=mc.USER_NEW_MAIL_L), unique=True)
     has_photo = db.Column(db.Boolean, nullable=False, default=False)
     last_seen = db.Column(db.DateTime, nullable=True)
@@ -272,7 +273,7 @@ class Tag(db.Model):
             'description': f'{self.description[:29]}...',
             'deadline': self.deadline,
             'edit_url': url_for('edit_tag_page', tag_id=self.id),
-            'show_url': url_for('tag_page', tag_id=self.id)
+            'show_url': url_for('tag_page', tag_name=self.name)
         }
 
 
@@ -392,7 +393,8 @@ class Review(db.Model):
     red_flags_count = db.Column(db.Integer(), nullable=False, default=0)
     edit_counter = db.Column(db.Integer(), nullable=False, default=0)
     is_anonymous = db.Column(db.Boolean, nullable=False, default=False)
-    is_hidden = db.Column(db.Boolean, nullable=False, default=False)
+    # Initially review should be hidden before publication
+    is_hidden = db.Column(db.Boolean, nullable=False, default=True)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
     force_show = db.Column(db.Boolean, nullable=False, default=False)
 
@@ -429,7 +431,6 @@ class Review(db.Model):
             'publication_datetime': self.publication_datetime,
             'edit_url': url_for('review_edit_page', review_id=self.id),
             'is_visible': 'No' if self.is_hidden else 'Yes',
-            'hide_url': url_for('hide_review', review_id=self.id),
             'show_url': url_for('review_page', review_id=self.id)
         }
 

@@ -129,6 +129,7 @@ def create_test_data():
         weight=2.2,
         review_score=5,
         publication_datetime=dt.datetime.utcnow(),
+        is_hidden = False,
         red_flags_count=0
     )
     r2.rel_comments_to_this_review = [c6]
@@ -138,6 +139,7 @@ def create_test_data():
         weight=3.3,
         review_score=5,
         publication_datetime=dt.datetime.utcnow(),
+        is_hidden = False,
         red_flags_count=0
     )
     db.session.add(r3)

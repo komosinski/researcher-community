@@ -1,8 +1,9 @@
+from flask_migrate import current
 from open_science.user.forms import RegisterForm, LoginForm, ResendConfirmationForm, AccountRecoveryForm, \
     SetNewPasswordForm
-from open_science.user.forms import InviteUserForm, EditProfileForm, EndorsementRequestForm
+from open_science.user.forms import InviteUserForm, EditProfileForm, EndorsementRequestForm, DeleteProfileForm
 from open_science import db
-from open_science.tokens import confirm_password_token, confirm_account_recovery_token, confirm_email_change_token
+from open_science.tokens import confirm_password_token, confirm_account_recovery_token, confirm_email_change_token, confirm_profile_delete_token
 from open_science.models import Notification, Paper, PrivilegeSet, User, Tag, Review, EndorsementRequestLog, \
     NotificationType
 import open_science.email as em
@@ -193,6 +194,9 @@ def profile_page(user_id):
 def edit_profile_page():
     form = EditProfileForm(review_mails_limit=current_user.review_mails_limit,
                            notifications_frequency=current_user.notifications_frequency)
+
+    email_change = False
+
     if form.validate_on_submit():
         flash_message = 'Your changes have been saved.'
         current_user.first_name = form.first_name.data
@@ -207,6 +211,7 @@ def edit_profile_page():
                 account.new_email = None
                 db.session.add(account)
 
+            email_change = True
             em.send_email_change_confirmation(form.email.data)
             flash_message += ' A confirmation link has been send to your email address: ' + form.email.data
 
@@ -232,7 +237,13 @@ def edit_profile_page():
             current_user.has_photo = True
 
         db.session.commit()
+
         flash(flash_message, category='success')
+
+        if email_change:
+            logout_user()    
+            return redirect(url_for('home_page'))
+
         return redirect(url_for('profile_page', user_id=current_user.get_id()))
 
     elif request.method == 'GET':
@@ -432,3 +443,41 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         return redirect(url_for('notifications_page', page=1, unread=False))
 
     return render_template('user/endorsement_request.html', form=form, user=user)
+
+
+def delete_profile_page():
+    
+    form = DeleteProfileForm()
+
+    if form.validate_on_submit():
+
+        current_user.new_email = 'DELETE_PROFILE_ATTEMPT'
+        db.session.commit()
+        em.send_profile_delete(current_user.email)
+
+        flash('Account deletion email was sent', category='success')
+        return redirect(url_for('profile_page', user_id=current_user.id))
+
+    return render_template('user/delete_profile.html', form=form)
+
+
+def confirm_profile_delete(token):
+    try:
+        email = confirm_profile_delete_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', category='error')
+        return redirect(url_for('home_page'))
+
+    user = User.query.filter_by(email=email).first_or_404()
+
+    if user.email == current_user.email and user.new_email == 'DELETE_PROFILE_ATTEMPT':
+        
+        # TODO: anonymize profile
+
+        logout_user()
+        flash('You have deleted your profile.', category='success')
+        return redirect(url_for('home_page'))
+  
+    else:
+        flash('The confirmation link is invalid or has expired.', category='error')
+        return redirect(url_for('home_page'))
