@@ -4,6 +4,16 @@
 <div>
     <h2>{{tag.name}}</h2>
 
+
+    {% set creator = tag.rel_creator %}
+
+    <div>
+        Creator: 
+        <a href="{{url_for('profile_page',user_id=creator.id)}}"> {{creator.first_name}} {{creator.second_name}} </a>
+    </div>
+
+    <br>
+
     <div>
         Deadline: {{tag.deadline}}
     </div>
@@ -24,6 +34,21 @@
             {% for paper in related_papers  %}
                 <li>
                     <a href="{{url_for('article',id=paper.id)}}">{{ paper.title}} </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    {% set related_users = tag.rel_users_with_this_tag %}
+
+    {% if related_users is defined  %}
+        
+        <h3>Related users:</h3>
+        <ul>
+            {% for user in related_users  %}
+                <li>
+                    <a href="{{url_for('profile_page',user_id=user.id)}}">{{ user.first_name}} {{ user.second_name}} </a>
                 </li>
             {% endfor %}
         </ul>

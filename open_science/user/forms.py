@@ -3,14 +3,14 @@ from wtforms.fields.simple import TextAreaField
 from open_science.models import User
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import  Length, EqualTo, Email, DataRequired, Optional, ValidationError
 import re
 import open_science.config.models_config as mc
 import open_science.email as em
 from config import Config
 from flask_login import current_user
-
+from open_science.enums import EmailTypeEnum
 
 def validate_password(form, password):
         if not re.search("[a-z]", password.data):
@@ -119,7 +119,7 @@ class SetNewPasswordForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     def validate_email(form, field):
         if field.data != current_user.email:
-            emails_limit = Config.CHANGE_MAIL_ML - em.get_emails_cout_last_days(current_user.id,'email_change',30)
+            emails_limit = Config.CHANGE_MAIL_ML - em.get_emails_cout_last_days(current_user.id, EmailTypeEnum.EMAIL_CHANGE.value, 30)
             if emails_limit > 0 :
                 user_with_email_address = User.query.filter_by(email=field.data).first()
                 if user_with_email_address:
@@ -152,3 +152,13 @@ class EndorsementRequestForm(FlaskForm):
     submit_accept = SubmitField(label='Accept')
     submit_decline = SubmitField(label='Decline')
 
+class DeleteProfileForm(FlaskForm):
+
+    def validate_read_information(form, field):
+        if form.submit.data:
+            if not field.data:
+                raise ValidationError('You must acknowledge the consequences')
+
+    check_read = BooleanField("I have read the information stated above and understand the implications of having my profile deleted", validators=[validate_read_information],default = False)
+
+    submit = SubmitField(label='Send an account deletion email')

@@ -57,8 +57,11 @@ def edit_tag_page(tag_id):
 
     return render_template('tag/edit_tag.html',form=form, tag_name=tag.name)
 
-def tag_page(tag_id):
+def tag_page(tag_name):
 
-    tag = Tag.query.filter(Tag.id == tag_id).first()
+    tag = Tag.query.filter(Tag.name == tag_name).first()
+    if not tag:
+        flash('Tag with that name does not exist', category='error')
+        return redirect(url_for('advanced_search_tags_page',page=1,search_data=''))
 
     return render_template('tag/tag_page.html',tag=tag)

@@ -45,8 +45,7 @@
 {% endmacro %}
 
 
-
-{% macro render_checkbox_field(field) %}
+{% macro render_boolean_field(field) %}
 <div class="profile-edit-input-wrapper">
     <div> {{ field() }} {{ field.label}}</div>
     {% if field.errors %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "helpers/form_helper.html" import render_boolean_field %}
+
+{% block content %}
+
+<p>When you delete an account, your reviews and posts that were previously non-anonymous get anonymized.</p>
+
+<div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <br>
+        {{ render_boolean_field(form.check_read)}}
+        <br>
+        {{ form.submit()}}
+    </form>
+</div>
+
+{% endblock %}

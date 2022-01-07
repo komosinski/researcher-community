@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% from "helpers/form_helper.html" import render_checkbox_field %}
+{% from "helpers/form_helper.html" import render_boolean_field %}
 
 {% block scripts%}
 <script>
@@ -70,15 +70,14 @@ $(document).ready(function(){
         <div class="">
             <form method="POST">
                 {{ form.hidden_tag() }}
-
-
-                {% if not is_published %}
-                    {{ render_checkbox_field(form.check_no_conflict) }}
+         
+                {% if not data['is_published'] %}
+                    {{ render_boolean_field(form.check_no_conflict) }}
                 {% endif %}
             
 
                 <div id="suggestions">
-                  <div>Suggestions (*are not remembered when saving the form): <br>
+                  <div>Suggestions with optional location in the article: <br>
                   <input type="text" name="field[]" placeholder="Suggestion" value=""/>
                   <input type="text" name="field2[]" placeholder="Location" value=""/>
                   <a href="javascript:void(0);" class="add-input" title="Add input"><img src="/static/res/add.png"/></a>
@@ -194,14 +193,16 @@ $(document).ready(function(){
                
 
                 <br>
-                {{ render_checkbox_field(form.check_anonymous) }}
-                <br>
-
+                {{ render_boolean_field(form.check_anonymous) }}
+                {% if data['is_published'] %}
+                {{ render_boolean_field(form.check_hide) }}
+                {% endif %}
+              
 
                 <div class="buttons-wrapper">
                 
                     {{ form.save(class="large-button secondary-button") }}
-                    {% if not is_published %}
+                    {% if not data['is_published'] %}
                     {{ form.submit(class="large-button main-button", onclick="return confirm('Are you sure you want to publish this review? (Remember: your review will be publicly visible)')") }}
                     {% endif %}
 
