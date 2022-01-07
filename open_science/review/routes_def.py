@@ -6,6 +6,7 @@ from flask.templating import render_template
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request
 from flask import abort
+import json
 
 
 import datetime as dt
@@ -62,6 +63,25 @@ def review_edit_page(review_id):
 
     review = Review.query.filter(Review.id == review_id).first_or_404()
 
+    # mocked data for testing suggestion displaying
+    tmpSuggestions = [
+        {
+            "id": 0,
+            "suggestion": "suggestion1",
+            "location": 1
+        },
+        {
+            "id": 1,
+            "suggestion": "suggestion2",
+            "location": 2
+        },
+        {
+            "id": 2,
+            "suggestion": "suggestion3",
+            "location": 3
+        }
+    ]
+    suggestionsJSON = json.dumps(tmpSuggestions)
 
     previous_reviews = review.get_previous_creator_reviews()
 
@@ -125,7 +145,7 @@ def review_edit_page(review_id):
             url_for('article',id=review.related_paper_version, anonymous=True)
     }
 
-    return render_template('review/review_edit.html', form=form, data=data, previous_reviews=previous_reviews)
+    return render_template('review/review_edit.html', form=form, data=data, previous_reviews=previous_reviews, suggestions=tmpSuggestions)
 
 def review_page(review_id):
     # TODO: hidden itp
