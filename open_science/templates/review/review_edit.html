@@ -21,16 +21,33 @@ function outputUpdateConfidence(value) {
 
 
 $(document).ready(function(){
+  const createNewInput = (id) => `<div id="${id}"><input type="text" name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"/><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>`;
+  let startId = 0;
+  const suggestions = {{suggestions|tojson}};
+
+  // const suggestionsJsonString = "{{suggestions}}";
+  // const suggestions = JSON.parse(suggestionsJsonString);
+  // console.log(suggestions);
+
   var max_input_fields = 10;
   var add_input = $('.add-input');
   var input_wrapper = $('#suggestions');
-  var new_input = '<div><input type="text" name="field[]" placeholder="Suggestion" value=""/><input type="text"  placeholder="Location" name="field2[]" value=""/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>';
-  
+  // var new_input = '<div id=""><input type="text" name="field[]" placeholder="Suggestion" value=""/><input type="text"  placeholder="Location" name="field2[]" value=""/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>';
   var add_input_count = 1; 
+
+  const addInput = (sugContent = "", locContent = "") => {
+    add_input_count++;
+    $(input_wrapper).append(createNewInput(startId));
+    $(`#suggestion-input-${startId}`).val(sugContent);
+    $(`#location-input-${startId}`).val(locContent);
+    startId++;
+  }
+
+  suggestions.map((s) => addInput(sugContent = s.suggestion, locContent = s.location));
+  
   $(add_input).click(function(){
       if(add_input_count < max_input_fields){
-          add_input_count++; 
-          $(input_wrapper).append(new_input); 
+          addInput(); 
       }
   });
   $(input_wrapper).on('click', '.remove-input', function(e){
