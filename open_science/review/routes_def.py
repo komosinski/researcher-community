@@ -99,6 +99,7 @@ def review_edit_page(review_id):
             # review.text = form.text.data
             print(form.suggestionsField.data)
             suggestions = json.loads(form.suggestionsField.data)
+            [db.session.delete(suggestion) for suggestion in review.rel_suggestions]
             review.rel_suggestions = [Suggestion(
                 suggestion = s["suggestion"],
                 location = s["location"]
@@ -130,6 +131,7 @@ def review_edit_page(review_id):
             review.publication_datetime = dt.datetime.utcnow()
             print(form.suggestionsField.data)
             suggestions = json.loads(form.suggestionsField.data)
+            [db.session.delete(suggestion) for suggestion in review.rel_suggestions]
             review.rel_suggestions = [Suggestion(
                 suggestion = s["suggestion"],
                 location = s["location"]
@@ -140,7 +142,6 @@ def review_edit_page(review_id):
                 review.is_anonymous = True
             else:
                 review.is_anonymous = False
-                
             review.is_hidden = False
 
             review.publication_datetime = dt.datetime.utcnow()
