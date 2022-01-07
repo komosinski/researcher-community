@@ -3,7 +3,7 @@ from flask_wtf.form import FlaskForm
 from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
 from wtforms.fields.core import SelectField, StringField
-from wtforms.fields.simple import SubmitField
+from wtforms.fields.simple import HiddenField, SubmitField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired
 from open_science import db
@@ -55,8 +55,9 @@ class FileUploadForm(FlaskForm):
     file = FileField("File", validators=[FileRequired(), FileAllowed(['pdf'])])
     description = StringField("Abstract", validators=[DataRequired()])
     license = SelectField("License", choices=[('1', "beerware")])
-    coauthors = StringField(id="coauthors-input-field")
+    coauthors = HiddenField(id="coauthors-input-field")
     submitbtn = SubmitField("Upload")
+    # c = HiddenField()
 
 
 def home_page():
