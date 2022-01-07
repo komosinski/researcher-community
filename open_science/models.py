@@ -772,6 +772,13 @@ class Suggestion(db.Model):
     # relationships
     rel_review = db.relationship("Review", back_populates="rel_suggestions")
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'suggestion': self.suggestion,
+            'location': self.location
+        }
+
 
 class License(db.Model):
     __tablename__ = "licenses"

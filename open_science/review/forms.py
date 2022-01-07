@@ -1,8 +1,9 @@
 from wtforms import StringField, SubmitField, RadioField, widgets, SelectMultipleField, TextAreaField, FieldList, TextField, FormField
+from wtforms.fields.simple import HiddenField
 from wtforms.validators import Length, Optional, StopValidation, DataRequired
 from flask_wtf import FlaskForm
 import open_science.config.models_config as mc
-from open_science.models import DeclinedReason
+from open_science.models import DeclinedReason, Suggestion
 from wtforms.fields.html5 import DecimalRangeField
 
 class MultiCheckboxField(SelectMultipleField):
@@ -57,6 +58,8 @@ class ReviewEditForm(FlaskForm):
     evaluation_error = DecimalRangeField(' Free of essential and technical errors', default=0)
     evaluation_organize = DecimalRangeField('Well organized, well presented, readable', default=0)
     confidence = DecimalRangeField('How confident I am', default=0)
+
+    suggestionsField = HiddenField()
 
     check_no_conflict = CheckboxTableField(label='I state that I have no conflict of interest',choices=[(True,'')],validators=[validate_no_conflict,Optional()],coerce=bool)
     check_anonymous = CheckboxTableField(label='I want my review to be anonymous (you will be visible as "ReviewerX")', choices=[(True,'')],validators=[Optional()],coerce=bool)

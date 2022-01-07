@@ -1,6 +1,6 @@
 from open_science.review.forms import ReviewRequestForm, ReviewEditForm
 from open_science import db
-from open_science.models import  PaperRevision, ReviewRequest, Review
+from open_science.models import  PaperRevision, ReviewRequest, Review, Suggestion
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask_login import current_user
@@ -64,24 +64,25 @@ def review_edit_page(review_id):
     review = Review.query.filter(Review.id == review_id).first_or_404()
 
     # mocked data for testing suggestion displaying
-    tmpSuggestions = [
-        {
-            "id": 0,
-            "suggestion": "suggestion1",
-            "location": 1
-        },
-        {
-            "id": 1,
-            "suggestion": "suggestion2",
-            "location": 2
-        },
-        {
-            "id": 2,
-            "suggestion": "suggestion3",
-            "location": 3
-        }
-    ]
-    suggestionsJSON = json.dumps(tmpSuggestions)
+    # tmpSuggestions = [
+    #     {
+    #         "id": 0,
+    #         "suggestion": "suggestion1",
+    #         "location": 1
+    #     },
+    #     {
+    #         "id": 1,
+    #         "suggestion": "suggestion2",
+    #         "location": 2
+    #     },
+    #     {
+    #         "id": 2,
+    #         "suggestion": "suggestion3",
+    #         "location": 3
+    #     }
+    # ]
+    # suggestionsJSON = json.dumps(tmpSuggestions)
+    suggestions = [s.to_dict() for s in review.rel_suggestions]
 
     previous_reviews = review.get_previous_creator_reviews()
 
@@ -95,7 +96,14 @@ def review_edit_page(review_id):
             review.evaluation_error = form.evaluation_error.data/100
             review.evaluation_organize = form.evaluation_organize.data/100
             review.confidence = form.confidence.data/100
-            review.text = form.text.data
+            # review.text = form.text.data
+            print(form.suggestionsField.data)
+            suggestions = json.loads(form.suggestionsField.data)
+            review.rel_suggestions = [Suggestion(
+                suggestion = s["suggestion"],
+                location = s["location"]
+            ) for s in suggestions]
+
             if review.publication_datetime != None:
                 review.edit_counter = review.edit_counter + 1
             if True in form.check_anonymous.data:
@@ -117,8 +125,16 @@ def review_edit_page(review_id):
             review.evaluation_error = form.evaluation_error.data/100
             review.evaluation_organize = form.evaluation_organize.data/100
             review.confidence = form.confidence.data/100
-            review.text = form.text.data
+            # review.text = form.text.data
             review.publication_datetime = dt.datetime.utcnow()
+            print(form.suggestionsField.data)
+            suggestions = json.loads(form.suggestionsField.data)
+            review.rel_suggestions = [Suggestion(
+                suggestion = s["suggestion"],
+                location = s["location"]
+            ) for s in suggestions]
+            # print(suggestions)
+
             if True in form.check_anonymous.data:
                 review.is_anonymous = True
             else:
@@ -145,7 +161,7 @@ def review_edit_page(review_id):
             url_for('article',id=review.related_paper_version, anonymous=True)
     }
 
-    return render_template('review/review_edit.html', form=form, data=data, previous_reviews=previous_reviews, suggestions=tmpSuggestions)
+    return render_template('review/review_edit.html', form=form, data=data, previous_reviews=previous_reviews, suggestions=suggestions)
 
 def review_page(review_id):
     # TODO: hidden itp

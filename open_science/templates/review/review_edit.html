@@ -24,6 +24,7 @@ $(document).ready(function(){
   const createNewInput = (id) => `<div id="${id}"><input type="text" name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"/><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>`;
   let startId = 0;
   const suggestions = {{suggestions|tojson}};
+  console.log(suggestions);
 
   // const suggestionsJsonString = "{{suggestions}}";
   // const suggestions = JSON.parse(suggestionsJsonString);
@@ -36,11 +37,14 @@ $(document).ready(function(){
   var add_input_count = 1; 
 
   const addInput = (sugContent = "", locContent = "") => {
+    console.log("added input");
     add_input_count++;
-    $(input_wrapper).append(createNewInput(startId));
+    $("#suggestions").append(createNewInput(startId));
+    console.log($("#suggestions"))
     $(`#suggestion-input-${startId}`).val(sugContent);
     $(`#location-input-${startId}`).val(locContent);
     startId++;
+    console.log("end")
   }
 
   suggestions.map((s) => addInput(sugContent = s.suggestion, locContent = s.location));
@@ -50,10 +54,30 @@ $(document).ready(function(){
           addInput(); 
       }
   });
+
   $(input_wrapper).on('click', '.remove-input', function(e){
       e.preventDefault();
       $(this).parent('div').remove();
       add_input_count--;
+  });
+
+  $("#save").on('click', function(e) {
+    // e.preventDefault();
+    e.stopPropagation();
+    const suggestionsArray = [];
+    for(i = 0; i < add_input_count; i++){
+      const suggestion = $(`#suggestion-input-${i}`).val();
+      const location = $(`#location-input-${i}`).val();
+
+      if(suggestion){
+        suggestionsArray.push({
+          suggestion, location
+        });
+      }
+    }
+
+    $("#suggestionsField").val(JSON.stringify(suggestionsArray));
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
   });
 });
   
@@ -70,6 +94,7 @@ $(document).ready(function(){
         <div class="">
             <form method="POST">
                 {{ form.hidden_tag() }}
+                {{ form.suggestionsField }}
 
 
                 {% if not is_published %}
