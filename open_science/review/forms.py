@@ -10,11 +10,6 @@ class MultiCheckboxField(SelectMultipleField):
     widget = widgets.ListWidget(prefix_label=False)
     option_widget = widgets.CheckboxInput()
 
-class CheckboxTableField(SelectMultipleField):
-    widget = widgets.TableWidget(with_table_tag=False)
-    option_widget = widgets.CheckboxInput()
-
-
 class ReviewRequestForm(FlaskForm):
 
     def validate_declined_reason(form, field):
@@ -43,11 +38,6 @@ class ReviewRequestForm(FlaskForm):
 
 class ReviewEditForm(FlaskForm):
     
-    def validate_text(form, field):
-        if form.submit.data:
-            if not field.data:
-                raise StopValidation('Review text cannot be empty')
-
     def validate_no_conflict(form, field):
         if form.submit.data:
             if not field.data:
@@ -59,10 +49,18 @@ class ReviewEditForm(FlaskForm):
     evaluation_organize = DecimalRangeField('Well organized, well presented, readable', default=0)
     confidence = DecimalRangeField('How confident I am', default=0)
 
+<<<<<<< HEAD
     suggestionsField = HiddenField()
 
     check_no_conflict = CheckboxTableField(label='I state that I have no conflict of interest',choices=[(True,'')],validators=[validate_no_conflict,Optional()],coerce=bool)
     check_anonymous = CheckboxTableField(label='I want my review to be anonymous (you will be visible as "ReviewerX")', choices=[(True,'')],validators=[Optional()],coerce=bool)
+=======
+    check_no_conflict = BooleanField(label='I state that I have no conflict of interest',validators=[validate_no_conflict], default = False)
+    check_anonymous = BooleanField(label='I want my review to be anonymous (you will be visible as "ReviewerX")', default = False)
+
+    check_hide = BooleanField("Hide review (You can change it whenever you want)", default = False)
+
+>>>>>>> 7cff35c46b642154c186d4bfef49b129fb1a1ad1
 
     submit = SubmitField(label='Send')
     save = SubmitField(label='Save')
