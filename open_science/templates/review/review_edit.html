@@ -94,17 +94,9 @@ $(document).ready(function(){
         <div class="">
             <form method="POST">
                 {{ form.hidden_tag() }}
-<<<<<<< HEAD
                 {{ form.suggestionsField }}
-
-
-                {% if not is_published %}
-                    {{ render_checkbox_field(form.check_no_conflict) }}
-=======
-         
                 {% if not data['is_published'] %}
                     {{ render_boolean_field(form.check_no_conflict) }}
->>>>>>> 7cff35c46b642154c186d4bfef49b129fb1a1ad1
                 {% endif %}
             
 
