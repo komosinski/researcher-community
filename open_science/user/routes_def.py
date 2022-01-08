@@ -76,12 +76,14 @@ def login_page():
             flash('Success! You are logged in', category='success')
             return redirect(url_for('home_page'))
         elif not attempted_user:
-            flash('Email and password are not match! Please try again', category='error')
+            flash('Email and password are not match! Please try again',
+                  category='error')
         elif not attempted_user.confirmed:
             flash('Please confirm your account!', 'warning')
             return redirect(url_for('unconfirmed_email_page'))
         else:
-            flash('Email and password are not match! Please try again', category='error')
+            flash('Email and password are not match! Please try again',
+                  category='error')
 
     return render_template('user/login.html', form=form)
 
@@ -123,7 +125,8 @@ def unconfirmed_email_page():
                                                                                                         EmailTypeEnum.REGISTRATION_CONFIRM.value,
                                                                                                         1)
         if emails_limit > 0:
-            em.insert_email_log(0, None, form.email.data, EmailTypeEnum.REGISTRATION_CONFIRM.value)
+            em.insert_email_log(0, None, form.email.data,
+                                EmailTypeEnum.REGISTRATION_CONFIRM.value)
             em.send_email_confirmation(form.email.data)
             flash('A new confirmation email has been sent.', 'success')
             return redirect(url_for('home_page'))
@@ -241,7 +244,7 @@ def edit_profile_page():
         flash(flash_message, category='success')
 
         if email_change:
-            logout_user()    
+            logout_user()
             return redirect(url_for('home_page'))
 
         return redirect(url_for('profile_page', user_id=current_user.get_id()))
@@ -263,7 +266,8 @@ def change_password_page():
     form = SetNewPasswordForm()
     if form.validate_on_submit():
         try:
-            user = User.query.filter_by(id=current_user.get_id()).first_or_404()
+            user = User.query.filter_by(
+                id=current_user.get_id()).first_or_404()
             user.password = form.password.data
             db.session.commit()
             flash('Your password has been successfully changed.', category='success')
@@ -309,18 +313,22 @@ def invite_user_page():
 
             if not bool(db.session.query(User.id).filter(User.email == email).first()):
                 if em.get_emails_count_to_address_last_days(email, EmailTypeEnum.USER_INVITE.value, 30) == 0:
-                    em.insert_email_log(current_user.id, None, email, EmailTypeEnum.USER_INVITE.value)
-                    em.send_invite(email, current_user.first_name, current_user.second_name)
+                    em.insert_email_log(
+                        current_user.id, None, email, EmailTypeEnum.USER_INVITE.value)
+                    em.send_invite(email, current_user.first_name,
+                                   current_user.second_name)
 
-                    flash(f'An invitation email has been sent', category='success')
+                    flash('An invitation email has been sent',
+                          category='success')
                     return redirect(url_for('profile_page', user_id=current_user.get_id()))
                 else:
-                    flash(f'An invitation email to this person has already been sent', category='warning')
+                    flash(
+                        'An invitation email to this person has already been sent', category='warning')
             else:
-                flash(f'User with this e-mail already exists', category='warning')
+                flash('User with this e-mail already exists', category='warning')
 
         else:
-            flash(f'Daily limit for invitations has been exceeded', category='error')
+            flash('Daily limit for invitations has been exceeded', category='error')
 
     if form.errors != {}:
         for err_msg in form.errors.values():
@@ -352,7 +360,8 @@ def update_notification_and_redirect():
     notification_id = int(request.args.get('notification_id'))
     url = request.args.get('url')
 
-    notification = Notification.query.filter(Notification.id == notification_id).first()
+    notification = Notification.query.filter(
+        Notification.id == notification_id).first()
 
     if current_user.id != notification.user:
         abort(404)
@@ -371,7 +380,8 @@ def request_endorsement(endorser_id):
         endorsement_log = EndorsementRequestLog(user_id=current_user.id, endorser_id=endorser_id,
                                                 date=dt.datetime.utcnow().date())
 
-        type_endorsment_request = NotificationType.query.get(NotificationTypeEnum.ENDORSEMENT_REQUEST.value)
+        type_endorsment_request = NotificationType.query.get(
+            NotificationTypeEnum.ENDORSEMENT_REQUEST.value)
 
         notification = Notification(
             datetime=dt.datetime.utcnow(),
@@ -407,7 +417,8 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
     user = User.query.filter(User.id == user_id).first()
     endorsement_log = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id == user_id,
                                                          EndorsementRequestLog.endorser_id == endorser_id).first()
-    notification = Notification.query.filter(Notification.id == notification_id).first()
+    notification = Notification.query.filter(
+        Notification.id == notification_id).first()
 
     if not notification:
         flash('Endorsement request not exists', category='error')
@@ -446,7 +457,7 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
 
 
 def delete_profile_page():
-    
+
     form = DeleteProfileForm()
 
     if form.validate_on_submit():
@@ -471,13 +482,13 @@ def confirm_profile_delete(token):
     user = User.query.filter_by(email=email).first_or_404()
 
     if user.email == current_user.email and user.new_email == 'DELETE_PROFILE_ATTEMPT':
-        
+
         # TODO: anonymize profile
 
         logout_user()
         flash('You have deleted your profile.', category='success')
         return redirect(url_for('home_page'))
-  
+
     else:
         flash('The confirmation link is invalid or has expired.', category='error')
         return redirect(url_for('home_page'))

@@ -3,6 +3,7 @@ from open_science.models import Tag, Review, Comment, PaperRevision, User
 from flask_login import current_user
 from flask import request
 
+
 def user_papers_data():
     query = PaperRevision.query \
         .join(User, PaperRevision.rel_creators) \
@@ -52,7 +53,7 @@ def user_papers_data():
 
 
 def user_reviews_data():
-    
+
     query = Review.query.filter(Review.creator == current_user.id)
     total_results = query.count()
 
@@ -87,7 +88,7 @@ def user_reviews_data():
     start = request.args.get('start', type=int)
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
-  
+
     # response
     return {
         'data': [review.to_dict() for review in query],
@@ -97,9 +98,8 @@ def user_reviews_data():
     }
 
 
-
 def user_tags_data():
-    
+
     query = Tag.query.filter(Tag.creator == current_user.id)
     total_results = query.count()
 
@@ -135,7 +135,7 @@ def user_tags_data():
     start = request.args.get('start', type=int)
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
-  
+
     # response
     return {
         'data': [tag.to_dict() for tag in query],
@@ -145,9 +145,8 @@ def user_tags_data():
     }
 
 
-
 def user_comments_data():
-    
+
     query = Comment.query.filter(Comment.creator == current_user.id)
     total_results = query.count()
 
@@ -182,7 +181,7 @@ def user_comments_data():
     start = request.args.get('start', type=int)
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
-  
+
     # response
     return {
         'data': [comment.to_dict() for comment in query],
@@ -190,5 +189,3 @@ def user_comments_data():
         'recordsTotal': total_results,
         'draw': request.args.get('draw', type=int),
     }
-
-
