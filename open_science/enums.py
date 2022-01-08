@@ -1,5 +1,6 @@
 from enum import Enum, unique
 
+
 @unique
 class UserTypeEnum(Enum):
 
@@ -7,6 +8,7 @@ class UserTypeEnum(Enum):
     STANDARD_USER = 10
     SCIENTIST_USER = 20
     ADMIN = 30
+
 
 @unique
 class EmailTypeEnum(Enum):
@@ -19,6 +21,7 @@ class EmailTypeEnum(Enum):
     NOTIFICATION = 6
     STAFF_ANSWER = 7
     ACCOUNT_DELETE = 8
+
 
 @unique
 class NotificationTypeEnum(Enum):

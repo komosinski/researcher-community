@@ -30,7 +30,8 @@ def scientific_user_required(func):
         elif not current_user.is_authenticated:
             return redirect(url_for('login_page'))
         elif current_user.privileges_set < User.user_types_enum.SCIENTIST_USER.value:
-            flash('You must be a scientist user to access this page', category='warning')
+            flash('You must be a scientist user to access this page',
+                  category='warning')
             return redirect(url_for('home_page'))
         return func(*args, **kwargs)
 
@@ -71,7 +72,8 @@ def fileUploadPage():
         print(form.data)
         f = form.file.data
 
-        if not validatePDF(f.read(16)): abort(415)
+        if not validatePDF(f.read(16)):
+            abort(415)
 
         f.seek(0, 0)
         title = form.title.data
@@ -80,9 +82,11 @@ def fileUploadPage():
 
         users = []
         for author in coauthors:
-            user = db.session.query(User).filter(User.email == author['authorEmail']).first()
+            user = db.session.query(User).filter(
+                User.email == author['authorEmail']).first()
             if not bool(user):  # not exists
-                newUser = User(author['authorName'], author['authorLastName'], author['authorEmail'], "somepassword")
+                newUser = User(
+                    author['authorName'], author['authorLastName'], author['authorEmail'], "somepassword")
                 users.append(newUser)
                 db.session.add(newUser)
             else:
@@ -129,10 +133,12 @@ def view_article(id):
     anonymous = request.args.get('anonymous')
 
     article = Paper.query.get(id)
-    if not article: abort(404)
+    if not article:
+        abort(404)
     pv = article.get_latest_revision()
     if pv.rel_related_reviews:
-        review_scores = [review.review_score for review in pv.rel_related_reviews]
+        review_scores = [
+            review.review_score for review in pv.rel_related_reviews]
         reviewMean = sum(review_scores) / len(review_scores)
         # review_scores = [review.votes_score*review.weight for review in pv.rel_related_reviews]
         # review_weight_sum = sum([review.weight for review in pv.rel_related_reviews])
@@ -147,7 +153,8 @@ def like():
     aid = request.json.get('article-id')
     action = request.json.get('action')
 
-    if None in [likeType, aid, action]: abort(400)
+    if None in [likeType, aid, action]:
+        abort(400)
 
     if likeType == 'comment':
         like = VoteComment()
@@ -185,7 +192,8 @@ def search_papers_page():
     order_by = request.args.get('order_by')
 
     order = search_helper.get_paper_order(order_by)
-    paper_revisions = search_helper.get_papers_basic_search(search_like, search_option, order, page_num, rows_per_page)
+    paper_revisions = search_helper.get_papers_basic_search(
+        search_like, search_option, order, page_num, rows_per_page)
 
     if not paper_revisions:
         flash('No results found!', category='warning')

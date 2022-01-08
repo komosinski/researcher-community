@@ -1,7 +1,8 @@
 from flask.helpers import url_for
 
 from open_science.enums import NotificationTypeEnum
-from open_science.models import EmailLog, EmailType, Notification, Review, NotificationType
+from open_science.models import EmailLog, EmailType, Notification, Review
+from open_science.models import NotificationType
 import datetime as dt
 from sqlalchemy import func
 from open_science import app, db
@@ -13,20 +14,27 @@ def delete_old_logs(days, email_type):
     if isinstance(email_type, int):
         type_id = email_type
     else:
-        type_id = EmailType.query.filter(EmailType.name == email_type).first().id
+        type_id = EmailType.query.filter(
+            EmailType.name == email_type).first().id
 
     # bulk delete
-    EmailLog.query.filter(EmailLog.email_type_id == type_id, func.DATE(EmailLog.date) < date_before).delete(
-        synchronize_session=False)
+    EmailLog.query \
+        .filter(EmailLog.email_type_id == type_id,
+                func.DATE(EmailLog.date) < date_before) \
+        .delete(synchronize_session=False)
+
     print(f'Deleted EmailLogs. Type: {email_type}')
 
 
 def create_review_deadline_notification():
-    date = dt.datetime.utcnow().date() + dt.timedelta(days=app.config['REVIEW_DEADLINE_REMIND'])
+    date = dt.datetime.utcnow().date() + \
+        dt.timedelta(days=app.config['REVIEW_DEADLINE_REMIND'])
 
-    reviews = Review.query.filter(Review.deadline_date == date, Review.creation_datetime is None).all()
+    reviews = Review.query.filter(
+        Review.deadline_date == date, Review.creation_datetime is None).all()
 
-    type_review_reminder = NotificationType.query.get(NotificationTypeEnum.REVIEW_REMINDER.value)
+    type_review_reminder = NotificationType.query.get(
+        NotificationTypeEnum.REVIEW_REMINDER.value)
 
     for review in reviews:
         notification = Notification(
@@ -50,5 +58,5 @@ def daily_jobs():
     delete_old_logs(1, EmailLog.email_types_enum.REGISTRATION_CONFIRM.value)
     create_review_deadline_notification()
 
-    # , 'password change', 'email change', , 
+    # , 'password change', 'email change', ,
     # 'review request', 'notification', 'staff answer',  'account delete'
