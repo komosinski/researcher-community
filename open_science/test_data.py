@@ -4,10 +4,10 @@ from flask import url_for
 
 
 def create_test_data():
-    # check if the test data has been created
     create_essential_data()
-    existing_paper_version = db.session.query(PaperRevision.id).filter(PaperRevision.title == 'title1.1').first()
-    if existing_paper_version:
+
+    # check if the test data has been created
+    if PaperRevision.query.all():
         return False
 
     c1 = Comment(
