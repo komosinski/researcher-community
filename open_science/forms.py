@@ -1,8 +1,30 @@
+from flask_wtf.file import FileAllowed, FileRequired
 from wtforms.fields.core import SelectField, BooleanField
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField
+from wtforms.fields.simple import FileField, HiddenField
 from wtforms.validators import Length, DataRequired, Optional
 import open_science.config.models_config as mc
+
+class CommentForm(FlaskForm):
+    content = TextAreaField("Add comment", validators=[DataRequired()])
+    refObjectType = HiddenField()
+    refObjectID = HiddenField()
+    submit_comment = SubmitField("Publish comment")
+
+class FileUploadForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    file = FileField("Paper PDF", validators=[FileRequired(), FileAllowed(['pdf'])])
+    anonymousFile = FileField("Anonymous version (optional)", validators=[FileAllowed(['pdf'])])
+    description = TextAreaField("Abstract", validators=[DataRequired()])
+    license = SelectField("License", coerce=int)
+
+    coauthors = HiddenField(id="coauthors-input-field")
+    tags = HiddenField(id="tags-input-field")
+
+    submitbtn = SubmitField("Upload")
+
+    # c = HiddenField()
 
 
 class AdvancedSearchPaperForm(FlaskForm):
