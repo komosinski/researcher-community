@@ -64,6 +64,7 @@ def tag_page(tag_name):
         return redirect(
             url_for('advanced_search_tags_page',
                     page=1,
-                    search_data=''))
+                    search_data={'name':''},
+                    order_by='newest'))
 
     return render_template('tag/tag_page.html', tag=tag)
