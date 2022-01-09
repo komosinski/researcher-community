@@ -3,11 +3,11 @@ from flask_wtf.form import FlaskForm
 from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
 from wtforms.fields.core import SelectField, StringField
-from wtforms.fields.simple import HiddenField, SubmitField
+from wtforms.fields.simple import HiddenField, SubmitField, TextAreaField, TextField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired
 from open_science import db
-from open_science.models import Comment, Paper, PaperRevision, Review, User, MessageToStaff, VoteComment
+from open_science.models import Comment, License, Paper, PaperRevision, Review, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm
 from flask.helpers import url_for
 from flask.templating import render_template
@@ -53,10 +53,14 @@ def validatePDF(content):
 
 class FileUploadForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
-    file = FileField("File", validators=[FileRequired(), FileAllowed(['pdf'])])
-    description = StringField("Abstract", validators=[DataRequired()])
-    license = SelectField("License", choices=[('1', "beerware")])
+    file = FileField("Paper PDF", validators=[FileRequired(), FileAllowed(['pdf'])])
+    anonymousFile = FileField("Anonymous version (optional)", validators=[FileAllowed(['pdf'])])
+    description = TextAreaField("Abstract", validators=[DataRequired()])
+    license = SelectField("License", coerce=int)
+
     coauthors = HiddenField(id="coauthors-input-field")
+    tags = HiddenField(id="tags-input-field")
+
     submitbtn = SubmitField("Upload")
     # c = HiddenField()
 
@@ -66,7 +70,9 @@ def home_page():
 
 
 def fileUploadPage():
+    licenses = [(license.id, license.license) for license in db.session.query(License).all()]
     form = FileUploadForm()
+    form.license.choices = licenses
 
     if form.validate_on_submit():
         print(form.data)

@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
+{% from "helpers/form_helper.html" import render_register_field %}
 
 {% block scripts %}
 <script>
     window.onload = () => {
         let coauthors = []
+        let inputCount = 1;
+        let startId = 0;
 
         const appendCoauthor = (author) => {
             const authorName = document.getElementById("coauthor-name").value;
@@ -29,8 +32,50 @@
             document.getElementById("articleUploadForm").submit();
         }
 
+        const addInput = (name, inputBuilder) => {
+            inputCount++;
+            $(`#${name}`).append(inputBuilder(++startId));
+        }
+
+        const removeInput = (e) => {
+            e.preventDefault();
+            $(this).parent("div").remove();
+            inputCount--;
+        }
+
+        const createNewCreatorInput = (id) => 
+            `<div id="${id}">
+                <input type="text" placeholder="First name" value="" id="name-input-${id}"/>
+                <input type="text" placeholder="Last name" value="" id="sname-input-${id}"/>
+                <input type="text" placeholder="E-mail" value="" id="email-input-${id}"/>
+                <a href="javascript:void(0);" class="remove-input" title="Remove input">
+                    <img src="/static/res/del.png"/>
+                </a>
+            </div>`;
+        
+        const createNewTagInput = (id) => 
+            `<div id="${id}">
+                <input type="text" name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"/>
+                <input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/>
+                <a href="javascript:void(0);" class="remove-input" title="Remove input">
+                    <img src="/static/res/del.png"/>
+                </a>
+            </div>`;
+
+        $('.add-input').on('click', function () {
+            addInput('coauthors-wrapper',createNewCreatorInput);
+        })
+
+        $('#coauthors-wrapper').on('click', '.remove-input', function(e) {
+            e.preventDefault();
+            $(this).parent("div").remove();
+            inputCount--;
+        })
+
         document.getElementById("add-coauthor").addEventListener('click', appendCoauthor);
         document.getElementById("articleUploadForm").addEventListener('submit', fillCoauthorsField);
+
+
     }
 </script>
 {% endblock %}
@@ -39,17 +84,37 @@
 
 <form id="articleUploadForm" method="POST" action="/article/add" enctype="multipart/form-data">
     {{form.hidden_tag()}}
-    {{form.title.label}} {{form.title()}}
+    <!-- {{form.title.label}} {{form.title()}}
     {{form.description.label}} {{form.description}}
     {{form.file.label}} {{form.file()}}
     {{form.license.label}} {{form.license()}}
     {{form.submitbtn.label}} {{form.submitbtn()}}
-    {{form.coauthors}}
+    {{form.coauthors}} -->
+    {{render_register_field(form.file, "form.file.label")}}
+    {{render_register_field(form.anonymousFile, "form.anonymousFile.label")}}
+
+    {{render_register_field(form.title, "Title")}}
+    {{render_register_field(form.description, "Abstract")}}
+    {{render_register_field(form.license, "License")}}
     Add co-authors
-    <input id="coauthor-name" type="text"/>
+    <div id="coauthors-wrapper">
+        <div>
+        <input type="text" placeholder="First name" value="" id="name-input-0"/>
+        <input type="text" placeholder="Last name" value="" id="sname-input-0"/>
+        <input type="text" placeholder="E-mail" value="" id="email-input-0"/>
+        <a href="javascript:void(0);" class="add-input" title="Add input"><img src="/static/res/add.png"/></a>
+        </div>
+    </div>
+    <div class="buttons-wrapper">
+                
+        {{ form.submitbtn(class="large-button main-button") }}
+
+    </div>
+    <!-- <input id="coauthor-name" type="text"/>
     <input id="coauthor-lastname" type="text"/>
     <input id="coauthor-email" type="text"/>
-    <button id="add-coauthor" type="button">Add</button>
+    <button id="add-coauthor" type="button">Add</button> -->
 </form>
+
 
 {% endblock %}
