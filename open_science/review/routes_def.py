@@ -64,25 +64,6 @@ def review_edit_page(review_id):
 
     review = Review.query.filter(Review.id == review_id).first_or_404()
 
-    # mocked data for testing suggestion displaying
-    # tmpSuggestions = [
-    #     {
-    #         "id": 0,
-    #         "suggestion": "suggestion1",
-    #         "location": 1
-    #     },
-    #     {
-    #         "id": 1,
-    #         "suggestion": "suggestion2",
-    #         "location": 2
-    #     },
-    #     {
-    #         "id": 2,
-    #         "suggestion": "suggestion3",
-    #         "location": 3
-    #     }
-    # ]
-    # suggestionsJSON = json.dumps(tmpSuggestions)
     suggestions = [s.to_dict() for s in review.rel_suggestions]
 
     previous_reviews = review.get_previous_creator_reviews()
