@@ -248,7 +248,6 @@ def user_comments_data():
 
 
 @app.route('/tag/<tag_name>')
-@login_required
 def tag_page(tag_name):
     return tag_rd.tag_page(tag_name)
 
