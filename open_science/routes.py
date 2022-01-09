@@ -83,7 +83,7 @@ def confirm_email_change(token):
     return user_rd.confirm_email_change(token)
 
 
-@app.route('/article/<id>/', methods=['GET'])
+@app.route('/article/<id>/', methods=['GET', 'POST'])
 def article(id):
     return rd.view_article(id)
 

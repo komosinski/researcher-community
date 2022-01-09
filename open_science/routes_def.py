@@ -8,7 +8,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired
 from open_science import db
 from open_science.models import Comment, License, Paper, PaperRevision, Review, User, MessageToStaff, VoteComment
-from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm
+from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask_login import login_user, logout_user, login_required, current_user
@@ -51,18 +51,18 @@ def validatePDF(content):
     return content.decode("ascii", "ignore").startswith("%PDF-")
 
 
-class FileUploadForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    file = FileField("Paper PDF", validators=[FileRequired(), FileAllowed(['pdf'])])
-    anonymousFile = FileField("Anonymous version (optional)", validators=[FileAllowed(['pdf'])])
-    description = TextAreaField("Abstract", validators=[DataRequired()])
-    license = SelectField("License", coerce=int)
+# class FileUploadForm(FlaskForm):
+#     title = StringField("Title", validators=[DataRequired()])
+#     file = FileField("Paper PDF", validators=[FileRequired(), FileAllowed(['pdf'])])
+#     anonymousFile = FileField("Anonymous version (optional)", validators=[FileAllowed(['pdf'])])
+#     description = TextAreaField("Abstract", validators=[DataRequired()])
+#     license = SelectField("License", coerce=int)
 
-    coauthors = HiddenField(id="coauthors-input-field")
-    tags = HiddenField(id="tags-input-field")
+#     coauthors = HiddenField(id="coauthors-input-field")
+#     tags = HiddenField(id="tags-input-field")
 
-    submitbtn = SubmitField("Upload")
-    # c = HiddenField()
+#     submitbtn = SubmitField("Upload")
+#     # c = HiddenField()
 
 
 def home_page():
@@ -137,11 +137,35 @@ def fileUploadPage():
 def view_article(id):
     # string:   True / False
     anonymous = request.args.get('anonymous')
+    # commentForm = CommentForm(refObject="paper")
 
     article = Paper.query.get(id)
     if not article:
         abort(404)
     pv = article.get_latest_revision()
+    commentForm = CommentForm(refObject="paper", refObjectID = pv.id)
+
+    if commentForm.validate_on_submit():
+        comment = Comment(
+            text=commentForm.content.data,
+            votes_score = 0,
+            red_flags_count = 0,
+            level = 1,
+            date = dt.datetime.utcnow()
+        )
+        if current_user.rel_created_comments:
+            current_user.rel_created_comments.append(comment)
+        else: current_user.rel_created_comments = [comment]
+
+        if pv.rel_related_comments:
+            pv.rel_related_comments.append(comment)
+        else:
+            pv.rel_related_comments = [comment]
+
+        db.session.commit()
+
+        # redirect(url_for("article", id=id))
+
     if pv.rel_related_reviews:
         review_scores = [
             review.review_score for review in pv.rel_related_reviews]
@@ -151,8 +175,7 @@ def view_article(id):
         # reviewMean = sum(review_scores)/review_weight_sum
     else:
         reviewMean = 0
-    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], score=reviewMean)
-
+    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], score=reviewMean, form=commentForm)
 
 def like():
     likeType = request.json.get('type')

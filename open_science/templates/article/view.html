@@ -1,3 +1,5 @@
+{% from "helpers/form_helper.html" import render_register_field %}
+
 {% block styles %}
 <link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}" />
 {% endblock %}
@@ -68,7 +70,7 @@
             Comments
         </h3>
         <div class="comments-wrapper">
-            {% for comment in article.rel_comments_to_this_paper %}
+            {% for comment in article.rel_related_comments %}
             {% with author=comment.rel_creator %}
                 <div class="comment">
                     <div class="comment-header-wrapper">
@@ -91,6 +93,17 @@
                 </div>
             {%endwith%}
             {%endfor%}
+            <div class="create-comment-wrapper">
+                <form method="POST">
+                    {{form.hidden_tag()}}
+                    {{render_register_field(form.content, "Type your comment here...")}}
+                    <div class="buttons-wrapper">
+                
+                        {{ form.submit_comment(class="large-button main-button") }}
+                
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div class="similar-articles-column">
