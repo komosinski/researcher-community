@@ -68,3 +68,6 @@ def tag_page(tag_name):
                     order_by='newest'))
 
     return render_template('tag/tag_page.html', tag=tag)
+
+
+
