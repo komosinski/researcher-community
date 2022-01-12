@@ -5,6 +5,7 @@ from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.fields.simple import FileField, HiddenField
 from wtforms.validators import Length, DataRequired, Optional
 import open_science.config.models_config as mc
+from open_science.models import MessageTopic
 
 class CommentForm(FlaskForm):
     content = TextAreaField("Add comment", validators=[DataRequired(), Length(max=mc.COMMENT_TEXT_L)])
@@ -90,9 +91,12 @@ class AdvancedSearchTagForm(FlaskForm):
 
 
 class ContactStaffForm(FlaskForm):
-    topic = SelectField(label='Topic',
-                        choices=[('Endorsement', 'Endorsement'), ('Technical issues', 'Technical issues, corrections'),
-                                 ('Other', 'Other')])
+    topic = SelectField(label='Topic')
     text = TextAreaField(label='Text', validators=[
                          Length(max=mc.MTS_TEXT_L), DataRequired()])
     submit = SubmitField(label='Send')
+
+    def __init__(self):
+        super().__init__()
+        self.topic.choices = [
+            (t.id, t.topic.lower().capitalize().replace('_', ' ')) for t in MessageTopic.query.all()]

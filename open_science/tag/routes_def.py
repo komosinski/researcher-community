@@ -2,8 +2,8 @@ from open_science.tag.forms import EditTagForm
 from open_science import db
 from open_science.models import Tag
 from flask_login import current_user
-from flask import render_template, redirect, url_for, flash, request
-
+from flask import render_template, redirect, url_for, flash, request, abort
+from open_science.routes_def import check_numeric_args
 
 def create_tag_page():
 
@@ -31,6 +31,9 @@ def create_tag_page():
 
 
 def edit_tag_page(tag_id):
+
+    if not check_numeric_args(tag_id):
+        abort(404)
 
     tag = Tag.query.filter(Tag.id == tag_id, Tag.creator ==
                            current_user.id).first_or_404()

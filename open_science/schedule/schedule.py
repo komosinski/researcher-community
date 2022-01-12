@@ -39,7 +39,7 @@ def create_review_deadline_notification():
     for review in reviews:
         notification = Notification(
             datetime=dt.datetime.utcnow(),
-            title=Notification.set_title(type_review_reminder),
+            title=Notification.prepare_title(type_review_reminder),
             text='2 days to expected review prepare time',
             action_url=url_for('review_edit_page', review_id=review.id)
         )

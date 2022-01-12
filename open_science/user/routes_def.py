@@ -178,6 +178,10 @@ def set_password_page(token):
 
 
 def profile_page(user_id):
+    
+    if not check_numeric_args(user_id):
+        abort(404)
+
     user = User.query.filter_by(id=user_id).first()
 
     if not user or not user.confirmed:
@@ -385,7 +389,7 @@ def request_endorsement(endorser_id):
 
         notification = Notification(
             datetime=dt.datetime.utcnow(),
-            title=Notification.set_title(type_endorsment_request),
+            title=Notification.prepare_title(type_endorsment_request),
             text='Endorsement request'
         )
         notification.rel_user = User.query.get(endorser_id)

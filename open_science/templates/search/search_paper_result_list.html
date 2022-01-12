@@ -7,14 +7,15 @@
 
     <a href="{{ url_for('advanced_search_page')}}">Advanced search</a>
     
-
     <h2>Results</h2>
-     <a class="link-button  {% if request.args.get('order_by') == 'newest' %}pressed{% endif %}"
+
+{% if papers.items %}
+        
+    <a class="link-button  {% if request.args.get('order_by') == 'newest' %}pressed{% endif %}"
     href="{{ url_for('search_papers_page',order_by='newest', search_text=request.args.get('search_text'),search_option=request.args.get('search_option') )}}">NEWEST</a>
-     
+
     <a class="link-button  {% if request.args.get('order_by') == 'oldest' %}pressed{% endif %}"
     href="{{ url_for('search_papers_page',order_by='oldest', search_text=request.args.get('search_text'),search_option=request.args.get('search_option') )}}">OLDEST</a>
-     
 
     <ol>
         {% for paper in papers.items%}
@@ -36,12 +37,12 @@
             {% if page_num %}
                 {% if papers.page == page_num %}
                 <a href="{{ url_for('search_papers_page', page=page_num, search_text=request.args.get('search_text'),search_option=request.args.get('search_option'), order_by=request.args.get('order_by') ) }}"
-                   class="page-number pressed">
+                class="page-number pressed">
                     {{ page_num }}
                 </a>
                 {% else %}
                 <a href="{{ url_for('search_papers_page', page=page_num, search_text=request.args.get('search_text'),search_option=request.args.get('search_option'), order_by=request.args.get('order_by')) }}"
-                   class="page-number">
+                class="page-number">
                     {{ page_num }}
                 </a>
                 {% endif %}
@@ -61,5 +62,12 @@
     <p>
     Showing page {{ papers.page }} of {{ papers.pages }}
     </p>
+    
+{% else %}
+    <div>No results found</div>
+{% endif %}
 
+
+
+    
 {% endblock %}

@@ -33,3 +33,12 @@ class NotificationTypeEnum(Enum):
     SYSTEM_MESSAGE = 5
     ENDORSEMENT_REQUEST = 6
     REVIEW_REMINDER = 7
+
+@unique 
+class MessageTopicEnum(Enum):
+
+    OTHER = 1
+    ENDORSEMENT = 2
+    TECHNICAL_ISSUES = 3
+    CORRETIONCS = 4
+    
