@@ -3,7 +3,7 @@
         <div class = "">
             <div class="">
                 <h4></h4>
-                <a class="" href="{{ url_for('article',id=item.id)}}">{{item.title}}</a>
+                <a class="" href="{{ url_for('article',id=item.parent_paper)}}">{{item.title}}</a>
                 <p>
                     <strong>Authors: </strong>
                         {% for a in item.rel_creators %}

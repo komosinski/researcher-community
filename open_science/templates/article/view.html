@@ -72,7 +72,7 @@
         <div class="comments-wrapper">
             {% for comment in article.rel_related_comments %}
             {% with author=comment.rel_creator %}
-                <div class="comment">
+                <div class="comment" id="comment-{{comment.id}}">
                     <div class="comment-header-wrapper">
                         <div class="author-wrapper comment-author">
                             <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~author.get_id()~'.png' if author.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}"/>

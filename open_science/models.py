@@ -581,6 +581,7 @@ class Comment(db.Model):
 
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
+    creator_role = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
 
     # relationships
     rel_related_paper_version = db.relationship("PaperRevision", secondary=association_comment_paper_version,
@@ -610,7 +611,7 @@ class Comment(db.Model):
         paper_verison = self.rel_related_paper_version
         if paper_verison:
             refers_to = 'Paper'
-            show_url = url_for('article', id=paper_verison.id)
+            show_url = url_for('article', id=paper_verison.parent_paper)
 
         review = self.rel_related_review
         if review:
