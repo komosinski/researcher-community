@@ -858,7 +858,7 @@ def create_test_data():
     # notifications
     notification1 = Notification(
         datetime=dt.datetime.utcnow(),
-        title=Notification.set_title(nt_review_request),
+        title=Notification.prepare_title(nt_review_request),
         text='New review request',
         action_url=url_for('review_request_page', request_id=1)
     )
@@ -868,7 +868,7 @@ def create_test_data():
 
     notification2 = Notification(
         datetime=dt.datetime.utcnow(),
-        title=Notification.set_title(nt_review_request),
+        title=Notification.prepare_title(nt_review_request),
         text='New review request',
         action_url=url_for('review_request_page', request_id=2)
     )

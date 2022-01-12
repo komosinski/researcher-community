@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+
+{%block styles%}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+{%endblock%}
+
 {% block content %}
 <div class="user-profile-wrapper">
     <div class="user-profile-header">
@@ -103,16 +109,21 @@
         </div>
         <br><br>
         <div>
-            <h3>My Posts</h3>
-            {% include 'user/tables/table_comments.html' %}
-        </div>
-        <br><br>
-        <div>
             <h3>My Tags</h3>
             {% include 'user/tables/table_tags.html' %}
         </div>
+        <br><br>    
+    {% endif %}
+
+    {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) %}
+
+        <div>
+            <h3>My Posts</h3>
+            {% include 'user/tables/table_comments.html' %}
+        </div>
 
     {% endif %}
+
 </div>
 
 

@@ -19,7 +19,7 @@ from open_science.search import helpers as search_helper
 import json
 import functools
 from flask_login.config import EXEMPT_METHODS
-
+from open_science.enums import MessageTopicEnum
 
 # Routes decorator
 def scientific_user_required(func):
@@ -141,6 +141,10 @@ def fileUploadPage():
 
 # anonym -
 def view_article(id):
+
+    if not check_numeric_args(id):
+        abort(404)
+
     # string:   True / False
     anonymous = request.args.get('anonymous')
     # commentForm = CommentForm(refObject="paper")
@@ -175,6 +179,7 @@ def view_article(id):
     if pv.rel_related_reviews:
         review_scores = [
             review.review_score for review in pv.rel_related_reviews]
+            # TODO: breaks if empty
         reviewMean = sum(review_scores) / len(review_scores)
         # review_scores = [review.votes_score*review.weight for review in pv.rel_related_reviews]
         # review_weight_sum = sum([review.weight for review in pv.rel_related_reviews])

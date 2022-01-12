@@ -27,11 +27,10 @@ def review_request_page(request_id):
     if form.validate_on_submit():
         if form.submit_accept.data:
             review_request.decision = True
-            review_request.acceptation_date = dt.date.utctoday()
+            review_request.acceptation_date = dt.datetime.utcnow().date()
             review = Review(creator=current_user.id,
                             related_paper_version=review_request.paper_version)
-            review.deadline_date = dt.datetime.utcnow().date(
-            ) + dt.timedelta(days=int(form.prepare_time.data))
+            review.deadline_date = dt.datetime.utcnow().date() + dt.timedelta(days=int(form.prepare_time.data))
             db.session.add(review)
             flash('Review request accepted', category='success')
         elif form.submit_decline.data:
@@ -61,6 +60,9 @@ def review_request_page(request_id):
 
 # TODO: complete this page
 def review_edit_page(review_id):
+
+    if not check_numeric_args(review_id):
+        abort(404)
 
     review = Review.query.filter(Review.id == review_id).first_or_404()
 
@@ -164,6 +166,10 @@ def review_edit_page(review_id):
 
 
 def review_page(review_id):
+
+    if not check_numeric_args(review_id):
+        abort(404)
+
     # TODO: hidden itp
     review = Review.query.filter(Review.id == review_id).first_or_404()
 

@@ -9,7 +9,7 @@ from open_science.admin import MyModelView, UserView, MessageToStaffView
 import datetime as dt
 from sqlalchemy import func
 from open_science import app
-from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum
+from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum, MessageTopicEnum
 
 
 @login_manager.user_loader
@@ -393,13 +393,14 @@ class PaperRevision(db.Model):
     rel_changes = db.relationship(
         "RevisionChangesComponent", back_populates="rel_paper_revision")
 
+
     def to_dict(self):
         return {
             'id': self.id,
             'title': self.title,
             'publication_date': self.publication_date,
             'version': self.version,
-            'show_url': url_for('article', id=self.id),
+            'show_url': url_for('article', id=self.parent_paper),
             # TODO: change edit_url
             'edit_url': url_for('article', id=self.id)
         }
@@ -647,6 +648,8 @@ class MessageToStaff(db.Model):
     sender = db.Column(db.Integer, db.ForeignKey('users.id'))
     topic = db.Column(db.Integer, db.ForeignKey('message_topics.id'))
 
+    message_topics_enum = MessageTopicEnum
+
     # relationships
     rel_sender = db.relationship(
         "User", back_populates="rel_related_staff_messages")
@@ -690,12 +693,10 @@ class MessageTopic(db.Model):
     rel_related_staff_messages = db.relationship(
         "MessageToStaff", back_populates="rel_topic")
 
-    topics = ('Endorsement', 'Technical issues, corrections', 'Other')
-
     def insert_topics():
-        for t in MessageTopic.topics:
-            if not MessageTopic.query.filter(MessageTopic.topic == t).first():
-                message_topic = MessageTopic(topic=t)
+        for t in MessageTopicEnum:
+            if not MessageTopic.query.filter(MessageTopic.topic == t.name).first():
+                message_topic = MessageTopic(id=t.value, topic=t.name)
                 db.session.add(message_topic)
         db.session.commit()
 
@@ -808,15 +809,16 @@ class Notification(db.Model):
 
     notification_types_enum = NotificationTypeEnum
 
-    def set_title(notification_type):
+    # returns notification title (string) based on notification type
+    def prepare_title(notification_type):
         if isinstance(notification_type, str):
             type_string = notification_type
         elif isinstance(notification_type, NotificationType):
-            type_string = str(NotificationType.name)
-        else:
-            type_string = db.session.query(NotificationType.name).filter(
-                NotificationType.id == notification_type).one().name
-
+            type_string = str(notification_type.name)
+        elif isinstance(notification_type, int):
+             type_string = NotificationType.query().filter(
+                NotificationType.id == notification_type).first().name
+     
         return type_string.replace('_', ' ').lower().capitalize()
 
 
