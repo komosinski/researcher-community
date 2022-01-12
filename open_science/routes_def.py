@@ -7,7 +7,7 @@ from wtforms.fields.simple import HiddenField, SubmitField, TextAreaField, TextF
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired
 from open_science import db
-from open_science.models import Comment, License, Paper, PaperRevision, Review, User, MessageToStaff, VoteComment
+from open_science.models import Comment, License, Paper, PaperRevision, Review, Tag, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm
 from flask.helpers import url_for
 from flask.templating import render_template
@@ -71,6 +71,7 @@ def home_page():
 
 def fileUploadPage():
     licenses = [(license.id, license.license) for license in db.session.query(License).all()]
+    tags = [tag.to_dict() for tag in db.session.query(Tag).all()]
     form = FileUploadForm()
     form.license.choices = licenses
 
@@ -85,6 +86,9 @@ def fileUploadPage():
         title = form.title.data
         description = form.description.data
         coauthors = json.loads(form.coauthors.data)
+        tags = json.loads(form.tags.data)
+        tags = [Tag.query.get(t['id']) for t in tags]
+
 
         users = []
         for author in coauthors:
@@ -97,6 +101,7 @@ def fileUploadPage():
                 db.session.add(newUser)
             else:
                 users.append(user)
+
 
         print(users)
         filename = secure_filename(f.filename)
@@ -120,7 +125,8 @@ def fileUploadPage():
             title=title,
             abstract=description,
             publication_date=dt.datetime.utcnow(),
-            rel_creators=[current_user] + users
+            rel_creators=[current_user] + users,
+            rel_related_tags = tags
         )
         paper.rel_related_versions.append(paper_version)
 
@@ -130,7 +136,7 @@ def fileUploadPage():
 
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
 
-    return render_template("utils/pdf_send_form.html", form=form)
+    return render_template("utils/pdf_send_form.html", form=form, tags=tags)
 
 
 # anonym -
@@ -164,7 +170,7 @@ def view_article(id):
 
         db.session.commit()
 
-        # redirect(url_for("article", id=id))
+        return redirect(url_for("article", id=id))
 
     if pv.rel_related_reviews:
         review_scores = [

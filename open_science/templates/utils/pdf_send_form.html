@@ -1,40 +1,107 @@
 {% extends 'base.html' %}
-{% from "helpers/form_helper.html" import render_register_field %}
+{% from "helpers/form_helper.html" import render_register_field, render_boolean_field %}
+
+{% block styles %}
+<style>
+    .hidden {
+        display: none;
+    }
+
+    .visible {
+        display: inline-block;
+    }
+</style>
+{% endblock %}
 
 {% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     window.onload = () => {
+        $("#confidence_level").prop('disabled', true);
+        $("#review_declaration").on('change', function() {
+            console.log($(this).val());
+            if($(this).is(":checked")){
+                $('#confidence_level').prop('disabled', false);
+            } else {
+                $("#confidence_level").prop('disabled', true);
+            }
+        })
+        $("#anonymity_declaration").prop('disabled', true);
+        $("#anonymousFile").on('input', function(){
+            if($(this).get(0).files.length == 0){
+                $("#anonymity_declaration").prop('disabled', true);
+            }
+            else {
+                $("#anonymity_declaration").prop('disabled', false);
+            }
+            // $("#anonymity_declaration").prop('enabled', 'true');
+        })
+        const createTagOption = (tag) => {
+            return `<option value=${tag.id}>${tag.name}</option>`
+        }
+        const buildTagsOptions = () => {
+            const tagsJSON = {{tags|tojson}};
+            return tagsJSON.map((tag) => createTagOption(tag)).join('');
+        }
+        const tags = buildTagsOptions();
+        console.log(tags);
+        $("#tag-select-0").html(tags);
         let coauthors = []
-        let inputCount = 1;
-        let startId = 0;
+        let coauthorInputCount = 1, tagInputCount = 1;
+        let coauthorStartId = 0, tagStartId = 0;
 
-        const appendCoauthor = (author) => {
-            const authorName = document.getElementById("coauthor-name").value;
-            const authorLastName = document.getElementById("coauthor-lastname").value;
-            const authorEmail = document.getElementById("coauthor-email").value;
+        const getCoauthors = () => {
+            let coauthors = [];
+            console.log(coauthorStartId);
+            for(i = 0; i <= coauthorStartId; i++){
+                const authorName = document.getElementById(`name-input-${i}`).value;
+                const authorLastName = document.getElementById(`sname-input-${i}`).value;
+                const authorEmail = document.getElementById(`email-input-${i}`).value;
+                console.log(authorName, authorLastName, authorEmail);
+                if(authorName && authorLastName && authorEmail){
+                    coauthors.push({
+                        authorName,
+                        authorLastName,
+                        authorEmail
+                    });
+                }
+            }
+            return coauthors;
+        }
 
-            coauthors.push({
-                authorName,
-                authorLastName,
-                authorEmail
-            });
-            console.log(coauthors);
+        const getTags = () => {
+            let tagArray = [];
 
-            document.getElementById("coauthor-name").value = "";
-            document.getElementById("coauthor-lastname").value = "";
-            document.getElementById("coauthor-email").value = "";
+            for(i = 0; i <= tagStartId; i++){
+                const tagId = $(`#tag-select-${i}`).val()
+
+                if(tagId && tagId > 0){
+                    tagArray.push({id: tagId});
+                }
+            }
+
+            return tagArray;
         }
         
-        const fillCoauthorsField = (e) => {
+        const fillHiddenFields = (e) => {
+            console.log("AAAAAAAAAAAAAA");
             e.preventDefault();
+            e.stopPropagation();
+            
+            const coauthors = getCoauthors();
+            const tagArray = getTags();
+
+            console.log(coauthors);
+            console.log(tagArray);
 
             document.getElementById("coauthors-input-field").value = JSON.stringify(coauthors);
+            document.getElementById("tags-input-field").value = JSON.stringify(tagArray);
             document.getElementById("articleUploadForm").submit();
         }
 
-        const addInput = (name, inputBuilder) => {
-            inputCount++;
-            $(`#${name}`).append(inputBuilder(++startId));
+        const addInput = (name, inputBuilder, id) => {
+            console.log(id);
+            $(`#${name}`).append(inputBuilder(id));
         }
 
         const removeInput = (e) => {
@@ -44,38 +111,55 @@
         }
 
         const createNewCreatorInput = (id) => 
-            `<div id="${id}">
-                <input type="text" placeholder="First name" value="" id="name-input-${id}"/>
-                <input type="text" placeholder="Last name" value="" id="sname-input-${id}"/>
-                <input type="text" placeholder="E-mail" value="" id="email-input-${id}"/>
-                <a href="javascript:void(0);" class="remove-input" title="Remove input">
-                    <img src="/static/res/del.png"/>
-                </a>
-            </div>`;
+            {
+                // coauthorInputCount++;
+                return `<div id="${id}">
+                    <input type="text" placeholder="First name" value="" id="name-input-${id}"/>
+                    <input type="text" placeholder="Last name" value="" id="sname-input-${id}"/>
+                    <input type="text" placeholder="E-mail" value="" id="email-input-${id}"/>
+                    <div class="hidden" style="color: red;">E-mail niepoprawny!</div>
+                    <a href="javascript:void(0);" class="remove-input" title="Remove input">
+                        <img src="/static/res/del.png"/>
+                    </a>
+                </div>`;
+            }
         
         const createNewTagInput = (id) => 
-            `<div id="${id}">
-                <input type="text" name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"/>
-                <input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/>
-                <a href="javascript:void(0);" class="remove-input" title="Remove input">
-                    <img src="/static/res/del.png"/>
-                </a>
-            </div>`;
+            {
+                // tagInputCount++;
+                return `<div id="${id}">
+                    <select placeholder="Select tag" id="tag-select-${id}">
+                        ${tags}
+                    </select>
+                    <a href="javascript:void(0);" class="remove-input" title="Remove input">
+                        <img src="/static/res/del.png"/>
+                    </a>
+                </div>`
+        };
 
         $('.add-input').on('click', function () {
-            addInput('coauthors-wrapper',createNewCreatorInput);
+            addInput('coauthors-wrapper',createNewCreatorInput, ++coauthorStartId);
+        })
+
+        $('.add-input-tag').on('click', function () {
+            console.log("dupa");
+            addInput('tags-wrapper',createNewTagInput, ++tagStartId);
         })
 
         $('#coauthors-wrapper').on('click', '.remove-input', function(e) {
             e.preventDefault();
             $(this).parent("div").remove();
-            inputCount--;
+            coauthorInputCount--;
         })
 
-        document.getElementById("add-coauthor").addEventListener('click', appendCoauthor);
-        document.getElementById("articleUploadForm").addEventListener('submit', fillCoauthorsField);
+        $('#tags-wrapper').on('click', '.remove-input', function(e) {
+            e.preventDefault();
+            $(this).parent("div").remove();
+            tagInputCount--;
+        })
 
-
+        // document.getElementById("add-coauthor").addEventListener('click', appendCoauthor);
+        document.getElementById("articleUploadForm").addEventListener('submit', fillHiddenFields);
     }
 </script>
 {% endblock %}
@@ -92,19 +176,35 @@
     {{form.coauthors}} -->
     {{render_register_field(form.file, "form.file.label")}}
     {{render_register_field(form.anonymousFile, "form.anonymousFile.label")}}
-
+    {{render_boolean_field(form.anonymity_declaration)}}
+        
     {{render_register_field(form.title, "Title")}}
     {{render_register_field(form.description, "Abstract")}}
     {{render_register_field(form.license, "License")}}
     Add co-authors
     <div id="coauthors-wrapper">
+        <p style="margin: 0;">Note: you will not be able to change the list of authors in the future</p>
         <div>
         <input type="text" placeholder="First name" value="" id="name-input-0"/>
         <input type="text" placeholder="Last name" value="" id="sname-input-0"/>
         <input type="text" placeholder="E-mail" value="" id="email-input-0"/>
+        <div class="hidden" style="color: red;">E-mail niepoprawny!</div>
         <a href="javascript:void(0);" class="add-input" title="Add input"><img src="/static/res/add.png"/></a>
         </div>
     </div>
+    <div id="tags-wrapper">
+        <div id="0">
+            <select placeholder="Select tag" id="tag-select-0"></select>
+        <a href="javascript:void(0);" class="add-input-tag" title="Add input"><img src="/static/res/add.png"/></a>
+        </div>
+    </div>
+    <input id="companyName" list="companyList" />
+    <datalist id="companyList"></datalist>
+    {{render_boolean_field(form.interest_conflict_declaration)}}
+    {{render_boolean_field(form.authors_declaration)}}
+    {{render_boolean_field(form.rights_declaration)}}
+    {{render_boolean_field(form.review_declaration)}}
+    {{render_register_field(form.confidence_level)}}
     <div class="buttons-wrapper">
                 
         {{ form.submitbtn(class="large-button main-button") }}
