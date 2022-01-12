@@ -42,6 +42,7 @@
     $('#data_papers').on('click', 'tr', function (e) {
       e.stopPropagation();
       const url = table.row($(this).closest('tr')).data().show_url;
+      //console.log(url);
       window.location.assign(url);
     });
     

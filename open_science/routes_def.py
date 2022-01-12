@@ -1,5 +1,6 @@
 import re
 from flask_wtf.form import FlaskForm
+from sqlalchemy.sql.elements import and_
 from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
 from wtforms.fields.core import SelectField, StringField
@@ -147,12 +148,17 @@ def view_article(id):
 
     # string:   True / False
     anonymous = request.args.get('anonymous')
+    version = request.args.get('version')
+    print(version)
     # commentForm = CommentForm(refObject="paper")
 
     article = Paper.query.get(id)
     if not article:
         abort(404)
-    pv = article.get_latest_revision()
+    if version is None:
+        pv = article.get_latest_revision()
+    else:
+        pv = PaperRevision.query.filter(and_(PaperRevision.parent_paper == id, PaperRevision.version == version)).first_or_404()
     commentForm = CommentForm(refObject="paper", refObjectID = pv.id)
 
     if commentForm.validate_on_submit():

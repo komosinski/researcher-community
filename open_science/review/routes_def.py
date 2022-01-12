@@ -144,18 +144,19 @@ def review_edit_page(review_id):
         form.confidence.data = int(review.confidence*100)
         form.check_hide.data = review.is_hidden
         form.check_anonymous.data = review.is_anonymous
+    
     data = {
         'is_published': review.is_published(),
         # TODO: change 2nd link to anonymized version
         'paper_url':
-            url_for('article', id=review.related_paper_version,
+            url_for('article', id=review.rel_related_paper_version.parent_paper, version=review.rel_related_paper_version.version,
                     anonymous=False)
 
             if db.session.query(PaperRevision.anonymized_pdf_url) \
             .filter(PaperRevision.id == review.related_paper_version).scalar()
 
             else
-            url_for('article', id=review.related_paper_version, anonymous=True)
+            url_for('article', id=review.rel_related_paper_version.parent_paper, version=review.rel_related_paper_version.version, anonymous=True)
     }
 
     return render_template(
