@@ -4,6 +4,7 @@ from open_science import routes_def as rd
 from open_science.test_data import create_test_data
 from open_science.user import routes_def as user_rd
 from open_science.user import api as user_api
+from open_science.tag import api as tag_api
 from open_science.review import routes_def as review_rd
 from open_science.tag import routes_def as tag_rd
 from flask_login import login_required
@@ -262,3 +263,10 @@ def delete_profile_page():
 @login_required
 def confirm_profile_delete(token):
     return user_rd.confirm_profile_delete(token)
+
+@app.route('/api/tags')
+def get_all_tags_data():
+    return tag_api.get_all_tags_data()
+
+
+
