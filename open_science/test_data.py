@@ -227,7 +227,6 @@ def create_test_data():
         red_flags_count=0
     )
     pve1_3.rel_related_comments = [c5, c6, c7, c8, c9]
-    pve1_3.rel_related_reviews = [r3]
     pve1_3.rel_parent_paper = p1
     db.session.add(pve1_3)
 
@@ -241,6 +240,7 @@ def create_test_data():
         red_flags_count=0
     )
     pve2.rel_parent_paper = p2
+    pve2.rel_related_reviews = [r3]
     db.session.add(pve2)
 
     pve3 = PaperRevision(
@@ -447,7 +447,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u1.rel_created_paper_revisions = [pve1_1, pve1_2, pve4, pve5, pve6, pve7, pve8, pve9]
+    u1.rel_created_paper_revisions = [pve1_1, pve1_2, pve2, pve4, pve5, pve6, pve7, pve8, pve9]
     u1.rel_tags_to_user = [t1, t2]
     u1.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.RESEARCHER_USER.value).first()
     u1.rel_created_tags = [t3]
@@ -482,7 +482,7 @@ def create_test_data():
         registered_on=dt.datetime.utcnow(),
         red_flags_count=0
     )
-    u2.rel_created_paper_revisions = [pve14, pve15, pve12, pve13, pve3, pve2, pve1_3, pve10, pve11, pve4, pve5]
+    u2.rel_created_paper_revisions = [pve14, pve15, pve12, pve13, pve3, pve1_3, pve10, pve11, pve4, pve5]
     u2.rel_tags_to_user = [t3]
     u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.RESEARCHER_USER.value).first()
     u2.rel_created_tags = [t1, t2]

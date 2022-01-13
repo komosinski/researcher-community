@@ -29,10 +29,13 @@ class NotificationTypeEnum(Enum):
     REVIEW_REQUEST = 1
     NEW_REVIEW = 2
     COMMENT_ANSWER = 3
-    REVIEW_ANSWER = 4
-    SYSTEM_MESSAGE = 5
-    ENDORSEMENT_REQUEST = 6
-    REVIEW_REMINDER = 7
+    PAPER_COMMENT = 4
+    REVIEWER_COMMENTED_PAPER = 5
+    SYSTEM_MESSAGE = 6
+    ENDORSEMENT_REQUEST = 7
+    REVIEW_REMINDER = 8
+  
+
 
 @unique 
 class MessageTopicEnum(Enum):

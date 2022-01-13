@@ -438,15 +438,15 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
 
     if not notification:
         flash('Endorsement request not exists', category='error')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if not user or current_user.id != endorser_id or not endorsement_log:
         flash('Endorsement request not exists', category='error')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if endorsement_log.considered == True:
         flash('Endorsement request has been already considered', category='warning')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if form.validate_on_submit():
         if form.submit_accept.data:
@@ -465,7 +465,7 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         db.session.commit()
 
         flash('The form has been completed', category='success')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     return render_template('user/endorsement_request.html', form=form, user=user)
 

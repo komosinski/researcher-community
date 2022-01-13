@@ -1,18 +1,11 @@
-import re
-from flask_wtf.form import FlaskForm
 from sqlalchemy.sql.elements import and_
-from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
-from wtforms.fields.core import SelectField, StringField
-from wtforms.fields.simple import HiddenField, SubmitField, TextAreaField, TextField
-from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms.validators import DataRequired
 from open_science import db
 from open_science.models import Comment, License, Paper, PaperRevision, Review, Tag, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm
 from flask.helpers import url_for
 from flask.templating import render_template
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import  current_user
 from flask import render_template, redirect, url_for, flash, abort, request
 import datetime as dt
 import ast
@@ -21,6 +14,7 @@ import json
 import functools
 from flask_login.config import EXEMPT_METHODS
 from open_science.enums import MessageTopicEnum
+from open_science.notifications import create_paper_comment_notifications
 
 # Routes decorator
 def researcher_user_required(func):
@@ -179,6 +173,7 @@ def view_article(id):
             pv.rel_related_comments = [comment]
 
         db.session.commit()
+        create_paper_comment_notifications(pv, comment, current_user.id)
 
         return redirect(url_for("article", id=id))
 
@@ -186,7 +181,7 @@ def view_article(id):
         review_scores = [
             review.review_score for review in pv.rel_related_reviews]
             # TODO: breaks if empty
-        reviewMean = sum(review_scores) / len(review_scores)
+        reviewMean = 0 #sum(review_scores) / len(review_scores)
         # review_scores = [review.votes_score*review.weight for review in pv.rel_related_reviews]
         # review_weight_sum = sum([review.weight for review in pv.rel_related_reviews])
         # reviewMean = sum(review_scores)/review_weight_sum
