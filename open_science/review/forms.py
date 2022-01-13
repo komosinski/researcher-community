@@ -34,7 +34,12 @@ class ReviewRequestForm(FlaskForm):
                                     Length(max=mc.DR_REASON_L), Optional()])
     prepare_time = RadioField(
         validators=[validate_prepare_time, Optional()],
-        choices=[(7, '1 week'), (14, '2 weeks'), (21, '3 weeks'), (28, '4 weeks')])
+        choices=[(7, '1 week'),
+                 (14, '2 weeks'),
+                 (21, '3 weeks'),
+                 (28, '4 weeks'),
+                 (35, '5 weeks'),
+                 (42, '6 weeks')])
         
     submit_accept = SubmitField(label='Accept')
     submit_decline = SubmitField(label='Decline')

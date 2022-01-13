@@ -209,3 +209,10 @@ class DeleteProfileForm(FlaskForm):
                               validate_read_information], default=False)
 
     submit = SubmitField(label='Send an account deletion email')
+
+
+class RemarksForm(FlaskForm):
+
+    remarks = TextAreaField(validators=[Length(max=mc.USER_REMARKS_L), Optional()])
+    submit = SubmitField(label='Save remarks')
+

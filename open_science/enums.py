@@ -6,7 +6,7 @@ class UserTypeEnum(Enum):
 
     # larger step due to possible new types
     STANDARD_USER = 10
-    SCIENTIST_USER = 20
+    RESEARCHER_USER = 20
     ADMIN = 30
 
 
@@ -41,4 +41,3 @@ class MessageTopicEnum(Enum):
     ENDORSEMENT = 2
     TECHNICAL_ISSUES = 3
     CORRETIONCS = 4
-    

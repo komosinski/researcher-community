@@ -23,14 +23,14 @@ from flask_login.config import EXEMPT_METHODS
 from open_science.enums import MessageTopicEnum
 
 # Routes decorator
-def scientific_user_required(func):
+def researcher_user_required(func):
     @functools.wraps(func)
     def decorated_view(*args, **kwargs):
         if request.method in EXEMPT_METHODS:
             return func(*args, **kwargs)
         elif not current_user.is_authenticated:
             return redirect(url_for('login_page'))
-        elif current_user.privileges_set < User.user_types_enum.SCIENTIST_USER.value:
+        elif current_user.privileges_set < User.user_types_enum.RESEARCHER_USER.value:
             flash('You must be a scientist user to access this page',
                   category='warning')
             return redirect(url_for('home_page'))
