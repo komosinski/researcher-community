@@ -839,7 +839,7 @@ class Notification(db.Model):
         elif isinstance(notification_type, NotificationType):
             type_string = str(notification_type.name)
         elif isinstance(notification_type, int):
-             type_string = NotificationType.query().filter(
+             type_string = NotificationType.query.filter(
                 NotificationType.id == notification_type).first().name
      
         return type_string.replace('_', ' ').lower().capitalize()

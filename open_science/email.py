@@ -93,3 +93,10 @@ def get_emails_count_to_address_last_days(reciever_email, email_type_id, days):
     count = EmailLog.query.filter(EmailLog.email_type_id == email_type_id, func.DATE(
         EmailLog.date) >= date_after, EmailLog.receiver_email == reciever_email).count()
     return count
+
+
+def send_comment_notification_email(email, text):
+    data = { 'text': text}
+    html = render_template('email/notification_comment_email.html', data=data)
+    subject = "New comment"
+    Thread(target=send_email, args=(app, email, subject, html)).start()
