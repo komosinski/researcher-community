@@ -62,7 +62,7 @@ def set_password_page(token):
     return user_rd.set_password_page(token)
 
 
-@app.route('/user/<user_id>')
+@app.route('/user/<user_id>', methods=['GET', 'POST'])
 def profile_page(user_id):
     return user_rd.profile_page(user_id)
 
@@ -91,7 +91,7 @@ def article(id):
 
 @app.route('/article/add', methods=['GET', 'POST'])
 @login_required
-@rd.scientific_user_required
+@rd.researcher_user_required
 def uploadFilePage():
     return rd.fileUploadPage()
 
@@ -159,7 +159,7 @@ def contact_staff_page():
 
 @app.route('/api/user_papers')
 @login_required
-@rd.scientific_user_required
+@rd.researcher_user_required
 def user_papers_data():
     return user_api.user_papers_data()
 
@@ -184,14 +184,14 @@ def request_endorsement(endorser_id):
 
 @app.route('/endorsement/confirm/<notification_id>/<user_id>/<endorser_id>', methods=['GET', 'POST'])
 @login_required
-@rd.scientific_user_required
+@rd.researcher_user_required
 def confirm_endorsement_page(notification_id, user_id, endorser_id):
     return user_rd.confirm_endorsement_page(notification_id, user_id, endorser_id)
 
 
 @app.route('/review/edit/<review_id>', methods=['GET', 'POST'])
 @login_required
-@rd.scientific_user_required
+@rd.researcher_user_required
 def review_edit_page(review_id):
     return review_rd.review_edit_page(review_id)
 
@@ -204,21 +204,21 @@ def update_notification_and_redirect():
 
 @app.route('/api/user_reviews')
 @login_required
-@rd.scientific_user_required
+@rd.researcher_user_required
 def user_reviews_data():
     return user_api.user_reviews_data()
 
 
 @app.route('/tag/create', methods=['GET', 'POST'])
 @login_required
-@rd.scientific_user_required
+@rd.researcher_user_required
 def create_tag_page():
     return tag_rd.create_tag_page()
 
 
 @app.route('/tag/edit/<tag_id>', methods=['GET', 'POST'])
 @login_required
-@rd.scientific_user_required
+@rd.researcher_user_required
 def edit_tag_page(tag_id):
     return tag_rd.edit_tag_page(tag_id)
 
@@ -230,14 +230,14 @@ def review_page(review_id):
 
 @app.route('/review/hide/<review_id>', methods=['GET', 'POST'])
 @login_required
-@rd.scientific_user_required
+@rd.researcher_user_required
 def hide_review(review_id):
     return review_rd.hide_review(review_id)
 
 
 @app.route('/api/user_tags')
 @login_required
-@rd.scientific_user_required
+@rd.researcher_user_required
 def user_tags_data():
     return user_api.user_tags_data()
 

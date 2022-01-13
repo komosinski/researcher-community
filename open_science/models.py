@@ -10,7 +10,8 @@ import datetime as dt
 from sqlalchemy import func
 from open_science import app
 from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum, MessageTopicEnum
-
+from open_science.config.auto_endorse_config import EMAIL_REGEXPS
+import re
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -101,6 +102,8 @@ class User(db.Model, UserMixin):
     reputation = db.Column(db.Integer(), default=100, nullable=False)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
     force_show = db.Column(db.Boolean, nullable=False, default=False)
+    # Field only visible to administrators. Store issues related to account
+    remarks = db.Column(db.String(length=mc.USER_REMARKS_L), nullable=True)
 
     # foreign keys
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
@@ -193,7 +196,7 @@ class User(db.Model, UserMixin):
         if self.id == endorser_id:
             return False
 
-        if self.privileges_set == UserTypeEnum.STANDARD_USER.value and endorser_priviliege_id == UserTypeEnum.SCIENTIST_USER.value:
+        if self.privileges_set == UserTypeEnum.STANDARD_USER.value and endorser_priviliege_id == UserTypeEnum.RESEARCHER_USER.value:
             endorsement_log = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id == self.id,
                                                                  EndorsementRequestLog.endorser_id == endorser_id).first()
             if endorsement_log:
@@ -222,17 +225,36 @@ class User(db.Model, UserMixin):
                                    Review.publication_datetime != None).count()
 
     def can_create_tag(self):
-        if self.privileges_set >= UserTypeEnum.SCIENTIST_USER.value:
+        if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value:
             return True
         else:
             return False
 
-    def is_scientist(self):
-        if self.privileges_set >= UserTypeEnum.SCIENTIST_USER.value:
+    def is_researcher(self):
+        if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value:
             return True
         else:
             return False
 
+    def is_admin(self):
+        if self.privileges_set >= UserTypeEnum.ADMIN.value:
+            return True
+        else:
+            return False
+
+    def endorse(self):
+        if self.privileges_set < UserTypeEnum.RESEARCHER_USER.value:
+            self.rel_privileges_set = PrivilegeSet.query.filter(
+                        PrivilegeSet.id == User.user_types_enum.RESEARCHER_USER.value).first()
+            db.session.commit()
+
+    def try_endorse_with_email(self):
+        if self.privileges_set < UserTypeEnum.RESEARCHER_USER.value:
+            for regex in EMAIL_REGEXPS:
+                if re.search(regex, self.email):
+                    self.endorse()
+                    return True
+        return False
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"

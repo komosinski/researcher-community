@@ -1,5 +1,5 @@
 from flask_migrate import current
-from open_science.user.forms import RegisterForm, LoginForm, ResendConfirmationForm, AccountRecoveryForm, \
+from open_science.user.forms import RegisterForm, LoginForm, RemarksForm, ResendConfirmationForm, AccountRecoveryForm, \
     SetNewPasswordForm
 from open_science.user.forms import InviteUserForm, EditProfileForm, EndorsementRequestForm, DeleteProfileForm
 from open_science import db
@@ -19,7 +19,6 @@ from PIL import Image
 from open_science import app
 from open_science.routes_def import check_numeric_args
 from open_science.enums import EmailTypeEnum, NotificationTypeEnum
-
 
 def register_page():
     form = RegisterForm()
@@ -54,7 +53,7 @@ def register_page():
 
         db.session.commit()
         em.send_email_confirmation(user_to_create.email)
-        flash(f"'A confirmation email has been sent.", category='success')
+        flash('A confirmation email has been sent.', category='success')
         return redirect(url_for('unconfirmed_email_page'))
 
     return render_template('user/register.html', form=form)
@@ -109,6 +108,7 @@ def confirm_email(token):
     else:
         user.confirmed = True
         user.confirmed_on = dt.datetime.now()
+        user.try_endorse_with_email()
         db.session.add(user)
         db.session.commit()
         flash('You have confirmed your account.', category='success')
@@ -194,8 +194,19 @@ def profile_page(user_id):
         'comments_num': len(user.rel_created_comments),
         'reviews_num': user.get_reviews_count()
     }
+    remarks_form = RemarksForm()
 
-    return render_template('user/user_profile.html', user=user, data=data)
+    if remarks_form.validate_on_submit():
+        user.remarks = remarks_form.remarks.data
+        db.session.commit()
+        flash('Remarks has been saved', category='success')
+        return render_template('user/user_profile.html',
+                               user=user, data=data, remarks_form=remarks_form)
+    elif request.method == 'GET':
+        remarks_form.remarks.data = user.remarks
+
+    return render_template('user/user_profile.html',
+                           user=user, data=data, remarks_form=remarks_form)
 
 
 def edit_profile_page():
@@ -296,6 +307,7 @@ def confirm_email_change(token):
         logout_user()
         user.email = user.new_email
         user.new_email = None
+        user.try_endorse_with_email()
         db.session.add(user)
         db.session.commit()
         flash('You have changed your email address', category='success')
@@ -442,9 +454,7 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
             endorsement_log.considered = True
             db.session.commit()
             if user.obtained_required_endorsement():
-                user.rel_privileges_set = PrivilegeSet.query.filter(
-                    PrivilegeSet.id == User.user_types_enum.SCIENTIST_USER.value).first()
-                db.session.add(user)
+                user.endorse()
 
         elif form.submit_decline.data:
             endorsement_log.decision = False
