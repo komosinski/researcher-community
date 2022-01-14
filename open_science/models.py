@@ -274,7 +274,7 @@ class User(db.Model, UserMixin):
 
     def get_review_workload(self):
         count = 0
-        days = app.config('REVIEWER_WORKOLOAD_ON_DAYS')
+        days = app.config['REVIEWER_WORKOLOAD_ON_DAYS']
         date_after = dt.datetime.utcnow().date() - dt.timedelta(days=days)
         for rev_request in self.rel_related_review_requests:
             if rev_request.decision is True \
@@ -498,7 +498,7 @@ class PaperRevision(db.Model):
         count = 0
         for review_request in self.rel_related_review_requests:
             if review_request.decision is True and \
-               review_request.deadline_date <= dt.datetime.utcnow().date:
+               review_request.deadline_date <= dt.datetime.utcnow().date():
                 count += 1
         return count
 
@@ -508,7 +508,7 @@ class PaperRevision(db.Model):
         return max(0, missing_count)
 
     def get_paper_co_authors_ids(self, days):
-        return self.parent_paper.get_co_authors_ids(days)
+        return self.rel_parent_paper.get_co_authors_ids(days)
 
 class Review(db.Model):
     __tablename__ = "reviews"

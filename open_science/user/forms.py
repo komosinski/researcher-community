@@ -4,7 +4,8 @@ from open_science.models import User
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import Length, EqualTo, Email, DataRequired, Optional, ValidationError
+from wtforms.validators import Length, EqualTo, Email,\
+    DataRequired, Optional, ValidationError
 import re
 import open_science.config.models_config as mc
 import open_science.email as em
@@ -90,7 +91,7 @@ class RegisterForm(FlaskForm):
     profile_image = FileField(label='Profile image', validators=[
                               Optional(), FileAllowed(['jpg', 'png'], 'Images only!')])
 
-    recaptcha = RecaptchaField()
+    # recaptcha = RecaptchaField()
 
     submit = SubmitField(label='Create Account')
 

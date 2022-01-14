@@ -1,10 +1,10 @@
 from open_science.models import User, ReviewRequest
 from open_science import app, db
-from open_science.enums import UserTypeEnum, EmailTypeEnum
+from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum
 import open_science.email as em
 import datetime as dt
 from open_science.notification.helpers import create_notification
-
+from flask.helpers import url_for
 
 NOT_ENOUGHT_RESEARCHERS_TEXT = 'There are not enough researchers with similar research profiles\
 in the system to review this paper. We will wait until more similar researchers are\
@@ -18,10 +18,18 @@ def create_review_request(reviewer, paper_revision):
     review_request.rel_requested_user = reviewer
     review_request.rel_related_paper_version = paper_revision
     db.session.add(review_request)
-    
-    em.send_review_request(reviewer.email, paper_revision.abstract, review_request.id)
-    em.insert_email_log(0, reviewer.id, reviewer.email, EmailTypeEnum.REVIEW_REQUEST.value)
+    db.session.commit()
 
+    em.send_review_request(reviewer.email, paper_revision.abstract,
+                           review_request.id)
+    em.insert_email_log(0, reviewer.id, reviewer.email,
+                        EmailTypeEnum.REVIEW_REQUEST.value)
+
+    create_notification(NotificationTypeEnum.REVIEW_REQUEST.value,
+                        'You have new review request',
+                        reviewer,
+                        url_for('review_request_page',
+                                request_id=review_request.id))
 
 def select_reviewers(paper_revision):
 
@@ -34,7 +42,7 @@ def select_reviewers(paper_revision):
     # from the last n days are removed
     creators = paper_revision.rel_creators
     co_authors_ids = set()
-    days = app.config('EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS')
+    days = app.config['EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS']
     for creator in creators:
         for paper_revision in creator.rel_created_paper_revisions:
             co_authors_ids \

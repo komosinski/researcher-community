@@ -54,6 +54,7 @@ def send_notifiactions_count():
     for user in all_users:
         if user.is_active():
             count = user.get_new_notifications_count()
+            print(count)
             if count != 0:
                 last_emails = em.get_emails_count_to_address_last_days(
                     user.email,
@@ -72,7 +73,7 @@ def send_notifiactions_count():
 def prepare_and_send_review_requests():
     papers = Paper.query.all()
     for paper in papers:
-        paper_revision = paper.get_latest_revision
+        paper_revision = paper.get_latest_revision()
         prepare_review_requests(paper_revision)
 
 
@@ -81,7 +82,7 @@ def monthly_jobs():
 
 
 def daily_jobs():
-    delete_old_logs(1, EmailLog.email_types_enum.REGISTRATION_CONFIRM.value)
+    delete_old_logs(2, EmailLog.email_types_enum.REGISTRATION_CONFIRM.value)
     create_review_deadline_notification()
     send_notifiactions_count()
     prepare_and_send_review_requests()
