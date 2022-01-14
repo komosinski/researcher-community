@@ -34,11 +34,11 @@
             {% endif %}
 
             {% if user.google_scholar%}
-                <div>Google scholar: {{user.get_google_scholar()}}</div>
+                <div>Google scholar: <a href="https://scholar.google.com/{{user.get_google_scholar()}}">https://scholar.google.com/{{user.get_google_scholar()}}</a> </div>
             {% endif %}
 
             {% if user.personal_website%}
-            <div>Personal website: {{user.personal_website}}</div>
+            <div>Personal website: <a href="{{ user.personal_website }}">{{user.personal_website}}</a></div>
             {% endif %}
 
             <div class="stats-wrapper">

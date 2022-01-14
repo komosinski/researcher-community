@@ -60,3 +60,13 @@ class Config(object):
 
     # Number of red flags required to hide item
     RED_FLAGS_THRESHOLD = int(os.environ.get('RED_FLAGS_THRESHOLD') or 5)
+
+    # Exclusion of a reviewer
+    # who is a co-author of papers by all authors of the reviewed paper
+    EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS = int(os.environ.get(
+        'EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS') or 720)
+
+    # To calculate workload of researchers
+    # (how many reviews they prepared+agreed to prepare in the last period of time
+    REVIEWER_WORKOLOAD_ON_DAYS = int(os.environ.get(
+        'REVIEWER_WORKOLOAD_ON_DAYS') or 365)

@@ -14,7 +14,8 @@ import json
 import functools
 from flask_login.config import EXEMPT_METHODS
 from open_science.enums import MessageTopicEnum
-from open_science.notifications import create_paper_comment_notifications
+from open_science.notification.helpers import create_paper_comment_notifications
+from open_science.review.helpers import prepare_review_requests, NOT_ENOUGHT_RESEARCHERS_TEXT
 
 # Routes decorator
 def researcher_user_required(func):
@@ -97,7 +98,6 @@ def fileUploadPage():
             else:
                 users.append(user)
 
-
         print(users)
         filename = secure_filename(f.filename)
         path = f"open_science/static/articles/{filename}"
@@ -121,14 +121,17 @@ def fileUploadPage():
             abstract=description,
             publication_date=dt.datetime.utcnow(),
             rel_creators=[current_user] + users,
-            rel_related_tags = tags
+            rel_related_tags=tags
         )
         paper.rel_related_versions.append(paper_version)
 
         db.session.add(paper)
         db.session.commit()
-        # paper.send_review_requests()
 
+        enough_reviews = prepare_review_requests(paper_version)
+        if enough_reviews is False:
+            flash(NOT_ENOUGHT_RESEARCHERS_TEXT, category='warning')
+            
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
 
     return render_template("utils/pdf_send_form.html", form=form, tags=tags)
