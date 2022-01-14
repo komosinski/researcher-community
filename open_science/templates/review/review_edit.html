@@ -21,7 +21,7 @@ function outputUpdateConfidence(value) {
 
 
 $(document).ready(function(){
-  const createNewInput = (id) => `<div id="${id}"><input type="text" name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"/><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>`;
+  const createNewInput = (id) => `<div id="${id}"><textarea name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"></textarea><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>`;
   let startId = 0;
   const suggestions = {{suggestions|tojson}};
   console.log(suggestions);
@@ -77,7 +77,7 @@ $(document).ready(function(){
     }
 
     $("#suggestionsField").val(JSON.stringify(suggestionsArray));
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
+   
   });
 });
   
@@ -89,21 +89,22 @@ $(document).ready(function(){
   <div>
     <a href="{{data['paper_url']}}">Related Paper</a>
   </div>
-
+  <br>
     <div class="">
         <div class="">
             <form method="POST">
                 {{ form.hidden_tag() }}
                 {{ form.suggestionsField }}
                 {% if not data['is_published'] %}
+                    I have read the entire paper and
                     {{ render_boolean_field(form.check_no_conflict) }}
                 {% endif %}
             
+              <br>
 
-                <div id="suggestions">
-                  <div>Suggestions with optional location in the article: <br>
-                  <input type="text" name="field[]" placeholder="Suggestion" value=""/>
-                  <input type="text" name="field2[]" placeholder="Location" value=""/>
+              <div id="suggestions">
+                  <div>Suggestions with optional location in the article: 
+
                   <a href="javascript:void(0);" class="add-input" title="Add input"><img src="/static/res/add.png"/></a>
                   </div>
               </div>
@@ -208,6 +209,23 @@ $(document).ready(function(){
                       <td>
                         {{ form.confidence(min=0, max=100,step=1, oninput="outputUpdateConfidence(value)") }}
                         <output for="confidence" id="selected-confidence">{{ form.confidence.data }}</output>%
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <td>
+                        {{ form.evaluation_accept.label }}
+                      </td>
+                      
+                    {% for prev_review in previous_reviews%}
+                      <td>
+                        {{ 'Yes' if prev_review.evaluation_accept else 'No' }}
+                      </td>
+                    {% endfor %}
+
+                       
+                      <td>                      
+                        {{ form.evaluation_accept() }} I accept
                       </td>
                     </tr>
 

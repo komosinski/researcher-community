@@ -65,7 +65,7 @@ def home_page():
     return render_template("home_page.html")
 
 
-def fileUploadPage():
+def file_upload_page():
     licenses = [(license.id, license.license) for license in db.session.query(License).all()]
     tags = [tag.to_dict() for tag in db.session.query(Tag).all()]
     form = FileUploadForm()

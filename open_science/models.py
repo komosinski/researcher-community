@@ -104,6 +104,7 @@ class User(db.Model, UserMixin):
     force_show = db.Column(db.Boolean, nullable=False, default=False)
     # Field only visible to administrators. Store issues related to account
     remarks = db.Column(db.String(length=mc.USER_REMARKS_L), nullable=True)
+    is_deleted = db.Column(db.Boolean, nullable=True)
 
     # foreign keys
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
@@ -148,7 +149,7 @@ class User(db.Model, UserMixin):
 
     def __init__(self, first_name, second_name, email, plain_text_password, confirmed=False, confirmed_on=None,
                  affiliation="", orcid="", google_scholar="", about_me="", personal_website="", review_mails_limit=1,
-                 notifications_frequency=7, photo_url="", last_seen=None, weight=1.0, registered_on=None,
+                 notifications_frequency=7, last_seen=None, weight=1.0, registered_on=None,
                  red_flags_count=0):
         self.first_name = first_name
         self.second_name = second_name
@@ -164,7 +165,6 @@ class User(db.Model, UserMixin):
         self.personal_website = personal_website
         self.review_mails_limit = review_mails_limit
         self.notifications_frequency = notifications_frequency
-        self.photoUrl = photo_url
         self.last_seen = last_seen
         self.weight = weight
         self.red_flags_count = red_flags_count
@@ -267,7 +267,7 @@ class User(db.Model, UserMixin):
 
     # confirmed, not deleted etc
     def is_active(self):
-        if self.confirmed is True:
+        if self.confirmed is True and self.is_deleted is not True:
             return True
         else:
             return False
@@ -290,6 +290,25 @@ class User(db.Model, UserMixin):
                 count += 1
         return max(0, self.review_mails_limit - count)
 
+    def delete_profile(self):
+        self.first_name = 'Deleted'
+        self.second_name = 'user'
+        self.is_deleted = True
+        self.force_hide = True
+        self.affiliation = None
+        self.orcid = ''
+        self.google_scholar = ''
+        self.about_me = None
+        self.personal_website = None
+        self.review_mails_limit = 0
+        self.notifications_frequency = 0
+        db.session.commit()
+
+    def can_upload_paper(self):
+        if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value:
+            return True
+        else:
+            return False
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
@@ -521,6 +540,8 @@ class Review(db.Model):
         db.Float(precision=2), nullable=False, default=0.0)
     evaluation_organize = db.Column(
         db.Float(precision=2), nullable=False, default=0.0)
+    evaluation_accept = db.Column(
+        db.Boolean(), nullable=False, default=False)
     confidence = db.Column(db.Float(precision=2), nullable=False, default=0.0)
 
     # foreign keys
@@ -924,6 +945,19 @@ class Suggestion(db.Model):
             'location': self.location
         }
 
+    @validates('suggestion')
+    def set_suggestion(self, key, value):
+        if len(value) > mc.S_SUGGESTION_L:
+            return value[:mc.S_SUGGESTION_L]
+        else:
+            return value
+
+    @validates('location')
+    def set_location(self, key, value):
+        if len(value) > mc.S_LOCATION_L:
+            return value[:mc.S_LOCATION_L]
+        else:
+            return value
 
 class License(db.Model):
     __tablename__ = "licenses"

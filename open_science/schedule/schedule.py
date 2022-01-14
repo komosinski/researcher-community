@@ -1,12 +1,14 @@
 from re import L
 from flask.helpers import url_for
 from open_science.enums import NotificationTypeEnum, EmailTypeEnum
-from open_science.models import EmailLog, EmailType, Review, User
+from open_science.models import EmailLog, EmailType, Review, User, Paper
 import datetime as dt
 from sqlalchemy import func
 from open_science import app, db
 from open_science.notification.helpers import create_notification
 import open_science.email as em
+from open_science.review.helpers import prepare_review_requests
+
 
 def delete_old_logs(days, email_type):
     date_before = dt.datetime.utcnow().date() - dt.timedelta(days=days)
@@ -66,6 +68,14 @@ def send_notifiactions_count():
                                                text,
                                                subject)
 
+
+def prepare_and_send_review_requests():
+    papers = Paper.query.all()
+    for paper in papers:
+        paper_revision = paper.get_latest_revision
+        prepare_review_requests(paper_revision)
+
+
 def monthly_jobs():
     delete_old_logs(31, EmailLog.email_types_enum.USER_INVITE.value)
 
@@ -74,3 +84,4 @@ def daily_jobs():
     delete_old_logs(1, EmailLog.email_types_enum.REGISTRATION_CONFIRM.value)
     create_review_deadline_notification()
     send_notifiactions_count()
+    prepare_and_send_review_requests()

@@ -68,7 +68,8 @@ def login_page():
         attempted_user = User.query.filter_by(email=form.email.data).first()
         if attempted_user and attempted_user.check_password_correction(
                 attempted_password=form.password.data
-        ) and attempted_user.confirmed:
+        ) and attempted_user.confirmed \
+                and attempted_user.is_deleted is not True:
             login_user(attempted_user)
             attempted_user.last_seen = dt.datetime.utcnow()
             db.session.commit()
@@ -80,6 +81,8 @@ def login_page():
         elif not attempted_user.confirmed:
             flash('Please confirm your account!', 'warning')
             return redirect(url_for('unconfirmed_email_page'))
+        elif attempted_user.is_deleted is True:
+            flash('Profile is deleted', category='error')
         else:
             flash('Email and password are not match! Please try again',
                   category='error')
@@ -184,7 +187,7 @@ def profile_page(user_id):
 
     user = User.query.filter_by(id=user_id).first()
 
-    if not user or not user.confirmed:
+    if not user or not user.confirmed or user.force_hide is True or user.is_deleted is True:
         flash('User does not exists', category='error')
         return redirect(url_for('home_page'))
     # TODO: limit reviews to submitted reviews
@@ -465,8 +468,7 @@ def confirm_profile_delete(token):
 
     if user.email == current_user.email and user.new_email == 'DELETE_PROFILE_ATTEMPT':
 
-        # TODO: anonymize profile
-
+        current_user.delete_profile()
         logout_user()
         flash('You have deleted your profile.', category='success')
         return redirect(url_for('home_page'))
