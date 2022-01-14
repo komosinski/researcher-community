@@ -67,6 +67,9 @@ class ReviewEditForm(FlaskForm):
         ' Free of essential and technical errors', default=0)
     evaluation_organize = DecimalRangeField(
         'Well organized, well presented, readable', default=0)
+    evaluation_accept = BooleanField(
+        'Accept (the paper may not be perfect, but is free from any serious problems)',
+        default=False)
     confidence = DecimalRangeField('How confident I am', default=0)
 
     suggestionsField = HiddenField()

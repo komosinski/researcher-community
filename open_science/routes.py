@@ -102,8 +102,8 @@ def article(id):
 @app.route('/article/add', methods=['GET', 'POST'])
 @login_required
 @rd.researcher_user_required
-def uploadFilePage():
-    return rd.fileUploadPage()
+def upload_file_page():
+    return rd.file_upload_page()
 
 
 @app.route('/action/like', methods=['POST'])
