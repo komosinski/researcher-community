@@ -7,6 +7,7 @@ from open_science.user import api as user_api
 from open_science.tag import api as tag_api
 from open_science.review import routes_def as review_rd
 from open_science.tag import routes_def as tag_rd
+from open_science.notification import routes_def as notif_rd
 from flask_login import login_required
 from open_science import limiter
 
@@ -173,7 +174,7 @@ def review_request_page(request_id):
 @app.route('/user/notifications/<page>/<unread>')
 @login_required
 def notifications_page(page, unread):
-    return user_rd.notifications_page(page, unread)
+    return notif_rd.notifications_page(page, unread)
 
 
 @app.route('/endorsement/request/<endorser_id>')
@@ -199,7 +200,7 @@ def review_edit_page(review_id):
 @app.route('/user/notifications/update')
 @login_required
 def update_notification_and_redirect():
-    return user_rd.update_notification_and_redirect()
+    return notif_rd.update_notification_and_redirect()
 
 
 @app.route('/api/user_reviews')
