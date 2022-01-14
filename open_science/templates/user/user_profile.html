@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% from "helpers/form_helper.html" import render_edit_profile_field %}
+
 {%block styles%}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
@@ -16,7 +18,7 @@
                 <h3 class="username">
                     {{user.first_name}} {{user.second_name}}
                 </h3>
-                {% if user.is_scientist() %}
+                {% if user.is_researcher() %}
                 <i id="verified-user-icon" class="fas fa-check-circle fa-center"></i>
                 {% endif %}
             </div>
@@ -32,11 +34,11 @@
             {% endif %}
 
             {% if user.google_scholar%}
-                <div>Google scholar: {{user.get_google_scholar()}}</div>
+                <div>Google scholar: <a href="https://scholar.google.com/{{user.get_google_scholar()}}">https://scholar.google.com/{{user.get_google_scholar()}}</a> </div>
             {% endif %}
 
             {% if user.personal_website%}
-            <div>Personal website: {{user.personal_website}}</div>
+            <div>Personal website: <a href="{{ user.personal_website }}">{{user.personal_website}}</a></div>
             {% endif %}
 
             <div class="stats-wrapper">
@@ -95,8 +97,23 @@
         {{user.about_me}}
     </div>
 
+    {% if current_user.is_authenticated and current_user.is_admin()  and (current_user.get_id()|int!=user.id) %}
 
-    {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) and  current_user.is_scientist() %}
+    <div>
+        <form method="POST">
+            {{ remarks_form.hidden_tag() }}
+        
+            {{ render_edit_profile_field(remarks_form.remarks,"Remarks to user") }}
+    
+            {{ remarks_form.submit() }}
+           
+        </form>
+    </div>
+
+{% endif %}
+
+
+    {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) and  current_user.is_researcher() %}
 
         <div>
             <h3>My Papers</h3>

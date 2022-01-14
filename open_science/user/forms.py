@@ -59,9 +59,6 @@ def validate_orcid(self, orcid):
         raise ValidationError('Invalid ORCID iD')
 
 
-def validate_google_scholar(self, google_scholar):
-    if "scholar" not in google_scholar.data.lower():
-        raise ValidationError('Invalid google scholar link')
 
 
 class RegisterForm(FlaskForm):
@@ -82,7 +79,7 @@ class RegisterForm(FlaskForm):
     orcid = StringField(label='ORCID(Optional)', validators=[Length(
         min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
     google_scholar = StringField(label='Google scholar(Optional)', validators=[
-                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional(), validate_google_scholar])
+                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional()])
     about_me = TextAreaField(label='About me(Optional)', validators=[
                              Length(max=mc.USER_ABOUT_ME_L), Optional()])
     personal_website = StringField(label='Personal website(Optional)', validators=[
@@ -173,7 +170,7 @@ class EditProfileForm(FlaskForm):
     orcid = StringField(label='ORCID (Optional)', validators=[Length(
         min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
     google_scholar = StringField(label='Google scholar (Optional)', validators=[
-                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional(), validate_google_scholar])
+                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional()])
     about_me = TextAreaField(label='About me (Optional)', validators=[
                              Length(max=mc.USER_ABOUT_ME_L), Optional()])
     personal_website = StringField(label='Personal website (Optional)', validators=[
@@ -209,3 +206,10 @@ class DeleteProfileForm(FlaskForm):
                               validate_read_information], default=False)
 
     submit = SubmitField(label='Send an account deletion email')
+
+
+class RemarksForm(FlaskForm):
+
+    remarks = TextAreaField(validators=[Length(max=mc.USER_REMARKS_L), Optional()])
+    submit = SubmitField(label='Save remarks')
+

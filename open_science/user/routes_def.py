@@ -1,5 +1,5 @@
 from flask_migrate import current
-from open_science.user.forms import RegisterForm, LoginForm, ResendConfirmationForm, AccountRecoveryForm, \
+from open_science.user.forms import RegisterForm, LoginForm, RemarksForm, ResendConfirmationForm, AccountRecoveryForm, \
     SetNewPasswordForm
 from open_science.user.forms import InviteUserForm, EditProfileForm, EndorsementRequestForm, DeleteProfileForm
 from open_science import db
@@ -19,7 +19,6 @@ from PIL import Image
 from open_science import app
 from open_science.routes_def import check_numeric_args
 from open_science.enums import EmailTypeEnum, NotificationTypeEnum
-
 
 def register_page():
     form = RegisterForm()
@@ -54,7 +53,7 @@ def register_page():
 
         db.session.commit()
         em.send_email_confirmation(user_to_create.email)
-        flash(f"'A confirmation email has been sent.", category='success')
+        flash('A confirmation email has been sent.', category='success')
         return redirect(url_for('unconfirmed_email_page'))
 
     return render_template('user/register.html', form=form)
@@ -109,6 +108,7 @@ def confirm_email(token):
     else:
         user.confirmed = True
         user.confirmed_on = dt.datetime.now()
+        user.try_endorse_with_email()
         db.session.add(user)
         db.session.commit()
         flash('You have confirmed your account.', category='success')
@@ -194,8 +194,19 @@ def profile_page(user_id):
         'comments_num': len(user.rel_created_comments),
         'reviews_num': user.get_reviews_count()
     }
+    remarks_form = RemarksForm()
 
-    return render_template('user/user_profile.html', user=user, data=data)
+    if remarks_form.validate_on_submit():
+        user.remarks = remarks_form.remarks.data
+        db.session.commit()
+        flash('Remarks has been saved', category='success')
+        return render_template('user/user_profile.html',
+                               user=user, data=data, remarks_form=remarks_form)
+    elif request.method == 'GET':
+        remarks_form.remarks.data = user.remarks
+
+    return render_template('user/user_profile.html',
+                           user=user, data=data, remarks_form=remarks_form)
 
 
 def edit_profile_page():
@@ -296,6 +307,7 @@ def confirm_email_change(token):
         logout_user()
         user.email = user.new_email
         user.new_email = None
+        user.try_endorse_with_email()
         db.session.add(user)
         db.session.commit()
         flash('You have changed your email address', category='success')
@@ -318,7 +330,10 @@ def invite_user_page():
             if not bool(db.session.query(User.id).filter(User.email == email).first()):
                 if em.get_emails_count_to_address_last_days(email, EmailTypeEnum.USER_INVITE.value, 30) == 0:
                     em.insert_email_log(
-                        current_user.id, None, email, EmailTypeEnum.USER_INVITE.value)
+                        current_user.id,
+                        None,
+                        email,
+                        EmailTypeEnum.USER_INVITE.value)
                     em.send_invite(email, current_user.first_name,
                                    current_user.second_name)
 
@@ -339,41 +354,6 @@ def invite_user_page():
             flash(f'{err_msg}', category='error')
 
     return render_template('user/invite_user.html', form=form)
-
-
-def notifications_page(page, unread):
-    if not check_numeric_args(page):
-        abort(404)
-    page = int(page)
-
-    if unread == 'False':
-        notifications = current_user.rel_notifications.order_by(Notification.datetime.desc()).paginate(page=page,
-                                                                                                       per_page=20)
-    else:
-        notifications = current_user.rel_notifications.filter(Notification.was_seen == False).order_by(
-            Notification.datetime.desc()).paginate(page=page, per_page=20)
-
-    if not notifications:
-        flash('You don\'t have any notifications', category='success')
-        return redirect(url_for('profile_page', user_id=current_user.id))
-
-    return render_template('notification/notifications_page.html', page=page, unread=unread, results=notifications)
-
-
-def update_notification_and_redirect():
-    notification_id = int(request.args.get('notification_id'))
-    url = request.args.get('url')
-
-    notification = Notification.query.filter(
-        Notification.id == notification_id).first()
-
-    if current_user.id != notification.user:
-        abort(404)
-
-    notification.was_seen = True
-    db.session.commit()
-
-    return redirect(url)
 
 
 def request_endorsement(endorser_id):
@@ -426,15 +406,15 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
 
     if not notification:
         flash('Endorsement request not exists', category='error')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if not user or current_user.id != endorser_id or not endorsement_log:
         flash('Endorsement request not exists', category='error')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if endorsement_log.considered == True:
         flash('Endorsement request has been already considered', category='warning')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if form.validate_on_submit():
         if form.submit_accept.data:
@@ -442,9 +422,7 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
             endorsement_log.considered = True
             db.session.commit()
             if user.obtained_required_endorsement():
-                user.rel_privileges_set = PrivilegeSet.query.filter(
-                    PrivilegeSet.id == User.user_types_enum.SCIENTIST_USER.value).first()
-                db.session.add(user)
+                user.endorse()
 
         elif form.submit_decline.data:
             endorsement_log.decision = False
@@ -455,7 +433,7 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         db.session.commit()
 
         flash('The form has been completed', category='success')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     return render_template('user/endorsement_request.html', form=form, user=user)
 
