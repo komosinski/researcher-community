@@ -9,7 +9,16 @@ from open_science.review import routes_def as review_rd
 from open_science.tag import routes_def as tag_rd
 from flask_login import login_required
 from open_science import limiter
+from flask import render_template
 
+
+# TODO: remove this temporary variable and read the state from another source
+VAR = False
+
+@app.before_request
+def before_req():
+    if VAR:
+        return render_template("maintenance.html")
 
 @app.route("/t")
 def test():
