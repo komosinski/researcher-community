@@ -56,3 +56,12 @@ Reset DB
 In your virtual env type:
 
     python3 db_init.py
+
+
+Production mode
+------------
+
+Set environment variable in .flaskenv file:
+
+    FLASK_ENV=production
+
