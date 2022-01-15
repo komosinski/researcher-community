@@ -1,8 +1,11 @@
 import os
 from dotenv import load_dotenv
 # TODO: Remove it in the future
-from temporary_config import DATABASE_URI
-
+try:
+    from temporary_config import DATABASE_URI
+except ImportError or ModuleNotFoundError:
+    DATABASE_URI = None
+    print('If you have not set an environment variable SQLALCHEMY_DATABASE_URI , set it')
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
