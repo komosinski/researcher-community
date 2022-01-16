@@ -1,3 +1,4 @@
+from email.policy import default
 from flask.helpers import url_for
 from sqlalchemy import Table, DDL, event, Sequence
 from sqlalchemy.orm import validates
@@ -99,7 +100,7 @@ class User(db.Model, UserMixin):
     has_photo = db.Column(db.Boolean, nullable=False, default=False)
     last_seen = db.Column(db.DateTime, nullable=True)
     weight = db.Column(db.Float, nullable=False, default=1.0)
-    red_flags_count = db.Column(db.Integer(), nullable=False)
+    red_flags_count = db.Column(db.Integer(), nullable=False, default=0)
     reputation = db.Column(db.Integer(), default=100, nullable=False)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
     force_show = db.Column(db.Boolean, nullable=False, default=False)
@@ -235,7 +236,11 @@ class User(db.Model, UserMixin):
                                    Review.publication_datetime != None).count()
 
     def can_create_tag(self):
-        if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value:
+        count = Tag.query.filter(Tag.creator == self.id,
+                                 Tag.creation_date == dt.datetime.utcnow().date()) \
+                                .count()
+        if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value \
+           and count < app.config['TAGS_L']:
             return True
         else:
             return False
@@ -328,10 +333,28 @@ class User(db.Model, UserMixin):
         db.session.commit()
 
     def can_upload_paper(self):
-        if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value:
+        count = PaperRevision.query.filter(PaperRevision.uploader_id
+                                           == self.id,
+                                           PaperRevision.publication_date
+                                           == dt.datetime.utcnow().date()) \
+                                           .count()
+        if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value \
+           and count < app.config['PAPER_L']:
             return True
         else:
             return False
+
+    def can_comment(self):
+        count = Comment.query.filter(Comment.creator == self.id,
+                                     func.DATE(Comment.date)
+                                     ==
+                                     dt.datetime.utcnow().date()) \
+                                    .count()
+        if count < app.config['COMMENT_L']:
+            return True
+        else:
+            return False
+
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
@@ -370,6 +393,8 @@ class Tag(db.Model):
                      nullable=False, unique=True)
     description = db.Column(
         db.String(length=mc.TAG_DESCRIPTION_L), nullable=False)
+    creation_date = db.Column(db.DateTime, nullable=False,
+                              default=dt.datetime.utcnow().date())
     deadline = db.Column(db.DateTime, nullable=True)
     red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
@@ -479,6 +504,7 @@ class PaperRevision(db.Model):
 
     # foreign keys
     parent_paper = db.Column(db.Integer, db.ForeignKey('papers.id'))
+    uploader_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # relationships
     rel_related_comments = db.relationship("Comment", secondary=association_comment_paper_version,

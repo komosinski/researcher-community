@@ -109,15 +109,17 @@
     {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) and  current_user.is_researcher() %}
 
         
-        {% if current_user.can_upload_paper() %}
+
         <div>
             <h3>My Papers</h3>
+            {% if current_user.can_upload_paper() %}
             <form class="user-action" action="{{url_for('upload_file_page')}}" method="GET">    
                 <button type="submit">Upload paper</button>
             </form>
+            {% endif %}
             {% include 'user/tables/table_papers.html' %}
         </div>
-        {% endif %}
+      
         <br><br>
         <div>
             <h3>My Reviews</h3>
@@ -125,15 +127,17 @@
         </div>
         <br><br>
 
-        {% if current_user.can_create_tag() %}
+ 
         <div>
             <h3>My Tags</h3>
+            {% if current_user.can_create_tag() %}
             <form class="user-action" action="{{url_for('create_tag_page')}}" method="GET">    
                 <button type="submit">Create Tag</button>
             </form>
+            {% endif %}
             {% include 'user/tables/table_tags.html' %}
         </div>
-        {% endif %}
+   
   
         <br><br>    
     {% endif %}
