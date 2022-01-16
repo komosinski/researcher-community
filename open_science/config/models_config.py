@@ -63,3 +63,6 @@ S_LOCATION_L = 128
 
 # revision change component
 RCC_CHANGE_DESCRIPTION_L = 1024
+
+# matrices
+M_NAME_L = 128

@@ -1305,3 +1305,14 @@ def create_essential_data():
     print("The essential data has been created")
 
     return True
+
+
+class Matrix(db.Model):
+    __tablename__ = "matrices"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # columns
+    name = db.Column(db.String(mc.M_NAME_L), nullable=False)
+    matrix = db.Column(db.Text, nullable=False)
