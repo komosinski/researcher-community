@@ -62,7 +62,8 @@ def get_search_by_text_filter(search_text, paper_revisions_query):
     all_paper_texts = [paper.preprocessed_text for paper in all_papers]
     all_paper_ids = [paper.id for paper in all_papers]
 
+    # TODO: uncomment this row when search_by_text starts working
     # matched_papers_ids = search_by_text(search_text, all_paper_texts, all_paper_ids)
-    matched_papers_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9]  # TODO: delete this row when search_by_text starts working
+    matched_papers_ids = [1, 2, 3]  # TODO: delete this row when search_by_text starts working
 
     return PaperRevision.id.in_(matched_papers_ids)

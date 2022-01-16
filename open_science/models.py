@@ -273,9 +273,20 @@ class User(db.Model, UserMixin):
         users_dict_id = {}
         for user in all_users:
             users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
+
+        # TODO: uncomment this row when search_by_text starts working
         # similar_ids = get_similar_users(self.id, users_dict_id)
+        similar_ids = [1, 2, 3]  # TODO: delete this row when get_similar_users starts working
 
         return similar_ids
+
+    def get_similar_users(self):
+        similar_users = []
+
+        similar_users_ids = self.get_similar_users_ids()
+        similar_users = User.query.filter(User.id.in_(similar_users_ids)).paginate().items
+
+        return similar_users
 
     # confirmed, not deleted etc
     def is_active(self):
@@ -529,9 +540,19 @@ class PaperRevision(db.Model):
         all_calibration_ids = [calibration.id for calibration in CalibrationPaper.query.all()]
         articles_id_list = sorted(all_revisions_ids + all_calibration_ids)
 
+        # TODO: uncomment this row when search_by_text starts working
         # similar_ids = get_similar_articles(self.id, articles_id_list)
+        similar_ids = [1, 2, 3]  # TODO: delete this row when get_similar_articles starts working
 
         return similar_ids
+
+    def get_similar_revisions(self):
+        similar_revisions = []
+
+        similar_revisions_ids = self.get_similar_revisions_ids()
+        similar_revisions = PaperRevision.query.filter(PaperRevision.id.in_(similar_revisions_ids)).paginate().items
+
+        return similar_revisions
 
 
 class Review(db.Model):
