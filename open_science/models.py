@@ -1,5 +1,5 @@
 from flask.helpers import url_for
-from sqlalchemy import Table, DDL, event
+from sqlalchemy import Table, DDL, event, Sequence
 from sqlalchemy.orm import validates
 from open_science.extensions import db, login_manager, bcrypt, admin
 from flask_login import UserMixin
@@ -442,7 +442,7 @@ class CalibrationPaper(db.Model):
     __tablename__ = "calibration_papers"
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer(), Sequence('seq_paper_id'), primary_key=True, autoincrement=True)
 
     # columns
     pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=False)
@@ -460,7 +460,7 @@ class PaperRevision(db.Model):
     __tablename__ = "paper_revisions"
 
     # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer(), Sequence('seq_paper_id'), primary_key=True, autoincrement=True)
 
     # columns
     version = db.Column(db.Integer(), default=1, nullable=False)
