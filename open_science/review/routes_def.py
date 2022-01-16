@@ -5,7 +5,7 @@ from open_science.models import Suggestion
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request, abort
 import json
-
+from open_science.db_helper import get_hidden_filter
 
 import datetime as dt
 from open_science.routes_def import check_numeric_args
@@ -168,11 +168,25 @@ def review_page(review_id):
     if not check_numeric_args(review_id):
         abort(404)
 
-    # TODO: hidden itp
-    review = Review.query.filter(Review.id == review_id).first_or_404()
+    review = Review.query.filter(Review.id == review_id, get_hidden_filter(Review)).first()
 
-    return render_template('review/review.html', review=review)
+    if not review:
+        flash('Review does not exists', category='error')
+        return redirect(url_for('home_page'))
+    elif review.is_published() is False:
+        flash('Review is not publshed', category='warning')
+        return redirect(url_for('home_page'))
 
+    creator = review.rel_creator
 
-def hide_review(review_id):
-    pass
+    data = {
+        'paper_url':
+            url_for('article',
+                    id=review.rel_related_paper_version.parent_paper,
+                    version=review.rel_related_paper_version.version),
+        'creator_id':  creator.id,
+        'creator_first_name': creator.first_name,
+        'creator_second_name': creator.second_name
+    }
+
+    return render_template('review/review.html', review=review, data=data)
