@@ -13,6 +13,7 @@ from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum
 from open_science.config.auto_endorse_config import EMAIL_REGEXPS
 import re
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -245,7 +246,7 @@ class User(db.Model, UserMixin):
     def endorse(self):
         if self.privileges_set < UserTypeEnum.RESEARCHER_USER.value:
             self.rel_privileges_set = PrivilegeSet.query.filter(
-                        PrivilegeSet.id == User.user_types_enum.RESEARCHER_USER.value).first()
+                PrivilegeSet.id == User.user_types_enum.RESEARCHER_USER.value).first()
             db.session.commit()
 
     def try_endorse_with_email(self):
@@ -255,6 +256,18 @@ class User(db.Model, UserMixin):
                     self.endorse()
                     return True
         return False
+
+    def get_similar_users_ids(self):
+        similar_ids = []
+
+        all_users = User.query.all()
+        users_dict_id = {}
+        for user in all_users:
+            users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
+        # similar_ids = get_similar_users(self.id, users_dict_id)
+
+        return similar_ids
+
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
@@ -415,7 +428,6 @@ class PaperRevision(db.Model):
     rel_changes = db.relationship(
         "RevisionChangesComponent", back_populates="rel_paper_revision")
 
-
     def to_dict(self):
         return {
             'id': self.id,
@@ -432,6 +444,17 @@ class PaperRevision(db.Model):
 
     def get_missing_reviews_count(self):
         return max(0, self.confidence_level - len(self.get_active_reviews_list()))
+
+    def get_similar_revisions_ids(self):
+        similar_ids = []
+
+        all_revisions_ids = [revision.id for revision in PaperRevision.query.all()]
+        all_calibration_ids = [calibration.id for calibration in CalibrationPaper.query.all()]
+        articles_id_list = sorted(all_revisions_ids + all_calibration_ids)
+
+        # similar_ids = get_similar_articles(self.id, articles_id_list)
+
+        return similar_ids
 
 
 class Review(db.Model):
@@ -642,7 +665,6 @@ class Comment(db.Model):
 
         comment = self.rel_related_comment
         if comment:
-
             # TODO: check Type of comment(under Review/paper/comment) and prepare url
             refers_to = 'Comment'
 
@@ -839,9 +861,9 @@ class Notification(db.Model):
         elif isinstance(notification_type, NotificationType):
             type_string = str(notification_type.name)
         elif isinstance(notification_type, int):
-             type_string = NotificationType.query().filter(
+            type_string = NotificationType.query().filter(
                 NotificationType.id == notification_type).first().name
-     
+
         return type_string.replace('_', ' ').lower().capitalize()
 
 
