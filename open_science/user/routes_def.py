@@ -68,7 +68,8 @@ def login_page():
         attempted_user = User.query.filter_by(email=form.email.data).first()
         if attempted_user and attempted_user.check_password_correction(
                 attempted_password=form.password.data
-        ) and attempted_user.confirmed:
+        ) and attempted_user.confirmed \
+                and attempted_user.is_deleted is not True:
             login_user(attempted_user)
             attempted_user.last_seen = dt.datetime.utcnow()
             db.session.commit()
@@ -80,6 +81,8 @@ def login_page():
         elif not attempted_user.confirmed:
             flash('Please confirm your account!', 'warning')
             return redirect(url_for('unconfirmed_email_page'))
+        elif attempted_user.is_deleted is True:
+            flash('Profile is deleted', category='error')
         else:
             flash('Email and password are not match! Please try again',
                   category='error')
@@ -184,7 +187,7 @@ def profile_page(user_id):
 
     user = User.query.filter_by(id=user_id).first()
 
-    if not user or not user.confirmed:
+    if not user or not user.confirmed or user.force_hide is True or user.is_deleted is True:
         flash('User does not exists', category='error')
         return redirect(url_for('home_page'))
     # TODO: limit reviews to submitted reviews
@@ -330,7 +333,10 @@ def invite_user_page():
             if not bool(db.session.query(User.id).filter(User.email == email).first()):
                 if em.get_emails_count_to_address_last_days(email, EmailTypeEnum.USER_INVITE.value, 30) == 0:
                     em.insert_email_log(
-                        current_user.id, None, email, EmailTypeEnum.USER_INVITE.value)
+                        current_user.id,
+                        None,
+                        email,
+                        EmailTypeEnum.USER_INVITE.value)
                     em.send_invite(email, current_user.first_name,
                                    current_user.second_name)
 
@@ -351,41 +357,6 @@ def invite_user_page():
             flash(f'{err_msg}', category='error')
 
     return render_template('user/invite_user.html', form=form)
-
-
-def notifications_page(page, unread):
-    if not check_numeric_args(page):
-        abort(404)
-    page = int(page)
-
-    if unread == 'False':
-        notifications = current_user.rel_notifications.order_by(Notification.datetime.desc()).paginate(page=page,
-                                                                                                       per_page=20)
-    else:
-        notifications = current_user.rel_notifications.filter(Notification.was_seen == False).order_by(
-            Notification.datetime.desc()).paginate(page=page, per_page=20)
-
-    if not notifications:
-        flash('You don\'t have any notifications', category='success')
-        return redirect(url_for('profile_page', user_id=current_user.id))
-
-    return render_template('notification/notifications_page.html', page=page, unread=unread, results=notifications)
-
-
-def update_notification_and_redirect():
-    notification_id = int(request.args.get('notification_id'))
-    url = request.args.get('url')
-
-    notification = Notification.query.filter(
-        Notification.id == notification_id).first()
-
-    if current_user.id != notification.user:
-        abort(404)
-
-    notification.was_seen = True
-    db.session.commit()
-
-    return redirect(url)
 
 
 def request_endorsement(endorser_id):
@@ -438,15 +409,15 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
 
     if not notification:
         flash('Endorsement request not exists', category='error')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if not user or current_user.id != endorser_id or not endorsement_log:
         flash('Endorsement request not exists', category='error')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if endorsement_log.considered == True:
         flash('Endorsement request has been already considered', category='warning')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if form.validate_on_submit():
         if form.submit_accept.data:
@@ -465,7 +436,7 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         db.session.commit()
 
         flash('The form has been completed', category='success')
-        return redirect(url_for('notifications_page', page=1, unread=False))
+        return redirect(url_for('notifications_page', page=1, unread='False'))
 
     return render_template('user/endorsement_request.html', form=form, user=user)
 
@@ -497,8 +468,7 @@ def confirm_profile_delete(token):
 
     if user.email == current_user.email and user.new_email == 'DELETE_PROFILE_ATTEMPT':
 
-        # TODO: anonymize profile
-
+        current_user.delete_profile()
         logout_user()
         flash('You have deleted your profile.', category='success')
         return redirect(url_for('home_page'))

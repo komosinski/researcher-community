@@ -53,11 +53,15 @@ Go to http://127.0.0.1:5000/t to initiate test records in the database
   
 Reset DB
 ------------
-(until Piotr adds cascades in tables*) in postgreSQL run:
+In your virtual env type:
 
-    DROP SCHEMA public CASCADE;
-    CREATE SCHEMA public;
-
-And then create tables in DB
-    
     python3 db_init.py
+
+
+Production mode
+------------
+
+Set environment variable in .flaskenv file:
+
+    FLASK_ENV=production
+

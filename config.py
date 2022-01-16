@@ -1,8 +1,11 @@
 import os
 from dotenv import load_dotenv
 # TODO: Remove it in the future
-from temporary_config import DATABASE_URI
-
+try:
+    from temporary_config import DATABASE_URI
+except ImportError or ModuleNotFoundError:
+    DATABASE_URI = None
+    print('If you have not set an environment variable SQLALCHEMY_DATABASE_URI , set it')
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
@@ -60,3 +63,13 @@ class Config(object):
 
     # Number of red flags required to hide item
     RED_FLAGS_THRESHOLD = int(os.environ.get('RED_FLAGS_THRESHOLD') or 5)
+
+    # Exclusion of a reviewer
+    # who is a co-author of papers by all authors of the reviewed paper
+    EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS = int(os.environ.get(
+        'EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS') or 730)
+
+    # To calculate workload of researchers
+    # how many reviews they agreed to prepare in the last period of time
+    REVIEWER_WORKOLOAD_ON_DAYS = int(os.environ.get(
+        'REVIEWER_WORKOLOAD_ON_DAYS') or 365)
