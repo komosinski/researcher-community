@@ -58,7 +58,6 @@ def review_request_page(request_id):
     return render_template('review/review_request.html', form=form, data=data)
 
 
-# TODO: complete this page
 def review_edit_page(review_id):
 
     if not check_numeric_args(review_id):
@@ -78,8 +77,9 @@ def review_edit_page(review_id):
             review.evaluation_conclusion = form.evaluation_conclusion.data/100
             review.evaluation_error = form.evaluation_error.data/100
             review.evaluation_organize = form.evaluation_organize.data/100
+            review.evaluation_accept = form.evaluation_accept.data
             review.confidence = form.confidence.data/100
-            # review.text = form.text.data
+
             print(form.suggestionsField.data)
             suggestions = json.loads(form.suggestionsField.data)
             [db.session.delete(suggestion)
@@ -96,11 +96,6 @@ def review_edit_page(review_id):
             review.is_anonymous = form.check_anonymous.data
             review.is_hidden = form.check_hide.data
 
-            field = request.form.getlist('field[]')
-            field2 = request.form.getlist('field2[]')
-            for val, val2 in zip(field, field2):
-                print(f'sug: {val} loc:{val2}')
-
             db.session.commit()
             flash('The review has been saved', category='success')
             return redirect(url_for('profile_page', user_id=current_user.id))
@@ -109,9 +104,10 @@ def review_edit_page(review_id):
             review.evaluation_conclusion = form.evaluation_conclusion.data/100
             review.evaluation_error = form.evaluation_error.data/100
             review.evaluation_organize = form.evaluation_organize.data/100
+            review.evaluation_accept = form.evaluation_accept.data
             review.confidence = form.confidence.data/100
-            # review.text = form.text.data
             review.publication_datetime = dt.datetime.utcnow()
+
             print(form.suggestionsField.data)
             suggestions = json.loads(form.suggestionsField.data)
             [db.session.delete(suggestion)
@@ -120,7 +116,7 @@ def review_edit_page(review_id):
                 suggestion=s["suggestion"],
                 location=s["location"]
             ) for s in suggestions]
-            # print(suggestions)
+            
 
             if True in form.check_anonymous.data:
                 review.is_anonymous = True
@@ -141,6 +137,7 @@ def review_edit_page(review_id):
         form.evaluation_conclusion.data = int(review.evaluation_conclusion*100)
         form.evaluation_error.data = int(review.evaluation_error*100)
         form.evaluation_organize.data = int(review.evaluation_organize*100)
+        form.evaluation_accept.data = review.evaluation_accept
         form.confidence.data = int(review.confidence*100)
         form.check_hide.data = review.is_hidden
         form.check_anonymous.data = review.is_anonymous

@@ -4,7 +4,8 @@ from open_science.models import User
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import Length, EqualTo, Email, DataRequired, Optional, ValidationError
+from wtforms.validators import Length, EqualTo, Email,\
+    DataRequired, Optional, ValidationError
 import re
 import open_science.config.models_config as mc
 import open_science.email as em
@@ -59,9 +60,6 @@ def validate_orcid(self, orcid):
         raise ValidationError('Invalid ORCID iD')
 
 
-def validate_google_scholar(self, google_scholar):
-    if "scholar" not in google_scholar.data.lower():
-        raise ValidationError('Invalid google scholar link')
 
 
 class RegisterForm(FlaskForm):
@@ -82,7 +80,7 @@ class RegisterForm(FlaskForm):
     orcid = StringField(label='ORCID(Optional)', validators=[Length(
         min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
     google_scholar = StringField(label='Google scholar(Optional)', validators=[
-                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional(), validate_google_scholar])
+                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional()])
     about_me = TextAreaField(label='About me(Optional)', validators=[
                              Length(max=mc.USER_ABOUT_ME_L), Optional()])
     personal_website = StringField(label='Personal website(Optional)', validators=[
@@ -93,7 +91,7 @@ class RegisterForm(FlaskForm):
     profile_image = FileField(label='Profile image', validators=[
                               Optional(), FileAllowed(['jpg', 'png'], 'Images only!')])
 
-    recaptcha = RecaptchaField()
+    # recaptcha = RecaptchaField()
 
     submit = SubmitField(label='Create Account')
 
@@ -173,7 +171,7 @@ class EditProfileForm(FlaskForm):
     orcid = StringField(label='ORCID (Optional)', validators=[Length(
         min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
     google_scholar = StringField(label='Google scholar (Optional)', validators=[
-                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional(), validate_google_scholar])
+                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional()])
     about_me = TextAreaField(label='About me (Optional)', validators=[
                              Length(max=mc.USER_ABOUT_ME_L), Optional()])
     personal_website = StringField(label='Personal website (Optional)', validators=[

@@ -72,24 +72,36 @@ def send_review_request(email, abstract, request_id):
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 
-def insert_email_log(sender_id, reciever_id, reciever_email, email_type):
+def insert_email_log(sender_id, reciever_id, reciever_email, email_type_id):
     email_log = EmailLog(sender_id, reciever_id,
-                         reciever_email, dt.datetime.utcnow(), email_type)
+                         reciever_email, dt.datetime.utcnow(), email_type_id)
     db.session.add(email_log)
     db.session.commit()
 
 
+# from sender
 def get_emails_cout_last_days(sender_id, email_type_id, days):
 
     date_after = dt.datetime.utcnow().date() - dt.timedelta(days=days)
-    count = EmailLog.query.filter(EmailLog.email_type_id == email_type_id, func.DATE(
-        EmailLog.date) >= date_after, EmailLog.sender_id == sender_id).count()
+    count = EmailLog.query \
+        .filter(EmailLog.email_type_id == email_type_id,
+                func.DATE(EmailLog.date) >= date_after,
+                EmailLog.sender_id == sender_id) \
+        .count()
     return count
 
-
+# to reciever
 def get_emails_count_to_address_last_days(reciever_email, email_type_id, days):
 
     date_after = dt.datetime.utcnow().date() - dt.timedelta(days=days)
     count = EmailLog.query.filter(EmailLog.email_type_id == email_type_id, func.DATE(
         EmailLog.date) >= date_after, EmailLog.receiver_email == reciever_email).count()
     return count
+
+
+def send_notification_email(email, text, subject):
+    data = {'text': text}
+    html = render_template('email/notification_email.html', data=data)
+    Thread(target=send_email, args=(app, email, subject, html)).start()
+
+

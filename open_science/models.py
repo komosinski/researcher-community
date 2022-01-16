@@ -105,6 +105,7 @@ class User(db.Model, UserMixin):
     force_show = db.Column(db.Boolean, nullable=False, default=False)
     # Field only visible to administrators. Store issues related to account
     remarks = db.Column(db.String(length=mc.USER_REMARKS_L), nullable=True)
+    is_deleted = db.Column(db.Boolean, nullable=True)
 
     # foreign keys
     privileges_set = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
@@ -149,7 +150,7 @@ class User(db.Model, UserMixin):
 
     def __init__(self, first_name, second_name, email, plain_text_password, confirmed=False, confirmed_on=None,
                  affiliation="", orcid="", google_scholar="", about_me="", personal_website="", review_mails_limit=1,
-                 notifications_frequency=7, photo_url="", last_seen=None, weight=1.0, registered_on=None,
+                 notifications_frequency=7, last_seen=None, weight=1.0, registered_on=None,
                  red_flags_count=0):
         self.first_name = first_name
         self.second_name = second_name
@@ -165,7 +166,6 @@ class User(db.Model, UserMixin):
         self.personal_website = personal_website
         self.review_mails_limit = review_mails_limit
         self.notifications_frequency = notifications_frequency
-        self.photoUrl = photo_url
         self.last_seen = last_seen
         self.weight = weight
         self.red_flags_count = red_flags_count
@@ -183,11 +183,16 @@ class User(db.Model, UserMixin):
     def set_orcid(self, key, value):
         return value.upper().replace("-", "")
 
+    @validates('google_scholar')
+    def set_google_scholar(self, key, value):
+        return value.replace("https://scholar.google.com/", "")
+
     def check_password_correction(self, attempted_password):
-        return bcrypt.check_password_hash(self.password_hash, attempted_password)
+        return bcrypt.check_password_hash(self.password_hash,
+                                          attempted_password)
 
     def get_new_notifications_count(self):
-        return Notification.query.filter(Notification.user == self.id, Notification.was_seen == False).count()
+        return Notification.query.filter(Notification.user == self.id, Notification.was_seen.is_(False))    .count()
 
     def can_request_endorsement(self, endorser_id):
 
@@ -197,9 +202,13 @@ class User(db.Model, UserMixin):
         if self.id == endorser_id:
             return False
 
-        if self.privileges_set == UserTypeEnum.STANDARD_USER.value and endorser_priviliege_id == UserTypeEnum.RESEARCHER_USER.value:
-            endorsement_log = EndorsementRequestLog.query.filter(EndorsementRequestLog.user_id == self.id,
-                                                                 EndorsementRequestLog.endorser_id == endorser_id).first()
+        if self.privileges_set == UserTypeEnum.STANDARD_USER.value and\
+           endorser_priviliege_id == UserTypeEnum.RESEARCHER_USER.value:
+            endorsement_log = EndorsementRequestLog \
+                                .query.filter(
+                                    EndorsementRequestLog.user_id == self.id,
+                                    EndorsementRequestLog.endorser_id == endorser_id) \
+                                .first()
             if endorsement_log:
                 return False
             elif EndorsementRequestLog.get_endorsement_request_count(self.id, 1) < app.config['REQUEST_ENDORSEMENT_L']:
@@ -268,6 +277,50 @@ class User(db.Model, UserMixin):
 
         return similar_ids
 
+    # confirmed, not deleted etc
+    def is_active(self):
+        if self.confirmed is True and self.is_deleted is not True:
+            return True
+        else:
+            return False
+
+    def get_review_workload(self):
+        count = 0
+        days = app.config['REVIEWER_WORKOLOAD_ON_DAYS']
+        date_after = dt.datetime.utcnow().date() - dt.timedelta(days=days)
+        for rev_request in self.rel_related_review_requests:
+            if rev_request.decision is True \
+               and rev_request.acceptation_date >= date_after:
+                count += 1
+        return count
+
+    def get_current_review_mails_limit(self):
+        count = 0
+        days_after = dt.datetime.utcnow() - dt.timedelta(days=30)
+        for rev_request in self.rel_related_review_requests:
+            if rev_request.creation_datetime >= days_after:
+                count += 1
+        return max(0, self.review_mails_limit - count)
+
+    def delete_profile(self):
+        self.first_name = 'Deleted'
+        self.second_name = 'user'
+        self.is_deleted = True
+        self.force_hide = True
+        self.affiliation = None
+        self.orcid = ''
+        self.google_scholar = ''
+        self.about_me = None
+        self.personal_website = None
+        self.review_mails_limit = 0
+        self.notifications_frequency = 0
+        db.session.commit()
+
+    def can_upload_paper(self):
+        if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value:
+            return True
+        else:
+            return False
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
@@ -365,6 +418,14 @@ class Paper(db.Model):
             'publication_datetime': self.get_latest_revision().publication_date
         }
 
+    def get_co_authors_ids(self, days=10000):
+        ids = set()
+        for revision in self.rel_related_versions:
+            date_after = dt.datetime.utcnow() - dt.timedelta(days=days)
+            if revision.publication_date >= date_after:
+                for creator in revision.rel_creators:
+                    ids.add(creator.id)
+        return ids
 
 class CalibrationPaper(db.Model):
     __tablename__ = "calibration_papers"
@@ -439,11 +500,27 @@ class PaperRevision(db.Model):
             'edit_url': url_for('article', id=self.id)
         }
 
-    def get_active_reviews_list(self):
+    def get_published_reviews_list(self):
         return [review for review in self.rel_related_reviews if review.publication_datetime is not None]
 
-    def get_missing_reviews_count(self):
-        return max(0, self.confidence_level - len(self.get_active_reviews_list()))
+    def get_missing_published_reviews_count(self):
+        return max(0, self.confidence_level - len(self.get_published_reviews_list()))
+
+    def get_active_accepted_review_requests_count(self):
+        count = 0
+        for review_request in self.rel_related_review_requests:
+            if review_request.decision is True and \
+               review_request.deadline_date <= dt.datetime.utcnow().date():
+                count += 1
+        return count
+
+    def get_missing_reviewers_count(self):
+        missing_count = self.get_missing_published_reviews_count()
+        missing_count -= self.get_active_accepted_review_requests_count()
+        return max(0, missing_count)
+
+    def get_paper_co_authors_ids(self, days):
+        return self.rel_parent_paper.get_co_authors_ids(days)
 
     def get_similar_revisions_ids(self):
         similar_ids = []
@@ -487,6 +564,8 @@ class Review(db.Model):
         db.Float(precision=2), nullable=False, default=0.0)
     evaluation_organize = db.Column(
         db.Float(precision=2), nullable=False, default=0.0)
+    evaluation_accept = db.Column(
+        db.Boolean(), nullable=False, default=False)
     confidence = db.Column(db.Float(precision=2), nullable=False, default=0.0)
 
     # foreign keys
@@ -789,16 +868,13 @@ class EmailLog(db.Model):
 
     email_types_enum = EmailTypeEnum
 
-    def __init__(self, sender_id, reciever_id, reciever_email, date, email_type):
+    def __init__(self, sender_id, reciever_id,
+                 reciever_email, date, email_type_id):
         self.sender_id = sender_id
         self.receiver_id = reciever_id
         self.receiver_email = reciever_email
         self.date = date
-        if isinstance(email_type, int):
-            self.email_type_id = email_type
-        else:
-            self.email_type_id = EmailType.query.filter(
-                EmailType.name == email_type).one().id
+        self.email_type_id = email_type_id
 
 
 class NotificationType(db.Model):
@@ -861,7 +937,7 @@ class Notification(db.Model):
         elif isinstance(notification_type, NotificationType):
             type_string = str(notification_type.name)
         elif isinstance(notification_type, int):
-            type_string = NotificationType.query().filter(
+             type_string = NotificationType.query.filter(
                 NotificationType.id == notification_type).first().name
 
         return type_string.replace('_', ' ').lower().capitalize()
@@ -891,6 +967,19 @@ class Suggestion(db.Model):
             'location': self.location
         }
 
+    @validates('suggestion')
+    def set_suggestion(self, key, value):
+        if len(value) > mc.S_SUGGESTION_L:
+            return value[:mc.S_SUGGESTION_L]
+        else:
+            return value
+
+    @validates('location')
+    def set_location(self, key, value):
+        if len(value) > mc.S_LOCATION_L:
+            return value[:mc.S_LOCATION_L]
+        else:
+            return value
 
 class License(db.Model):
     __tablename__ = "licenses"
