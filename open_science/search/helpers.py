@@ -2,7 +2,7 @@ from operator import and_
 
 from sqlalchemy import func
 
-from open_science.db_helper import get_hidden_filter
+from open_science.db_helper import get_hidden_filter, get_search_by_text_filter
 from open_science.models import User, Tag, PaperRevision
 from open_science import db
 
@@ -49,7 +49,7 @@ def get_papers_basic_search(search_like, search_option, order, page_num, rows_pe
             .group_by(PaperRevision.id)
     elif search_option == 'text':
         paper_revisions = paper_revisions \
-            .filter(PaperRevision.preprocessed_text.ilike(search_like))
+            .filter(get_search_by_text_filter(search_like, paper_revisions))
     elif search_option == 'all':
         paper_revisions = paper_revisions \
             .filter((PaperRevision.title.ilike(search_like))
@@ -95,7 +95,7 @@ def get_papers_advanced_search(page, search_data, order):
             .filter(PaperRevision.title.ilike("%{}%".format(search_data['title'])))
     if 'text' in search_data and search_data['text'] != '':
         paper_revisions = paper_revisions \
-            .filter(PaperRevision.preprocessed_text.ilike("%{}%".format(search_data['text'])))
+            .filter(get_search_by_text_filter("%{}%".format(search_data['text']), paper_revisions))
     if 'author' in search_data and search_data['author'] != '':
         paper_revisions = paper_revisions \
             .join(User, PaperRevision.rel_creators) \
