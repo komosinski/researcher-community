@@ -7,12 +7,12 @@ from open_science.routes_def import check_numeric_args
 
 def create_tag_page():
 
-    if not current_user.can_create_tag():
+    if current_user.can_create_tag() is False:
         flash('You cannot create a tag', category='error')
         return redirect(url_for('profile_page', user_id=current_user.id))
 
     form = EditTagForm()
-
+    
     if form.validate_on_submit():
 
         tag = Tag(

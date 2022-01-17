@@ -19,6 +19,7 @@ from PIL import Image
 from open_science import app
 from open_science.routes_def import check_numeric_args
 from open_science.enums import EmailTypeEnum, NotificationTypeEnum
+from open_science.db_helper import get_hidden_filter
 
 def register_page():
     form = RegisterForm()
@@ -185,9 +186,10 @@ def profile_page(user_id):
     if not check_numeric_args(user_id):
         abort(404)
 
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.filter(User.id == user_id,
+                             get_hidden_filter(User)).first()
 
-    if not user or not user.confirmed or user.force_hide is True or user.is_deleted is True:
+    if not user or user.confirmed is False or user.is_deleted is True:
         flash('User does not exists', category='error')
         return redirect(url_for('home_page'))
     # TODO: limit reviews to submitted reviews
