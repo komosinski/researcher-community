@@ -6,11 +6,20 @@ Introduction
 First setup
 ------------
 
-  1. Move to main directory and create python virtual env
+      
+  1. Install poppler on your local machine
+  
+    Linux  
+      $ sudo apt install build-essential libpoppler-cpp-dev pkg-config python3-dev
+      
+    Windows
+      $ conda install -c conda-forge poppler
+      
+  2. Move to main directory and create python virtual env
 
     python3 -m virtualenv venv
   
-  2. Activate virtual env
+  3. Activate virtual env
 
     Linux
       $ source venv/bin/activate
@@ -18,11 +27,11 @@ First setup
     Windows 
       $ venv\Scripts\activate
  
-  3. Install requirements
+  4. Install requirements
   
     pip install -r requirements.txt
   
-  4. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
+  5. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
 
           DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
  
@@ -34,7 +43,7 @@ First setup
           Windows
             $env:SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
 
-  5. Create tables in DB
+  6. Create tables in DB
 
     python3 db_init.py
   
