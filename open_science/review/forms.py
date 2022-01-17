@@ -64,7 +64,7 @@ class ReviewEditForm(FlaskForm):
     evaluation_conclusion = DecimalRangeField(
         'Claims and conclusions reasonable and justified', default=0)
     evaluation_error = DecimalRangeField(
-        ' Free of essential and technical errors', default=0)
+        'Free of essential and technical errors', default=0)
     evaluation_organize = DecimalRangeField(
         'Well organized, well presented, readable', default=0)
     evaluation_accept = BooleanField(
