@@ -194,6 +194,7 @@ def create_test_data():
         pdf_url="https://paperurl1.com",
         title="title1.1",
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -208,6 +209,7 @@ def create_test_data():
         title="title1.2",
         version=2,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -222,6 +224,7 @@ def create_test_data():
         title="title1.3",
         version=3,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -235,6 +238,7 @@ def create_test_data():
         title="title2",
         version=1,
         abstract="description2 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -248,6 +252,7 @@ def create_test_data():
         title="title3",
         version=1,
         abstract="description3 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=3,
         red_flags_count=0
@@ -260,6 +265,7 @@ def create_test_data():
         title="title4",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=3,
         red_flags_count=0
@@ -272,6 +278,7 @@ def create_test_data():
         title="title5",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -284,6 +291,7 @@ def create_test_data():
         title="title6",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -296,6 +304,7 @@ def create_test_data():
         title="title7",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -308,6 +317,7 @@ def create_test_data():
         title="title8",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -320,6 +330,7 @@ def create_test_data():
         title="title9",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -332,6 +343,7 @@ def create_test_data():
         title="title10",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -344,6 +356,7 @@ def create_test_data():
         title="title11",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -356,6 +369,7 @@ def create_test_data():
         title="title12",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -368,6 +382,7 @@ def create_test_data():
         title="title13",
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -380,6 +395,7 @@ def create_test_data():
         title="title14",
         version=1,
         abstract="description14 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0
@@ -392,6 +408,7 @@ def create_test_data():
         title="title15",
         version=1,
         abstract="description15 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime.utcnow(),
         confidence_level=1,
         red_flags_count=0

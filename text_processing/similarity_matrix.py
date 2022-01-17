@@ -2,10 +2,9 @@ from gensim import corpora, models, similarities
 from gensim.utils import simple_preprocess
 import numpy as np
 
-# Wejście: Lista z przetworzonym tekstem artykułów (lista stringów)
 from open_science import db
 from open_science.enums import MatrixEnum
-from open_science.models import Matrix
+from open_science.models import Matrix, PaperRevision, CalibrationPaper
 
 
 def matrix_to_str(matrix):
@@ -31,10 +30,26 @@ def str_to_matrix(matrix_str):
     return matrix
 
 
-def get_tfidf_matrix_from_text(articles_text):
-    texts = [[text for text in doc.split()] for doc in articles_text]
+# returns list with all calibration papers and paper revisions preprocessed texts
+def get_all_papers_texts():
+    all_paper_texts = []
+
+    all_paper_revisions = PaperRevision.query.all()
+    all_calibration_papers = CalibrationPaper.query.all()
+    all_papers = sorted(all_paper_revisions + all_calibration_papers, key=lambda paper: paper.id)
+    all_paper_texts = [paper.preprocessed_text for paper in all_papers]
+
+    return all_paper_texts
+
+
+# returns tfidf matrix created from preprocessed texts
+def create_tfidf_matrix():
+    tfidf_matrix = []
+
+    all_paper_texts = get_all_papers_texts()
+    texts = [[text for text in doc.split()] for doc in all_paper_texts]
     dictionary = corpora.Dictionary(texts)
-    tokenized_list = [simple_preprocess(doc) for doc in articles_text]
+    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
     corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
     tfidf = models.TfidfModel(corpus, smartirs='ntc')
 
@@ -44,11 +59,14 @@ def get_tfidf_matrix_from_text(articles_text):
     return tfidf_matrix
 
 
-# Wejście: Lista z przetworzonym tekstem artykułów (lista stringów)
-def get_similarities_matrix_from_text(articles_text):
-    texts = [[text for text in doc.split()] for doc in articles_text]
+# returns similarities matrix created from preprocessed texts
+def create_similarities_matrix():
+    similarities_matrix = []
+
+    all_paper_texts = get_all_papers_texts()
+    texts = [[text for text in doc.split()] for doc in all_paper_texts]
     dictionary = corpora.Dictionary(texts)
-    tokenized_list = [simple_preprocess(doc) for doc in articles_text]
+    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
     corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
     tfidf = models.TfidfModel(corpus, smartirs='ntc')
     corpus_tfidf = tfidf[corpus]
@@ -59,6 +77,7 @@ def get_similarities_matrix_from_text(articles_text):
     return similarities_matrix
 
 
+# saves given matrix as tfidf matrix in matrices table in database
 def save_tfidf_matrix(tfidf_matrix):
     current_tfidf_matrix = Matrix.query.get(MatrixEnum.TFIDF.value)
     if current_tfidf_matrix is None:
@@ -74,6 +93,7 @@ def save_tfidf_matrix(tfidf_matrix):
     db.session.commit()
 
 
+# saves given matrix as similarities matrix in matrices table in database
 def save_similarities_matrix(similarities_matrix):
     current_similarities_matrix = Matrix.query.get(MatrixEnum.SIMILARITIES.value)
     if current_similarities_matrix is None:
