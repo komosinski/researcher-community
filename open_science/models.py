@@ -475,7 +475,7 @@ class PaperRevision(db.Model):
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
     force_show = db.Column(db.Boolean, nullable=False, default=False)
     # preprocessed text
-    preprocessed_text = db.Column(db.Text(), nullable=True)
+    preprocessed_text = db.Column(db.Text(), nullable=False)
 
     # foreign keys
     parent_paper = db.Column(db.Integer, db.ForeignKey('papers.id'))
