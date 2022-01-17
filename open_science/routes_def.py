@@ -354,3 +354,7 @@ def contact_staff_page():
             flash(f'{err_msg}', category='error')
 
     return render_template('help/contact_staff.html', form=form)
+
+
+def test_text_preprocessing():
+    return 'test'
