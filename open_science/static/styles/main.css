@@ -8,6 +8,18 @@
     font-family: 'Ubuntu';
 }
 
+.comment-10 {
+    background-color: #0cca00;
+}
+
+.comment-20 {
+    background-color: deeppink;
+}
+
+textarea {
+    resize: none !important;
+}
+
 body {
     margin: 0;
 }

@@ -13,4 +13,5 @@ def get_potential_reviewers(paper_version_id):
 
     return reviewers
 
-  
+def get_text(url):
+    return "Lorem ipsum tralala"

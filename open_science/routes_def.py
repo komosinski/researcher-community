@@ -164,8 +164,13 @@ def view_article(id):
             votes_score = 0,
             red_flags_count = 0,
             level = 1,
-            date = dt.datetime.utcnow()
+            date = dt.datetime.utcnow(),
+            creator_role = current_user.privileges_set
         )
+
+        print(current_user.privileges_set)
+        print(current_user.rel_privileges_set)
+
         if current_user.rel_created_comments:
             current_user.rel_created_comments.append(comment)
         else: current_user.rel_created_comments = [comment]

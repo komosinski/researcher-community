@@ -27,7 +27,7 @@ class FileUploadForm(FlaskForm):
     anonymity_declaration = BooleanField("I certify that this version is anonymized")
     review_declaration = BooleanField("I would like this paper reviewed")
 
-    confidence_level = SelectField("Choose review confidence level:", choices = [('low', 0), ('medium', 1), ('high', 2)])
+    confidence_level = SelectField("Choose review confidence level:", choices = [(2, 'low'), (3, 'medium'), (4, 'high')])
 
     coauthors = HiddenField(id="coauthors-input-field")
     tags = HiddenField(id="tags-input-field")

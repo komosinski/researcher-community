@@ -57,7 +57,7 @@ def create_paper_comment_notifications(paper_revision, comment, comment_creator_
 
         for paper_creator in paper_creators:
             create_notification(
-                                NotificationTypeEnum.PAPER_COMMENT,
+                                NotificationTypeEnum.PAPER_COMMENT.value,
                                 f'New comment under article: {paper_revision.title}',
                                 paper_creator,
                                 url_for('article', id=paper_revision.parent_paper)
