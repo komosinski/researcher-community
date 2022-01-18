@@ -5,6 +5,7 @@ from flask import url_for
 from text_processing.similarity_matrix import create_tfidf_matrix, create_similarities_matrix, save_tfidf_matrix, \
     save_similarities_matrix
 
+from open_science.enums import UserTypeEnum
 
 def create_test_data():
     create_essential_data()
@@ -18,7 +19,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=0,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c1)
 
@@ -27,7 +29,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=0,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.RESEARCHER_USER.value
     )
     db.session.add(c2)
 
@@ -36,7 +39,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=0,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c3)
 
@@ -45,7 +49,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=0,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.RESEARCHER_USER.value
     )
     db.session.add(c4)
 
@@ -54,7 +59,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=0,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c5)
 
@@ -63,7 +69,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=0,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c6)
 
@@ -72,7 +79,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=0,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c7)
 
@@ -81,7 +89,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=0,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.RESEARCHER_USER.value
     )
     db.session.add(c8)
 
@@ -90,7 +99,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=0,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c9)
 
@@ -99,7 +109,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=1,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.STANDARD_USER.value
     )
     c10.rel_related_comment = [c1]
     db.session.add(c10)
@@ -109,7 +120,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=1,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.RESEARCHER_USER.value
     )
     c11.rel_related_comment = [c2]
     db.session.add(c11)
@@ -119,7 +131,8 @@ def create_test_data():
         votes_score=0,
         red_flags_count=0,
         level=1,
-        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1)
+        date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        creator_role = UserTypeEnum.RESEARCHER_USER.value
     )
     c12.rel_related_comment = [c2]
     db.session.add(c12)

@@ -4,7 +4,7 @@ from open_science.user.forms import RegisterForm, LoginForm, RemarksForm, Resend
 from open_science.user.forms import InviteUserForm, EditProfileForm, EndorsementRequestForm, DeleteProfileForm
 from open_science import db
 from open_science.tokens import confirm_password_token, confirm_account_recovery_token, confirm_email_change_token, confirm_profile_delete_token
-from open_science.models import Notification, Paper, PrivilegeSet, User, Tag, Review, EndorsementRequestLog, \
+from open_science.models import CalibrationPaper, Notification, Paper, PrivilegeSet, User, Tag, Review, EndorsementRequestLog, \
     NotificationType
 import open_science.email as em
 from flask.helpers import url_for
@@ -20,6 +20,7 @@ from open_science import app
 from open_science.routes_def import check_numeric_args
 from open_science.enums import EmailTypeEnum, NotificationTypeEnum
 from open_science.db_helper import get_hidden_filter
+import text_processing.mocks as Mocks
 
 def register_page():
     form = RegisterForm()
@@ -27,6 +28,36 @@ def register_page():
         ps_standard_user = PrivilegeSet.query.filter(
             PrivilegeSet.id == User.user_types_enum.STANDARD_USER.value).first()
         print(form.password.data)
+
+        # get the calibration files
+        calibration_files = []
+        for file in form.calibration_files.data:
+            calibration_paper = CalibrationPaper(
+                pdf_url = ""
+            )
+
+            db.session.add(calibration_paper)
+            db.session.flush()
+
+            id = calibration_paper.id
+
+            filename = secure_filename(f"{id}.pdf")
+            path = f"open_science/static/articles/{filename}"
+            url = url_for('static', filename=f"articles/{filename}")
+
+            file.save(path)
+
+            calibration_paper.pdf_url = url
+            calibration_paper.preprocessed_text = Mocks.get_text(url)
+
+            calibration_files.append(calibration_paper)
+
+            # # TODO: substitute with real function when it becomes available
+            # calibration_files.append(CalibrationPaper(
+            #     pdf_url = "",
+            #     preprocessed_text = Mocks.get_text(url)
+            # ))
+
         user_to_create = User(first_name=form.first_name.data,
                               second_name=form.second_name.data,
                               email=form.email.data,
@@ -42,6 +73,8 @@ def register_page():
         user_to_create.rel_privileges_set = ps_standard_user
         db.session.add(user_to_create)
         db.session.flush()
+
+        user_to_create.rel_calibration_papers = calibration_files
 
         f = form.profile_image.data
         if f:

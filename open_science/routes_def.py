@@ -164,8 +164,17 @@ def view_article(id):
             votes_score = 0,
             red_flags_count = 0,
             level = 1,
-            date = dt.datetime.utcnow()
+            date = dt.datetime.utcnow(),
+            creator_role = current_user.privileges_set
         )
+
+        if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
+            print(commentForm.comment_ref.data)
+            comment.comment_ref = ref_comment.id
+
+        print(current_user.privileges_set)
+        print(current_user.rel_privileges_set)
+
         if current_user.rel_created_comments:
             current_user.rel_created_comments.append(comment)
         else: current_user.rel_created_comments = [comment]
@@ -344,3 +353,7 @@ def contact_staff_page():
             flash(f'{err_msg}', category='error')
 
     return render_template('help/contact_staff.html', form=form)
+
+
+def test_text_preprocessing():
+    return 'test'

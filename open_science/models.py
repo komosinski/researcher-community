@@ -24,7 +24,7 @@ association_paper_version_user = Table('association_paper_version_user', db.meta
                                        db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_revisions.id'),
                                                  primary_key=True),
                                        db.Column('user_id', db.Integer, db.ForeignKey(
-                                           'users.id'), primary_key=True)
+                                           'users.id'), primary_key=True),    
                                        )
 
 association_comment_paper_version = Table('association_comment_paper_version', db.metadata,
@@ -482,6 +482,18 @@ class CalibrationPaper(db.Model):
         "User", back_populates="rel_calibration_papers")
 
 
+class UserPaperContribution(db.Model):
+    __tablename__ = "user_paper_contribution"
+    
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # columns
+    content = db.Column(db.String(length=mc.USER_CONTRIB_L), nullable=False)
+
+    # foreign keys
+
+
 class PaperRevision(db.Model):
     __tablename__ = "paper_revisions"
 
@@ -755,6 +767,7 @@ class Comment(db.Model):
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
     creator_role = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
+    comment_ref = db.Column(db.Integer, db.ForeignKey('comments.id'))
 
     # relationships
     rel_related_paper_version = db.relationship("PaperRevision", secondary=association_comment_paper_version,

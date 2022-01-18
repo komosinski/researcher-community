@@ -25,6 +25,9 @@ PAPER_LICENSE_L = 128
 TAG_NAME_L = 128
 TAG_DESCRIPTION_L = 8192
 
+# user_paper_contribution
+USER_CONTRIB_L = 1024
+
 # paper_version
 PV_PDF_URL_L = 256
 PV_ABSTRACT_L = 1024

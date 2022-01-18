@@ -274,9 +274,13 @@ def delete_profile_page():
 def confirm_profile_delete(token):
     return user_rd.confirm_profile_delete(token)
 
+
 @app.route('/api/tags')
 def get_all_tags_data():
     return tag_api.get_all_tags_data()
 
 
+@app.route('/test')
+def test_text_preprocessing():
+    return rd.test_text_preprocessing()
 

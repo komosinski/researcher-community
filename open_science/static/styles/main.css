@@ -8,6 +8,44 @@
     font-family: 'Ubuntu';
 }
 
+.disabled {
+    display: none !important;
+}
+
+#reply-info-wrapper {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+#reply-info-wrapper p {
+    margin: 0 2px 0 0;
+}
+
+.filler {
+    flex-grow: 1;
+}
+
+.comment-answer-info {
+    font-size: 11px;
+}
+
+.comment-10 {
+    background-color: white;
+}
+
+.comment-20 {
+    background-color: rgb(216, 239, 255);
+}
+
+.comment-by-author {
+    background-color: rgb(207, 248, 197);
+}
+
+textarea {
+    resize: none !important;
+}
+
 body {
     margin: 0;
 }
@@ -57,7 +95,7 @@ body {
     font-size: 1.2em;
     white-space: nowrap;
     width: fit-content;
-    padding-right: 12px;
+    padding-right: 4px;
     margin-bottom: 12px;
 }
 
@@ -78,7 +116,7 @@ body {
 }
 
 .header-username {
-    margin-right: 5px;
+    margin-right: 0px;
 }
 
 .main-footer {
