@@ -180,17 +180,7 @@ def view_article(id):
 
         return redirect(url_for("article", id=id))
 
-    if pv.rel_related_reviews:
-        review_scores = [
-            review.review_score for review in pv.rel_related_reviews]
-            # TODO: breaks if empty
-        reviewMean = 0 #sum(review_scores) / len(review_scores)
-        # review_scores = [review.votes_score*review.weight for review in pv.rel_related_reviews]
-        # review_weight_sum = sum([review.weight for review in pv.rel_related_reviews])
-        # reviewMean = sum(review_scores)/review_weight_sum
-    else:
-        reviewMean = 0
-    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], score=reviewMean, form=commentForm)
+    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], form=commentForm)
 
 def like():
     likeType = request.json.get('type')

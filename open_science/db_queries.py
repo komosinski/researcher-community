@@ -277,3 +277,52 @@ qt_update_comment_red_flags_count = '''
     end
     $$;
 '''
+
+q_update_revision_averages = '''
+    create or replace
+    function public.update_revision_averages()
+     returns trigger
+     language plpgsql
+    as $function$
+        DECLARE var_how_confident_sum float4 := (select sum(r.confidence) from reviews r where r.related_paper_version = new.related_paper_version);
+        DECLARE var_average_novel float4 := (select sum(r.confidence) from reviews r where r.related_paper_version = new.related_paper_version);
+        DECLARE var_average_conclusion float4 := (select sum(r.confidence) from reviews r where r.related_paper_version = new.related_paper_version);
+        DECLARE var_average_error float4 := (select sum(r.confidence) from reviews r where r.related_paper_version = new.related_paper_version);
+        DECLARE var_average_organize float4 := (select sum(r.confidence) from reviews r where r.related_paper_version = new.related_paper_version);
+        DECLARE var_average_accept float4 := (select sum(r.confidence) from reviews r where r.related_paper_version = new.related_paper_version);
+        DECLARE var_average_grade float4 := (var_average_novel + var_average_conclusion + var_average_error + var_average_organize + var_average_accept) / 5;
+    begin
+        update paper_revisions 
+        set how_confident_sum = var_how_confident_sum,
+            average_novel = var_average_novel,
+            average_conclusion = var_average_conclusion,
+            average_error = var_average_error,
+            average_organize = var_average_organize,
+            average_accept = var_average_accept,
+            average_grade = var_average_grade
+        where id = new.related_paper_version;
+        return new;
+    end;
+    $function$;
+'''
+
+qt_update_revision_averages = '''
+    do $$
+    begin
+        if not exists (
+    select
+        1
+    from
+        pg_trigger
+    where
+        tgname = 'update_revision_averages') then
+        create trigger update_revision_averages  
+            after
+    insert
+        on
+        reviews
+            for each row execute function update_revision_averages();
+    end if;
+    end
+    $$;
+'''

@@ -193,7 +193,7 @@ class User(db.Model, UserMixin):
                                           attempted_password)
 
     def get_new_notifications_count(self):
-        return Notification.query.filter(Notification.user == self.id, Notification.was_seen.is_(False))    .count()
+        return Notification.query.filter(Notification.user == self.id, Notification.was_seen.is_(False)).count()
 
     def can_request_endorsement(self, endorser_id):
 
@@ -203,13 +203,13 @@ class User(db.Model, UserMixin):
         if self.id == endorser_id:
             return False
 
-        if self.privileges_set == UserTypeEnum.STANDARD_USER.value and\
-           endorser_priviliege_id == UserTypeEnum.RESEARCHER_USER.value:
+        if self.privileges_set == UserTypeEnum.STANDARD_USER.value and \
+                endorser_priviliege_id == UserTypeEnum.RESEARCHER_USER.value:
             endorsement_log = EndorsementRequestLog \
-                                .query.filter(
-                                    EndorsementRequestLog.user_id == self.id,
-                                    EndorsementRequestLog.endorser_id == endorser_id) \
-                                .first()
+                .query.filter(
+                EndorsementRequestLog.user_id == self.id,
+                EndorsementRequestLog.endorser_id == endorser_id) \
+                .first()
             if endorsement_log:
                 return False
             elif EndorsementRequestLog.get_endorsement_request_count(self.id, 1) < app.config['REQUEST_ENDORSEMENT_L']:
@@ -238,9 +238,9 @@ class User(db.Model, UserMixin):
     def can_create_tag(self):
         count = Tag.query.filter(Tag.creator == self.id,
                                  Tag.creation_date == dt.datetime.utcnow().date()) \
-                                .count()
+            .count()
         if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value \
-           and count < app.config['TAGS_L']:
+                and count < app.config['TAGS_L']:
             return True
         else:
             return False
@@ -306,7 +306,7 @@ class User(db.Model, UserMixin):
         date_after = dt.datetime.utcnow().date() - dt.timedelta(days=days)
         for rev_request in self.rel_related_review_requests:
             if rev_request.decision is True \
-               and rev_request.acceptation_date >= date_after:
+                    and rev_request.acceptation_date >= date_after:
                 count += 1
         return count
 
@@ -337,9 +337,9 @@ class User(db.Model, UserMixin):
                                            == self.id,
                                            PaperRevision.publication_date
                                            == dt.datetime.utcnow().date()) \
-                                           .count()
+            .count()
         if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value \
-           and count < app.config['PAPER_L']:
+                and count < app.config['PAPER_L']:
             return True
         else:
             return False
@@ -349,7 +349,7 @@ class User(db.Model, UserMixin):
                                      func.DATE(Comment.date)
                                      ==
                                      dt.datetime.utcnow().date()) \
-                                    .count()
+            .count()
         if count < app.config['COMMENT_L']:
             return True
         else:
@@ -463,6 +463,7 @@ class Paper(db.Model):
                     ids.add(creator.id)
         return ids
 
+
 class CalibrationPaper(db.Model):
     __tablename__ = "calibration_papers"
 
@@ -499,8 +500,14 @@ class PaperRevision(db.Model):
     anonymized_pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=True)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
     force_show = db.Column(db.Boolean, nullable=False, default=False)
-    # preprocessed text
     preprocessed_text = db.Column(db.Text(), nullable=False)
+    how_confident_sum = db.Column(db.Float(precision=2), nullable=False, default=0.0)   # blue number
+    average_grade = db.Column(db.Float(precision=2), nullable=False, default=0.0)       # bold number
+    average_novel = db.Column(db.Float(precision=2), nullable=False, default=0.0)       # 1-st number
+    average_conclusion = db.Column(db.Float(precision=2), nullable=False, default=0.0)  # 2-nd number
+    average_error = db.Column(db.Float(precision=2), nullable=False, default=0.0)       # 3-rd number
+    average_organize = db.Column(db.Float(precision=2), nullable=False, default=0.0)    # 4-th number
+    average_accept = db.Column(db.Float(precision=2), nullable=False, default=0.0)      # 5-th number
 
     # foreign keys
     parent_paper = db.Column(db.Integer, db.ForeignKey('papers.id'))
@@ -547,7 +554,7 @@ class PaperRevision(db.Model):
         count = 0
         for review_request in self.rel_related_review_requests:
             if review_request.decision is True and \
-               review_request.deadline_date <= dt.datetime.utcnow().date():
+                    review_request.deadline_date <= dt.datetime.utcnow().date():
                 count += 1
         return count
 
@@ -560,7 +567,7 @@ class PaperRevision(db.Model):
         return self.rel_parent_paper.get_co_authors_ids(days)
 
     def get_similar_revisions_ids(self):
-        similar_ids = []
+        similar_revisions_ids = []
 
         all_revisions_ids = [revision.id for revision in PaperRevision.query.all()]
         all_calibration_ids = [calibration.id for calibration in CalibrationPaper.query.all()]
@@ -570,7 +577,9 @@ class PaperRevision(db.Model):
         # similar_ids = get_similar_articles(self.id, articles_id_list)
         similar_ids = [1, 2, 3]  # TODO: delete this row when get_similar_articles starts working
 
-        return similar_ids
+        similar_revisions_ids = [id for id in similar_ids if id in all_revisions_ids]
+
+        return similar_revisions_ids
 
     def get_similar_revisions(self):
         similar_revisions = []
@@ -588,8 +597,6 @@ class Review(db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
-    weight = db.Column(db.Float, nullable=True)
-    review_score = db.Column(db.Integer(), nullable=True)
     # datetime of review's submission
     publication_datetime = db.Column(db.DateTime, nullable=True)
     # deadline of submitting review
@@ -697,17 +704,12 @@ class ReviewRequest(db.Model):
     deadline_date = db.Column(db.Date)
 
     # decilne reasons
-    reason_conflict_interest = db.Column(
-        db.Boolean, nullable=False, default=False)
-    reason_lack_expertise = db.Column(
-        db.Boolean, nullable=False, default=False)
+    reason_conflict_interest = db.Column(db.Boolean, nullable=False, default=False)
+    reason_lack_expertise = db.Column(db.Boolean, nullable=False, default=False)
     reason_time = db.Column(db.Boolean, nullable=False, default=False)
-    reason_match_incorrectly = db.Column(
-        db.Boolean, nullable=False, default=False)
-
+    reason_match_incorrectly = db.Column(db.Boolean, nullable=False, default=False)
     reason_other = db.Column(db.Boolean, nullable=False, default=False)
-    other_reason_text = db.Column(
-        db.String(length=mc.DR_REASON_L), nullable=True)
+    other_reason_text = db.Column(db.String(length=mc.DR_REASON_L), nullable=True)
 
     # foreign keys
     requested_user = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -984,7 +986,7 @@ class Notification(db.Model):
         elif isinstance(notification_type, NotificationType):
             type_string = str(notification_type.name)
         elif isinstance(notification_type, int):
-             type_string = NotificationType.query.filter(
+            type_string = NotificationType.query.filter(
                 NotificationType.id == notification_type).first().name
 
         return type_string.replace('_', ' ').lower().capitalize()
@@ -1027,6 +1029,7 @@ class Suggestion(db.Model):
             return value[:mc.S_LOCATION_L]
         else:
             return value
+
 
 class License(db.Model):
     __tablename__ = "licenses"
@@ -1190,6 +1193,17 @@ class EndorsementRequestLog(db.Model):
         return count
 
 
+class Matrix(db.Model):
+    __tablename__ = "matrices"
+
+    # primary keys
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+
+    # columns
+    name = db.Column(db.String(mc.M_NAME_L), nullable=False)
+    matrix = db.Column(db.Text, nullable=False)
+
+
 # db functions
 db_fun_update_comment_score = DDL(q_update_comment_score)
 db_fun_update_user_reputation = DDL(q_update_user_reputation)
@@ -1198,6 +1212,7 @@ db_fun_update_tag_red_flags_count = DDL(q_update_tag_red_flags_count)
 db_fun_update_review_red_flags_count = DDL(q_update_review_red_flags_count)
 db_fun_update_revision_red_flags_count = DDL(q_update_revision_red_flags_count)
 db_fun_update_comment_red_flags_count = DDL(q_update_comment_red_flags_count)
+db_fun_update_revision_averages = DDL(q_update_revision_averages)
 
 # db triggers
 db_trig_update_comment_score = DDL(qt_update_comment_score)
@@ -1205,9 +1220,9 @@ db_trig_update_user_reputation = DDL(qt_update_user_reputation)
 db_trig_update_user_red_flags_count = DDL(qt_update_user_red_flags_count)
 db_trig_update_tag_red_flags_count = DDL(qt_update_tag_red_flags_count)
 db_trig_update_review_red_flags_count = DDL(qt_update_review_red_flags_count)
-db_trig_update_revision_red_flags_count = DDL(
-    qt_update_revision_red_flags_count)
+db_trig_update_revision_red_flags_count = DDL(qt_update_revision_red_flags_count)
 db_trig_update_comment_red_flags_count = DDL(qt_update_comment_red_flags_count)
+db_trig_update_revision_averages = DDL(qt_update_revision_averages)
 
 # events to enable functions, procedures, triggers etc
 event.listen(
@@ -1294,6 +1309,18 @@ event.listen(
     db_trig_update_comment_red_flags_count.execute_if(dialect='postgresql')
 )
 
+event.listen(
+    Review.__table__,
+    'after_create',
+    db_fun_update_revision_averages.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    Review.__table__,
+    'after_create',
+    db_trig_update_revision_averages.execute_if(dialect='postgresql')
+)
+
 admin.add_view(MessageToStaffView(MessageToStaff, db.session))
 admin.add_view(UserView(User, db.session))
 admin.add_view(MyModelView(PaperRevision, db.session))
@@ -1331,14 +1358,3 @@ def create_essential_data():
     print("The essential data has been created")
 
     return True
-
-
-class Matrix(db.Model):
-    __tablename__ = "matrices"
-
-    # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-
-    # columns
-    name = db.Column(db.String(mc.M_NAME_L), nullable=False)
-    matrix = db.Column(db.Text, nullable=False)
