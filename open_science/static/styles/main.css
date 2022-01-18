@@ -8,6 +8,15 @@
     font-family: 'Ubuntu';
 }
 
+.filler {
+    flex-grow: 1;
+}
+
+.comment-answer-info {
+    margin-bottom: 12px;
+    font-size: 11px;
+}
+
 .comment-10 {
     background-color: #0cca00;
 }
@@ -69,7 +78,7 @@ body {
     font-size: 1.2em;
     white-space: nowrap;
     width: fit-content;
-    padding-right: 12px;
+    padding-right: 4px;
     margin-bottom: 12px;
 }
 
@@ -90,7 +99,7 @@ body {
 }
 
 .header-username {
-    margin-right: 5px;
+    margin-right: 0px;
 }
 
 .main-footer {

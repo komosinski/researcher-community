@@ -6,9 +6,12 @@
 
 {% block scripts %}
 <script>
-    const likeClickHandler = () => {
-
-    }
+    $(document).ready(function () {
+        $(".comment").on('click', '.reply-action', function() {
+            const id = $(this).parents().closest('.comment').attr('id');
+            console.log(id);
+        })
+    });
 </script>
 {% endblock %}
 
@@ -72,11 +75,19 @@
         <div class="comments-wrapper">
             {% for comment in article.rel_related_comments %}
             {% with author=comment.rel_creator %}
-                <div class="comment comment-{{comment.creator_role}}" id="comment-{{comment.id}}">
+                <div class="comment comment-{{comment.creator_role}}" id="c{{comment.id}}">
                     <div class="comment-header-wrapper">
                         <div class="author-wrapper comment-author">
                             <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~author.get_id()~'.png' if author.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}"/>
-                            <a class="author-name header-username" href="{{url_for('profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
+                            <div class="comment-answer-info">
+                                <a style="font-size: 1.2rem;"class="author-name header-username" href="{{url_for('profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
+                                {%if comment.rel_related_comment %}
+                                    answering to <a href="c{{comment.rel_related_comment.id}}">#c{{comment.rel_related_comment.id}}</a>
+                                {%endif%}
+                            </div>
+                        </div>
+                        <div class="filler">
+
                         </div>
                         <div class="comment-info-wrapper">
                             <div class="stats-element-wraper">
@@ -90,11 +101,17 @@
                     <div class="comment-text-wrapper">
                         {{comment.text}}
                     </div>
+                    <div>
+                        <a href="#add-comment" class="reply-action">Reply</a>
+                    </div>
                 </div>
             {%endwith%}
             {%endfor%}
             {% if current_user.is_authenticated and current_user.can_comment() %}
-            <div class="create-comment-wrapper">
+            <div class="create-comment-wrapper" id="add-comment">
+                <div class="reply-info-wrapper">
+
+                </div>
                 <form method="POST">
                     {{form.hidden_tag()}}
                     {{render_register_field(form.content, "Type your comment here...")}}
