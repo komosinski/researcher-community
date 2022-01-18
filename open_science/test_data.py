@@ -672,7 +672,7 @@ def create_test_data():
         title="title1.1",
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -687,7 +687,7 @@ def create_test_data():
         version=2,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -702,7 +702,7 @@ def create_test_data():
         version=3,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -717,7 +717,7 @@ def create_test_data():
         version=1,
         abstract="description2 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -731,7 +731,7 @@ def create_test_data():
         version=1,
         abstract="description3 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=3,
         red_flags_count=0
     )
@@ -745,7 +745,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=3,
         red_flags_count=0
     )
@@ -759,7 +759,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -773,7 +773,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -787,7 +787,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -801,7 +801,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -815,7 +815,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -829,7 +829,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -843,7 +843,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -857,7 +857,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -871,7 +871,7 @@ def create_test_data():
         version=1,
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -885,7 +885,7 @@ def create_test_data():
         version=1,
         abstract="description14 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -899,7 +899,7 @@ def create_test_data():
         version=1,
         abstract="description15 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
-        publication_date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=1,
         red_flags_count=0
     )
@@ -943,7 +943,7 @@ def create_test_data():
         email="shayla.jackson@email.com",
         plain_text_password="QWerty12#$%",
         confirmed=True,
-        confirmed_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        confirmed_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         affiliation="affiliation1",
         orcid="0000000218250097",
         google_scholar="https://scholar.google.com/profil1",
@@ -953,7 +953,7 @@ def create_test_data():
         notifications_frequency=7,
         last_seen=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
         weight=1.1,
-        registered_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         red_flags_count=0
     )
     u1.rel_created_paper_revisions = [pve1_1, pve1_2, pve1_3, pve2, pve6, pve11]
@@ -979,7 +979,7 @@ def create_test_data():
         email="oakley.muir@email.com",
         plain_text_password="QWerty12#$%",
         confirmed=True,
-        confirmed_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        confirmed_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         affiliation="affiliation2",
         orcid="0000000218250097",
         google_scholar="https://scholar.google.com/profil2",
@@ -988,7 +988,7 @@ def create_test_data():
         review_mails_limit=1,
         notifications_frequency=7,
         weight=2.2,
-        registered_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         red_flags_count=0
     )
     u2.rel_created_paper_revisions = [pve2, pve7, pve12]
@@ -1009,7 +1009,7 @@ def create_test_data():
         email="rafael.carson@email.com",
         plain_text_password="QWerty12#$%",
         confirmed=True,
-        confirmed_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        confirmed_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         affiliation="affiliation3",
         orcid="0000000218250097",
         google_scholar="https://scholar.google.com/profil3",
@@ -1018,7 +1018,7 @@ def create_test_data():
         review_mails_limit=1,
         notifications_frequency=7,
         weight=3.3,
-        registered_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         red_flags_count=0
     )
     u3.rel_created_paper_revisions = [pve2, pve3, pve8, pve13]
@@ -1033,7 +1033,7 @@ def create_test_data():
         email="sylvia.osborne@email.com",
         plain_text_password="QWerty12#$%",
         confirmed=True,
-        confirmed_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        confirmed_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         affiliation="affiliation4",
         orcid="0000000218250097",
         google_scholar="https://scholar.google.com/profil4",
@@ -1042,7 +1042,7 @@ def create_test_data():
         review_mails_limit=1,
         notifications_frequency=7,
         weight=3.3,
-        registered_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         red_flags_count=0
     )
     u4.rel_created_paper_revisions = [pve4, pve9, pve14]
@@ -1056,7 +1056,7 @@ def create_test_data():
         email="kerys.campbell@email.com",
         plain_text_password="QWerty12#$%",
         confirmed=True,
-        confirmed_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        confirmed_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         affiliation="affiliation5",
         orcid="0000000218250097",
         google_scholar="https://scholar.google.com/profil5",
@@ -1065,7 +1065,7 @@ def create_test_data():
         review_mails_limit=1,
         notifications_frequency=7,
         weight=3.3,
-        registered_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         red_flags_count=0
     )
     u5.rel_created_paper_revisions = [pve5, pve10, pve15]
@@ -1087,7 +1087,7 @@ def create_test_data():
         review_mails_limit=1,
         notifications_frequency=7,
         weight=4.4,
-        registered_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         red_flags_count=0
     )
     u6.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
@@ -1099,7 +1099,7 @@ def create_test_data():
         email="email7@email.com",
         plain_text_password="QWerty12#$%",
         confirmed=True,
-        confirmed_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        confirmed_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         affiliation="",
         orcid="",
         google_scholar="",
@@ -1108,7 +1108,7 @@ def create_test_data():
         review_mails_limit=0,
         notifications_frequency=0,
         weight=5.5,
-        registered_on=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         red_flags_count=0
     )
     u7.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.ADMIN.value).first()
