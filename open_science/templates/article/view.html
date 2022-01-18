@@ -49,7 +49,7 @@
             <div class="article-authors-wrapper">
                 {% for user in article.rel_creators %}
                     <div class="author-wrapper">
-                        <img class="author-profile-pic" src="{{user.photo_url}}"/>
+                        <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~user.get_id()~'.png' if user.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}"/>
                         <a class="author-name" href="{{url_for('profile_page', user_id=user.id)}}">{{user.first_name + " " + user.second_name}}</a>
                     </div>
                 {% endfor %}
@@ -117,6 +117,18 @@
                     {% include 'search/article_item.html' %}
                 {% endwith %}
             {%endfor%}
+         </ol>
+         <h3>Another versions</h3>
+         <ol>
+             {% for version in  article.rel_parent_paper.rel_related_versions %}
+                <div>
+                    {% if version.version == article.version %}
+                        <p style="margin: 0">{{version.publication_date}}</p>
+                    {%else%}
+                        <a href="{{url_for('article', id=article.parent_paper, version=version.id)}}">{{version.publication_date}}</a>
+                    {%endif%}
+                </div>
+             {% endfor %}
          </ol>
     </div>
 </div>
