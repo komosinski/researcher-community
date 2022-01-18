@@ -18,8 +18,8 @@ python-dotenv>=0.19.2
 Pillow>=9.0.0
 
 # Tomasz
-#python-poppler ~= 0.2.2
-#pdftotext>=2.2.2
-#nltk>=3.6.7
-#numpy>=1.22.0
-#gensim>=4.1.2
+pdftotext>=2.2.2
+nltk>=3.6.7
+numpy>=1.22.0
+gensim>=4.1.2
+scipy>=1.7.3
