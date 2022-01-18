@@ -9,7 +9,20 @@
     $(document).ready(function () {
         $(".comment").on('click', '.reply-action', function() {
             const id = $(this).parents().closest('.comment').attr('id');
-            console.log(id);
+            $("#reply-info").html(`Replying to <a href="#${id}">#${id}</a>`)
+            $("#reply-info-wrapper").removeClass("disabled");
+            $("#comment_ref").val(id);
+        })
+
+        $("#cancel-reply-button").on('click', function(e) {
+            e.preventDefault();
+            $("#reply-info-wrapper").addClass('disabled');
+            $("#comment_ref").val('');
+        })
+
+        $('#submit_comment').on('click', function(e) {
+            //e.preventDefault();
+            console.log($("#comment_ref").val());
         })
     });
 </script>
@@ -75,14 +88,18 @@
         <div class="comments-wrapper">
             {% for comment in article.rel_related_comments %}
             {% with author=comment.rel_creator %}
+                {%if author in article.rel_creators %}
+                <div class="comment comment-by-author" id="c{{comment.id}}">
+                {%else%}
                 <div class="comment comment-{{comment.creator_role}}" id="c{{comment.id}}">
+                {%endif%}
                     <div class="comment-header-wrapper">
                         <div class="author-wrapper comment-author">
                             <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~author.get_id()~'.png' if author.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}"/>
                             <div class="comment-answer-info">
                                 <a style="font-size: 1.2rem;"class="author-name header-username" href="{{url_for('profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
-                                {%if comment.rel_related_comment %}
-                                    answering to <a href="c{{comment.rel_related_comment.id}}">#c{{comment.rel_related_comment.id}}</a>
+                                {%if comment.comment_ref %}
+                                    answering to <a href="#c{{comment.comment_ref}}">#c{{comment.comment_ref}}</a>
                                 {%endif%}
                             </div>
                         </div>
@@ -109,12 +126,23 @@
             {%endfor%}
             {% if current_user.is_authenticated and current_user.can_comment() %}
             <div class="create-comment-wrapper" id="add-comment">
-                <div class="reply-info-wrapper">
-
-                </div>
                 <form method="POST">
                     {{form.hidden_tag()}}
-                    {{render_register_field(form.content, "Type your comment here...")}}
+                    {{form.comment_ref()}}
+                    <!-- {{render_register_field(form.content, "Type your comment here...")}} -->
+                    <div class="profile-edit-input-wrapper">
+                        <div class="label-wrapper"> {{ form.content.label}}</div>
+                        <div id="reply-info-wrapper" class="disabled">
+                            <p id="reply-info"></p>
+                            <button id="cancel-reply-button">Cancel</button>
+                        </div>
+                        <div class="input-wrapper"> {{ form.content(placeholder="Type your comment here...")|safe }}</div>
+                        {% if form.content.errors %}
+                            {% for error in form.content.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                     <div class="buttons-wrapper">
                 
                         {{ form.submit_comment(class="large-button main-button") }}

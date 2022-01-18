@@ -11,7 +11,7 @@ class CommentForm(FlaskForm):
     content = TextAreaField("Add comment", validators=[DataRequired(), Length(max=mc.COMMENT_TEXT_L)])
     refObjectType = HiddenField()
     refObjectID = HiddenField()
-    commentRef = HiddenField()
+    comment_ref = HiddenField()
     submit_comment = SubmitField("Publish comment")
 
 class FileUploadForm(FlaskForm):

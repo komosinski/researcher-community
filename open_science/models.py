@@ -765,6 +765,7 @@ class Comment(db.Model):
     # foreign keys
     creator = db.Column(db.Integer, db.ForeignKey('users.id'))
     creator_role = db.Column(db.Integer, db.ForeignKey('privileges_sets.id'))
+    comment_ref = db.Column(db.Integer, db.ForeignKey('comments.id'))
 
     # relationships
     rel_related_paper_version = db.relationship("PaperRevision", secondary=association_comment_paper_version,
