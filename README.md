@@ -13,6 +13,9 @@ First setup
       $ sudo apt install build-essential libpoppler-cpp-dev pkg-config python3-dev
       
     Windows
+    Install "Build Tools for Visual Studio" http://visualstudio.microsoft.com/downloads
+    then use commands:
+      $ conda update --all
       $ conda install -c conda-forge poppler
       
   2. Move to main directory and create python virtual env
