@@ -1,11 +1,15 @@
-from email.policy import default
 from flask.helpers import url_for
 from sqlalchemy import Table, DDL, event, Sequence
 from sqlalchemy.orm import validates
+
+from open_science.db_queries import q_update_comment_score, q_update_user_red_flags_count, q_update_tag_red_flags_count, \
+    q_update_review_red_flags_count, q_update_user_reputation, q_update_revision_red_flags_count, \
+    q_update_comment_red_flags_count, q_update_revision_averages, qt_update_comment_score, qt_update_user_reputation, \
+    qt_update_user_red_flags_count, qt_update_tag_red_flags_count, qt_update_review_red_flags_count, \
+    qt_update_revision_red_flags_count, qt_update_comment_red_flags_count, qt_update_revision_averages
 from open_science.extensions import db, login_manager, bcrypt, admin
 from flask_login import UserMixin
 import open_science.config.models_config as mc
-from open_science.db_queries import *
 from open_science.admin import MyModelView, UserView, MessageToStaffView
 import datetime as dt
 from sqlalchemy import func
@@ -14,6 +18,9 @@ from open_science.enums import UserTypeEnum, EmailTypeEnum, \
     NotificationTypeEnum, MessageTopicEnum
 from open_science.config.auto_endorse_config import EMAIL_REGEXPS
 import re
+
+from text_processing.search_engine import get_similar_articles_to_articles, get_similar_users_to_article, \
+    get_similar_users_to_user
 
 
 @login_manager.user_loader
@@ -296,9 +303,7 @@ class User(db.Model, UserMixin):
         for user in all_users:
             users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
 
-        # TODO: uncomment this row when search_by_text starts working
-        # similar_ids = get_similar_users(self.id, users_dict_id)
-        similar_ids = [1, 2, 3]  # TODO: delete this row when get_similar_users starts working
+        similar_ids = get_similar_users_to_user(self.id, users_dict_id)
 
         return similar_ids
 
@@ -604,9 +609,7 @@ class PaperRevision(db.Model):
         all_calibration_ids = [calibration.id for calibration in CalibrationPaper.query.all()]
         articles_id_list = sorted(all_revisions_ids + all_calibration_ids)
 
-        # TODO: uncomment this row when search_by_text starts working
-        # similar_ids = get_similar_articles(self.id, articles_id_list)
-        similar_ids = [1, 2, 3]  # TODO: delete this row when get_similar_articles starts working
+        similar_ids = get_similar_articles_to_articles(self.id, articles_id_list)
 
         similar_revisions_ids = [id for id in similar_ids if id in all_revisions_ids]
 
@@ -628,9 +631,7 @@ class PaperRevision(db.Model):
         for user in all_users:
             users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
 
-        # TODO: uncomment this row when search_by_text starts working
-        # similar_ids = get_similar_users_to_article(self.id, users_dict_id)
-        similar_ids = [1, 2, 3]  # TODO: delete this row when get_similar_users starts working
+        similar_ids = get_similar_users_to_article(self.id, users_dict_id)
 
         return similar_ids
 

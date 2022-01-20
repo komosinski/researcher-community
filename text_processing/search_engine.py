@@ -1,5 +1,7 @@
+import numpy as np
+
 from text_processing.prepocess_text import preprocess_text
-from text_processing.similarity_matrix import *
+from text_processing.similarity_matrix import get_similarities_matrix, get_tfidf_matrix, get_dictionary
 
 
 # users_dict_id - dictionary of users_id articles_id (example: { user1: [article1, article30], user2: [article3, article10] } )

@@ -1,9 +1,8 @@
 from operator import and_, or_
-
 from sqlalchemy import func, true, false
-
 from open_science import db, app
 from open_science.models import PaperRevision, Review, CalibrationPaper
+from text_processing.search_engine import search_articles_by_text
 
 
 # returns paper versions with not enough reviews
@@ -53,17 +52,14 @@ def get_hidden_filter(item_class):
 
 # returns filter for matching paper revisions by search_text
 # paper_revisions_query -> current query
-def get_search_by_text_filter(search_text, paper_revisions_query):
+def get_search_by_text_filter(search_text):
     matched_revisions = []
 
     all_paper_revisions = PaperRevision.query.all()
     all_calibration_papers = CalibrationPaper.query.all()
     all_papers = sorted(all_paper_revisions + all_calibration_papers, key=lambda paper: paper.id)
-    all_paper_texts = [paper.preprocessed_text for paper in all_papers]
     all_paper_ids = [paper.id for paper in all_papers]
 
-    # TODO: uncomment this row when search_by_text starts working
-    # matched_papers_ids = search_by_text(search_text, all_paper_texts, all_paper_ids)
-    matched_papers_ids = [1, 2, 3]  # TODO: delete this row when search_by_text starts working
+    matched_papers_ids = search_articles_by_text(search_text, all_paper_ids)
 
     return PaperRevision.id.in_(matched_papers_ids)

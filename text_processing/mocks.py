@@ -1,6 +1,4 @@
-from open_science.extensions import db
-from open_science import app
-from open_science.models import User, PaperRevision, PrivilegeSet
+from open_science.models import User, PrivilegeSet
 
 def get_potential_reviewers(paper_version_id):
   

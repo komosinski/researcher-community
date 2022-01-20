@@ -1,11 +1,14 @@
-from open_science.models import *
 import datetime as dt
 from flask import url_for
 
-from text_processing.similarity_matrix import create_tfidf_matrix, create_similarities_matrix, save_tfidf_matrix, \
-    save_similarities_matrix
+from open_science import db
+from open_science.models import create_essential_data, PaperRevision, Comment, Review, Paper, Tag, User, PrivilegeSet, \
+    ReviewRequest, VoteComment, MessageToStaff, MessageTopic, NotificationType, Notification, License, Suggestion, \
+    CalibrationPaper, RedFlagComment, RedFlagPaperRevision, RedFlagReview, RedFlagTag, RedFlagUser, \
+    RevisionChangesComponent
 
-from open_science.enums import UserTypeEnum
+from open_science.enums import UserTypeEnum, NotificationTypeEnum
+
 
 def create_test_data():
     create_essential_data()

@@ -1,4 +1,3 @@
-#from flask_migrate import migrate
 from flask import Flask
 from open_science.admin import MyAdminIndexView
 from open_science.extensions import db, login_manager,bcrypt, mail, limiter, scheduler, admin, migrate

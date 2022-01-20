@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 from open_science import db
 from open_science.models import Comment, License, Paper, PaperRevision, Review, Tag, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm
-from flask_login import  current_user
+from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, abort, request
 import datetime as dt
 import ast

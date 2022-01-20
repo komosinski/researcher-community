@@ -3,7 +3,7 @@ from open_science.tokens import generate_password_confirmation_token, generate_a
 from open_science import app, mail, db
 from flask import render_template, url_for
 from threading import Thread
-from open_science.models import EmailLog, EmailType
+from open_science.models import EmailLog
 import datetime as dt
 from sqlalchemy import func
 
