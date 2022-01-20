@@ -82,3 +82,15 @@ class Config(object):
     # how many reviews they agreed to prepare in the last period of time
     REVIEWER_WORKOLOAD_ON_DAYS = int(os.environ.get(
         'REVIEWER_WORKOLOAD_ON_DAYS') or 365)
+
+    # Url to processing text dictionary
+    DICTIONARY_URL = './text_processing_files/dictionary'
+
+    # Url to processing text tfidf matrix
+    TFIDF_MATRIX_URL = './text_processing_files/tfidf_matrix'
+
+    # Url to processing text similarities matrix
+    SIMILARITIES_MATRIX_URL = './text_processing_files/similarities_matrix'
+
+    # Url to processing text users plot
+    USERS_PLOT_URL = './text_processing_files/users_plot'

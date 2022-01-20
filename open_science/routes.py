@@ -1,4 +1,3 @@
-from werkzeug.wrappers import request
 from open_science import app
 from open_science import routes_def as rd
 from open_science.test_data import create_test_data

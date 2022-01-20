@@ -3,8 +3,6 @@ from werkzeug.utils import secure_filename
 from open_science import db
 from open_science.models import Comment, License, Paper, PaperRevision, Review, Tag, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm
-from flask.helpers import url_for
-from flask.templating import render_template
 from flask_login import  current_user
 from flask import render_template, redirect, url_for, flash, abort, request
 import datetime as dt
@@ -13,7 +11,6 @@ from open_science.search import helpers as search_helper
 import json
 import functools
 from flask_login.config import EXEMPT_METHODS
-from open_science.enums import MessageTopicEnum
 from open_science.notification.helpers import create_paper_comment_notifications
 from open_science.review.helpers import prepare_review_requests, NOT_ENOUGHT_RESEARCHERS_TEXT
 

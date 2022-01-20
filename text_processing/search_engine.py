@@ -1,15 +1,12 @@
-from open_science.extensions import db
-from open_science import app
-from open_science.models import User, PaperRevision, PrivilegeSet
-from similarity_matrix import *
-from prepocess_text import *
+from text_processing.prepocess_text import preprocess_text
+from text_processing.similarity_matrix import *
 
 
 # users_dict_id - dictionary of users_id articles_id (example: { user1: [article1, article30], user2: [article3, article10] } )
 # wejscie: id uzytkownika dla ktorego szukamy podobnych, slownik uzytkiowników i ich id_artykułów
 # wyjscie: lista uzytkowników najbardziej podobnych
 def get_similar_users_to_user(user_id, users_dict_id):
-    matrix = get_similarities_matrix_from_db()
+    matrix = get_similarities_matrix()
     users_id = users_dict_id.keys()
     similarities_matrix = {i: [] for i in users_id}
     for users in users_dict_id:
@@ -26,7 +23,7 @@ def get_similar_users_to_user(user_id, users_dict_id):
 
 # wejscie: id artykulu, articles_id_list - lista id artykulow w tej samej kolejnosci co jest dodawana w macierzy
 def get_similar_articles_to_articles(article_id, articles_id_list):
-    matrix = get_similarities_matrix_from_db()
+    matrix = get_similarities_matrix()
     article_index = articles_id_list.index(article_id)
     similar_ranking = [b[0] for b in sorted(enumerate(matrix[int(article_index)]), key=lambda i: i[1], reverse=True)]
     similar_ranking = similar_ranking[1:]
@@ -36,8 +33,8 @@ def get_similar_articles_to_articles(article_id, articles_id_list):
 
 #wejscie: wyszukiwany tekst, Lista z przetworzonym tekstem artykułów (lista stringów), lista id artykulow w tej samej kolejnosci co jest dodawana w macierzy
 def search_articles_by_text(search_text, articles_id_list):
-    matrix = get_tfidf_matrix_from_db()
-    dictionary = get_dictionary_from_db()
+    matrix = get_tfidf_matrix()
+    dictionary = get_dictionary()
     query = preprocess_text(search_text).split()
     query = dictionary.doc2bow(query)
     similarites_array = matrix.get_similarities(query)
@@ -49,7 +46,7 @@ def search_articles_by_text(search_text, articles_id_list):
 #in: id of article, users id and their articles id dictionary
 #out: list of user similar to article
 def get_similar_users_to_article(article_id, users_dict_id):
-    matrix = get_similarities_matrix_from_db()
+    matrix = get_similarities_matrix()
     key_list = list(users_dict_id.keys())
     val_list = list(users_dict_id.values())
     ranking = [b[0] for b in

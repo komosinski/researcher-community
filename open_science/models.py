@@ -1,4 +1,3 @@
-from email.policy import default
 from flask.helpers import url_for
 from sqlalchemy import Table, DDL, event, Sequence
 from sqlalchemy.orm import validates
@@ -600,6 +599,28 @@ class PaperRevision(db.Model):
         similar_revisions = PaperRevision.query.filter(PaperRevision.id.in_(similar_revisions_ids)).paginate().items
 
         return similar_revisions
+
+    def get_similar_users_ids(self):
+        similar_ids = []
+
+        all_users = User.query.all()
+        users_dict_id = {}
+        for user in all_users:
+            users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
+
+        # TODO: uncomment this row when search_by_text starts working
+        # similar_ids = get_similar_users_to_article(self.id, users_dict_id)
+        similar_ids = [1, 2, 3]  # TODO: delete this row when get_similar_users starts working
+
+        return similar_ids
+
+    def get_similar_users(self):
+        similar_users = []
+
+        similar_users_ids = self.get_similar_users_ids()
+        similar_users = User.query.filter(User.id.in_(similar_users_ids)).paginate().items
+
+        return similar_users
 
 
 class Review(db.Model):
@@ -1204,17 +1225,6 @@ class EndorsementRequestLog(db.Model):
                                                        EndorsementRequestLog.date) > date_after,
                                                    EndorsementRequestLog.decision == True).count()
         return count
-
-
-class Matrix(db.Model):
-    __tablename__ = "matrices"
-
-    # primary keys
-    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-
-    # columns
-    name = db.Column(db.String(mc.M_NAME_L), nullable=False)
-    matrix = db.Column(db.Text, nullable=False)
 
 
 # db functions

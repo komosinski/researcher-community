@@ -2,10 +2,18 @@ from matplotlib import pyplot as plt
 from sklearn.decomposition import PCA
 import pandas as pd
 import seaborn as sns
-from search_engine import get_similar_users_to_user
-from similarity_matrix import get_similarities_matrix_from_db
+from open_science import app
+from open_science.models import User
+from text_processing.search_engine import get_similar_users_to_user
 
-def create_users_plot(users_dict_id):
+
+# creates user plot and saves to file with path given in config
+def create_save_users_plot():
+    all_users = User.query.all()
+    users_dict_id = {}
+    for user in all_users:
+        users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
+
     fig, ax = plt.subplots(1, 1, figsize=(10, 10), dpi=100)
     user_matrix = []
     users = list(users_dict_id.keys())
@@ -19,3 +27,6 @@ def create_users_plot(users_dict_id):
     ax.axes.xaxis.set_visible(False)
     ax.axes.yaxis.set_visible(False)
     plt.show()
+
+    # TODO: Save plot to this path
+    users_plot_url = app.config['USERS_PLOT_URL']

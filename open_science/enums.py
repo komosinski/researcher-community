@@ -43,10 +43,3 @@ class MessageTopicEnum(Enum):
     ENDORSEMENT = 2
     TECHNICAL_ISSUES = 3
     CORRETIONCS = 4
-
-
-@unique
-class MatrixEnum(Enum):
-
-    TFIDF = 1
-    SIMILARITIES = 2
