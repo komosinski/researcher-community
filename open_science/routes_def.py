@@ -158,6 +158,9 @@ def view_article(id):
         pv = PaperRevision.query.filter(and_(PaperRevision.parent_paper == id, PaperRevision.version == version)).first_or_404()
     commentForm = CommentForm(refObject="paper", refObjectID = pv.id)
 
+    user_liked_comments = [vote.rel_to_comment for vote in current_user.rel_comment_votes_created if vote.is_up]
+    user_disliked_comments = [vote.rel_to_comment for vote in current_user.rel_comment_votes_created if not vote.is_up]
+
     if commentForm.validate_on_submit():
         comment = Comment(
             text=commentForm.content.data,
@@ -199,11 +202,14 @@ def view_article(id):
         # reviewMean = sum(review_scores)/review_weight_sum
     else:
         reviewMean = 0
-    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], score=reviewMean, form=commentForm)
+    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], score=reviewMean, form=commentForm, user_liked_comments=user_liked_comments, user_disliked_comments=user_disliked_comments)
 
 def like():
+    # print(request.json)
+    # print(request.content)
+    # print(request.data)
     likeType = request.json.get('type')
-    aid = request.json.get('article-id')
+    aid = request.json.get('article_id')
     action = request.json.get('action')
 
     if None in [likeType, aid, action]:
@@ -232,6 +238,35 @@ def like():
     like.rel_creator = current_user
 
     db.session.commit()
+
+    return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+
+
+def verify_user_liked():
+    try:
+        user_id = int(request.json.get('userID'))
+        comment_id = int(request.json.get('commentID'))
+    except ValueError:
+        return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
+
+    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id)).first() is not None:
+        return json.dumps({'result': True}), 200, {'ContentType': 'application/json'}
+    else:
+        return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
+
+def delete_like():
+    try:
+        user_id = int(request.json.get('userID'))
+        comment_id = int(request.json.get('commentID'))
+    except ValueError:
+        abort(400)
+
+    try:
+        VoteComment.query.filter(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id)).delete()
+        db.session.commit()
+    except Exception:
+        # probably should be something else here
+        abort(400)
 
     return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
 

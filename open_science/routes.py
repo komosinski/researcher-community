@@ -109,11 +109,14 @@ def upload_file_page():
 @app.route('/action/like', methods=['POST'])
 def addLike():
     return rd.like()
-# # TODO: complete this endpoint
-# @app.route('/article/add', methods=['POST'])
-# def uploadArticle():
-#     return rd.uploadArticle(request)
 
+@app.route('/action/verify_liked', methods=['POST'])
+def verify_like():
+    return rd.verify_user_liked()
+
+@app.route('/action/delete-like', methods=['POST'])
+def like_delete():
+    return rd.delete_like()
 
 @app.route('/search/results')
 def search_papers_page():

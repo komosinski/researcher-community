@@ -12,6 +12,26 @@
     display: none !important;
 }
 
+.like-icon {
+    margin-right: 8px;
+}
+
+.like-icon:hover {
+    color: rgb(29, 189, 29);
+}
+
+.like-pressed {
+    color: rgb(29, 189, 29) !important;
+}
+
+.dislike-icon:hover,.dislike-pressed {
+    color: red;
+}
+
+.reply-action-wrapper {
+    margin-top: 12px;
+}
+
 #reply-info-wrapper {
     display: flex;
     align-items: center;
