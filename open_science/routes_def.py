@@ -355,5 +355,18 @@ def contact_staff_page():
     return render_template('help/contact_staff.html', form=form)
 
 
-def test_text_preprocessing():
+def test_text_preprocessing():   
     return 'test'
+
+
+def about_page():
+    return render_template('about.html')
+
+
+def privacy_page():
+    return render_template('privacy.html')
+
+
+def forum_page():
+    return render_template('forum.html')
+

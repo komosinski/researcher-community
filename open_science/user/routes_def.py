@@ -57,20 +57,40 @@ def register_page():
             #     pdf_url = "",
             #     preprocessed_text = Mocks.get_text(url)
             # ))
+        user_to_create = User.query.filter(User.email == form.email.data,
+                                           User.registered_on.is_(None))
 
-        user_to_create = User(first_name=form.first_name.data,
-                              second_name=form.second_name.data,
-                              email=form.email.data,
-                              plain_text_password=form.password.data,
-                              affiliation=form.affiliation.data,
-                              orcid=form.orcid.data,
-                              google_scholar=form.google_scholar.data,
-                              about_me=form.about_me.data,
-                              personal_website=form.personal_website.data,
-                              review_mails_limit=form.review_mails_limit.data,
-                              notifications_frequency=form.notifications_frequency.data,
-                              registered_on=dt.datetime.utcnow())
-        user_to_create.rel_privileges_set = ps_standard_user
+        # check if user exists because is co-author of someone's paper
+        if user_to_create:
+            user_to_create.first_name = form.first_name.data
+            user_to_create.second_name = form.second_name.data
+            user_to_create.plain_text_password = form.password.data
+            user_to_create.affiliation = form.affiliation.data
+            user_to_create.orcid = form.orcid.data
+            user_to_create.google_scholar = form.google_scholar.data
+            user_to_create.about_me = form.about_me.data
+            user_to_create.personal_website = form.personal_website.data
+            user_to_create.review_mails_limit = form.review_mails_limit.data
+            user_to_create.notifications_frequency = \
+                form.notifications_frequency.data
+            user_to_create.registered_on = dt.datetime.utcnow()
+        else:
+            user_to_create = User(first_name=form.first_name.data,
+                                  second_name=form.second_name.data,
+                                  email=form.email.data,
+                                  plain_text_password=form.password.data,
+                                  affiliation=form.affiliation.data,
+                                  orcid=form.orcid.data,
+                                  google_scholar=form.google_scholar.data,
+                                  about_me=form.about_me.data,
+                                  personal_website=form.personal_website.data,
+                                  review_mails_limit=form
+                                  .review_mails_limit.data,
+                                  notifications_frequency=form.
+                                  notifications_frequency.data,
+                                  registered_on=dt.datetime.utcnow())
+            user_to_create.rel_privileges_set = ps_standard_user
+        # TODO: check if .add should fire when user already exists
         db.session.add(user_to_create)
         db.session.flush()
 

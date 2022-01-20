@@ -52,9 +52,8 @@ def send_notifiactions_count():
     all_users = User.query.filter(User.confirmed.is_(True)).all()
 
     for user in all_users:
-        if user.is_active():
+        if user.is_active() and user.notifications_frequency > 0:
             count = user.get_new_notifications_count()
-            print(count)
             if count != 0:
                 last_emails = em.get_emails_count_to_address_last_days(
                     user.email,

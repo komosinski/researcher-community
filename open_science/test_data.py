@@ -2030,11 +2030,4 @@ def create_test_data():
 
     db.session.commit()
 
-    # matrices
-    tfidf = create_tfidf_matrix()
-    similarities = create_similarities_matrix()
-
-    save_tfidf_matrix(tfidf)
-    save_similarities_matrix(similarities)
-
     return True
