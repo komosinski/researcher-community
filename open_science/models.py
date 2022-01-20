@@ -19,8 +19,9 @@ from open_science.enums import UserTypeEnum, EmailTypeEnum, \
 from open_science.config.auto_endorse_config import EMAIL_REGEXPS
 import re
 
-from text_processing.search_engine import get_similar_articles_to_articles, get_similar_users_to_article, \
-    get_similar_users_to_user
+# from text_processing.search_engine import se.get_similar_articles_to_articles, get_similar_users_to_article, \
+#     get_similar_users_to_user
+import text_processing.search_engine as se
 
 
 @login_manager.user_loader
@@ -303,7 +304,7 @@ class User(db.Model, UserMixin):
         for user in all_users:
             users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
 
-        similar_ids = get_similar_users_to_user(self.id, users_dict_id)
+        similar_ids = se.get_similar_users_to_user(self.id, users_dict_id)
 
         return similar_ids
 
@@ -609,7 +610,7 @@ class PaperRevision(db.Model):
         all_calibration_ids = [calibration.id for calibration in CalibrationPaper.query.all()]
         articles_id_list = sorted(all_revisions_ids + all_calibration_ids)
 
-        similar_ids = get_similar_articles_to_articles(self.id, articles_id_list)
+        similar_ids = se.get_similar_articles_to_articles(self.id, articles_id_list)
 
         similar_revisions_ids = [id for id in similar_ids if id in all_revisions_ids]
 
@@ -631,7 +632,7 @@ class PaperRevision(db.Model):
         for user in all_users:
             users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
 
-        similar_ids = get_similar_users_to_article(self.id, users_dict_id)
+        similar_ids = se.get_similar_users_to_article(self.id, users_dict_id)
 
         return similar_ids
 

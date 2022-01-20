@@ -2,15 +2,16 @@ from gensim import corpora, models, similarities
 from gensim.utils import simple_preprocess
 import numpy as np
 from open_science import app
-from open_science.models import PaperRevision, CalibrationPaper
+# from open_science.models import PaperRevision, CalibrationPaper
+import open_science.models as models
 
 
 # returns list with all calibration papers and paper revisions preprocessed texts
 def get_all_papers_texts():
     all_paper_texts = []
 
-    all_paper_revisions = PaperRevision.query.all()
-    all_calibration_papers = CalibrationPaper.query.all()
+    all_paper_revisions = models.PaperRevision.query.all()
+    all_calibration_papers = models.CalibrationPaper.query.all()
     all_papers = sorted(all_paper_revisions + all_calibration_papers, key=lambda paper: paper.id)
     all_paper_texts = [paper.preprocessed_text for paper in all_papers]
 
