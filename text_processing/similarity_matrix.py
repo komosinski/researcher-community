@@ -5,17 +5,6 @@ from open_science import app
 from open_science.models import PaperRevision, CalibrationPaper
 
 
-def file_to_matrix(path):
-    tfidf_similarities = corpora.MmCorpus.load(path)
-    tfidf_matrix = np.array(tfidf_similarities, dtype="float64")
-    return tfidf_matrix
-
-def matrix_to_file(tfidf_matrix):
-    path = 'tfidf_matrix.mm'
-    tfidf_matrix.save(path)
-    save_tfidf_matrix(path)
-
-
 # returns list with all calibration papers and paper revisions preprocessed texts
 def get_all_papers_texts():
     all_paper_texts = []
