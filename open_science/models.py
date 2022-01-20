@@ -1,3 +1,4 @@
+from email.policy import default
 from flask.helpers import url_for
 from sqlalchemy import Table, DDL, event, Sequence
 from sqlalchemy.orm import validates
@@ -9,7 +10,8 @@ from open_science.admin import MyModelView, UserView, MessageToStaffView
 import datetime as dt
 from sqlalchemy import func
 from open_science import app
-from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum, MessageTopicEnum
+from open_science.enums import UserTypeEnum, EmailTypeEnum, \
+    NotificationTypeEnum, MessageTopicEnum
 from open_science.config.auto_endorse_config import EMAIL_REGEXPS
 import re
 
@@ -84,7 +86,10 @@ class User(db.Model, UserMixin):
                       nullable=False, unique=True)
     password_hash = db.Column(
         db.String(length=mc.USER_PASS_HASH_L), nullable=False)
+
+    # Empty if user is not registered paper's co-author
     registered_on = db.Column(db.DateTime, nullable=True)
+
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     confirmed_on = db.Column(db.DateTime, nullable=True)
     affiliation = db.Column(db.String(length=mc.USER_AFFILIATION_L))
@@ -94,8 +99,11 @@ class User(db.Model, UserMixin):
     personal_website = db.Column(db.String(length=mc.USER_PERSONAL_WEBSITE_L))
     review_mails_limit = db.Column(db.Integer(), nullable=False, default=1)
     notifications_frequency = db.Column(db.Integer(), nullable=False)
-    # holds a new email address before being validated or information about attempt to delete account 'DELETE_PROFILE_ATTEMPT'
+
+    # Holds a new email address before being validated or information
+    # about attempt to delete account 'DELETE_PROFILE_ATTEMPT'
     new_email = db.Column(db.String(length=mc.USER_NEW_MAIL_L), unique=True)
+
     has_photo = db.Column(db.Boolean, nullable=False, default=False)
     last_seen = db.Column(db.DateTime, nullable=True)
     weight = db.Column(db.Float, nullable=False, default=1.0)
@@ -103,8 +111,10 @@ class User(db.Model, UserMixin):
     reputation = db.Column(db.Integer(), default=100, nullable=False)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
     force_show = db.Column(db.Boolean, nullable=False, default=False)
+
     # Field only visible to administrators. Store issues related to account
     remarks = db.Column(db.String(length=mc.USER_REMARKS_L), nullable=True)
+
     is_deleted = db.Column(db.Boolean, nullable=True)
 
     # foreign keys
@@ -206,24 +216,28 @@ class User(db.Model, UserMixin):
                 endorser_priviliege_id == UserTypeEnum.RESEARCHER_USER.value:
             endorsement_log = EndorsementRequestLog \
                 .query.filter(
-                EndorsementRequestLog.user_id == self.id,
-                EndorsementRequestLog.endorser_id == endorser_id) \
+                    EndorsementRequestLog.user_id == self.id,
+                    EndorsementRequestLog.endorser_id == endorser_id) \
                 .first()
             if endorsement_log:
                 return False
-            elif EndorsementRequestLog.get_endorsement_request_count(self.id, 1) < app.config['REQUEST_ENDORSEMENT_L']:
+            elif EndorsementRequestLog. \
+                    get_endorsement_request_count(self.id, 1) \
+                    < app.config['REQUEST_ENDORSEMENT_L']:
                 return True
 
         return False
 
     def obtained_required_endorsement(self):
 
-        if EndorsementRequestLog.get_endorsement_request_count(self.id, 365) >= app.config['ENDORSEMENT_THRESHOLD']:
+        if EndorsementRequestLog.get_endorsement_request_count(self.id, 365) \
+           >= app.config['ENDORSEMENT_THRESHOLD']:
             return True
         return False
 
     def get_orcid(self):
-        return f'{self.orcid[:4]}-{self.orcid[4:8]}-{self.orcid[8:12]}-{self.orcid[12:]}'
+        return f'{self.orcid[:4]}-{self.orcid[4:8]}-\
+            {self.orcid[8:12]}-{self.orcid[12:]}'
 
     # TODO: change display format
     def get_google_scholar(self):
@@ -231,12 +245,15 @@ class User(db.Model, UserMixin):
 
     def get_reviews_count(self):
         return Review.query.filter(Review.creator == self.id,
-                                   Review.is_hidden == False, Review.is_anonymous == False,
-                                   Review.publication_datetime != None).count()
+                                   Review.is_hidden == False,
+                                   Review.is_anonymous == False,
+                                   Review.publication_datetime != None) \
+                                   .count()
 
     def can_create_tag(self):
         count = Tag.query.filter(Tag.creator == self.id,
-                                 Tag.creation_date == dt.datetime.utcnow().date()) \
+                                 Tag.creation_date == dt.datetime.utcnow()
+                                 .date()) \
             .count()
         if self.privileges_set >= UserTypeEnum.RESEARCHER_USER.value \
                 and count < app.config['TAGS_L']:
@@ -259,7 +276,8 @@ class User(db.Model, UserMixin):
     def endorse(self):
         if self.privileges_set < UserTypeEnum.RESEARCHER_USER.value:
             self.rel_privileges_set = PrivilegeSet.query.filter(
-                PrivilegeSet.id == User.user_types_enum.RESEARCHER_USER.value).first()
+                PrivilegeSet.id == User.user_types_enum.RESEARCHER_USER.value)\
+                    .first()
             db.session.commit()
 
     def try_endorse_with_email(self):
@@ -288,7 +306,8 @@ class User(db.Model, UserMixin):
         similar_users = []
 
         similar_users_ids = self.get_similar_users_ids()
-        similar_users = User.query.filter(User.id.in_(similar_users_ids)).paginate().items
+        similar_users = User.query.filter(User.id.in_(similar_users_ids))\
+            .paginate().items
 
         return similar_users
 
@@ -371,7 +390,8 @@ class PrivilegeSet(db.Model):
 
     def insert_types():
         for t in UserTypeEnum:
-            if not PrivilegeSet.query.filter(PrivilegeSet.name == t.name).first():
+            if not PrivilegeSet.query.filter(PrivilegeSet.name == t.name)\
+                    .first():
                 privilege_set = PrivilegeSet(id=t.value, name=t.name)
                 db.session.add(privilege_set)
         db.session.commit()
@@ -551,8 +571,8 @@ class PaperRevision(db.Model):
             'publication_date': self.publication_date,
             'version': self.version,
             'show_url': url_for('article', id=self.parent_paper),
-            # TODO: change edit_url
-            'edit_url': url_for('article', id=self.id)
+            # TODO: change new_verison
+            'new_verison_url': url_for('article', id=self.parent_paper)
         }
 
     def get_published_reviews_list(self):
@@ -622,6 +642,13 @@ class PaperRevision(db.Model):
 
         return similar_users
 
+    def get_previous_revisions(self):
+        all_revisions = self.rel_parent_paper.rel_related_versions
+        previous_revisions = []
+        for revision in all_revisions:
+            if revision.version < self.version:
+                previous_revisions.append(revision)
+        return previous_revisions
 
 class Review(db.Model):
     __tablename__ = "reviews"
@@ -818,17 +845,16 @@ class Comment(db.Model):
         paper_verison = self.rel_related_paper_version
         if paper_verison:
             refers_to = 'Paper'
-            show_url = url_for('article', id=paper_verison.parent_paper)
+            show_url = url_for('article',
+                               id=paper_verison.parent_paper,
+                               version=paper_verison.version) \
+                + f'#c{self.id}'
 
         review = self.rel_related_review
         if review:
             refers_to = 'Review'
-            show_url = url_for('review_page', review_id=review.id)
-
-        comment = self.rel_related_comment
-        if comment:
-            # TODO: check Type of comment(under Review/paper/comment) and prepare url
-            refers_to = 'Comment'
+            show_url = url_for('review_page', review_id=review.id) \
+                + f'#c{self.id}'
 
         return {
             'id': self.id,
@@ -993,7 +1019,7 @@ class Notification(db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
-    datetime = db.Column(db.DateTime, nullable=True)
+    datetime = db.Column(db.DateTime, nullable=False, default=dt.datetime.utcnow())
     title = db.Column(
         db.String(length=mc.NOTIFICATION_TITLE_L), nullable=False)
     text = db.Column(db.String(length=mc.NOTIFICATION_TEXT_L), nullable=False)

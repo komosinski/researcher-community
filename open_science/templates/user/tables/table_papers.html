@@ -4,7 +4,7 @@
         <th>Title</th>            
         <th>Version</th>
         <th>Publication date</th> 
-        <th>Edit</th>
+        <th>Upload new revision</th>
       </tr>
     </thead>
     <tbody>
@@ -27,15 +27,15 @@
           {data: 'title'},
           {data: 'version'},
           {data: 'publication_date'},
-          {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false }
+          {"defaultContent": "<button class='dt-upload-btn'>New revision</button>", orderable: false }
         ],
       });
 
 
 
-    $('#data_papers').on('click', '.dt-edit-btn', function (e) {
+    $('#data_papers').on('click', '.dt-upload-btn', function (e) {
       e.stopPropagation();
-      const url = table.row($(this).closest('tr')).data().edit_url;
+      const url = table.row($(this).closest('tr')).data().new_verison_url;
       window.location.assign(url);
     });
 

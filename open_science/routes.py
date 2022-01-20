@@ -283,3 +283,18 @@ def get_all_tags_data():
 def test_text_preprocessing():
     return rd.test_text_preprocessing()
 
+
+@app.route('/about')
+def about_page():
+    return rd.about_page()
+
+
+@app.route('/privacy')
+def privacy_page():
+    return rd.privacy_page()
+
+
+@app.route('/forum')
+def forum_page():
+    return rd.forum_page()
+
