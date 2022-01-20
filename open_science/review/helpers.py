@@ -57,6 +57,15 @@ def select_reviewers(paper_revision):
 
     users_who_declined_ids = set([rev.id for rev in paper_review_requests])
 
+    # If a new revision of the paper needs to be reviewed, first the reviewers of previous revision(s) are asked
+    previous_reviewers = []
+    previous_reviewers_ids = set()
+    if paper_revision.version > 1:
+        for revision in paper_revision.get_previous_revisions():
+            for review in revision.rel_related_reviews:
+                previous_reviewers_ids.update(review.creator)
+
+
     for user in users:
         if user.is_active() is False:
             continue
@@ -73,12 +82,18 @@ def select_reviewers(paper_revision):
             continue
         elif user.id in users_who_declined_ids:
             continue
+        elif user.id in previous_reviewers_ids:
+            previous_reviewers.append(user)
         else:
             potential_reviewers.append(user)
 
     potential_reviewers.sort(key=lambda x: x.get_review_workload())
 
-    return potential_reviewers
+    if not previous_reviewers:
+        return potential_reviewers
+    else:
+        previous_reviewers.sort(key=lambda x: x.get_review_workload())
+        return previous_reviewers + potential_reviewers
 
 
 # returns False is there are not enough researchers with similar profiles

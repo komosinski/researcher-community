@@ -3,8 +3,6 @@ from werkzeug.utils import secure_filename
 from open_science import db
 from open_science.models import Comment, License, Paper, PaperRevision, Review, Tag, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm
-from flask.helpers import url_for
-from flask.templating import render_template
 from flask_login import  current_user
 from flask import render_template, redirect, url_for, flash, abort, request
 import datetime as dt
@@ -13,7 +11,6 @@ from open_science.search import helpers as search_helper
 import json
 import functools
 from flask_login.config import EXEMPT_METHODS
-from open_science.enums import MessageTopicEnum
 from open_science.notification.helpers import create_paper_comment_notifications
 from open_science.review.helpers import prepare_review_requests, NOT_ENOUGHT_RESEARCHERS_TEXT
 
@@ -192,6 +189,7 @@ def view_article(id):
 
         return redirect(url_for("article", id=id))
 
+<<<<<<< HEAD
     if pv.rel_related_reviews:
         review_scores = [
             review.review_score for review in pv.rel_related_reviews]
@@ -203,6 +201,9 @@ def view_article(id):
     else:
         reviewMean = 0
     return render_template("article/view.html", article=pv, similar=[pv, pv, pv], score=reviewMean, form=commentForm, user_liked_comments=user_liked_comments, user_disliked_comments=user_disliked_comments)
+=======
+    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], form=commentForm)
+>>>>>>> b86ee688e96c667652b4637dcb9e575d992cb112
 
 def like():
     # print(request.json)
@@ -400,5 +401,18 @@ def contact_staff_page():
     return render_template('help/contact_staff.html', form=form)
 
 
-def test_text_preprocessing():
+def test_text_preprocessing():   
     return 'test'
+
+
+def about_page():
+    return render_template('about.html')
+
+
+def privacy_page():
+    return render_template('privacy.html')
+
+
+def forum_page():
+    return render_template('forum.html')
+

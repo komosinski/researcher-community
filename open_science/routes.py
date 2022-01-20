@@ -1,4 +1,3 @@
-from werkzeug.wrappers import request
 from open_science import app
 from open_science import routes_def as rd
 from open_science.test_data import create_test_data
@@ -286,4 +285,19 @@ def get_all_tags_data():
 @app.route('/test')
 def test_text_preprocessing():
     return rd.test_text_preprocessing()
+
+
+@app.route('/about')
+def about_page():
+    return rd.about_page()
+
+
+@app.route('/privacy')
+def privacy_page():
+    return rd.privacy_page()
+
+
+@app.route('/forum')
+def forum_page():
+    return rd.forum_page()
 

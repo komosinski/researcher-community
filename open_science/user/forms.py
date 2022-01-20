@@ -40,9 +40,11 @@ def validate_password_with_userdata(form, password):
 
 def validate_email(self, email):
     user_with_email_address = User.query.filter_by(email=email.data).first()
-    if user_with_email_address:
+    if user_with_email_address \
+       and user_with_email_address.registered_on:
         raise ValidationError(
-            'That email address is already in use, please use a different email address')
+            'That email address is already in use, \
+            please use a different email address')
 
 
 def validate_orcid(self, orcid):
@@ -53,7 +55,8 @@ def validate_orcid(self, orcid):
         correct = True
     elif re.search(r"^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$", orcid.data):
         correct = True
-    elif re.search(r"^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}X$", orcid.data.upper()):
+    elif re.search(r"^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}X$",
+                   orcid.data.upper()):
         correct = True
 
     if not correct:
@@ -65,13 +68,17 @@ def validate_orcid(self, orcid):
 class RegisterForm(FlaskForm):
 
     first_name = StringField(label='First Name', validators=[
-                             Length(min=2, max=mc.USER_FIRST_NAME_L), DataRequired()])
+                             Length(min=2,
+                                    max=mc.USER_FIRST_NAME_L),
+                             DataRequired()])
     second_name = StringField(label='Second Name', validators=[
-                              Length(min=2, max=mc.USER_SECOND_NAME_L), DataRequired()])
+                              Length(min=2, max=mc.USER_SECOND_NAME_L),
+                              DataRequired()])
     email = StringField(label='Email Address', validators=[
                         Email(), DataRequired(), validate_email])
     password = PasswordField(label='Password', validators=[Length(
-        min=8, max=32), DataRequired(), validate_password, validate_password_with_userdata])
+        min=8, max=32), DataRequired(), validate_password,
+        validate_password_with_userdata])
     password_confirm = PasswordField(label='Confirm Password', validators=[
                                      EqualTo('password'), DataRequired()])
 
@@ -80,18 +87,24 @@ class RegisterForm(FlaskForm):
     orcid = StringField(label='ORCID(Optional)', validators=[Length(
         min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
     google_scholar = StringField(label='Google scholar(Optional)', validators=[
-                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional()])
+                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L),
+                                 Optional()])
     about_me = TextAreaField(label='About me(Optional)', validators=[
                              Length(max=mc.USER_ABOUT_ME_L), Optional()])
-    personal_website = StringField(label='Personal website(Optional)', validators=[
-                                   Length(max=mc.USER_PERSONAL_WEBSITE_L), Optional()])
+    personal_website = StringField(label='Personal website(Optional)',
+                                   validators=[
+                                               Length(max=mc.USER_PERSONAL_WEBSITE_L),
+                                               Optional()])
     review_mails_limit = SelectField(choices=[1, 2, 3, 4, 0])
     notifications_frequency = SelectField(choices=[(
-        1, '1 day'), (3, '3 days'), (7, '1 week'), (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
+        1, '1 day'), (3, '3 days'), (7, '1 week'),
+        (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
     profile_image = FileField(label='Profile image', validators=[
-                              Optional(), FileAllowed(['jpg', 'png'], 'Images only!')])
+                              Optional(), FileAllowed(['jpg', 'png'],
+                                                      'Images only!')])
 
-    calibration_files = MultipleFileField(label="Upload calibration papers", validators=[FileAllowed('pdf')])
+    calibration_files = MultipleFileField(label="Upload calibration papers",
+                                          validators=[FileAllowed('pdf')])
 
     # recaptcha = RecaptchaField()
 
@@ -123,7 +136,7 @@ class AccountRecoveryForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if not user:
             raise ValidationError('Invalid email address')
-        if user.confirmed == False:
+        if user.confirmed is False:
             raise ValidationError('Email address is not confirmed')
 
     email = StringField(label='Email Address', validators=[
@@ -172,12 +185,17 @@ class EditProfileForm(FlaskForm):
                               Length(max=mc.USER_AFFILIATION_L), Optional()])
     orcid = StringField(label='ORCID (Optional)', validators=[Length(
         min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
-    google_scholar = StringField(label='Google scholar (Optional)', validators=[
-                                 Length(max=mc.USER_GOOGLE_SCHOLAR_L), Optional()])
+    google_scholar = StringField(label='Google scholar (Optional)',
+                                 validators=[
+                                             Length(max=mc.USER_GOOGLE_SCHOLAR_L),
+                                             Optional()])
     about_me = TextAreaField(label='About me (Optional)', validators=[
                              Length(max=mc.USER_ABOUT_ME_L), Optional()])
-    personal_website = StringField(label='Personal website (Optional)', validators=[
-                                   Length(max=mc.USER_PERSONAL_WEBSITE_L), Optional()])
+    personal_website = StringField(label='Personal website (Optional)',
+                                   validators=[
+                                               Length(
+                                                      max=mc.USER_PERSONAL_WEBSITE_L),
+                                               Optional()])
     review_mails_limit = SelectField(choices=[1, 2, 3, 4, 0])
     notifications_frequency = SelectField(choices=[(
         1, '1 day'), (3, '3 days'), (7, '1 week'), (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
