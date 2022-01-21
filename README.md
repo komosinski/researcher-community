@@ -95,7 +95,7 @@ On Linux in your virtual environment type:
 
     flask run
  
-On Windows you must do the same but in virtual environment located in the WSL.
+On Windows you must do the same but remember to using WSL.
  
 Initializing test data
 ------------
