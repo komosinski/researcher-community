@@ -65,6 +65,11 @@ def review_edit_page(review_id):
 
     review = Review.query.filter(Review.id == review_id).first_or_404()
 
+    if review.can_be_edited() is False:
+        flash('Review can\'t be edited due to new paper\'s revison',
+              category='warning')
+        return redirect(url_for('profile_page', user_id=current_user.id))
+
     suggestions = [s.to_dict() for s in review.rel_suggestions]
 
     previous_reviews = review.get_previous_creator_reviews()
@@ -186,7 +191,8 @@ def review_page(review_id):
                     version=review.rel_related_paper_version.version),
         'creator_id':  creator.id,
         'creator_first_name': creator.first_name,
-        'creator_second_name': creator.second_name
+        'creator_second_name': creator.second_name,
+        'paper_title': review.rel_related_paper_version.title
     }
 
     return render_template('review/review.html', review=review, data=data)

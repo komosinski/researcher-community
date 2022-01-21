@@ -13,6 +13,7 @@ import functools
 from flask_login.config import EXEMPT_METHODS
 from open_science.notification.helpers import create_paper_comment_notifications
 from open_science.review.helpers import prepare_review_requests, NOT_ENOUGHT_RESEARCHERS_TEXT
+from open_science.db_helper import get_hidden_filter
 
 # Routes decorator
 def researcher_user_required(func):
@@ -343,13 +344,15 @@ def advanced_search_tags_page(page, search_data, order_by):
 def reviews_list_page(page, search_data, order_by):
     if isinstance(search_data, str):
         search_data = ast.literal_eval(search_data)
+    
 
     page = int(page)
     user_id = int(search_data['user_id'])
     reviews = []
     order = Review.publication_datetime.desc()
     reviews = Review.query.filter(Review.creator == user_id,
-                                  Review.is_hidden == False, Review.is_anonymous == False,
+                                  get_hidden_filter(Review),
+                                  Review.is_anonymous == False,
                                   Review.publication_datetime != None).order_by(order).paginate(page=page, per_page=30)
 
     if reviews.pages == 0:
@@ -387,7 +390,7 @@ def contact_staff_page():
     return render_template('help/contact_staff.html', form=form)
 
 
-def test_text_preprocessing():   
+def test_text_preprocessing():
     return 'test'
 
 

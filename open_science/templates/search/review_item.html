@@ -4,13 +4,18 @@
             <div class="">
                 
                 <p><strong>Paper title: </strong>
-                    <a class="" href="{{ url_for('article',id=item.related_paper_version)}}">
+                    <a class="" href="
+                        {{url_for('article',
+                        id=item.rel_related_paper_version.parent_paper,
+                        version=item.rel_related_paper_version.version)}}">
                         {{item.get_paper_title()}}
                     </a>
                 </p>
-              
+                <p>
+                    <strong> Review:</strong> 
+                    <a href="{{url_for('review_page',review_id=item.id)}}">link</a>
+                </p>
                 <p><strong>Date: </strong> {{item.publication_datetime.strftime("%Y-%m-%d %H:%M")}}</p>
-                <p><strong>Review's score: </strong> {{item.review_score}}</p>
             </div>
         </div>
     </article>

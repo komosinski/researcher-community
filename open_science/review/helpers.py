@@ -43,11 +43,24 @@ def select_reviewers(paper_revision):
     creators = paper_revision.rel_creators
     co_authors_ids = set()
     days = app.config['EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS']
+
+    #those for whom the current authors reviewed any paper within n-days
+    # are removed
+    reviewed_users_ids = set()
+
     for creator in creators:
         for paper_revision in creator.rel_created_paper_revisions:
             co_authors_ids \
                 .update(paper_revision.get_paper_co_authors_ids(days))
+ 
+        ids = creator\
+            .get_users_ids_whose_user_reviewed(
+                app
+                .config['EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS']
+                )
 
+        reviewed_users_ids.update(ids)
+        
     # Users who declined to review this paper are removed.
     paper_revisions_ids = [rev.id for rev in paper_revision.rel_parent_paper.rel_related_versions]
     paper_review_requests = ReviewRequest \
@@ -57,14 +70,14 @@ def select_reviewers(paper_revision):
 
     users_who_declined_ids = set([rev.id for rev in paper_review_requests])
 
-    # If a new revision of the paper needs to be reviewed, first the reviewers of previous revision(s) are asked
+    # If a new revision of the paper needs to be reviewed,
+    # first the reviewers of previous revision(s) are asked
     previous_reviewers = []
     previous_reviewers_ids = set()
     if paper_revision.version > 1:
         for revision in paper_revision.get_previous_revisions():
             for review in revision.rel_related_reviews:
                 previous_reviewers_ids.update(review.creator)
-
 
     for user in users:
         if user.is_active() is False:
@@ -76,11 +89,14 @@ def select_reviewers(paper_revision):
         elif user.get_current_review_mails_limit() == 0:
             continue
         elif user.id in [request.requested_user for request in
-                        paper_revision.rel_related_review_requests]:
+                         paper_revision
+                         .rel_related_review_requests]:
             continue
         elif user.id in co_authors_ids:
             continue
         elif user.id in users_who_declined_ids:
+            continue
+        elif user.id in reviewed_users_ids:
             continue
         elif user.id in previous_reviewers_ids:
             previous_reviewers.append(user)

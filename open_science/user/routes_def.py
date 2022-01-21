@@ -245,7 +245,7 @@ def profile_page(user_id):
     if not user or user.confirmed is False or user.is_deleted is True:
         flash('User does not exists', category='error')
         return redirect(url_for('home_page'))
-    # TODO: limit reviews to submitted reviews
+  
     data = {
         'articles_num': len(user.rel_created_paper_revisions),
         'reputation': user.reputation,

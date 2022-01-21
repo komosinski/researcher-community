@@ -78,6 +78,12 @@ class Config(object):
     EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS = int(os.environ.get(
         'EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS') or 730)
 
+    # Exclusion of a reviewer
+    # for whom the current authors reviewed any paper
+    # within the last n-days
+    EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS = int(os.environ.get(
+        'EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS') or 730)
+
     # To calculate workload of researchers
     # how many reviews they agreed to prepare in the last period of time
     REVIEWER_WORKOLOAD_ON_DAYS = int(os.environ.get(

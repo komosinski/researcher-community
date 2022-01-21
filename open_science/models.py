@@ -1,6 +1,7 @@
 from flask.helpers import url_for
 from sqlalchemy import Table, DDL, event, Sequence
 from sqlalchemy.orm import validates
+from operator import and_, or_
 
 from open_science.db_queries import q_update_comment_score, q_update_user_red_flags_count, q_update_tag_red_flags_count, \
     q_update_review_red_flags_count, q_update_user_reputation, q_update_revision_red_flags_count, \
@@ -253,8 +254,11 @@ class User(db.Model, UserMixin):
 
     def get_reviews_count(self):
         return Review.query.filter(Review.creator == self.id,
-                                   Review.is_hidden == False,
-                                   Review.is_anonymous == False,
+                                   and_(or_(Review.force_show.is_(True),
+                                        Review.red_flags_count
+                                        < app.config['RED_FLAGS_THRESHOLD']),
+                                        Review.force_hide.is_(False)),
+                                   Review.is_anonymous.is_(False),
                                    Review.publication_datetime != None) \
                                    .count()
 
@@ -379,6 +383,19 @@ class User(db.Model, UserMixin):
         else:
             return False
 
+    def get_users_ids_whose_user_reviewed(self, days=10000):
+        users = set()
+        date_after = dt.datetime.utcnow() - dt.timedelta(days=days)
+
+        for review in self.rel_created_reviews:
+            if (review.publication_datetime
+                and review.publication_datetime >= date_after)\
+                    or review.deadline_date >= date_after.date():
+
+                for author in review.rel_related_paper_version.rel_creators:
+                    users.update(author.id)
+        return users
+
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
@@ -464,7 +481,7 @@ class Paper(db.Model):
         "PaperRevision", back_populates="rel_parent_paper")
 
     def get_latest_revision(self):
-        return max(self.rel_related_versions, key=lambda v: v.publication_date)
+        return max(self.rel_related_versions, key=lambda v: v.version)
 
     # TODO: I think this new dict conversion will be better and should maintain backwards compatibility
     # However, in case of problems just uncomment the old version below
@@ -590,8 +607,11 @@ class PaperRevision(db.Model):
     def get_active_accepted_review_requests_count(self):
         count = 0
         for review_request in self.rel_related_review_requests:
-            if review_request.decision is True and \
-                    review_request.deadline_date <= dt.datetime.utcnow().date():
+            if review_request.decision is True:
+                count += 1
+            elif review_request.decision is None and \
+                    review_request.deadline_date\
+                    >= dt.datetime.utcnow().date():
                 count += 1
         return count
 
@@ -651,6 +671,7 @@ class PaperRevision(db.Model):
             if revision.version < self.version:
                 previous_revisions.append(revision)
         return previous_revisions
+
 
 class Review(db.Model):
     __tablename__ = "reviews"
@@ -751,6 +772,13 @@ class Review(db.Model):
 
         return previous_reviews
 
+    def can_be_edited(self):
+        newest_revision_id = self.rel_related_paper_version\
+            .rel_parent_paper.get_latest_revision().id
+        if self.rel_related_paper_version.id == newest_revision_id:
+            return True
+        else:
+            return False
 
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
