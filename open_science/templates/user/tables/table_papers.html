@@ -5,6 +5,8 @@
         <th>Version</th>
         <th>Publication date</th> 
         <th>Upload new revision</th>
+        <th>Reviews</th>
+        <th>Request more reviews</th>
       </tr>
     </thead>
     <tbody>
@@ -27,7 +29,9 @@
           {data: 'title'},
           {data: 'version'},
           {data: 'publication_date'},
-          {"defaultContent": "<button class='dt-upload-btn'>New revision</button>", orderable: false }
+          {"defaultContent": "<button class='dt-upload-btn'>New revision</button>", orderable: false },
+          {data: 'reviews_count'},
+          {"defaultContent": "<button class='dt-more-reviews-btn'>Ask for reviews</button>", orderable: false },
         ],
       });
 
@@ -39,13 +43,20 @@
       window.location.assign(url);
     });
 
+    $('#data_papers').on('click', '.dt-more-reviews-btn', function (e) {
+      e.stopPropagation();
+      const url = table.row($(this).closest('tr')).data().more_reviews_url;
+      window.location.assign(url);
+    });
+
     $('#data_papers').on('click', 'tr', function (e) {
       e.stopPropagation();
       const url = table.row($(this).closest('tr')).data().show_url;
-      //console.log(url);
       window.location.assign(url);
     });
     
+
+
   });
 </script>
 

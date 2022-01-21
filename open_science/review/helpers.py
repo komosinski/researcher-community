@@ -1,4 +1,4 @@
-from open_science.models import User, ReviewRequest
+from open_science.models import Notification, NotificationType, User, ReviewRequest, Review
 from open_science import app, db
 from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum
 import open_science.email as em
@@ -133,3 +133,51 @@ def prepare_review_requests(paper_revision):
             return True
 
     return False
+
+
+# binds unpublished reviews and unanswered review reqests
+# to newest paper's revision
+def transfer_old_reviews(paper):
+    latest_revision = paper.get_latest_revision()
+    if latest_revision.version > 1:
+        reviews_to_transfer = []
+        review_requests_to_transfer = []
+        # check already requested users in latest_revision
+        requested_reviewers_ids = [review_r.requested_user for
+        review_r in latest_revision.rel_related_review_requests]
+        for revision in paper.rel_related_versions:
+            if revision.version == 1:
+                continue
+            for review_request in revision.rel_related_review_requests:
+                if review_request.decision is True:
+                    review = Review.query\
+                        .filter(Review.creator
+                                == review_request.requested_user,
+                                Review.related_paper_version
+                                == review_request
+                                .paper_version)\
+                        .first()
+                    if review and review.publication_datetime is None:
+                        reviews_to_transfer.append(review)
+                elif review_request.decision is None:
+                    review_requests_to_transfer.append(review_request)
+
+        for review in reviews_to_transfer:
+            if review.creator not in requested_reviewers_ids:
+                # bind review to new revision
+                review.rel_related_paper_version = latest_revision
+                # create notification
+                create_notification(NotificationTypeEnum.REVIEW_TRANSFER.value,
+                                    'The review has been transferred \
+                                        to new paper\'s revision',
+                                    review.creator,
+                                    url_for('article',
+                                            id=paper.id,
+                                            version=revision.version))
+
+        for review_request in review_requests_to_transfer:
+            if review_request.requested_user not in requested_reviewers_ids:
+                # bind review_request to new revision
+                review_request.rel_related_paper_version = latest_revision
+
+        db.session.commit()

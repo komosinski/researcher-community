@@ -34,7 +34,7 @@ class NotificationTypeEnum(Enum):
     SYSTEM_MESSAGE = 6
     ENDORSEMENT_REQUEST = 7
     REVIEW_REMINDER = 8
-
+    REVIEW_TRANSFER = 9
 
 @unique 
 class MessageTopicEnum(Enum):

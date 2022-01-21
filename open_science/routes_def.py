@@ -11,9 +11,12 @@ from open_science.search import helpers as search_helper
 import json
 import functools
 from flask_login.config import EXEMPT_METHODS
-from open_science.notification.helpers import create_paper_comment_notifications
-from open_science.review.helpers import prepare_review_requests, NOT_ENOUGHT_RESEARCHERS_TEXT
+from open_science.notification.helpers import\
+     create_paper_comment_notifications
+from open_science.review.helpers import prepare_review_requests,\
+     NOT_ENOUGHT_RESEARCHERS_TEXT, transfer_old_reviews
 from open_science.db_helper import get_hidden_filter
+
 
 # Routes decorator
 def researcher_user_required(func):
@@ -125,11 +128,14 @@ def file_upload_page():
 
         db.session.add(paper)
         db.session.commit()
-
+  
+        # bin   d old unpublished reviews and unanswered review reqests
+        # to nthe ewest paper's revision
+        transfer_old_reviews(paper)
         enough_reviews = prepare_review_requests(paper_version)
         if enough_reviews is False:
             flash(NOT_ENOUGHT_RESEARCHERS_TEXT, category='warning')
-            
+
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
 
     return render_template("utils/pdf_send_form.html", form=form, tags=tags)

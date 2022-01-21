@@ -100,3 +100,7 @@ class Config(object):
 
     # Url to processing text users plot
     USERS_PLOT_URL = './text_processing_files/users_plot'
+
+    # the maximum number of reviews a user can request
+    MAX_CONFIDECNE_LEVEL = int(os.environ.get(
+        'MAX_CONFIDECNE_LEVEL') or 3)

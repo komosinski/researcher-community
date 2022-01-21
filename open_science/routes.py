@@ -301,3 +301,9 @@ def privacy_page():
 def forum_page():
     return rd.forum_page()
 
+
+@app.route('/review/increase_confidence_level/<revision_id>')
+@login_required
+@rd.researcher_user_required
+def increase_needed_reviews(revision_id):
+    return review_rd.increase_needed_reviews(revision_id)

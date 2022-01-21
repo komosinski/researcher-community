@@ -9,7 +9,7 @@ from open_science.db_helper import get_hidden_filter
 
 import datetime as dt
 from open_science.routes_def import check_numeric_args
-
+from open_science import app
 
 def review_request_page(request_id):
     # TODO: show paper abstract ...
@@ -30,7 +30,9 @@ def review_request_page(request_id):
             review_request.acceptation_date = dt.datetime.utcnow().date()
             review = Review(creator=current_user.id,
                             related_paper_version=review_request.paper_version)
-            review.deadline_date = dt.datetime.utcnow().date() + dt.timedelta(days=int(form.prepare_time.data))
+            review.deadline_date = \
+                dt.datetime.utcnow().date()\
+                + dt.timedelta(days=int(form.prepare_time.data))
             db.session.add(review)
             flash('Review request accepted', category='success')
         elif form.submit_decline.data:
@@ -120,8 +122,7 @@ def review_edit_page(review_id):
             review.rel_suggestions = [Suggestion(
                 suggestion=s["suggestion"],
                 location=s["location"]
-            ) for s in suggestions]
-            
+            ) for s in suggestions]            
 
             if True in form.check_anonymous.data:
                 review.is_anonymous = True
@@ -151,14 +152,20 @@ def review_edit_page(review_id):
         'is_published': review.is_published(),
         # TODO: change 2nd link to anonymized version
         'paper_url':
-            url_for('article', id=review.rel_related_paper_version.parent_paper, version=review.rel_related_paper_version.version,
+            url_for('article',
+                    id=review.rel_related_paper_version.parent_paper,
+                    version=review.rel_related_paper_version.version,
                     anonymous=False)
 
             if db.session.query(PaperRevision.anonymized_pdf_url) \
             .filter(PaperRevision.id == review.related_paper_version).scalar()
 
             else
-            url_for('article', id=review.rel_related_paper_version.parent_paper, version=review.rel_related_paper_version.version, anonymous=True)
+            url_for('article', id=review\
+                    .rel_related_paper_version.parent_paper,
+                    version=review.rel_related_paper_version.version,
+                    anonymous=True),
+        'paper_title': review.rel_related_paper_version.title
     }
 
     return render_template(
@@ -173,7 +180,8 @@ def review_page(review_id):
     if not check_numeric_args(review_id):
         abort(404)
 
-    review = Review.query.filter(Review.id == review_id, get_hidden_filter(Review)).first()
+    review = Review.query.filter(Review.id == review_id,
+                                 get_hidden_filter(Review)).first()
 
     if not review:
         flash('Review does not exists', category='error')
@@ -196,3 +204,25 @@ def review_page(review_id):
     }
 
     return render_template('review/review.html', review=review, data=data)
+
+
+def increase_needed_reviews(revision_id):
+    if not check_numeric_args(revision_id):
+        abort(404)
+
+    revision = PaperRevision.query.filter(PaperRevision.id == revision_id).first()
+    if revision:
+        creators_ids = [creator.id for creator in revision.rel_creators]
+        if current_user.id not in creators_ids:
+            flash('You are not authorized', category='error')
+            return redirect(url_for('profile_page', user_id=current_user.id))
+
+        if revision.confidence_level >= app.config['MAX_CONFIDECNE_LEVEL']:
+            flash('You cannot request more reviews', category='warning')
+            return redirect(url_for('profile_page', user_id=current_user.id))
+        else:
+            revision.confidence_level += 1
+            db.session.commit()
+            flash('The number of expected reviews has been increased', category='success')
+
+    return redirect(url_for('profile_page', user_id=current_user.id))
