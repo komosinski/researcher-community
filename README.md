@@ -9,8 +9,7 @@ Linux setup
 
   1. Install poppler on your local machine
   
-    Linux  
-      $ sudo apt install build-essential libpoppler-cpp-dev pkg-config python3-dev
+    $ sudo apt install build-essential libpoppler-cpp-dev pkg-config python3-dev
       
   2. Move to main directory and create python virtual environment
 
@@ -18,8 +17,7 @@ Linux setup
   
   3. Activate virtual environment
 
-    Linux
-      $ source venv/bin/activate
+    $ source venv/bin/activate
   
   4. Install requirements
   
