@@ -448,7 +448,7 @@ def request_endorsement(endorser_id):
 
 
 def confirm_endorsement_page(notification_id, user_id, endorser_id):
-    if not check_numeric_args(user_id, endorser_id):
+    if not check_numeric_args(notification_id, user_id, endorser_id):
         abort(404)
 
     notification_id = int(notification_id)

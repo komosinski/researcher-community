@@ -374,6 +374,9 @@ def advanced_search_papers_page(page, search_data, order_by):
     if isinstance(search_data, str):
         search_data = ast.literal_eval(search_data)
 
+    if not check_numeric_args(page):
+        abort(404)
+
     if isinstance(page, str):
         page = int(page)
 
@@ -389,6 +392,9 @@ def advanced_search_users_page(page, search_data, order_by):
     if isinstance(search_data, str):
         search_data = ast.literal_eval(search_data)
 
+    if not check_numeric_args(page):
+        abort(404)
+
     page = int(page)
 
     users = []
@@ -403,6 +409,9 @@ def advanced_search_tags_page(page, search_data, order_by):
     if isinstance(search_data, str):
         search_data = ast.literal_eval(search_data)
 
+    if not check_numeric_args(page):
+        abort(404)
+
     page = int(page)
 
     tags = []
@@ -416,7 +425,9 @@ def advanced_search_tags_page(page, search_data, order_by):
 def reviews_list_page(page, search_data, order_by):
     if isinstance(search_data, str):
         search_data = ast.literal_eval(search_data)
-    
+
+    if not check_numeric_args(page):
+        abort(404)
 
     page = int(page)
     user_id = int(search_data['user_id'])

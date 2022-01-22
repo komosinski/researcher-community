@@ -1,4 +1,5 @@
 from flask.helpers import url_for
+from flask import Markup
 from sqlalchemy import Table, DDL, event, Sequence
 from sqlalchemy.orm import validates
 from operator import and_, or_
@@ -462,11 +463,11 @@ class Tag(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'description': f'{self.description[:29]}...',
+            'name': Markup.escape(self.name),
+            'description': Markup.escape(f'{self.description[:29]}...'),
             'deadline': self.deadline,
             'edit_url': url_for('edit_tag_page', tag_id=self.id),
-            'show_url': url_for('tag_page', tag_name=self.name)
+            'show_url': url_for('tag_page', tag_name=Markup.escape(self.name))
         }
 
 
@@ -492,7 +493,7 @@ class Paper(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'paper_title': self.get_latest_revision().title,
+            'paper_title': Markup.escape(self.get_latest_revision().title),
             'publication_datetime': self.get_latest_revision().publication_date
         }
 
@@ -590,7 +591,7 @@ class PaperRevision(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'title': self.title,
+            'title': Markup.escape(self.title),
             'publication_date': self.publication_date,
             'version': self.version,
             'show_url': url_for('article', id=self.parent_paper),
@@ -734,7 +735,7 @@ class Review(db.Model):
 
         return {
             'id': self.id,
-            'paper_title': paper_revision.title,
+            'paper_title': Markup.escape(paper_revision.title),
             'paper_version': paper_revision.version,
             'publication_datetime': self.publication_datetime,
             'edit_url': url_for('review_edit_page', review_id=self.id),
@@ -892,7 +893,7 @@ class Comment(db.Model):
 
         return {
             'id': self.id,
-            'text': f'{self.text[:50]}...',
+            'text': Markup.escape(f'{self.text[:50]}...'),
             'date': self.date,
             'votes_score': self.votes_score,
             'refers_to': refers_to,
@@ -1106,8 +1107,8 @@ class Suggestion(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'suggestion': self.suggestion,
-            'location': self.location
+            'suggestion': Markup.escape(self.suggestion),
+            'location': Markup.escape(self.location)
         }
 
     @validates('suggestion')
