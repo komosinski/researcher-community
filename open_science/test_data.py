@@ -23,7 +23,7 @@ def create_test_data():
         red_flags_count=0,
         level=0,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.STANDARD_USER.value
+        creator_role=UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c1)
 
@@ -33,7 +33,7 @@ def create_test_data():
         red_flags_count=0,
         level=0,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.RESEARCHER_USER.value
+        creator_role=UserTypeEnum.RESEARCHER_USER.value
     )
     db.session.add(c2)
 
@@ -43,7 +43,7 @@ def create_test_data():
         red_flags_count=0,
         level=0,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.STANDARD_USER.value
+        creator_role=UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c3)
 
@@ -53,7 +53,7 @@ def create_test_data():
         red_flags_count=0,
         level=0,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.RESEARCHER_USER.value
+        creator_role=UserTypeEnum.RESEARCHER_USER.value
     )
     db.session.add(c4)
 
@@ -63,7 +63,7 @@ def create_test_data():
         red_flags_count=0,
         level=0,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.STANDARD_USER.value
+        creator_role=UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c5)
 
@@ -73,7 +73,7 @@ def create_test_data():
         red_flags_count=0,
         level=0,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.STANDARD_USER.value
+        creator_role=UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c6)
 
@@ -83,7 +83,7 @@ def create_test_data():
         red_flags_count=0,
         level=0,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.STANDARD_USER.value
+        creator_role=UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c7)
 
@@ -93,7 +93,7 @@ def create_test_data():
         red_flags_count=0,
         level=0,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.RESEARCHER_USER.value
+        creator_role=UserTypeEnum.RESEARCHER_USER.value
     )
     db.session.add(c8)
 
@@ -103,7 +103,7 @@ def create_test_data():
         red_flags_count=0,
         level=0,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.STANDARD_USER.value
+        creator_role=UserTypeEnum.STANDARD_USER.value
     )
     db.session.add(c9)
 
@@ -113,7 +113,7 @@ def create_test_data():
         red_flags_count=0,
         level=1,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.STANDARD_USER.value
+        creator_role=UserTypeEnum.STANDARD_USER.value
     )
     c10.rel_related_comment = [c1]
     db.session.add(c10)
@@ -124,7 +124,7 @@ def create_test_data():
         red_flags_count=0,
         level=1,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.RESEARCHER_USER.value
+        creator_role=UserTypeEnum.RESEARCHER_USER.value
     )
     c11.rel_related_comment = [c2]
     db.session.add(c11)
@@ -135,7 +135,7 @@ def create_test_data():
         red_flags_count=0,
         level=1,
         date=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        creator_role = UserTypeEnum.RESEARCHER_USER.value
+        creator_role=UserTypeEnum.RESEARCHER_USER.value
     )
     c12.rel_related_comment = [c2]
     db.session.add(c12)
@@ -676,8 +676,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve1_1.rel_related_comments = [c1, c2]
     pve1_1.rel_parent_paper = p1
@@ -691,8 +690,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve1_2.rel_related_comments = [c3, c4]
     pve1_2.rel_parent_paper = p1
@@ -706,8 +704,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve1_3.rel_related_comments = [c5, c6, c7, c8, c9]
     pve1_3.rel_parent_paper = p1
@@ -721,8 +718,7 @@ def create_test_data():
         abstract="description2 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve2.rel_parent_paper = p2
     pve2.rel_related_reviews = [r13, r14]
@@ -735,8 +731,7 @@ def create_test_data():
         abstract="description3 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=3,
-        red_flags_count=0
+        confidence_level=3
     )
     pve3.rel_parent_paper = p3
     pve3.rel_related_reviews = [r15, r16]
@@ -749,8 +744,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=3,
-        red_flags_count=0
+        confidence_level=3
     )
     pve4.rel_parent_paper = p4
     pve4.rel_related_reviews = [r17, r18]
@@ -763,8 +757,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve5.rel_parent_paper = p5
     pve5.rel_related_reviews = [r19, r20]
@@ -777,8 +770,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve6.rel_parent_paper = p6
     pve6.rel_related_reviews = [r21, r22]
@@ -791,8 +783,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve7.rel_parent_paper = p7
     pve7.rel_related_reviews = [r23, r24]
@@ -805,8 +796,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve8.rel_parent_paper = p8
     pve8.rel_related_reviews = [r25, r26]
@@ -819,8 +809,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve9.rel_parent_paper = p9
     pve9.rel_related_reviews = [r27, r28]
@@ -833,8 +822,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve10.rel_parent_paper = p10
     pve10.rel_related_reviews = [r29, r30]
@@ -847,8 +835,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve11.rel_parent_paper = p11
     pve11.rel_related_reviews = [r31, r32]
@@ -861,8 +848,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve12.rel_parent_paper = p12
     pve12.rel_related_reviews = [r33, r34]
@@ -875,8 +861,7 @@ def create_test_data():
         abstract="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve13.rel_parent_paper = p13
     pve13.rel_related_reviews = [r35, r36]
@@ -889,26 +874,35 @@ def create_test_data():
         abstract="description14 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
     pve14.rel_parent_paper = p14
     pve14.rel_related_reviews = [r37, r38]
     db.session.add(pve14)
 
-    pve15 = PaperRevision(
+    pve15_1 = PaperRevision(
         pdf_url="https://paperurl15.com",
-        title="title15",
+        title="title15_1",
         version=1,
         abstract="description15 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=1,
-        red_flags_count=0
+        confidence_level=1
     )
-    pve15.rel_parent_paper = p15
-    pve15.rel_related_reviews = [r39, r40]
-    db.session.add(pve15)
+    pve15_1.rel_parent_paper = p15
+    pve15_1.rel_related_reviews = [r39, r40]
+    db.session.add(pve15_1)
+
+    pve15_2 = PaperRevision(
+        pdf_url="https://paperurl15.com",
+        title="title15_2",
+        version=2,
+        abstract="description15 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        confidence_level=1
+    )
+    pve15_2.rel_parent_paper = p15
+    db.session.add(pve15_2)
 
     # to read Papers' id from autoincrement
     db.session.flush()
@@ -1071,7 +1065,7 @@ def create_test_data():
         registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2),
         red_flags_count=0
     )
-    u5.rel_created_paper_revisions = [pve5, pve10, pve15]
+    u5.rel_created_paper_revisions = [pve5, pve10, pve15_1, pve15_2]
     u5.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.RESEARCHER_USER.value).first()
     u5.rel_created_reviews = [r4, r8, r12, r14, r18, r24, r28, r34, r38]
     db.session.add(u5)
@@ -1471,7 +1465,6 @@ def create_test_data():
     rr36 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 9, 5, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 6),
         deadline_date=dt.date(2020, 10, 5),
     )
     rr36.rel_requested_user = u2
@@ -1481,7 +1474,6 @@ def create_test_data():
     rr37 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 9, 6, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 7),
         deadline_date=dt.date(2020, 10, 6),
     )
     rr37.rel_requested_user = u3
@@ -1491,7 +1483,6 @@ def create_test_data():
     rr38 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 9, 7, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 8),
         deadline_date=dt.date(2020, 10, 7),
     )
     rr38.rel_requested_user = u5
@@ -1501,21 +1492,19 @@ def create_test_data():
     rr39 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 9, 8, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 9),
         deadline_date=dt.date(2020, 10, 8),
     )
     rr39.rel_requested_user = u4
-    rr39.rel_related_paper_version = pve15
+    rr39.rel_related_paper_version = pve15_1
     db.session.add(rr39)
 
     rr40 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 9, 9, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 10),
         deadline_date=dt.date(2020, 10, 9),
     )
     rr40.rel_requested_user = u1
-    rr40.rel_related_paper_version = pve15
+    rr40.rel_related_paper_version = pve15_1
     db.session.add(rr40)
 
     rr41 = ReviewRequest(
@@ -1526,7 +1515,7 @@ def create_test_data():
         reason_lack_expertise=True,
     )
     rr41.rel_requested_user = u1
-    rr41.rel_related_paper_version = pve15
+    rr41.rel_related_paper_version = pve15_1
     db.session.add(rr41)
 
     # comments votes
@@ -1729,25 +1718,55 @@ def create_test_data():
     nt_review_request = NotificationType.query.get(NotificationTypeEnum.REVIEW_REQUEST.value)
 
     # notifications
-    notification1 = Notification(
+    n1 = Notification(
         datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
         title=Notification.prepare_title(nt_review_request),
         text='New review request',
-        action_url=url_for('review_request_page', request_id=1)
+        action_url=url_for('review_request_page', request_id=36)
     )
-    notification1.rel_notification_type = nt_review_request
-    notification1.rel_user = u1
-    db.session.add(notification1)
+    n1.rel_notification_type = nt_review_request
+    n1.rel_user = u2
+    db.session.add(n1)
 
-    notification2 = Notification(
+    n2 = Notification(
         datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
         title=Notification.prepare_title(nt_review_request),
         text='New review request',
-        action_url=url_for('review_request_page', request_id=2)
+        action_url=url_for('review_request_page', request_id=36)
     )
-    notification2.rel_notification_type = nt_review_request
-    notification2.rel_user = u2
-    db.session.add(notification2)
+    n2.rel_notification_type = nt_review_request
+    n2.rel_user = u3
+    db.session.add(n2)
+
+    n3 = Notification(
+        datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        title=Notification.prepare_title(nt_review_request),
+        text='New review request',
+        action_url=url_for('review_request_page', request_id=36)
+    )
+    n3.rel_notification_type = nt_review_request
+    n3.rel_user = u5
+    db.session.add(n3)
+
+    n4 = Notification(
+        datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        title=Notification.prepare_title(nt_review_request),
+        text='New review request',
+        action_url=url_for('review_request_page', request_id=36)
+    )
+    n4.rel_notification_type = nt_review_request
+    n4.rel_user = u4
+    db.session.add(n4)
+
+    n5 = Notification(
+        datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
+        title=Notification.prepare_title(nt_review_request),
+        text='New review request',
+        action_url=url_for('review_request_page', request_id=36)
+    )
+    n5.rel_notification_type = nt_review_request
+    n5.rel_user = u1
+    db.session.add(n5)
 
     # licenses
     l1 = License(
@@ -1765,70 +1784,1929 @@ def create_test_data():
     l3 = License(
         license="license3"
     )
-    l3.rel_related_paper_revisions = [pve15, pve2, pve3]
+    l3.rel_related_paper_revisions = [pve15_1, pve2, pve3]
     db.session.add(l3)
 
     # suggestions
     s1 = Suggestion(
-        suggestion="suggestion1",
-        location="location1"
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     s1.rel_review = r1
     db.session.add(s1)
 
     s2 = Suggestion(
-        suggestion="suggestion2",
-        location="location2"
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     s2.rel_review = r1
     db.session.add(s2)
 
     s3 = Suggestion(
-        suggestion="suggestion3",
-        location="location3"
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     s3.rel_review = r1
     db.session.add(s3)
 
     s4 = Suggestion(
-        suggestion="suggestion4",
-        location="location4"
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     s4.rel_review = r2
     db.session.add(s4)
 
     s5 = Suggestion(
-        suggestion="suggestion5",
-        location="location5"
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     s5.rel_review = r2
     db.session.add(s5)
 
     s6 = Suggestion(
-        suggestion="suggestion6",
-        location="location6"
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     s6.rel_review = r2
     db.session.add(s6)
 
     s7 = Suggestion(
-        suggestion="suggestion7"
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     s7.rel_review = r3
     db.session.add(s7)
 
     s8 = Suggestion(
-        suggestion="suggestion8",
-        location="location8"
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     s8.rel_review = r3
     db.session.add(s8)
 
     s9 = Suggestion(
-        suggestion="suggestion9"
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     s9.rel_review = r3
     db.session.add(s9)
+
+    s10 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s10.rel_review = r4
+    db.session.add(s10)
+
+    s11 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s11.rel_review = r4
+    db.session.add(s11)
+
+    s12 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s12.rel_review = r4
+    db.session.add(s12)
+
+    s13 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s13.rel_review = r5
+    db.session.add(s13)
+
+    s14 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s14.rel_review = r5
+    db.session.add(s14)
+
+    s15 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s15.rel_review = r5
+    db.session.add(s15)
+
+    s16 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s16.rel_review = r6
+    db.session.add(s16)
+
+    s17 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s17.rel_review = r6
+    db.session.add(s17)
+
+    s18 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s18.rel_review = r6
+    db.session.add(s18)
+
+    s19 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s19.rel_review = r7
+    db.session.add(s19)
+
+    s20 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s20.rel_review = r7
+    db.session.add(s20)
+
+    s21 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s21.rel_review = r7
+    db.session.add(s21)
+
+    s22 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s22.rel_review = r8
+    db.session.add(s22)
+
+    s23 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s23.rel_review = r8
+    db.session.add(s23)
+
+    s24 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s24.rel_review = r8
+    db.session.add(s24)
+
+    s25 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s25.rel_review = r9
+    db.session.add(s25)
+
+    s26 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s26.rel_review = r9
+    db.session.add(s26)
+
+    s27 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s27.rel_review = r9
+    db.session.add(s27)
+
+    s28 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s28.rel_review = r10
+    db.session.add(s28)
+
+    s29 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s29.rel_review = r10
+    db.session.add(s29)
+
+    s30 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s30.rel_review = r10
+    db.session.add(s30)
+
+    s31 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s31.rel_review = r11
+    db.session.add(s31)
+
+    s32 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s32.rel_review = r11
+    db.session.add(s32)
+
+    s33 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s33.rel_review = r11
+    db.session.add(s33)
+
+    s34 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s34.rel_review = r12
+    db.session.add(s34)
+
+    s35 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s35.rel_review = r12
+    db.session.add(s35)
+
+    s36 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s36.rel_review = r12
+    db.session.add(s36)
+
+    s37 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s37.rel_review = r13
+    db.session.add(s37)
+
+    s38 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s38.rel_review = r13
+    db.session.add(s38)
+
+    s39 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s39.rel_review = r13
+    db.session.add(s39)
+
+    s40 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s40.rel_review = r14
+    db.session.add(s40)
+
+    s41 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s41.rel_review = r14
+    db.session.add(s41)
+
+    s42 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s42.rel_review = r14
+    db.session.add(s42)
+
+    s43 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s43.rel_review = r15
+    db.session.add(s43)
+
+    s44 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s44.rel_review = r15
+    db.session.add(s44)
+
+    s45 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s45.rel_review = r15
+    db.session.add(s45)
+
+    s46 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s46.rel_review = r16
+    db.session.add(s46)
+
+    s47 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s47.rel_review = r16
+    db.session.add(s47)
+
+    s48 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s48.rel_review = r16
+    db.session.add(s48)
+
+    s49 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s49.rel_review = r17
+    db.session.add(s49)
+
+    s50 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s50.rel_review = r17
+    db.session.add(s50)
+
+    s51 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s51.rel_review = r17
+    db.session.add(s51)
+
+    s52 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s52.rel_review = r18
+    db.session.add(s52)
+
+    s53 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s53.rel_review = r18
+    db.session.add(s53)
+
+    s54 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s54.rel_review = r18
+    db.session.add(s54)
+
+    s55 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s55.rel_review = r19
+    db.session.add(s55)
+
+    s56 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s56.rel_review = r19
+    db.session.add(s56)
+
+    s57 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s57.rel_review = r19
+    db.session.add(s57)
+
+    s58 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s58.rel_review = r20
+    db.session.add(s58)
+
+    s59 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s59.rel_review = r20
+    db.session.add(s59)
+
+    s60 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s60.rel_review = r20
+    db.session.add(s60)
+
+    s61 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s61.rel_review = r21
+    db.session.add(s61)
+
+    s62 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s62.rel_review = r21
+    db.session.add(s62)
+
+    s63 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s63.rel_review = r21
+    db.session.add(s63)
+
+    s64 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s64.rel_review = r22
+    db.session.add(s64)
+
+    s65 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s65.rel_review = r22
+    db.session.add(s65)
+
+    s66 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s66.rel_review = r22
+    db.session.add(s66)
+
+    s67 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s67.rel_review = r23
+    db.session.add(s67)
+
+    s68 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s68.rel_review = r23
+    db.session.add(s68)
+
+    s69 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s69.rel_review = r23
+    db.session.add(s69)
+
+    s70 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s70.rel_review = r24
+    db.session.add(s70)
+
+    s71 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s71.rel_review = r24
+    db.session.add(s71)
+
+    s72 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s72.rel_review = r24
+    db.session.add(s72)
+
+    s73 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s73.rel_review = r25
+    db.session.add(s73)
+
+    s74 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s74.rel_review = r25
+    db.session.add(s74)
+
+    s75 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s75.rel_review = r25
+    db.session.add(s75)
+
+    s76 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s76.rel_review = r26
+    db.session.add(s76)
+
+    s77 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s77.rel_review = r26
+    db.session.add(s77)
+
+    s78 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s78.rel_review = r26
+    db.session.add(s78)
+
+    s79 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s79.rel_review = r27
+    db.session.add(s79)
+
+    s80 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s80.rel_review = r27
+    db.session.add(s80)
+
+    s81 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s81.rel_review = r27
+    db.session.add(s81)
+
+    s82 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s82.rel_review = r28
+    db.session.add(s82)
+
+    s83 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s83.rel_review = r28
+    db.session.add(s83)
+
+    s84 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s84.rel_review = r28
+    db.session.add(s84)
+
+    s85 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s85.rel_review = r29
+    db.session.add(s85)
+
+    s86 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s86.rel_review = r29
+    db.session.add(s86)
+
+    s87 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s87.rel_review = r29
+    db.session.add(s87)
+
+    s88 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s88.rel_review = r30
+    db.session.add(s88)
+
+    s89 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s89.rel_review = r30
+    db.session.add(s89)
+
+    s90 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s90.rel_review = r30
+    db.session.add(s90)
+
+    s91 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s91.rel_review = r31
+    db.session.add(s91)
+
+    s92 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s92.rel_review = r31
+    db.session.add(s92)
+
+    s93 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s93.rel_review = r31
+    db.session.add(s93)
+
+    s94 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s94.rel_review = r32
+    db.session.add(s94)
+
+    s95 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s95.rel_review = r32
+    db.session.add(s95)
+
+    s96 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s96.rel_review = r32
+    db.session.add(s96)
+
+    s97 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s97.rel_review = r33
+    db.session.add(s97)
+
+    s98 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s98.rel_review = r33
+    db.session.add(s98)
+
+    s99 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s99.rel_review = r33
+    db.session.add(s99)
+
+    s100 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s100.rel_review = r34
+    db.session.add(s100)
+
+    s101 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s101.rel_review = r34
+    db.session.add(s101)
+
+    s102 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s102.rel_review = r34
+    db.session.add(s102)
+
+    s103 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s103.rel_review = r35
+    db.session.add(s103)
+
+    s104 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s104.rel_review = r35
+    db.session.add(s104)
+
+    s105 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s105.rel_review = r35
+    db.session.add(s105)
+
+    s106 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s106.rel_review = r36
+    db.session.add(s106)
+
+    s107 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s107.rel_review = r36
+    db.session.add(s107)
+
+    s108 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s108.rel_review = r36
+    db.session.add(s108)
+
+    s109 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s109.rel_review = r37
+    db.session.add(s109)
+
+    s110 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s110.rel_review = r37
+    db.session.add(s110)
+
+    s111 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s111.rel_review = r37
+    db.session.add(s111)
+
+    s112 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s112.rel_review = r38
+    db.session.add(s112)
+
+    s113 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s113.rel_review = r38
+    db.session.add(s113)
+
+    s114 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s114.rel_review = r38
+    db.session.add(s114)
+
+    s115 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s115.rel_review = r39
+    db.session.add(s115)
+
+    s116 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s116.rel_review = r39
+    db.session.add(s116)
+
+    s117 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s117.rel_review = r39
+    db.session.add(s117)
+
+    s118 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s118.rel_review = r40
+    db.session.add(s118)
+
+    s119 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s119.rel_review = r40
+    db.session.add(s119)
+
+    s120 = Suggestion(
+        suggestion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus augue a "
+                   "suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, luctus sed nulla a, "
+                   "hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. Vestibulum posuere imperdiet "
+                   "tincidunt. Pellentesque pellentesque nisi at velit dapibus, vel blandit mi maximus. Cras diam "
+                   "sem, ultricies et quam vel, gravida sagittis dolor. Nam eu nunc nec orci euismod tincidunt. Nulla "
+                   "nisl libero, aliquet ut ante sed, auctor aliquet mauris. Donec vel dapibus sem. Morbi eget "
+                   "interdum felis, eu efficitur mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam "
+                   "ante neque, consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut "
+                   "massa sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                   "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    s120.rel_review = r40
+    db.session.add(s120)
 
     cp1 = CalibrationPaper(
         pdf_url="https://calibrationpaperurl1.com",
@@ -1916,44 +3794,140 @@ def create_test_data():
 
     # revision changes components
     rcc1 = RevisionChangesComponent(
-        change_description="change_description1",
-        location="location1"
+        change_description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus "
+                           "augue a suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, "
+                           "luctus sed nulla a, hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. "
+                           "Vestibulum posuere imperdiet tincidunt. Pellentesque pellentesque nisi at velit dapibus, "
+                           "vel blandit mi maximus. Cras diam sem, ultricies et quam vel, gravida sagittis dolor. Nam "
+                           "eu nunc nec orci euismod tincidunt. Nulla nisl libero, aliquet ut ante sed, "
+                           "auctor aliquet mauris. Donec vel dapibus sem. Morbi eget interdum felis, eu efficitur "
+                           "mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam ante neque, "
+                           "consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut massa "
+                           "sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                           "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     rcc1.rel_paper_revision = pve1_2
     db.session.add(rcc1)
 
     rcc2 = RevisionChangesComponent(
-        change_description="change_description2",
-        location="location2"
+        change_description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus "
+                           "augue a suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, "
+                           "luctus sed nulla a, hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. "
+                           "Vestibulum posuere imperdiet tincidunt. Pellentesque pellentesque nisi at velit dapibus, "
+                           "vel blandit mi maximus. Cras diam sem, ultricies et quam vel, gravida sagittis dolor. Nam "
+                           "eu nunc nec orci euismod tincidunt. Nulla nisl libero, aliquet ut ante sed, "
+                           "auctor aliquet mauris. Donec vel dapibus sem. Morbi eget interdum felis, eu efficitur "
+                           "mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam ante neque, "
+                           "consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut massa "
+                           "sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                           "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     rcc2.rel_paper_revision = pve1_2
     db.session.add(rcc2)
 
     rcc3 = RevisionChangesComponent(
-        change_description="change_description3",
+        change_description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus "
+                           "augue a suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, "
+                           "luctus sed nulla a, hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. "
+                           "Vestibulum posuere imperdiet tincidunt. Pellentesque pellentesque nisi at velit dapibus, "
+                           "vel blandit mi maximus. Cras diam sem, ultricies et quam vel, gravida sagittis dolor. Nam "
+                           "eu nunc nec orci euismod tincidunt. Nulla nisl libero, aliquet ut ante sed, "
+                           "auctor aliquet mauris. Donec vel dapibus sem. Morbi eget interdum felis, eu efficitur "
+                           "mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam ante neque, "
+                           "consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut massa "
+                           "sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                           "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     rcc3.rel_paper_revision = pve1_2
     db.session.add(rcc3)
 
     rcc4 = RevisionChangesComponent(
-        change_description="change_description4",
-        location="location4"
+        change_description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus "
+                           "augue a suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, "
+                           "luctus sed nulla a, hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. "
+                           "Vestibulum posuere imperdiet tincidunt. Pellentesque pellentesque nisi at velit dapibus, "
+                           "vel blandit mi maximus. Cras diam sem, ultricies et quam vel, gravida sagittis dolor. Nam "
+                           "eu nunc nec orci euismod tincidunt. Nulla nisl libero, aliquet ut ante sed, "
+                           "auctor aliquet mauris. Donec vel dapibus sem. Morbi eget interdum felis, eu efficitur "
+                           "mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam ante neque, "
+                           "consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut massa "
+                           "sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                           "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     rcc4.rel_paper_revision = pve1_3
     db.session.add(rcc4)
 
     rcc5 = RevisionChangesComponent(
-        change_description="change_description5",
-        location="location5"
+        change_description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus "
+                           "augue a suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, "
+                           "luctus sed nulla a, hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. "
+                           "Vestibulum posuere imperdiet tincidunt. Pellentesque pellentesque nisi at velit dapibus, "
+                           "vel blandit mi maximus. Cras diam sem, ultricies et quam vel, gravida sagittis dolor. Nam "
+                           "eu nunc nec orci euismod tincidunt. Nulla nisl libero, aliquet ut ante sed, "
+                           "auctor aliquet mauris. Donec vel dapibus sem. Morbi eget interdum felis, eu efficitur "
+                           "mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam ante neque, "
+                           "consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut massa "
+                           "sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                           "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     rcc5.rel_paper_revision = pve1_3
     db.session.add(rcc5)
 
     rcc6 = RevisionChangesComponent(
-        change_description="change_description6",
+        change_description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus "
+                           "augue a suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, "
+                           "luctus sed nulla a, hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. "
+                           "Vestibulum posuere imperdiet tincidunt. Pellentesque pellentesque nisi at velit dapibus, "
+                           "vel blandit mi maximus. Cras diam sem, ultricies et quam vel, gravida sagittis dolor. Nam "
+                           "eu nunc nec orci euismod tincidunt. Nulla nisl libero, aliquet ut ante sed, "
+                           "auctor aliquet mauris. Donec vel dapibus sem. Morbi eget interdum felis, eu efficitur "
+                           "mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam ante neque, "
+                           "consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut massa "
+                           "sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                           "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
     )
     rcc6.rel_paper_revision = pve1_3
     db.session.add(rcc6)
+
+    rcc7 = RevisionChangesComponent(
+        change_description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus "
+                           "augue a suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, "
+                           "luctus sed nulla a, hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. "
+                           "Vestibulum posuere imperdiet tincidunt. Pellentesque pellentesque nisi at velit dapibus, "
+                           "vel blandit mi maximus. Cras diam sem, ultricies et quam vel, gravida sagittis dolor. Nam "
+                           "eu nunc nec orci euismod tincidunt. Nulla nisl libero, aliquet ut ante sed, "
+                           "auctor aliquet mauris. Donec vel dapibus sem. Morbi eget interdum felis, eu efficitur "
+                           "mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam ante neque, "
+                           "consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut massa "
+                           "sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                           "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    rcc7.rel_paper_revision = pve15_2
+    db.session.add(rcc7)
+
+    rcc8 = RevisionChangesComponent(
+        change_description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus "
+                           "augue a suscipit. Proin ullamcorper nunc in feugiat porttitor. Curabitur risus dolor, "
+                           "luctus sed nulla a, hendrerit blandit tortor. Ut consectetur fermentum diam in egestas. "
+                           "Vestibulum posuere imperdiet tincidunt. Pellentesque pellentesque nisi at velit dapibus, "
+                           "vel blandit mi maximus. Cras diam sem, ultricies et quam vel, gravida sagittis dolor. Nam "
+                           "eu nunc nec orci euismod tincidunt. Nulla nisl libero, aliquet ut ante sed, "
+                           "auctor aliquet mauris. Donec vel dapibus sem. Morbi eget interdum felis, eu efficitur "
+                           "mauris. Pellentesque faucibus et dolor tincidunt tincidunt. Etiam ante neque, "
+                           "consequat in bibendum nec, pulvinar eget turpis. Integer dui tellus, lobortis ut massa "
+                           "sed, ornare porta massa. Praesent a quam tristique, facilisis turpis eget, rhoncus nunc. "
+                           "Etiam commodo tortor sit amet vulputate bibendum.",
+        location="Page1"
+    )
+    rcc8.rel_paper_revision = pve15_2
+    db.session.add(rcc8)
 
     # red flags
     rfc1 = RedFlagComment()
