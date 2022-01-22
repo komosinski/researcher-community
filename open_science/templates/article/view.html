@@ -247,7 +247,7 @@
                     {% if version.version == article.version %}
                         <p style="margin: 0">{{version.publication_date}}</p>
                     {%else%}
-                        <a href="{{url_for('article', id=article.parent_paper, version=version.id)}}">{{version.publication_date}}</a>
+                        <a href="{{url_for('article', id=article.parent_paper, version=version.version)}}">{{version.publication_date}}</a>
                     {%endif%}
                 </div>
              {% endfor %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% from "helpers/form_helper.html" import render_register_field, render_boolean_field %}
+
+{% block styles %}
+<style>
+    .hidden {
+        display: none;
+    }
+
+    .visible {
+        display: inline-block;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        const createNewInput = (id) => `<div id="${id}"><textarea name="field[]" placeholder="Change" value="" id="suggestion-input-${id}"></textarea><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>`;
+        let startId = 0;
+        console.log(suggestions);
+      
+        // const suggestionsJsonString = "{{suggestions}}";
+        // const suggestions = JSON.parse(suggestionsJsonString);
+        // console.log(suggestions);
+      
+        var max_input_fields = 10;
+        var add_input = $('.add-input');
+        var input_wrapper = $('#suggestions');
+        // var new_input = '<div id=""><input type="text" name="field[]" placeholder="Suggestion" value=""/><input type="text"  placeholder="Location" name="field2[]" value=""/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>';
+        var add_input_count = 1; 
+      
+        const addInput = (sugContent = "", locContent = "") => {
+          console.log("added input");
+          add_input_count++;
+          $("#suggestions").append(createNewInput(startId));
+          console.log($("#suggestions"))
+          $(`#suggestion-input-${startId}`).val(sugContent);
+          $(`#location-input-${startId}`).val(locContent);
+          startId++;
+          console.log("end")
+        }
+      
+        //suggestions.map((s) => addInput(sugContent = s.suggestion, locContent = s.location));
+        
+        $(add_input).click(function(){
+            if(add_input_count < max_input_fields){
+                addInput(); 
+            }
+        });
+      
+        $(input_wrapper).on('click', '.remove-input', function(e){
+            e.preventDefault();
+            $(this).parent('div').remove();
+            add_input_count--;
+        });
+      
+        $("#submitbtn").on('click', function(e) {
+          // e.preventDefault();
+          e.stopPropagation();
+          console.log("hehe dupa")
+          const suggestionsArray = [];
+          for(i = 0; i < add_input_count; i++){
+            const suggestion = $(`#suggestion-input-${i}`).val();
+            const location = $(`#location-input-${i}`).val();
+      
+            if(suggestion){
+              suggestionsArray.push({
+                suggestion, location
+              });
+            }
+          }
+      
+          $("#changes").val(JSON.stringify(suggestionsArray));
+         
+        });
+      });
+</script>
+{% endblock %}
+
+{% block content %}
+
+<form id="articleUploadForm" method="POST" action="/article/{{paperID}}/add_revision" enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+
+    {{render_register_field(form.file, "form.file.label")}}
+    {{render_register_field(form.anonymousFile, "form.anonymousFile.label")}}
+    {{render_boolean_field(form.anonymity_declaration)}}
+        
+    
+    Add chenges since last version:
+    <div id="suggestions">
+        <div>Suggestions with optional location in the article: 
+
+        <a href="javascript:void(0);" class="add-input" title="Add input"><img src="/static/res/add.png"/></a>
+        </div>
+    </div>
+
+    <input id="companyName" list="companyList" />
+    <datalist id="companyList"></datalist>
+    
+    {{render_boolean_field(form.review_declaration)}}
+    {{render_register_field(form.confidence_level)}}
+    <div class="buttons-wrapper">
+                
+        {{ form.submitbtn(class="large-button main-button") }}
+
+    </div>
+    <!-- <input id="coauthor-name" type="text"/>
+    <input id="coauthor-lastname" type="text"/>
+    <input id="coauthor-email" type="text"/>
+    <button id="add-coauthor" type="button">Add</button> -->
+</form>
+
+
+{% endblock %}

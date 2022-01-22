@@ -1,3 +1,4 @@
+from typing import Text
 from flask_wtf.file import FileAllowed, FileRequired
 from wtforms.fields.core import SelectField, BooleanField
 from flask_wtf import FlaskForm
@@ -6,6 +7,20 @@ from wtforms.fields.simple import FileField, HiddenField
 from wtforms.validators import Length, DataRequired, Optional
 import open_science.config.models_config as mc
 from open_science.models import MessageTopic
+
+class PaperRevisionUploadForm(FlaskForm):
+    # TODO: add valid max version from config
+    file = FileField("Paper PDF", validators=[FileRequired(), FileAllowed(['pdf'])])
+    anonymousFile = FileField("Anonymous version (optional)", validators=[FileAllowed(['pdf'])])
+
+    anonymity_declaration = BooleanField("I certify that this version is anonymized")
+    review_declaration = BooleanField("I would like this paper reviewed")
+
+    confidence_level = SelectField("Choose review confidence level:", choices = [(2, 'low'), (3, 'medium'), (4, 'high')])
+
+    changes = HiddenField()
+
+    submitbtn = SubmitField("Upload")
 
 class CommentForm(FlaskForm):
     content = TextAreaField("Add comment", validators=[DataRequired(), Length(max=mc.COMMENT_TEXT_L)])
