@@ -40,6 +40,15 @@ def get_dictionary():
 
     return dictionary
 
+# new_text is array of strings
+def update_dictionary(new_text):
+    dictionary = get_dictionary()
+    new_words = [[text for text in doc.split()] for doc in new_text]
+    dictionary.add_documents(new_words)
+    save_dictionary(dictionary)
+
+    return dictionary
+
 
 # returns tfidf matrix created from preprocessed texts
 def create_tfidf_matrix():
@@ -69,6 +78,17 @@ def get_tfidf_matrix():
 
     return tfidf_matrix
 
+def update_tfidf_matrix():
+    tfidf_matrix = []
+
+    all_paper_texts = get_all_papers_texts()
+    dictionary = get_dictionary()
+    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
+    corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
+    tfidf = models.TfidfModel(corpus, smartirs='ntc')
+    tfidf_matrix = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary))
+
+    return tfidf_matrix
 
 # returns similarities matrix created from preprocessed texts
 def create_similarities_matrix():
@@ -100,3 +120,16 @@ def get_similarities_matrix():
     similarities_matrix = corpora.Dictionary.load(tfidf_similarities_url)
 
     return similarities_matrix
+
+def update_similarity_matrix(new_article):
+    similarity_matrix = get_similarities_matrix()
+    matrix_tfidf = get_tfidf_matrix()
+    dictionary = get_dictionary()
+    new_text = dictionary.doc2bow(new_article.split())
+    new_article_similarities = matrix_tfidf[new_text]
+    similarity_matrix_add_column = np.column_stack((similarity_matrix, new_article_similarities))
+    new_article_similarities = np.append(new_article_similarities, 1.00)
+    similarity_matrix = np.row_stack(similarity_matrix_add_column, new_article_similarities)
+    save_similarities_matrix(similarity_matrix)
+
+    return similarity_matrix
