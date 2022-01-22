@@ -104,6 +104,11 @@ def article(id):
 def upload_file_page():
     return rd.file_upload_page()
 
+@app.route('/article/<id>/add_revision', methods=['GET', 'POST'])
+@login_required
+@rd.researcher_user_required
+def upload_new_revision(id):
+    return rd.upload_revision(id)
 
 @app.route('/action/like', methods=['POST'])
 def addLike():

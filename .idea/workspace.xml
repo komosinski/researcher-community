@@ -4,13 +4,153 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="Sequence shared between PaperRevisions and CalibrationPapers">
-      <change afterPath="$PROJECT_DIR$/text_processing_files/dictionary" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/text_processing_files/similarities_matrix.npy" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/text_processing_files/tfidf_matrix" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/text_processing/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_processing/plot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/text_processing/prepocess_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_processing/prepocess_text.py" afterDir="false" />
+    <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/open_science/templates/utils/revisionUploadForm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server_files/generated_files/dictionary" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/100.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/101.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/102.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/config/models_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/config/models_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/enums.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/enums.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/routes_def.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/routes_def.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/templates/article/view.html" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/templates/article/view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/test_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/test_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/user/routes_def.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/user/routes_def.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/1.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/1.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/10.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/10.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/103.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/103.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/104.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/104.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/105.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/105.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/106.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/106.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/107.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/107.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/108.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/108.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/109.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/109.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/11.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/11.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/110.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/110.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/111.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/111.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/112.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/112.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/113.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/113.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/114.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/114.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/115.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/115.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/116.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/116.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/117.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/117.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/118.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/118.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/119.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/119.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/12.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/12.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/120.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/120.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/121.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/121.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/122.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/122.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/123.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/123.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/124.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/124.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/125.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/125.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/126.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/126.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/127.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/127.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/128.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/128.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/129.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/129.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/13.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/13.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/130.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/130.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/14.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/14.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/15.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/15.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/16.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/16.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/17.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/17.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/18.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/18.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/19.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/19.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/2.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/2.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/20.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/20.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/21.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/21.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/22.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/22.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/23.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/23.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/24.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/24.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/25.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/25.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/26.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/26.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/27.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/27.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/28.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/28.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/29.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/29.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/3.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/3.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/30.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/30.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/31.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/31.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/32.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/32.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/33.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/33.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/34.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/34.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/35.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/35.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/36.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/36.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/37.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/37.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/38.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/38.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/39.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/39.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/4.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/4.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/40.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/40.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/41.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/41.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/42.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/42.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/43.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/43.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/44.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/44.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/45.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/45.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/46.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/46.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/47.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/47.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/48.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/48.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/49.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/49.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/5.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/5.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/50.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/50.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/51.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/51.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/52.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/52.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/53.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/53.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/54.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/54.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/55.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/55.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/56.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/56.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/57.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/57.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/58.PDF" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/58.PDF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/59.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/59.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/6.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/6.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/60.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/60.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/61.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/61.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/62.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/62.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/63.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/63.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/64.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/64.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/65.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/65.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/66.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/66.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/67.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/67.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/68.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/68.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/69.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/69.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/7.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/7.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/70.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/70.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/71.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/71.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/72.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/72.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/73.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/73.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/74.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/74.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/75.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/75.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/76.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/76.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/77.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/77.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/78.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/78.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/79.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/79.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/8.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/8.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/80.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/80.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/81.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/81.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/82.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/82.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/83.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/83.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/84.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/84.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/85.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/85.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/86.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/86.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/87.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/87.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/88.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/88.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/89.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/89.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/9.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/9.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/90.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/90.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/91.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/91.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/92.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/92.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/93.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/93.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/94.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/94.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/95.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/95.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/96.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/96.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/97.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/97.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/98.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/98.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/99.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/uploaded_pdfs/99.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_processing/generated_files/dictionary" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_processing/generated_files/similarities_matrix.npy" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/generated_files/similarities_matrix.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_processing/generated_files/tfidf_matrix" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/generated_files/tfidf_matrix" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +250,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

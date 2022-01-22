@@ -90,17 +90,20 @@ class Config(object):
         'REVIEWER_WORKOLOAD_ON_DAYS') or 365)
 
     # Url to processing text dictionary
-    DICTIONARY_URL = './text_processing/generated_files/dictionary'
+    DICTIONARY_URL = './server_files/generated_files/dictionary'
 
     # Url to processing text tfidf matrix
-    TFIDF_MATRIX_URL = './text_processing/generated_files/tfidf_matrix'
+    TFIDF_MATRIX_URL = './server_files/generated_files/tfidf_matrix'
 
     # Url to processing text similarities matrix
-    SIMILARITIES_MATRIX_URL = './text_processing/generated_files/similarities_matrix'
+    SIMILARITIES_MATRIX_URL = './server_files/generated_files/similarities_matrix'
 
     # Url to processing text users plot
-    USERS_PLOT_URL = './text_processing/generated_files/users_plot'
+    USERS_PLOT_URL = './server_files/generated_files/users_plot'
 
     # the maximum number of reviews a user can request
     MAX_CONFIDECNE_LEVEL = int(os.environ.get(
         'MAX_CONFIDECNE_LEVEL') or 3)
+
+    # Url to pdfs folder
+    PDFS_FOLDER_URL = './server_files/uploaded_pdfs'

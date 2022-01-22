@@ -1,8 +1,8 @@
 from sqlalchemy.sql.elements import and_
 from werkzeug.utils import secure_filename
 from open_science import db
-from open_science.models import Comment, License, Paper, PaperRevision, Review, Tag, User, MessageToStaff, VoteComment
-from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm
+from open_science.models import Comment, License, Paper, PaperRevision, Review, RevisionChangesComponent, Tag, User, MessageToStaff, VoteComment
+from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm, PaperRevisionUploadForm
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, abort, request
 import datetime as dt
@@ -11,11 +11,11 @@ from open_science.search import helpers as search_helper
 import json
 import functools
 from flask_login.config import EXEMPT_METHODS
-from open_science.notification.helpers import\
-     create_paper_comment_notifications
 from open_science.review.helpers import prepare_review_requests,\
      NOT_ENOUGHT_RESEARCHERS_TEXT, transfer_old_reviews
 from open_science.db_helper import get_hidden_filter
+from open_science.notification.helpers import create_paper_comment_notifications
+from text_processing import mocks as Mocks
 
 
 # Routes decorator
@@ -122,7 +122,8 @@ def file_upload_page():
             abstract=description,
             publication_date=dt.datetime.utcnow(),
             rel_creators=[current_user] + users,
-            rel_related_tags=tags
+            rel_related_tags=tags,
+            preprocessed_text = Mocks.get_text(path)
         )
         paper.rel_related_versions.append(paper_version)
 
@@ -140,6 +141,71 @@ def file_upload_page():
 
     return render_template("utils/pdf_send_form.html", form=form, tags=tags)
 
+
+def upload_revision(id):
+    parent_paper = Paper.query.get(id)
+    previous_version = parent_paper.get_latest_revision()
+
+    if current_user not in previous_version.rel_creators:
+        abort(401)
+    
+    form = PaperRevisionUploadForm()
+
+    if parent_paper is None:
+        abort(404)
+
+    if form.validate_on_submit():
+        print(form.data)
+        f = form.file.data
+        
+
+        if not validatePDF(f.read(16)):
+            abort(415)
+
+        f.seek(0, 0)
+        title = previous_version.title
+        description = previous_version.abstract
+        authors = previous_version.rel_creators
+        tags = previous_version.rel_related_tags
+
+        filename = secure_filename(f.filename)
+        path = f"open_science/static/articles/{filename}"
+        url = url_for('static', filename=f"articles/{filename}")
+
+        f.save(path)
+
+        # TODO: add changes
+        new_version = PaperRevision(
+            pdf_url=url,
+            title=title,
+            abstract=description,
+            publication_date=dt.datetime.utcnow(),
+            rel_creators=authors,
+            rel_related_tags=tags,
+            preprocessed_text = Mocks.get_text(path),
+            version = int(previous_version.version) + 1
+        )
+
+        changes = [RevisionChangesComponent(
+            change_description = change['suggestion'],
+            location = change['location']
+        ) for change in json.loads(form.changes.data)]
+
+        new_version.rel_changes = changes
+
+        if parent_paper.rel_related_versions:
+            parent_paper.rel_related_versions.append(new_version)
+        else:
+            # should never fire, but miracles do sometimes happen, soo...
+            parent_paper.rel_related_versions = [new_version]
+        
+        db.session.commit()
+
+        return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+
+    return render_template("utils/revisionUploadForm.html", form=form, paperID=parent_paper.id)
+
+        
 
 # anonym -
 def view_article(id):
@@ -308,6 +374,9 @@ def advanced_search_papers_page(page, search_data, order_by):
     if isinstance(search_data, str):
         search_data = ast.literal_eval(search_data)
 
+    if not check_numeric_args(page):
+        abort(404)
+
     if isinstance(page, str):
         page = int(page)
 
@@ -323,6 +392,9 @@ def advanced_search_users_page(page, search_data, order_by):
     if isinstance(search_data, str):
         search_data = ast.literal_eval(search_data)
 
+    if not check_numeric_args(page):
+        abort(404)
+
     page = int(page)
 
     users = []
@@ -337,6 +409,9 @@ def advanced_search_tags_page(page, search_data, order_by):
     if isinstance(search_data, str):
         search_data = ast.literal_eval(search_data)
 
+    if not check_numeric_args(page):
+        abort(404)
+
     page = int(page)
 
     tags = []
@@ -350,7 +425,9 @@ def advanced_search_tags_page(page, search_data, order_by):
 def reviews_list_page(page, search_data, order_by):
     if isinstance(search_data, str):
         search_data = ast.literal_eval(search_data)
-    
+
+    if not check_numeric_args(page):
+        abort(404)
 
     page = int(page)
     user_id = int(search_data['user_id'])
