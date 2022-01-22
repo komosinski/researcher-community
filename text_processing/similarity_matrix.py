@@ -87,6 +87,7 @@ def update_tfidf_matrix():
     corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
     tfidf = models.TfidfModel(corpus, smartirs='ntc')
     tfidf_matrix = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary))
+    save_tfidf_matrix(tfidf_matrix)
 
     return tfidf_matrix
 
