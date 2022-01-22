@@ -16,7 +16,7 @@ import datetime as dt
 from sqlalchemy import func
 from open_science import app
 from open_science.enums import UserTypeEnum, EmailTypeEnum, \
-    NotificationTypeEnum, MessageTopicEnum
+    NotificationTypeEnum, MessageTopicEnum, LicenseEnum
 from open_science.config.auto_endorse_config import EMAIL_REGEXPS
 import re
 
@@ -839,9 +839,9 @@ class Comment(db.Model):
 
     # columns
     text = db.Column(db.String(length=mc.COMMENT_TEXT_L))
-    votes_score = db.Column(db.Integer(), nullable=False)
-    red_flags_count = db.Column(db.Integer(), nullable=False)
-    level = db.Column(db.Integer(), nullable=False)
+    votes_score = db.Column(db.Integer(), nullable=False, default=0)
+    red_flags_count = db.Column(db.Integer(), nullable=False, default=0)
+    level = db.Column(db.Integer(), nullable=False, default=0)
     date = db.Column(db.DateTime)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
     force_show = db.Column(db.Boolean, nullable=False, default=False)
@@ -1138,6 +1138,13 @@ class License(db.Model):
     rel_related_paper_revisions = db.relationship("PaperRevision", secondary=association_paper_version_license,
                                                   back_populates="rel_related_licenses")
 
+    def insert_licenses():
+        for en_license in LicenseEnum:
+            if not License.query.filter(License.license == en_license.name).first():
+                license = License(id=en_license.value, license=en_license.name)
+                db.session.add(license)
+        db.session.commit()
+
 
 class RevisionChangesComponent(db.Model):
     __tablename__ = "revision_changes_components"
@@ -1419,6 +1426,7 @@ def create_essential_data():
     MessageTopic.insert_topics()
     EmailType.insert_types()
     NotificationType.insert_types()
+    License.insert_licenses()
 
     # site as user to log emails send from site and use ForeignKey in EmailLog model
     # confirmed=False hides user
