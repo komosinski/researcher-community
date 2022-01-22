@@ -50,6 +50,18 @@ def update_dictionary(new_text):
 
     return dictionary
 
+def update_tfidf_matrix():
+    tfidf_matrix = []
+
+    all_paper_texts = get_all_papers_texts()
+    dictionary = get_dictionary()
+    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
+    corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
+    tfidf = models.TfidfModel(corpus, smartirs='ntc')
+    tfidf_matrix = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary))
+
+    return tfidf_matrix
+
 
 # returns tfidf matrix created from preprocessed texts
 def create_tfidf_matrix():
