@@ -27,3 +27,4 @@ def create_save_users_plot():
 
     # TODO: Save plot to this path
     users_plot_url = app.config['USERS_PLOT_URL']
+    plt.savefig(users_plot_url, dpi=200)
