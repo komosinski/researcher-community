@@ -8,6 +8,7 @@ from open_science.models import create_essential_data, PaperRevision, Comment, R
     RevisionChangesComponent
 
 from open_science.enums import UserTypeEnum, NotificationTypeEnum
+from text_processing.prepocess_text import get_text
 
 
 def create_test_data():
@@ -3209,7 +3210,7 @@ def create_test_data():
     # paper revisions
     pve1_1 = PaperRevision(
         version=1,
-        pdf_url="server_files/uploaded_pdfs/1.pdf",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}1.pdf",
         title="Assistance of an expert in the participatory planning model in the area included in the revitalisation "
               "programme in view of the desired changes. Based on the example of the district of Śródka in Poznań",
         abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3221,9 +3222,9 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}1.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=4
+        confidence_level=3
     )
     pve1_1.rel_related_comments = [c1, c2, c3]
     pve1_1.rel_parent_paper = p1
@@ -3231,7 +3232,7 @@ def create_test_data():
     db.session.add(pve1_1)
 
     pve1_2 = PaperRevision(
-        pdf_url="https://paperurl1_2.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}1.pdf",
         title="Assistance of an expert in the participatory planning model in the area included in the revitalisation "
               "programme in view of the desired changes. Based on the example of the district of Śródka in Poznań",
         version=2,
@@ -3244,9 +3245,9 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}1.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=4
+        confidence_level=3
     )
     pve1_2.rel_related_comments = [c4, c5, c6]
     pve1_2.rel_parent_paper = p1
@@ -3254,7 +3255,7 @@ def create_test_data():
     db.session.add(pve1_2)
 
     pve1_3 = PaperRevision(
-        pdf_url="https://paperurl1_3.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}1.pdf",
         title="Assistance of an expert in the participatory planning model in the area included in the revitalisation "
               "programme in view of the desired changes. Based on the example of the district of Śródka in Poznań",
         version=3,
@@ -3267,17 +3268,17 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}1.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        confidence_level=4
+        confidence_level=3
     )
     pve1_3.rel_related_comments = [c7, c8, c9]
     pve1_3.rel_parent_paper = p1
     pve1_3.rel_related_reviews = [r9, r10, r11, r12]
     db.session.add(pve1_3)
 
-    pve2 = PaperRevision(
-        pdf_url="https://paperurl2.com",
+    pve2_1 = PaperRevision(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}2.pdf",
         title="Climate Change and Building Energy Consumption: AReview of the Impact of Weather Parameters Influenced "
               "by Climate Change on Household Heating and Cooling Demands of Buildings",
         version=1,
@@ -3290,17 +3291,38 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}2.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
-    pve2.rel_related_comments = [c10, c11, c12]
-    pve2.rel_parent_paper = p2
-    pve2.rel_related_reviews = [r13, r14]
-    db.session.add(pve2)
+    pve2_1.rel_related_comments = [c10, c11, c12]
+    pve2_1.rel_parent_paper = p2
+    pve2_1.rel_related_reviews = [r13, r14]
+    db.session.add(pve2_1)
+
+    pve2_2 = PaperRevision(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}2.pdf",
+        title="Climate Change and Building Energy Consumption: AReview of the Impact of Weather Parameters Influenced "
+              "by Climate Change on Household Heating and Cooling Demands of Buildings",
+        version=2,
+        abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
+                 "scelerisque finibus. Donec eget tincidunt sapien, a egestas ex. Nullam eget pulvinar elit. Praesent "
+                 "blandit vel dui eu maximus. Aliquam mauris purus, semper sed condimentum quis, varius a nisi. "
+                 "Suspendisse id consequat lacus. Sed nec mollis nunc, in ullamcorper quam. Praesent nec diam "
+                 "fringilla, laoreet risus at, iaculis enim. Nunc lobortis, quam id faucibus interdum, dolor quam "
+                 "lacinia nulla, quis laoreet sapien lectus sit amet lectus. Etiam in consequat nunc, vel ornare "
+                 "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
+                 "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
+                 "Suspendisse auctor id orci quis placerat.",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}2.pdf"),
+        publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
+        confidence_level=3
+    )
+    pve2_2.rel_parent_paper = p2
+    db.session.add(pve2_2)
 
     pve3 = PaperRevision(
-        pdf_url="https://paperurl3.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}3.pdf",
         title="Drawing Skills of Candidates for Architectural Studies vs.Learning Outcomes of Graduates. Comparative "
               "Research Basedon the Example of The Faculty of Architecture, PoznanUniversity of Technology",
         version=1,
@@ -3313,7 +3335,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}3.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3323,7 +3345,7 @@ def create_test_data():
     db.session.add(pve3)
 
     pve4 = PaperRevision(
-        pdf_url="https://paperurl4.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}4.pdf",
         title="Housing Expectations of Future Seniors Based on an Example ofthe Inhabitants of Poland",
         version=1,
         abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3335,7 +3357,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}4.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3345,7 +3367,7 @@ def create_test_data():
     db.session.add(pve4)
 
     pve5 = PaperRevision(
-        pdf_url="https://paperurl5.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}5.pdf",
         title="How to combine descriptive and normative approaches in participatory urban planning: an experimental "
               "mixed-method implemented in the downtown district of Poznań, Poland",
         version=1,
@@ -3358,7 +3380,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}5.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3368,7 +3390,7 @@ def create_test_data():
     db.session.add(pve5)
 
     pve6 = PaperRevision(
-        pdf_url="https://paperurl6.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}6.pdf",
         title="Inclusiveness of Urban Space and Tools for the Assessment ofthe Quality of Urban Life—A Critical "
               "Approach",
         version=1,
@@ -3381,7 +3403,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}6.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3391,7 +3413,7 @@ def create_test_data():
     db.session.add(pve6)
 
     pve7 = PaperRevision(
-        pdf_url="https://paperurl7.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}7.pdf",
         title="Teaching acoustics to students of architecture",
         version=1,
         abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3403,7 +3425,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}7.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3413,7 +3435,7 @@ def create_test_data():
     db.session.add(pve7)
 
     pve8 = PaperRevision(
-        pdf_url="https://paperurl8.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}8.pdf",
         title="The Impact Assessment of Climate Change on Building Energy Consumption in Poland",
         version=1,
         abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3425,7 +3447,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}8.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3435,7 +3457,7 @@ def create_test_data():
     db.session.add(pve8)
 
     pve9 = PaperRevision(
-        pdf_url="https://paperurl9.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}9.pdf",
         title="THE IMPORTANCE OF FLEXIBILITY IN ADAPTIVE REUSE OF INDUSTRIAL HERITAGE: LEARNING FROM IRANIAN CASES",
         version=1,
         abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3447,7 +3469,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}9.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3457,7 +3479,7 @@ def create_test_data():
     db.session.add(pve9)
 
     pve10 = PaperRevision(
-        pdf_url="https://paperurl10.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}10.pdf",
         title="The Importance of Water and Climate-Related Aspects in theQuality of Urban Life Assessment",
         version=1,
         abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3469,7 +3491,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}10.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3479,7 +3501,7 @@ def create_test_data():
     db.session.add(pve10)
 
     pve11 = PaperRevision(
-        pdf_url="https://paperurl11.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}11.pdf",
         title="BANK CORPORATE FINANCING: WORLD EXPERIENCE AND UKRAINIAN REALITIES",
         version=1,
         abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3491,7 +3513,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}11.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3501,7 +3523,7 @@ def create_test_data():
     db.session.add(pve11)
 
     pve12 = PaperRevision(
-        pdf_url="https://paperurl12.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}12.pdf",
         title="economic activity and social determinants versus entrepreneurship in smes – selected aspects",
         version=1,
         abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3513,7 +3535,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}12.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3523,7 +3545,7 @@ def create_test_data():
     db.session.add(pve12)
 
     pve13 = PaperRevision(
-        pdf_url="https://paperurl13.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}13.pdf",
         title="Application of Grey Systems Theory in the Analysis of Data Obtained from Family Businesses",
         version=1,
         abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3535,7 +3557,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}13.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3545,7 +3567,7 @@ def create_test_data():
     db.session.add(pve13)
 
     pve14 = PaperRevision(
-        pdf_url="https://paperurl14.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}14.pdf",
         title="Attitudes of Polish entrepreneurs towards knowledge workers aged 65 plus in the context of their good "
               "employment practices",
         version=1,
@@ -3558,7 +3580,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}14.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3568,7 +3590,7 @@ def create_test_data():
     db.session.add(pve14)
 
     pve15_1 = PaperRevision(
-        pdf_url="https://paperurl15.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}15.pdf",
         title="Decision Making in Health Management during Crisis: A Case Study Based on Epidemiological Curves of "
               "China and Italy against COVID-19",
         version=1,
@@ -3581,7 +3603,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}15.pdf"),
         publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
         confidence_level=2
     )
@@ -3591,7 +3613,7 @@ def create_test_data():
     db.session.add(pve15_1)
 
     pve15_2 = PaperRevision(
-        pdf_url="https://paperurl15.com",
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}15.pdf",
         title="Decision Making in Health Management during Crisis: A Case Study Based on Epidemiological Curves of "
               "China and Italy against COVID-19",
         version=2,
@@ -3604,7 +3626,7 @@ def create_test_data():
                  "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                  "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                  "Suspendisse auctor id orci quis placerat.",
-        preprocessed_text="description1 In orci lectus, convallis et velit at, ultrices rhoncus ante. ",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}15.pdf"),
         confidence_level=2
     )
     pve15_2.rel_parent_paper = p15
@@ -3629,7 +3651,7 @@ def create_test_data():
         creation_date=dt.datetime(2020, 1, 17, 1, 1, 1, 1),
         deadline=dt.datetime(2023, 1, 17, 1, 1, 1, 1),
     )
-    t2.rel_related_paper_revisions = [pve2, pve9]
+    t2.rel_related_paper_revisions = [pve2_1, pve9]
     db.session.add(t2)
 
     t3 = Tag(
@@ -3701,7 +3723,7 @@ def create_test_data():
         creation_date=dt.datetime(2020, 1, 17, 1, 1, 1, 1),
         deadline=dt.datetime(2023, 1, 17, 1, 1, 1, 1),
     )
-    t10.rel_related_paper_revisions = [pve10, pve2]
+    t10.rel_related_paper_revisions = [pve10, pve2_1]
     db.session.add(t10)
 
     t11 = Tag(
@@ -3764,7 +3786,7 @@ def create_test_data():
         creation_date=dt.datetime(2020, 1, 17, 1, 1, 1, 1),
         deadline=dt.datetime(2023, 1, 17, 1, 1, 1, 1),
     )
-    t17.rel_related_paper_revisions = [pve2, pve9]
+    t17.rel_related_paper_revisions = [pve2_1, pve9]
     db.session.add(t17)
 
     t18 = Tag(
@@ -3836,7 +3858,7 @@ def create_test_data():
         creation_date=dt.datetime(2020, 1, 17, 1, 1, 1, 1),
         deadline=dt.datetime(2023, 1, 17, 1, 1, 1, 1),
     )
-    t25.rel_related_paper_revisions = [pve10, pve2]
+    t25.rel_related_paper_revisions = [pve10, pve2_1]
     db.session.add(t25)
 
     t26 = Tag(
@@ -3893,7 +3915,7 @@ def create_test_data():
         weight=1.1,
         registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2)
     )
-    u1.rel_created_paper_revisions = [pve1_1, pve1_2, pve1_3, pve2, pve6, pve11]
+    u1.rel_created_paper_revisions = [pve1_1, pve1_2, pve1_3, pve2_1, pve6, pve11]
     u1.rel_tags_to_user = [t1, t2, t3, t4]
     u1.rel_created_tags = [t11, t12, t13, t14]
     u1.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.RESEARCHER_USER.value).first()
@@ -3936,7 +3958,7 @@ def create_test_data():
         weight=2.2,
         registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2)
     )
-    u2.rel_created_paper_revisions = [pve2, pve7, pve12]
+    u2.rel_created_paper_revisions = [pve2_1, pve7, pve12]
     u2.rel_tags_to_user = [t5, t6, t7, t8]
     u2.rel_created_tags = [t15, t16, t17, t18]
     u2.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.RESEARCHER_USER.value).first()
@@ -3974,7 +3996,7 @@ def create_test_data():
         weight=3.3,
         registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2)
     )
-    u3.rel_created_paper_revisions = [pve2, pve3, pve8, pve13]
+    u3.rel_created_paper_revisions = [pve2_1, pve3, pve8, pve13]
     u3.rel_tags_to_user = [t9, t10, t11, t12]
     u3.rel_created_tags = [t19, t20, t21, t22]
     u3.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.RESEARCHER_USER.value).first()
@@ -4314,7 +4336,7 @@ def create_test_data():
         deadline_date=dt.date(2020, 9, 13),
     )
     rr13.rel_requested_user = u4
-    rr13.rel_related_paper_version = pve2
+    rr13.rel_related_paper_version = pve2_1
     db.session.add(rr13)
 
     rr14 = ReviewRequest(
@@ -4324,7 +4346,7 @@ def create_test_data():
         deadline_date=dt.date(2020, 9, 14),
     )
     rr14.rel_requested_user = u5
-    rr14.rel_related_paper_version = pve2
+    rr14.rel_related_paper_version = pve2_1
     db.session.add(rr14)
 
     rr15 = ReviewRequest(
@@ -4593,6 +4615,31 @@ def create_test_data():
     rr41.rel_related_paper_version = pve15_1
     db.session.add(rr41)
 
+    rr42 = ReviewRequest(
+        creation_datetime=dt.datetime(2020, 9, 10, 2, 2, 2, 2),
+        deadline_date=dt.date(2020, 10, 10)
+    )
+    rr42.rel_requested_user = u1
+    rr42.rel_related_paper_version = pve2_2
+    db.session.add(rr42)
+
+    rr43 = ReviewRequest(
+        creation_datetime=dt.datetime(2020, 9, 10, 2, 2, 2, 2),
+        deadline_date=dt.date(2020, 10, 10)
+    )
+    rr43.rel_requested_user = u2
+    rr43.rel_related_paper_version = pve2_2
+    db.session.add(rr43)
+
+    rr44 = ReviewRequest(
+        creation_datetime=dt.datetime(2020, 9, 10, 2, 2, 2, 2),
+        deadline_date=dt.date(2020, 10, 10)
+    )
+    rr44.rel_requested_user = u3
+    rr44.rel_related_paper_version = pve2_2
+    db.session.add(rr44)
+
+    # comments votes
     # comments votes
     vc1 = VoteComment(
             is_up=False
@@ -8220,51 +8267,31 @@ def create_test_data():
         datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
         title=Notification.prepare_title(nt_review_request),
         text='New review request',
-        action_url=url_for('review_request_page', request_id=36)
+        action_url=url_for('review_request_page', request_id=42)
     )
     n1.rel_notification_type = nt_review_request
-    n1.rel_user = u2
+    n1.rel_user = u1
     db.session.add(n1)
 
     n2 = Notification(
         datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
         title=Notification.prepare_title(nt_review_request),
         text='New review request',
-        action_url=url_for('review_request_page', request_id=36)
+        action_url=url_for('review_request_page', request_id=43)
     )
     n2.rel_notification_type = nt_review_request
-    n2.rel_user = u3
+    n2.rel_user = u2
     db.session.add(n2)
 
     n3 = Notification(
         datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
         title=Notification.prepare_title(nt_review_request),
         text='New review request',
-        action_url=url_for('review_request_page', request_id=36)
+        action_url=url_for('review_request_page', request_id=44)
     )
     n3.rel_notification_type = nt_review_request
-    n3.rel_user = u5
+    n3.rel_user = u3
     db.session.add(n3)
-
-    n4 = Notification(
-        datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        title=Notification.prepare_title(nt_review_request),
-        text='New review request',
-        action_url=url_for('review_request_page', request_id=36)
-    )
-    n4.rel_notification_type = nt_review_request
-    n4.rel_user = u4
-    db.session.add(n4)
-
-    n5 = Notification(
-        datetime=dt.datetime(2022, 1, 17, 1, 1, 1, 1),
-        title=Notification.prepare_title(nt_review_request),
-        text='New review request',
-        action_url=url_for('review_request_page', request_id=36)
-    )
-    n5.rel_notification_type = nt_review_request
-    n5.rel_user = u1
-    db.session.add(n5)
 
     # suggestions
     s1 = Suggestion(
@@ -10187,89 +10214,811 @@ def create_test_data():
     s120.rel_review = r40
     db.session.add(s120)
 
+    # calibration papers
     cp1 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl1.com",
-        preprocessed_text="preprocessed_text1"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}16.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}16.pdf"),
     )
     cp1.rel_author = u1
     db.session.add(cp1)
 
     cp2 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl2.com",
-        preprocessed_text="preprocessed_text2"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}17.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}17.pdf"),
     )
     cp2.rel_author = u1
     db.session.add(cp2)
 
     cp3 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl3.com",
-        preprocessed_text="preprocessed_text3"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}18.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}18.pdf"),
     )
     cp3.rel_author = u1
     db.session.add(cp3)
 
     cp4 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl4.com",
-        preprocessed_text="preprocessed_text4"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}19.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}19.pdf"),
     )
-    cp4.rel_author = u2
+    cp4.rel_author = u1
     db.session.add(cp4)
 
     cp5 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl5.com",
-        preprocessed_text="preprocessed_text5"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}20.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}20.pdf"),
     )
-    cp5.rel_author = u2
+    cp5.rel_author = u1
     db.session.add(cp5)
 
     cp6 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl6.com",
-        preprocessed_text="preprocessed_text6"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}21.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}21.pdf"),
     )
-    cp6.rel_author = u2
+    cp6.rel_author = u1
     db.session.add(cp6)
 
     cp7 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl7.com",
-        preprocessed_text="preprocessed_text7"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}22.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}22.pdf"),
     )
-    cp7.rel_author = u3
+    cp7.rel_author = u1
     db.session.add(cp7)
 
     cp8 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl8.com",
-        preprocessed_text="preprocessed_text8"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}23.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}23.pdf"),
     )
-    cp8.rel_author = u3
+    cp8.rel_author = u1
     db.session.add(cp8)
 
     cp9 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl9.com",
-        preprocessed_text="preprocessed_text9"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}24.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}24.pdf"),
     )
-    cp9.rel_author = u3
+    cp9.rel_author = u1
     db.session.add(cp9)
 
     cp10 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl10.com",
-        preprocessed_text="preprocessed_text10"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}25.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}25.pdf"),
     )
-    cp10.rel_author = u4
+    cp10.rel_author = u1
     db.session.add(cp10)
 
     cp11 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl11.com",
-        preprocessed_text="preprocessed_text11"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}26.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}26.pdf"),
     )
-    cp11.rel_author = u4
+    cp11.rel_author = u1
     db.session.add(cp11)
 
     cp12 = CalibrationPaper(
-        pdf_url="https://calibrationpaperurl12.com",
-        preprocessed_text="preprocessed_text12"
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}27.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}27.pdf"),
     )
-    cp12.rel_author = u4
+    cp12.rel_author = u1
     db.session.add(cp12)
+
+    cp13 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}28.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}28.pdf"),
+    )
+    cp13.rel_author = u1
+    db.session.add(cp13)
+
+    cp14 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}29.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}29.pdf"),
+    )
+    cp14.rel_author = u1
+    db.session.add(cp14)
+
+    cp15 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}30.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}30.pdf"),
+    )
+    cp15.rel_author = u1
+    db.session.add(cp15)
+
+    cp16 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}31.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}31.pdf"),
+    )
+    cp16.rel_author = u1
+    db.session.add(cp16)
+
+    cp17 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}32.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}32.pdf"),
+    )
+    cp17.rel_author = u1
+    db.session.add(cp17)
+
+    cp18 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}33.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}33.pdf"),
+    )
+    cp18.rel_author = u1
+    db.session.add(cp18)
+
+    cp19 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}34.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}34.pdf"),
+    )
+    cp19.rel_author = u1
+    db.session.add(cp19)
+
+    cp20 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}35.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}35.pdf"),
+    )
+    cp20.rel_author = u1
+    db.session.add(cp20)
+
+    cp21 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}36.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}36.pdf"),
+    )
+    cp21.rel_author = u1
+    db.session.add(cp21)
+
+    cp22 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}37.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}37.pdf"),
+    )
+    cp22.rel_author = u1
+    db.session.add(cp22)
+
+    cp23 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}38.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}38.pdf"),
+    )
+    cp23.rel_author = u1
+    db.session.add(cp23)
+
+    cp24 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}39.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}39.pdf"),
+    )
+    cp24.rel_author = u2
+    db.session.add(cp24)
+
+    cp25 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}40.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}40.pdf"),
+    )
+    cp25.rel_author = u2
+    db.session.add(cp25)
+
+    cp26 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}41.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}41.pdf"),
+    )
+    cp26.rel_author = u2
+    db.session.add(cp26)
+
+    cp27 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}42.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}42.pdf"),
+    )
+    cp27.rel_author = u2
+    db.session.add(cp27)
+
+    cp28 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}43.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}43.pdf"),
+    )
+    cp28.rel_author = u2
+    db.session.add(cp28)
+
+    cp29 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}44.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}44.pdf"),
+    )
+    cp29.rel_author = u2
+    db.session.add(cp29)
+
+    cp30 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}45.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}45.pdf"),
+    )
+    cp30.rel_author = u2
+    db.session.add(cp30)
+
+    cp31 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}46.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}46.pdf"),
+    )
+    cp31.rel_author = u2
+    db.session.add(cp31)
+
+    cp32 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}47.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}47.pdf"),
+    )
+    cp32.rel_author = u2
+    db.session.add(cp32)
+
+    cp33 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}48.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}48.pdf"),
+    )
+    cp33.rel_author = u2
+    db.session.add(cp33)
+
+    cp34 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}49.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}49.pdf"),
+    )
+    cp34.rel_author = u2
+    db.session.add(cp34)
+
+    cp35 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}50.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}50.pdf"),
+    )
+    cp35.rel_author = u2
+    db.session.add(cp35)
+
+    cp36 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}51.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}51.pdf"),
+    )
+    cp36.rel_author = u2
+    db.session.add(cp36)
+
+    cp37 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}52.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}52.pdf"),
+    )
+    cp37.rel_author = u2
+    db.session.add(cp37)
+
+    cp38 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}53.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}53.pdf"),
+    )
+    cp38.rel_author = u2
+    db.session.add(cp38)
+
+    cp39 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}54.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}54.pdf"),
+    )
+    cp39.rel_author = u2
+    db.session.add(cp39)
+
+    cp40 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}55.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}55.pdf"),
+    )
+    cp40.rel_author = u2
+    db.session.add(cp40)
+
+    cp41 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}56.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}56.pdf"),
+    )
+    cp41.rel_author = u2
+    db.session.add(cp41)
+
+    cp42 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}57.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}57.pdf"),
+    )
+    cp42.rel_author = u2
+    db.session.add(cp42)
+
+    cp43 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}58.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}58.pdf"),
+    )
+    cp43.rel_author = u2
+    db.session.add(cp43)
+
+    cp44 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}59.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}59.pdf"),
+    )
+    cp44.rel_author = u2
+    db.session.add(cp44)
+
+    cp45 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}60.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}60.pdf"),
+    )
+    cp45.rel_author = u2
+    db.session.add(cp45)
+
+    cp46 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}61.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}61.pdf"),
+    )
+    cp46.rel_author = u2
+    db.session.add(cp46)
+
+    cp47 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}62.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}62.pdf"),
+    )
+    cp47.rel_author = u3
+    db.session.add(cp47)
+
+    cp48 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}63.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}63.pdf"),
+    )
+    cp48.rel_author = u3
+    db.session.add(cp48)
+
+    cp49 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}64.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}64.pdf"),
+    )
+    cp49.rel_author = u3
+    db.session.add(cp49)
+
+    cp50 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}65.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}65.pdf"),
+    )
+    cp50.rel_author = u3
+    db.session.add(cp50)
+
+    cp51 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}66.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}66.pdf"),
+    )
+    cp51.rel_author = u3
+    db.session.add(cp51)
+
+    cp52 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}67.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}67.pdf"),
+    )
+    cp52.rel_author = u3
+    db.session.add(cp52)
+
+    cp53 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}68.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}68.pdf"),
+    )
+    cp53.rel_author = u3
+    db.session.add(cp53)
+
+    cp54 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}69.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}69.pdf"),
+    )
+    cp54.rel_author = u3
+    db.session.add(cp54)
+
+    cp55 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}70.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}70.pdf"),
+    )
+    cp55.rel_author = u3
+    db.session.add(cp55)
+
+    cp56 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}71.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}71.pdf"),
+    )
+    cp56.rel_author = u3
+    db.session.add(cp56)
+
+    cp57 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}72.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}72.pdf"),
+    )
+    cp57.rel_author = u3
+    db.session.add(cp57)
+
+    cp58 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}73.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}73.pdf"),
+    )
+    cp58.rel_author = u3
+    db.session.add(cp58)
+
+    cp59 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}74.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}74.pdf"),
+    )
+    cp59.rel_author = u3
+    db.session.add(cp59)
+
+    cp60 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}75.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}75.pdf"),
+    )
+    cp60.rel_author = u3
+    db.session.add(cp60)
+
+    cp61 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}76.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}76.pdf"),
+    )
+    cp61.rel_author = u3
+    db.session.add(cp61)
+
+    cp62 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}77.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}77.pdf"),
+    )
+    cp62.rel_author = u3
+    db.session.add(cp62)
+
+    cp63 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}78.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}78.pdf"),
+    )
+    cp63.rel_author = u3
+    db.session.add(cp63)
+
+    cp64 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}79.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}79.pdf"),
+    )
+    cp64.rel_author = u3
+    db.session.add(cp64)
+
+    cp65 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}80.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}80.pdf"),
+    )
+    cp65.rel_author = u3
+    db.session.add(cp65)
+
+    cp66 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}81.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}81.pdf"),
+    )
+    cp66.rel_author = u3
+    db.session.add(cp66)
+
+    cp67 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}82.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}82.pdf"),
+    )
+    cp67.rel_author = u3
+    db.session.add(cp67)
+
+    cp68 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}83.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}83.pdf"),
+    )
+    cp68.rel_author = u3
+    db.session.add(cp68)
+
+    cp69 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}84.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}84.pdf"),
+    )
+    cp69.rel_author = u3
+    db.session.add(cp69)
+
+    cp70 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}85.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}85.pdf"),
+    )
+    cp70.rel_author = u4
+    db.session.add(cp70)
+
+    cp71 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}86.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}86.pdf"),
+    )
+    cp71.rel_author = u4
+    db.session.add(cp71)
+
+    cp72 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}87.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}87.pdf"),
+    )
+    cp72.rel_author = u4
+    db.session.add(cp72)
+
+    cp73 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}88.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}88.pdf"),
+    )
+    cp73.rel_author = u4
+    db.session.add(cp73)
+
+    cp74 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}89.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}89.pdf"),
+    )
+    cp74.rel_author = u4
+    db.session.add(cp74)
+
+    cp75 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}90.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}90.pdf"),
+    )
+    cp75.rel_author = u4
+    db.session.add(cp75)
+
+    cp76 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}91.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}91.pdf"),
+    )
+    cp76.rel_author = u4
+    db.session.add(cp76)
+
+    cp77 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}92.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}92.pdf"),
+    )
+    cp77.rel_author = u4
+    db.session.add(cp77)
+
+    cp78 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}93.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}93.pdf"),
+    )
+    cp78.rel_author = u4
+    db.session.add(cp78)
+
+    cp79 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}94.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}94.pdf"),
+    )
+    cp79.rel_author = u4
+    db.session.add(cp79)
+
+    cp80 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}95.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}95.pdf"),
+    )
+    cp80.rel_author = u4
+    db.session.add(cp80)
+
+    cp81 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}96.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}96.pdf"),
+    )
+    cp81.rel_author = u4
+    db.session.add(cp81)
+
+    cp82 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}97.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}97.pdf"),
+    )
+    cp82.rel_author = u4
+    db.session.add(cp82)
+
+    cp83 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}98.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}98.pdf"),
+    )
+    cp83.rel_author = u4
+    db.session.add(cp83)
+
+    cp84 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}99.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}99.pdf"),
+    )
+    cp84.rel_author = u4
+    db.session.add(cp84)
+
+    cp85 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}100.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}100.pdf"),
+    )
+    cp85.rel_author = u4
+    db.session.add(cp85)
+
+    cp86 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}101.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}101.pdf"),
+    )
+    cp86.rel_author = u4
+    db.session.add(cp86)
+
+    cp87 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}102.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}102.pdf"),
+    )
+    cp87.rel_author = u4
+    db.session.add(cp87)
+
+    cp88 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}103.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}103.pdf"),
+    )
+    cp88.rel_author = u4
+    db.session.add(cp88)
+
+    cp89 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}104.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}104.pdf"),
+    )
+    cp89.rel_author = u4
+    db.session.add(cp89)
+
+    cp90 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}105.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}105.pdf"),
+    )
+    cp90.rel_author = u4
+    db.session.add(cp90)
+
+    cp91 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}106.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}106.pdf"),
+    )
+    cp91.rel_author = u4
+    db.session.add(cp91)
+
+    cp92 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}107.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}107.pdf"),
+    )
+    cp92.rel_author = u4
+    db.session.add(cp92)
+
+    cp93 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}108.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}108.pdf"),
+    )
+    cp93.rel_author = u5
+    db.session.add(cp93)
+
+    cp94 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}109.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}109.pdf"),
+    )
+    cp94.rel_author = u5
+    db.session.add(cp94)
+
+    cp95 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}110.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}110.pdf"),
+    )
+    cp95.rel_author = u5
+    db.session.add(cp95)
+
+    cp96 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}111.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}111.pdf"),
+    )
+    cp96.rel_author = u5
+    db.session.add(cp96)
+
+    cp97 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}112.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}112.pdf"),
+    )
+    cp97.rel_author = u5
+    db.session.add(cp97)
+
+    cp98 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}113.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}113.pdf"),
+    )
+    cp98.rel_author = u5
+    db.session.add(cp98)
+
+    cp99 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}114.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}114.pdf"),
+    )
+    cp99.rel_author = u5
+    db.session.add(cp99)
+
+    cp100 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}115.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}115.pdf"),
+    )
+    cp100.rel_author = u5
+    db.session.add(cp100)
+
+    cp101 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}116.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}116.pdf"),
+    )
+    cp101.rel_author = u5
+    db.session.add(cp101)
+
+    cp102 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}117.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}117.pdf"),
+    )
+    cp102.rel_author = u5
+    db.session.add(cp102)
+
+    cp103 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}118.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}118.pdf"),
+    )
+    cp103.rel_author = u5
+    db.session.add(cp103)
+
+    cp104 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}119.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}119.pdf"),
+    )
+    cp104.rel_author = u5
+    db.session.add(cp104)
+
+    cp105 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}120.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}120.pdf"),
+    )
+    cp105.rel_author = u5
+    db.session.add(cp105)
+
+    cp106 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}121.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}121.pdf"),
+    )
+    cp106.rel_author = u5
+    db.session.add(cp106)
+
+    cp107 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}122.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}122.pdf"),
+    )
+    cp107.rel_author = u5
+    db.session.add(cp107)
+
+    cp108 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}123.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}123.pdf"),
+    )
+    cp108.rel_author = u5
+    db.session.add(cp108)
+
+    cp109 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}124.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}124.pdf"),
+    )
+    cp109.rel_author = u5
+    db.session.add(cp109)
+
+    cp110 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}125.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}125.pdf"),
+    )
+    cp110.rel_author = u5
+    db.session.add(cp110)
+
+    cp111 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}126.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}126.pdf"),
+    )
+    cp111.rel_author = u5
+    db.session.add(cp111)
+
+    cp112 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}127.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}127.pdf"),
+    )
+    cp112.rel_author = u5
+    db.session.add(cp112)
+
+    cp113 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}128.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}128.pdf"),
+    )
+    cp113.rel_author = u5
+    db.session.add(cp113)
+
+    cp114 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}129.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}129.pdf"),
+    )
+    cp114.rel_author = u5
+    db.session.add(cp114)
+
+    cp115 = CalibrationPaper(
+        pdf_url=f"{app.config['PDFS_FOLDER_URL']}130.pdf",
+        preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}130.pdf"),
+    )
+    cp115.rel_author = u5
+    db.session.add(cp115)
 
     # revision changes components
     rcc1 = RevisionChangesComponent(

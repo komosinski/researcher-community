@@ -106,4 +106,7 @@ class Config(object):
         'MAX_CONFIDECNE_LEVEL') or 3)
 
     # Url to pdfs folder
-    PDFS_FOLDER_URL = './server_files/uploaded_pdfs'
+    PDFS_FOLDER_URL = '/static/articles/'
+
+    # Full url to pdfs folder
+    PDFS_FOLDER_FULL_URL = 'open_science/static/articles/'
