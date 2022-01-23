@@ -16,7 +16,7 @@ from open_science.review.helpers import prepare_review_requests,\
 from open_science.db_helper import get_hidden_filter
 from open_science.notification.helpers import create_paper_comment_notifications
 from text_processing import mocks as Mocks
-
+from text_processing.prepocess_text import get_text
 
 # Routes decorator
 def researcher_user_required(func):
@@ -100,11 +100,29 @@ def file_upload_page():
                 users.append(user)
 
         print(users)
-        filename = secure_filename(f.filename)
+
+        paper_version = PaperRevision(
+            pdf_url="",
+            title=title,
+            abstract=description,
+            publication_date=dt.datetime.utcnow(),
+            rel_creators=[current_user] + users,
+            rel_related_tags=tags,
+            preprocessed_text = ""
+        )
+
+        db.session.flush()
+
+        id = paper_version.id
+
+        filename = f"paper_{id}.pdf"
         path = f"open_science/static/articles/{filename}"
         url = url_for('static', filename=f"articles/{filename}")
 
         f.save(path)
+
+        paper_version.pdf_url = url
+        paper_version.preprocessed_text = get_text(path)
 
         # paper = Paper(
         #     url=url,
@@ -116,15 +134,7 @@ def file_upload_page():
         #     rel_creators = [current_user] + users
         # )
         paper = Paper()
-        paper_version = PaperRevision(
-            pdf_url=url,
-            title=title,
-            abstract=description,
-            publication_date=dt.datetime.utcnow(),
-            rel_creators=[current_user] + users,
-            rel_related_tags=tags,
-            preprocessed_text = Mocks.get_text(path)
-        )
+        
         paper.rel_related_versions.append(paper_version)
 
         db.session.add(paper)
@@ -168,23 +178,30 @@ def upload_revision(id):
         authors = previous_version.rel_creators
         tags = previous_version.rel_related_tags
 
-        filename = secure_filename(f.filename)
-        path = f"open_science/static/articles/{filename}"
-        url = url_for('static', filename=f"articles/{filename}")
-
-        f.save(path)
-
         # TODO: add changes
         new_version = PaperRevision(
-            pdf_url=url,
+            pdf_url="",
             title=title,
             abstract=description,
             publication_date=dt.datetime.utcnow(),
             rel_creators=authors,
             rel_related_tags=tags,
-            preprocessed_text = Mocks.get_text(path),
+            preprocessed_text = "",
             version = int(previous_version.version) + 1
         )
+
+        db.session.flush()
+
+        vid = new_version.id
+
+        filename = f"paper_{vid}.pdf"
+        path = f"open_science/static/articles/{filename}"
+        url = url_for('static', filename=f"articles/{filename}")
+
+        f.save(path)
+
+        new_version.pdf_url = url
+        new_version.preprocessed_text = get_text(path)
 
         changes = [RevisionChangesComponent(
             change_description = change['suggestion'],
