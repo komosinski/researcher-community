@@ -20,11 +20,7 @@ def create_save_users_plot():
         user_matrix.append(array)
     pca = PCA(n_components=2, whiten=False, random_state=42)
     standardized_pca = pca.fit_transform(user_matrix)
-    # plt.scatter(standardized_pca[:, 0], standarlized_pca[:, 1])
     ax.axes.xaxis.set_visible(False)
     ax.axes.yaxis.set_visible(False)
-    plt.show()
-
-    # TODO: Save plot to this path
     users_plot_url = app.config['USERS_PLOT_URL']
     plt.savefig(users_plot_url, dpi=200)
