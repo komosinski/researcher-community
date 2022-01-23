@@ -122,6 +122,10 @@ def addLike():
 def verify_like():
     return rd.verify_user_liked()
 
+@app.route('/action/verify_disliked', methods=['POST'])
+def verify_dislike():
+    return rd.verify_user_disliked()
+
 @app.route('/action/delete-like', methods=['POST'])
 def like_delete():
     return rd.delete_like()

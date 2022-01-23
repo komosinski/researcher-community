@@ -24,8 +24,12 @@
     color: rgb(29, 189, 29) !important;
 }
 
-.dislike-icon:hover,.dislike-pressed {
+.dislike-icon:hover {
     color: red;
+}
+
+.dislike-pressed {
+    color: red !important;
 }
 
 .reply-action-wrapper {

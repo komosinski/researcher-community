@@ -29,6 +29,8 @@
         $(".comment").on('click', '.like-icon', function(e) {
             e.preventDefault();
             const id = $(this).parents().closest('.comment').attr('id').substring(1);
+            const relatedDisliker = $(this).parents().closest('.stats-element-wraper').children().closest('.dislike-icon');//.addClass('dislike-pressed');
+            const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
             const elem = $(this);
             const uid = {{current_user.id}};
 
@@ -49,47 +51,83 @@
                 contentType: 'application/json',
                 success: function(data) {
                     console.log(data)
-                    if(!data.result) {
+                    if(data.result) {
                         console.log('liked');
-                        $.ajax({
-                            url: "/action/like",
-                            type: "POST",
-                            data: JSON.stringify({type: 'comment', article_id: id, action: 'up'}),
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            success: function (data) {
-                                elem.addClass('like-pressed');
-                                const newCount = parseInt(elem.children().closest('.stat-value').text()) + 1;
-                                console.log(newCount);
-                                elem.children().closest('.stat-value').text(newCount);
-                                console.log(elem)
-                            },
-                            fail: function () {
-                                $(this).removeClass('like-pressed');
-                                alert("Something gone wrong - unable to like this element");
-                            }
-                        });
+                        alert('You already liked this comment!')
                     }
                     else {
                         console.log('not liked');
                         $.ajax({
                             url: "/action/like",
                             type: "POST",
-                            data: JSON.stringify({userID: uid, commentID: id}),
+                            data: JSON.stringify({action: 'up', article_id: id, type: 'comment'}),
                             dataType: 'json',
                             contentType: 'application/json',
                             success: function (response) {
                                 console.log(response);
-                                elem.removeClass('like-pressed');
-                                const newCount = parseInt(elem.children().closest('.stat-value').text()) - 1;
+                                relatedDisliker.removeClass('dislike-pressed');
+                                elem.addClass('like-pressed');
+                                const newCount = parseInt(response.new_value);
                                 console.log(newCount);
-                                elem.children().closest('.stat-value').text(newCount);
+                                valueField.text(newCount);
                             }
                         })
                     }
                 }
             });
-        })
+        });
+
+            $(".comment").on('click', '.dislike-icon', function(e) {
+                e.preventDefault();
+                const id = $(this).parents().closest('.comment').attr('id').substring(1);
+                const relatedLiker = $(this).parents().closest('.stats-element-wraper').children().closest('.like-icon');
+                const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
+                console.log(relatedLiker);
+                const elem = $(this);
+                const uid = {{current_user.id}};
+    
+                /*axios.post("/action/like", {type: 'comment', article_id: id, action: 'up'}).then(function(response) {
+                    $(this).addClass('like-pressed');
+                    const newCount = parseInt($(this).children().closest('.stat-value').val()) + 1;
+                    $(this).children().closest('.stat-value').val(newCount);
+                    console.log(response);
+                }).catch((error) => {
+                    alert('Unable to like this item\n'+error)
+                })*/
+    
+                $.ajax({
+                    url: "/action/verify_disliked",
+                    type: "POST",
+                    data: JSON.stringify({userID: uid, commentID: id}),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        console.log(data)
+                        if(data.result) {
+                            console.log('liked');
+                            alert('You already disliked this comment!')
+                        }
+                        else {
+                            console.log('not liked');
+                            $.ajax({
+                                url: "/action/like",
+                                type: "POST",
+                                data: JSON.stringify({action: 'down', article_id: id, type: 'comment'}),
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                success: function (response) {
+                                    console.log(response);
+                                    relatedLiker.removeClass('like-pressed');
+                                    elem.addClass('dislike-pressed');
+                                    const newCount = parseInt(response.new_value);
+                                    console.log(valueField.text());
+                                    valueField.text(newCount);
+                                }
+                            })
+                        }
+                    }
+                });
+            })
     });
 </script>
 {% endblock %}
@@ -177,18 +215,23 @@
                                 {% if comment in user_liked_comments %}
                                 <a href="/login" class="linked-icon like-icon like-pressed">
                                     <i class="fas fa-arrow-up fa-center"></i>
-                                    <p class="stat-value">{{comment.votes_score}}</p>
                                 </a>
                                 {% else %}
                                 <a href="/login" class="linked-icon like-icon">
                                     <i class="fas fa-arrow-up fa-center"></i>
-                                    <p class="stat-value">{{comment.votes_score}}</p>
                                 </a>
                                 {% endif %}
+                                {% if comment in user_disliked_comments %}
+                                <a href="/login" class="linked-icon dislike-icon dislike-pressed">
+                                    <i class="fas fa-arrow-down fa-center"></i>
+                                    <p class="stat-value">{{comment.votes_score}}</p>
+                                </a>
+                                {%else%}
                                 <a href="/login" class="linked-icon dislike-icon">
                                     <i class="fas fa-arrow-down fa-center"></i>
                                     <p class="stat-value">{{comment.votes_score}}</p>
                                 </a>
+                                {%endif%}
                             </div>
                         </div>
                     </div> 

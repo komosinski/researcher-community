@@ -277,7 +277,7 @@ def view_article(id):
 
         return redirect(url_for("article", id=id))
 
-    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], form=commentForm)
+    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], form=commentForm, user_liked_comments=user_liked_comments, user_disliked_comments=user_disliked_comments)
 
 
 def anonymous_article_page(id):
@@ -310,6 +310,8 @@ def like():
     likeType = request.json.get('type')
     aid = request.json.get('article_id')
     action = request.json.get('action')
+    
+    print(request.json)
 
     if None in [likeType, aid, action]:
         abort(400)
@@ -329,8 +331,12 @@ def like():
 
     if action == 'up':
         like.is_up = True
+        # removing all dislikes by this user
+        VoteComment.query.filter(and_(VoteComment.creator == current_user.id, VoteComment.is_up == False)).delete()
     elif action == 'down':
         like.is_up = False
+        # removing all likes by this user
+        VoteComment.query.filter(and_(VoteComment.creator == current_user.id, VoteComment.is_up == True)).delete()
     else:
         abort(400)
 
@@ -338,7 +344,9 @@ def like():
 
     db.session.commit()
 
-    return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+    new_score = comment = db.session.query(Comment).get(aid).votes_score
+
+    return json.dumps({'success': True, 'new_value': new_score}), 201, {'ContentType': 'application/json'}
 
 
 def verify_user_liked():
@@ -348,7 +356,19 @@ def verify_user_liked():
     except ValueError:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
 
-    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id)).first() is not None:
+    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id, VoteComment.is_up == True)).first() is not None:
+        return json.dumps({'result': True}), 200, {'ContentType': 'application/json'}
+    else:
+        return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
+
+def verify_user_disliked():
+    try:
+        user_id = int(request.json.get('userID'))
+        comment_id = int(request.json.get('commentID'))
+    except ValueError:
+        return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
+
+    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id, VoteComment.is_up == False)).first() is not None:
         return json.dumps({'result': True}), 200, {'ContentType': 'application/json'}
     else:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
