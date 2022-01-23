@@ -36,10 +36,19 @@ class NotificationTypeEnum(Enum):
     REVIEW_REMINDER = 8
     REVIEW_TRANSFER = 9
 
-@unique 
+@unique
 class MessageTopicEnum(Enum):
 
     OTHER = 1
     ENDORSEMENT = 2
     TECHNICAL_ISSUES = 3
     CORRETIONCS = 4
+
+@unique
+class LicenseEnum(Enum):
+
+    FreeBSD = 1
+    GNUFree = 2
+    GNUSimplerFree = 3
+    OpenContent = 4
+    OpenPublication = 5

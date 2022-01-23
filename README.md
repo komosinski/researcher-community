@@ -23,7 +23,19 @@ Linux setup
   
     pip install -r requirements.txt
   
-  5. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
+  5. Install nltk packages
+  
+   Run Python interptreter 
+     
+    python3
+     
+   And type:
+   
+    import nltk
+    [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
+     
+  
+  6. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
 
           DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
  
@@ -74,7 +86,18 @@ This project is using poppler library whose installation on windows is very prob
 
     pip install -r requirements.txt
  
-  8. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
+  8 Install nltk packages
+  
+   Run Python interptreter 
+     
+    python3
+     
+   And type:
+   
+    import nltk
+    [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
+ 
+  9. Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
 
     DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
  
@@ -82,7 +105,7 @@ This project is using poppler library whose installation on windows is very prob
       
     export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'  
             
-  9. Create tables in DB
+  10. Create tables in DB
 
     python3 db_init.py
 

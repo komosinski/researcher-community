@@ -104,3 +104,9 @@ class Config(object):
     # the maximum number of reviews a user can request
     MAX_CONFIDECNE_LEVEL = int(os.environ.get(
         'MAX_CONFIDECNE_LEVEL') or 3)
+
+    # Url to pdfs folder
+    PDFS_FOLDER_URL = '/static/articles/'
+
+    # Full url to pdfs folder
+    PDFS_FOLDER_FULL_URL = 'open_science/static/articles/'

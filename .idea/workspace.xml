@@ -4,13 +4,141 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="Sequence shared between PaperRevisions and CalibrationPapers">
-      <change afterPath="$PROJECT_DIR$/text_processing_files/dictionary" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/text_processing_files/similarities_matrix.npy" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/text_processing_files/tfidf_matrix" afterDir="false" />
+    <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="update_dictionary small fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/text_processing/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_processing/plot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/text_processing/prepocess_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_processing/prepocess_text.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/static/articles/d_INF_1st 7sem.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/open_science/test_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/test_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/10.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/100.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/101.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/102.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/103.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/104.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/105.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/106.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/107.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/108.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/109.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/11.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/110.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/111.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/112.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/113.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/114.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/115.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/116.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/117.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/118.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/119.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/12.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/120.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/121.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/122.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/123.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/124.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/125.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/126.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/127.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/128.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/129.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/13.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/130.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/14.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/15.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/16.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/17.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/18.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/19.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/20.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/21.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/22.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/23.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/24.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/25.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/26.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/27.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/28.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/29.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/30.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/31.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/32.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/33.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/34.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/35.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/36.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/37.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/38.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/39.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/40.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/41.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/42.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/43.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/44.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/45.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/46.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/47.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/48.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/49.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/50.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/51.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/52.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/53.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/54.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/55.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/56.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/57.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/58.PDF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/59.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/6.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/60.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/61.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/62.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/63.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/64.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/65.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/66.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/67.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/68.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/69.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/7.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/70.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/71.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/72.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/73.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/74.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/75.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/76.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/77.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/78.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/79.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/8.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/80.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/81.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/82.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/83.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/84.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/85.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/86.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/87.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/88.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/89.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/9.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/90.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/91.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/92.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/93.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/94.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/95.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/96.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/97.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/98.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_files/uploaded_pdfs/99.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +178,13 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\open_science\static" />
+      <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\server_files" />
+      <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\text_processing" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="openscience" type="PythonConfigurationType" factoryName="Python">
@@ -97,7 +232,63 @@
       <option name="project" value="LOCAL" />
       <updated>1642697511716</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="plot.py merge fixes">
+      <created>1642697894273</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1642697894273</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Search by text update">
+      <created>1642700904257</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1642700904257</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Delete old matrices functions">
+      <created>1642701700307</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1642701700307</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Generating files fix">
+      <created>1642856176678</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1642856176678</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Test data update">
+      <created>1642860990210</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1642860990210</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Structure refactor. Move server_files to server later">
+      <created>1642861365011</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1642861365011</updated>
+    </task>
+    <task id="LOCAL-00009" summary="plot.py merge fixes">
+      <created>1642878561908</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1642878561908</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update_dictionary small fix">
+      <created>1642919191009</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1642919191009</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -116,6 +307,13 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="dates in test_date update" />
     <MESSAGE value="Matrices and Dictionary data storing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Matrices and Dictionary data storing" />
+    <MESSAGE value="Search by text update" />
+    <MESSAGE value="Delete old matrices functions" />
+    <MESSAGE value="Generating files fix" />
+    <MESSAGE value="Test data update" />
+    <MESSAGE value="Structure refactor. Move server_files to server later" />
+    <MESSAGE value="plot.py merge fixes" />
+    <MESSAGE value="update_dictionary small fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="update_dictionary small fix" />
   </component>
 </project>
