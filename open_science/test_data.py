@@ -4212,7 +4212,7 @@ def create_test_data():
     rr1 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 2),
+        response_date=dt.date(2020, 8, 2),
         deadline_date=dt.date(2020, 9, 1),
     )
     rr1.rel_requested_user = u2
@@ -4222,7 +4222,7 @@ def create_test_data():
     rr2 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 2, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 2),
+        response_date=dt.date(2020, 8, 2),
         deadline_date=dt.date(2020, 9, 2),
     )
     rr2.rel_requested_user = u3
@@ -4232,7 +4232,7 @@ def create_test_data():
     rr3 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 3, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 4),
+        response_date=dt.date(2020, 8, 4),
         deadline_date=dt.date(2020, 9, 3),
     )
     rr3.rel_requested_user = u4
@@ -4242,7 +4242,7 @@ def create_test_data():
     rr4 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 4, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 5),
+        response_date=dt.date(2020, 8, 5),
         deadline_date=dt.date(2020, 9, 4),
     )
     rr4.rel_requested_user = u5
@@ -4252,7 +4252,7 @@ def create_test_data():
     rr5 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 5, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 6),
+        response_date=dt.date(2020, 8, 6),
         deadline_date=dt.date(2020, 9, 5),
     )
     rr5.rel_requested_user = u2
@@ -4262,7 +4262,7 @@ def create_test_data():
     rr6 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 6, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 7),
+        response_date=dt.date(2020, 8, 7),
         deadline_date=dt.date(2020, 9, 6),
     )
     rr6.rel_requested_user = u3
@@ -4272,7 +4272,7 @@ def create_test_data():
     rr7 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 7, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 8),
+        response_date=dt.date(2020, 8, 8),
         deadline_date=dt.date(2020, 9, 7),
     )
     rr7.rel_requested_user = u4
@@ -4282,7 +4282,7 @@ def create_test_data():
     rr8 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 8, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 9),
+        response_date=dt.date(2020, 8, 9),
         deadline_date=dt.date(2020, 9, 8),
     )
     rr8.rel_requested_user = u5
@@ -4292,7 +4292,7 @@ def create_test_data():
     rr9 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 9, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 10),
+        response_date=dt.date(2020, 8, 10),
         deadline_date=dt.date(2020, 9, 9),
     )
     rr9.rel_requested_user = u2
@@ -4302,7 +4302,7 @@ def create_test_data():
     rr10 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 10, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 11),
+        response_date=dt.date(2020, 8, 11),
         deadline_date=dt.date(2020, 9, 10),
     )
     rr10.rel_requested_user = u3
@@ -4312,7 +4312,7 @@ def create_test_data():
     rr11 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 11, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 12),
+        response_date=dt.date(2020, 8, 12),
         deadline_date=dt.date(2020, 9, 11),
     )
     rr11.rel_requested_user = u4
@@ -4322,7 +4322,7 @@ def create_test_data():
     rr12 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 12, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 13),
+        response_date=dt.date(2020, 8, 13),
         deadline_date=dt.date(2020, 9, 12),
     )
     rr12.rel_requested_user = u5
@@ -4332,7 +4332,7 @@ def create_test_data():
     rr13 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 13, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 14),
+        response_date=dt.date(2020, 8, 14),
         deadline_date=dt.date(2020, 9, 13),
     )
     rr13.rel_requested_user = u4
@@ -4342,7 +4342,7 @@ def create_test_data():
     rr14 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 14, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 15),
+        response_date=dt.date(2020, 8, 15),
         deadline_date=dt.date(2020, 9, 14),
     )
     rr14.rel_requested_user = u5
@@ -4352,7 +4352,7 @@ def create_test_data():
     rr15 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 15, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 16),
+        response_date=dt.date(2020, 8, 16),
         deadline_date=dt.date(2020, 9, 15),
     )
     rr15.rel_requested_user = u1
@@ -4362,7 +4362,7 @@ def create_test_data():
     rr16 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 16, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 17),
+        response_date=dt.date(2020, 8, 17),
         deadline_date=dt.date(2020, 9, 16),
     )
     rr16.rel_requested_user = u2
@@ -4372,7 +4372,7 @@ def create_test_data():
     rr17 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 17, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 18),
+        response_date=dt.date(2020, 8, 18),
         deadline_date=dt.date(2020, 9, 17),
     )
     rr17.rel_requested_user = u3
@@ -4382,7 +4382,7 @@ def create_test_data():
     rr18 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 18, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 19),
+        response_date=dt.date(2020, 8, 19),
         deadline_date=dt.date(2020, 9, 18),
     )
     rr18.rel_requested_user = u5
@@ -4392,7 +4392,7 @@ def create_test_data():
     rr19 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 19, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 20),
+        response_date=dt.date(2020, 8, 20),
         deadline_date=dt.date(2020, 9, 19),
     )
     rr19.rel_requested_user = u4
@@ -4402,7 +4402,7 @@ def create_test_data():
     rr20 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 20, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 21),
+        response_date=dt.date(2020, 8, 21),
         deadline_date=dt.date(2020, 9, 20),
     )
     rr20.rel_requested_user = u1
@@ -4412,7 +4412,7 @@ def create_test_data():
     rr21 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 21, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 22),
+        response_date=dt.date(2020, 8, 22),
         deadline_date=dt.date(2020, 9, 21),
     )
     rr21.rel_requested_user = u2
@@ -4422,7 +4422,7 @@ def create_test_data():
     rr22 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 22, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 23),
+        response_date=dt.date(2020, 8, 23),
         deadline_date=dt.date(2020, 9, 22),
     )
     rr22.rel_requested_user = u3
@@ -4432,7 +4432,7 @@ def create_test_data():
     rr23 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 23, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 24),
+        response_date=dt.date(2020, 8, 24),
         deadline_date=dt.date(2020, 9, 23),
     )
     rr23.rel_requested_user = u4
@@ -4442,7 +4442,7 @@ def create_test_data():
     rr24 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 24, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 25),
+        response_date=dt.date(2020, 8, 25),
         deadline_date=dt.date(2020, 9, 24),
     )
     rr24.rel_requested_user = u5
@@ -4452,7 +4452,7 @@ def create_test_data():
     rr25 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 25, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 26),
+        response_date=dt.date(2020, 8, 26),
         deadline_date=dt.date(2020, 9, 25),
     )
     rr25.rel_requested_user = u1
@@ -4462,7 +4462,7 @@ def create_test_data():
     rr26 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 26, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 27),
+        response_date=dt.date(2020, 8, 27),
         deadline_date=dt.date(2020, 9, 26),
     )
     rr26.rel_requested_user = u2
@@ -4472,7 +4472,7 @@ def create_test_data():
     rr27 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 27, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 28),
+        response_date=dt.date(2020, 8, 28),
         deadline_date=dt.date(2020, 9, 27),
     )
     rr27.rel_requested_user = u3
@@ -4482,7 +4482,7 @@ def create_test_data():
     rr28 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 28, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 29),
+        response_date=dt.date(2020, 8, 29),
         deadline_date=dt.date(2020, 9, 28),
     )
     rr28.rel_requested_user = u5
@@ -4492,7 +4492,7 @@ def create_test_data():
     rr29 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 29, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 30),
+        response_date=dt.date(2020, 8, 30),
         deadline_date=dt.date(2020, 9, 29),
     )
     rr29.rel_requested_user = u4
@@ -4502,7 +4502,7 @@ def create_test_data():
     rr30 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 30, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 8, 31),
+        response_date=dt.date(2020, 8, 31),
         deadline_date=dt.date(2020, 9, 30),
     )
     rr30.rel_requested_user = u1
@@ -4512,7 +4512,7 @@ def create_test_data():
     rr31 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 8, 31, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 1),
+        response_date=dt.date(2020, 9, 1),
         deadline_date=dt.date(2020, 9, 30),
     )
     rr31.rel_requested_user = u2
@@ -4522,7 +4522,7 @@ def create_test_data():
     rr32 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 9, 1, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 2),
+        response_date=dt.date(2020, 9, 2),
         deadline_date=dt.date(2020, 10, 1),
     )
     rr32.rel_requested_user = u3
@@ -4532,7 +4532,7 @@ def create_test_data():
     rr33 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 9, 2, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 3),
+        response_date=dt.date(2020, 9, 3),
         deadline_date=dt.date(2020, 10, 2),
     )
     rr33.rel_requested_user = u4
@@ -4542,7 +4542,7 @@ def create_test_data():
     rr34 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 9, 3, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 4),
+        response_date=dt.date(2020, 9, 4),
         deadline_date=dt.date(2020, 10, 3),
     )
     rr34.rel_requested_user = u5
@@ -4552,7 +4552,7 @@ def create_test_data():
     rr35 = ReviewRequest(
         decision=True,
         creation_datetime=dt.datetime(2020, 9, 4, 2, 2, 2, 2),
-        acceptation_date=dt.date(2020, 9, 5),
+        response_date=dt.date(2020, 9, 5),
         deadline_date=dt.date(2020, 10, 4),
     )
     rr35.rel_requested_user = u1

@@ -18,6 +18,7 @@ from open_science.notification.helpers import create_paper_comment_notifications
 from text_processing import mocks as Mocks
 from text_processing.prepocess_text import get_text
 
+
 # Routes decorator
 def researcher_user_required(func):
     @functools.wraps(func)
@@ -222,16 +223,12 @@ def upload_revision(id):
 
     return render_template("utils/revisionUploadForm.html", form=form, paperID=parent_paper.id)
 
-        
 
-# anonym -
 def view_article(id):
 
     if not check_numeric_args(id):
         abort(404)
 
-    # string:   True / False
-    anonymous = request.args.get('anonymous')
     version = request.args.get('version')
     print(version)
     # commentForm = CommentForm(refObject="paper")
@@ -280,6 +277,30 @@ def view_article(id):
         return redirect(url_for("article", id=id))
 
     return render_template("article/view.html", article=pv, similar=[pv, pv, pv], form=commentForm)
+
+
+def anonymous_article_page(id):
+
+    if not check_numeric_args(id):
+        abort(404)
+
+    version = request.args.get('version')
+
+    article = Paper.query.get(id)
+    if not article:
+        abort(404)
+    if version is None:
+        return redirect(url_for('article', id=id))
+    else:
+        pv = PaperRevision.query.filter(and_(PaperRevision.parent_paper == id,
+                                             PaperRevision.version == version,
+                                             PaperRevision.anonymized_pdf_url!=None)).first()
+    if not pv:
+        return redirect(url_for("article", id=id, version=version))
+
+    return render_template("article/anonymous_view.html", article=pv)
+
+
 
 def like():
     # print(request.json)

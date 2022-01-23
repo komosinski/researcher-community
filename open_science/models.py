@@ -335,7 +335,7 @@ class User(db.Model, UserMixin):
         date_after = dt.datetime.utcnow().date() - dt.timedelta(days=days)
         for rev_request in self.rel_related_review_requests:
             if rev_request.decision is True \
-                    and rev_request.acceptation_date >= date_after:
+                    and rev_request.response_date >= date_after:
                 count += 1
         return count
 
@@ -594,7 +594,7 @@ class PaperRevision(db.Model):
             'title': Markup.escape(self.title),
             'publication_date': self.publication_date,
             'version': self.version,
-            'show_url': url_for('article', id=self.parent_paper),
+            'show_url': url_for('article', id=self.parent_paper, version=self.version),
             # TODO: change new_verison
             'new_verison_url': url_for('article', id=self.parent_paper),
             'reviews_count':\
@@ -794,7 +794,8 @@ class ReviewRequest(db.Model):
     # columns
     decision = db.Column(db.Boolean, nullable=True)
     creation_datetime = db.Column(db.DateTime)
-    acceptation_date = db.Column(db.Date)
+    response_date = db.Column(db.Date)
+
     # deadline of showing request
     deadline_date = db.Column(db.Date)
 
@@ -831,6 +832,18 @@ class ReviewRequest(db.Model):
             elif id == 4:
                 self.reason_other = True
 
+    def can_request_after_decline(self):
+        if self.decision is False:
+            if self.reason_time is True:
+                days = dt.timedelta(days=app.config['EXCLUDE_DECLINED_REQUEST_TIME_DAYS'])
+                days_before = dt.datetime.utcnow().date() - days
+
+                if self.response_date < days_before:
+                    return True
+                else:
+                    return False
+            return False
+        return False
 
 class Comment(db.Model):
     __tablename__ = "comments"

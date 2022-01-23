@@ -84,6 +84,11 @@ class Config(object):
     EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS = int(os.environ.get(
         'EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS') or 730)
 
+    # if user declined review request with respond “Don’t have time”
+    # don’t ask him for review request to this paper fot N days.
+    EXCLUDE_DECLINED_REQUEST_TIME_DAYS = int(os.environ.get(
+        'EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS') or 14)
+
     # To calculate workload of researchers
     # how many reviews they agreed to prepare in the last period of time
     REVIEWER_WORKOLOAD_ON_DAYS = int(os.environ.get(

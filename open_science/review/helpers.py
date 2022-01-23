@@ -62,14 +62,16 @@ def select_reviewers(paper_revision):
         reviewed_users_ids.update(ids)
         
     # Users who declined to review this paper are removed.
-    paper_revisions_ids = [rev.id for rev in paper_revision.rel_parent_paper.rel_related_versions]
-    paper_review_requests = ReviewRequest \
-        .query \
-        .filter(ReviewRequest.requested_user.in_(paper_revisions_ids),
-                ReviewRequest.decision.is_(False)).all()
-
-    users_who_declined_ids = set([rev.id for rev in paper_review_requests])
-
+    # except users who declined with reason "don't have time"
+    # more than N days ago
+    paper_revisions = [rev for rev in paper_revision.rel_parent_paper.rel_related_versions]
+    users_who_declined_ids = set()
+    for revision in paper_revisions:
+        for request in revision.rel_related_review_requests:
+            if request.decision is False and\
+                request.can_request_after_decline() is False:
+                users_who_declined_ids.update(request.requested_user)
+  
     # If a new revision of the paper needs to be reviewed,
     # first the reviewers of previous revision(s) are asked
     previous_reviewers = []

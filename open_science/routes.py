@@ -7,7 +7,7 @@ from open_science.tag import api as tag_api
 from open_science.review import routes_def as review_rd
 from open_science.tag import routes_def as tag_rd
 from open_science.notification import routes_def as notif_rd
-from flask_login import login_required
+from flask_login import login_required, fresh_login_required
 from open_science import limiter
 from flask import render_template
 
@@ -77,13 +77,13 @@ def profile_page(user_id):
 
 
 @app.route('/user/edit_profile', methods=['GET', 'POST'])
-@login_required
+@fresh_login_required
 def edit_profile_page():
     return user_rd.edit_profile_page()
 
 
 @app.route('/user/change_password', methods=['GET', 'POST'])
-@login_required
+@fresh_login_required
 def change_password_page():
     return user_rd.change_password_page()
 
@@ -93,9 +93,13 @@ def confirm_email_change(token):
     return user_rd.confirm_email_change(token)
 
 
-@app.route('/article/<id>/', methods=['GET', 'POST'])
+@app.route('/paper/<id>/', methods=['GET', 'POST'])
 def article(id):
     return rd.view_article(id)
+
+@app.route('/paper/anon/<id>')
+def anonymous_article_page(id):
+    return rd.anonymous_article_page(id)
 
 
 @app.route('/article/add', methods=['GET', 'POST'])
@@ -271,13 +275,13 @@ def tag_page(tag_name):
 
 
 @app.route('/user/delete_profile', methods=['GET', 'POST'])
-@login_required
+@fresh_login_required
 def delete_profile_page():
     return user_rd.delete_profile_page()
 
 
 @app.route('/user/delete_profile/confirm/<token>')
-@login_required
+@fresh_login_required
 def confirm_profile_delete(token):
     return user_rd.confirm_profile_delete(token)
 

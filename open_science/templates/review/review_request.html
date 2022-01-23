@@ -29,14 +29,10 @@
         <br>
 
         <div>
-            <strong>“stripped down” version:</strong>
             <br>
-            
-            {% if data['anonymized_pdf_url'] %}
-                {{ data['anonymized_pdf_url'] }}
-            {% else %}
-                {{ data['pdf_url'] }}
-            {% endif %}
+            <strong>
+                <a href="{{ data['paper_url'] }}">Paper</a>
+            </strong>
         </div>
         
         <br>

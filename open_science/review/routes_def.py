@@ -27,7 +27,7 @@ def review_request_page(request_id):
     if form.validate_on_submit():
         if form.submit_accept.data:
             review_request.decision = True
-            review_request.acceptation_date = dt.datetime.utcnow().date()
+            review_request.response_date = dt.datetime.utcnow().date()
             review = Review(creator=current_user.id,
                             related_paper_version=review_request.paper_version)
             review.deadline_date = \
@@ -39,6 +39,7 @@ def review_request_page(request_id):
             review_request.decision = False
             review_request.other_reason_text = form.other_reason_text.data
             review_request.set_reasons(form.declined_reason.data)
+            review_request.response_date = dt.datetime.utcnow().date()
             flash('Review request declined', category='success')
 
         db.session.add(review_request)
@@ -54,8 +55,9 @@ def review_request_page(request_id):
 
     data = {
         'abstract': paper_version.abstract,
-        'pdf_url': paper_version.pdf_url,
-        'anonymized_pdf_url': paper_version.anonymized_pdf_url
+        'paper_url': url_for('anonymous_article_page',
+                                    id =paper_version.parent_paper,
+                                    version=paper_version.version)
     }
     return render_template('review/review_request.html', form=form, data=data)
 
@@ -152,19 +154,10 @@ def review_edit_page(review_id):
         'is_published': review.is_published(),
         # TODO: change 2nd link to anonymized version
         'paper_url':
-            url_for('article',
+            url_for('anonymous_article_page',
                     id=review.rel_related_paper_version.parent_paper,
                     version=review.rel_related_paper_version.version,
-                    anonymous=False)
-
-            if db.session.query(PaperRevision.anonymized_pdf_url) \
-            .filter(PaperRevision.id == review.related_paper_version).scalar()
-
-            else
-            url_for('article', id=review\
-                    .rel_related_paper_version.parent_paper,
-                    version=review.rel_related_paper_version.version,
-                    anonymous=True),
+                    ),
         'paper_title': review.rel_related_paper_version.title
     }
 

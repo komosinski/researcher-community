@@ -128,6 +128,9 @@ def login_page():
             attempted_user.last_seen = dt.datetime.utcnow()
             db.session.commit()
             flash('Success! You are logged in', category='success')
+            next_dest = request.args.get('next')
+            if next_dest:
+                return redirect(next_dest)
             return redirect(url_for('home_page'))
         elif not attempted_user:
             flash('Email and password are not match! Please try again',
