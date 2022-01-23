@@ -1,0 +1,21 @@
+{% from "helpers/form_helper.html" import render_register_field %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}" />
+{% endblock %}
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="article-page-wrapper">
+    <div class="article-page">
+        <div class="article-info-wrapper">
+            <h2 class="article-title">Anonymous paper</h2>
+            <div class="article-description-wrapper">
+                <p class="article-description-text">{{article.description}}</p>
+            </div>
+        </div>
+        <div class="article-frame-wrapper">
+            <iframe class="article-view-iframe" src="{{article.anonymized_pdf_url}}"></iframe>
+        </div>
+</div>
+{% endblock %}
