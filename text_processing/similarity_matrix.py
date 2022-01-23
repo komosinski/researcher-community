@@ -41,7 +41,8 @@ def get_dictionary():
     return dictionary
 
 # new_text is array of strings
-def update_dictionary(new_text):
+def update_dictionary():
+    new_text = get_all_papers_texts()
     dictionary = get_dictionary()
     new_words = [[text for text in doc.split()] for doc in new_text]
     dictionary.add_documents(new_words)
