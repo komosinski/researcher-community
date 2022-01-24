@@ -151,9 +151,32 @@
                 </div>
                 <div class="reviews-wrapper">
                     <p class="reviews-header">
-                        Reviews: ({{score}})
+                        Reviews: ({{article.average_grade}})
                     </p>
-                    {% for review in article.rel_related_reviews %}
+                    <p class="reviews-entry">
+                        {{article.average_novel}}
+                    </p>
+                    <p class="reviews-entry">
+                        {{article.average_conclusion}}
+                    </p>
+                    <p class="reviews-entry">
+                        {{article.average_error}}
+                    </p>
+                    <p class="reviews-entry">
+                        {{article.average_organize}}
+                    </p>
+                    <p class="reviews-entry">
+                        {{article.average_accept}}
+                    </p>
+
+                    | 
+
+                    {%for review in article.rel_related_reviews %}
+                    <a href="/review/{{review.id}}">
+                        Review {{loop.index}}
+                    </a>
+                    {%endfor%}
+                    <!-- {% for review in article.rel_related_reviews %}
                         {% if review.decision %}
                             <a href="/review/{{review.id}}" class="reviews-entry reviews-entry-accepted">
                                 {{review.votes_score}}
@@ -163,7 +186,7 @@
                                 {{review.votes_score}}
                             </a>
                         {%endif%}
-                    {%endfor%}
+                    {%endfor%} -->
                 </div>
             </div>
             <div class="article-authors-wrapper">
@@ -246,7 +269,7 @@
             {%endfor%}
             {% if current_user.is_authenticated and current_user.can_comment() %}
             <div class="create-comment-wrapper" id="add-comment">
-                <form method="POST">
+                <form method="POST" action="{{url_for('article', id=article.parent_paper, version=article.version)}}">
                     {{form.hidden_tag()}}
                     {{form.comment_ref()}}
                     <!-- {{render_register_field(form.content, "Type your comment here...")}} -->

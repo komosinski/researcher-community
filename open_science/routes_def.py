@@ -275,7 +275,7 @@ def view_article(id):
         db.session.commit()
         create_paper_comment_notifications(pv, comment, current_user.id)
 
-        return redirect(url_for("article", id=id))
+        return redirect(url_for("article", id=id, version=pv.version))
 
     return render_template("article/view.html", article=pv, similar=[pv, pv, pv], form=commentForm, user_liked_comments=user_liked_comments, user_disliked_comments=user_disliked_comments)
 
