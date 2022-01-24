@@ -3,7 +3,7 @@
 Introduction
 ------------
 
-      
+
 Linux setup
 ------------
 
@@ -41,11 +41,11 @@ Linux setup
   
   7. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
 
-          DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
+          DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
  
       or set Flask enviroment variable: 
      
-          export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'  
+          export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'  
       
   8. Create tables in DB
 
@@ -107,11 +107,11 @@ This project is using poppler library whose installation on windows is very prob
  
   10. Temporary step*) Create temporary_config.py file in main directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
 
-    DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
+    DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
  
    or set Flask enviroment variable: 
       
-    export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'  
+    export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'  
             
   11. Create tables in DB
 

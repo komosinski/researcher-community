@@ -15,6 +15,7 @@ class Config(object):
 
     #  TODO: Delete/Hide some default config values like KEYs in the future
 
+    SERVER_NAME = os.environ.get('SERVER_NAME') or '127.0.0.1:5000'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'SQLALCHEMY_DATABASE_URI') or DATABASE_URI
     SECRET_KEY = os.environ.get(

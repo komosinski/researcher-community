@@ -10,6 +10,7 @@ from open_science.notification import routes_def as notif_rd
 from flask_login import login_required, fresh_login_required
 from open_science import limiter
 from flask import render_template
+from threading import Thread
 
 
 # TODO: remove this temporary variable and read the state from another source
@@ -20,12 +21,13 @@ def before_req():
     if VAR:
         return render_template("maintenance.html")
 
+
 @app.route("/t")
 def test():
-    if create_test_data():
-        return "test data has been created"
-    return "test data already exists"
-
+    Thread(target=create_test_data, args=[app]).start()
+    return 'DO NOT RELOAD THE PAGE!\n\
+            Test data is being created.\n\
+            Progress is displayed in the terminal.'
 
 @app.route("/")
 def home_page():
