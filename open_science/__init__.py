@@ -22,7 +22,7 @@ def register_extensions(app):
     admin.template_mode='bootstrap4'
     migrate.init_app(app,db)
     scheduler.init_app(app)
-    #ckeditor.init_app(app)
+    # ckeditor.init_app(app)
     # #Two schedulers will be launched when Flask is in debug mode
     atexit.register(lambda: scheduler.shutdown())
     

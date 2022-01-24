@@ -1,6 +1,6 @@
 from sqlalchemy.sql.elements import and_
 from werkzeug.utils import secure_filename
-from open_science import db
+from open_science import db, app
 from open_science.models import Comment, License, Paper, PaperRevision, Review, RevisionChangesComponent, Tag, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm, PaperRevisionUploadForm
 from flask_login import current_user
@@ -15,9 +15,8 @@ from open_science.review.helpers import prepare_review_requests,\
      NOT_ENOUGHT_RESEARCHERS_TEXT, transfer_old_reviews
 from open_science.db_helper import get_hidden_filter
 from open_science.notification.helpers import create_paper_comment_notifications
-from text_processing import mocks as Mocks
 from text_processing.prepocess_text import get_text
-
+import text_processing.similarity_matrix as sm
 
 # Routes decorator
 def researcher_user_required(func):
@@ -64,7 +63,10 @@ def validatePDF(content):
 
 
 def home_page():
-    return render_template("home_page.html")
+    users_plot_url = app.config['USERS_PLOT_URL']
+
+    return render_template("home_page.html",
+                           users_plot_url=users_plot_url)
 
 
 def file_upload_page():
@@ -141,6 +143,11 @@ def file_upload_page():
         db.session.add(paper)
         db.session.commit()
   
+        # update matrixes
+        sm.update_dictionary()
+        sm.update_tfidf_matrix()
+        sm.update_similarity_matrix()
+
         # bin   d old unpublished reviews and unanswered review reqests
         # to nthe ewest paper's revision
         transfer_old_reviews(paper)
@@ -277,7 +284,14 @@ def view_article(id):
 
         return redirect(url_for("article", id=id))
 
-    return render_template("article/view.html", article=pv, similar=[pv, pv, pv], form=commentForm, user_liked_comments=user_liked_comments, user_disliked_comments=user_disliked_comments)
+    # similar papers
+    similar_papaers = pv.get_similar_revisions()
+ 
+    return render_template("article/view.html",
+                           article=pv, similar=similar_papaers[:3],
+                           form=commentForm,
+                           user_liked_comments=user_liked_comments,
+                           user_disliked_comments=user_disliked_comments)
 
 
 def anonymous_article_page(id):
@@ -531,8 +545,9 @@ def contact_staff_page():
 
     return render_template('help/contact_staff.html', form=form)
 
-
+import open_science.schedule.schedule as sch
 def test_text_preprocessing():
+    sch.daily_jobs()
     return 'test'
 
 

@@ -34,7 +34,7 @@ def create_review_request(reviewer, paper_revision):
 def select_reviewers(paper_revision):
 
     # TODO: replace this with users from text_processing module
-    users = User.query.all()
+    users = paper_revision.get_similar_users()
 
     potential_reviewers = []
 
