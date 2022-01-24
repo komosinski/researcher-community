@@ -1079,7 +1079,7 @@ class Notification(db.Model):
     # foreign keys
     notification_type = db.Column(
         db.Integer, db.ForeignKey('notification_types.id'))
-    user = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    user = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # relationships
     rel_notification_type = db.relationship(
@@ -1113,7 +1113,7 @@ class Suggestion(db.Model):
 
     # foreign keys
     review = db.Column(db.Integer, db.ForeignKey(
-        'reviews.id'), primary_key=True)
+        'reviews.id'))
 
     # relationships
     rel_review = db.relationship("Review", back_populates="rel_suggestions")
@@ -1174,7 +1174,7 @@ class RevisionChangesComponent(db.Model):
 
     # foreign keys
     paper_revision = db.Column(db.Integer, db.ForeignKey(
-        'paper_revisions.id'), primary_key=True)
+        'paper_revisions.id'))
 
     # relationships
     rel_paper_revision = db.relationship(

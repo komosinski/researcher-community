@@ -1,9 +1,9 @@
 import datetime as dt
 from flask import url_for
 
-from open_science import db, app
+from open_science import db
 from open_science.models import create_essential_data, PaperRevision, Comment, Review, Paper, Tag, User, PrivilegeSet, \
-    ReviewRequest, VoteComment, MessageToStaff, MessageTopic, NotificationType, Notification, License, Suggestion, \
+    ReviewRequest, VoteComment, MessageToStaff, MessageTopic, NotificationType, Notification, Suggestion, \
     CalibrationPaper, RedFlagComment, RedFlagPaperRevision, RedFlagReview, RedFlagTag, RedFlagUser, \
     RevisionChangesComponent
 
