@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="Add pdfs and preprocessed text to test_data">
-      <change afterPath="$PROJECT_DIR$/unit_tests/test_openscience.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/open_science/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/open_science/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/open_science/test_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/test_data.py" afterDir="false" />
+    <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server_files/generated_files/dictionary" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/generated_files/dictionary" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server_files/generated_files/similarities_matrix.npy" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/generated_files/similarities_matrix.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server_files/generated_files/tfidf_matrix" beforeDir="false" afterPath="$PROJECT_DIR$/server_files/generated_files/tfidf_matrix" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642934125672</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Unit tests">
+      <created>1643049327486</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1643049327486</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -218,6 +217,7 @@
     <MESSAGE value="update_dictionary small fix" />
     <MESSAGE value="Add pdfs and preprocessed text to test_data" />
     <MESSAGE value="Add articles to git" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add articles to git" />
+    <MESSAGE value="Unit tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Unit tests" />
   </component>
 </project>
