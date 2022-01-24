@@ -12,7 +12,7 @@ def lower_text(text):
 def remove_stopwords(text):
     stopwords = nltk.corpus.stopwords.words('english')
     text = [i for i in text if i not in stopwords]
-    text = [i for i in text if 3 < len(i) < 12]
+    text = [i for i in text if 3 < len(i) < 14]
     return text
 
 

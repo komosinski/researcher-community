@@ -120,6 +120,7 @@ def get_similarities_matrix():
 
     tfidf_similarities_url = app.config['TFIDF_MATRIX_URL']
     similarities_matrix = corpora.Dictionary.load(tfidf_similarities_url)
+    similarities_matrix = np.array(similarities_matrix, dtype="float64")
 
     return similarities_matrix
 
