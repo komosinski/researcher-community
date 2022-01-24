@@ -41,7 +41,7 @@ Linux setup
  
       or set Flask enviroment variable: 
      
-          export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'  
+          export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'  
       
   6. Create tables in DB
 
@@ -103,7 +103,7 @@ This project is using poppler library whose installation on windows is very prob
  
    or set Flask enviroment variable: 
       
-    export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'  
+    export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'  
             
   10. Create tables in DB
 
