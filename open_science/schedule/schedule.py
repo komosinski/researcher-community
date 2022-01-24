@@ -8,7 +8,8 @@ from open_science import app, db
 from open_science.notification.helpers import create_notification
 import open_science.email as em
 from open_science.review.helpers import prepare_review_requests
-
+import text_processing.similarity_matrix as sm
+from text_processing.plot import create_save_users_plot
 
 def delete_old_logs(days, email_type):
     date_before = dt.datetime.utcnow().date() - dt.timedelta(days=days)
@@ -81,7 +82,16 @@ def monthly_jobs():
 
 
 def daily_jobs():
+    dictionary = sm.create_dictionary()
+    sm.save_dictionary(dictionary)
+    tfidf_matrix = sm.create_tfidf_matrix()
+    sm.save_tfidf_matrix(tfidf_matrix)
+    similarities_matrix = sm.create_similarities_matrix()
+    sm.save_similarities_matrix(similarities_matrix)
+    create_save_users_plot()
+
     delete_old_logs(2, EmailLog.email_types_enum.REGISTRATION_CONFIRM.value)
     create_review_deadline_notification()
     send_notifiactions_count()
     prepare_and_send_review_requests()
+    

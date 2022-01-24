@@ -3,27 +3,31 @@
 Introduction
 ------------
 
-      
+
 Linux setup
 ------------
 
-  1. Install poppler on your local machine
+  1. Install and configure PostgreSQL on your local machine
+
+    https://www.postgresql.org/download/
+    
+  2. Install poppler 
   
     $ sudo apt install build-essential libpoppler-cpp-dev pkg-config python3-dev
       
-  2. Move to main directory and create python virtual environment
+  3. Move to main directory and create python virtual environment
 
     python3 -m virtualenv venv
   
-  3. Activate virtual environment
+  4. Activate virtual environment
 
     $ source venv/bin/activate
   
-  4. Install requirements
+  5. Install requirements
   
     pip install -r requirements.txt
   
-  5. Install nltk packages
+  6. Install nltk packages
   
    Run Python interptreter 
      
@@ -35,15 +39,15 @@ Linux setup
     [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
      
   
-  6. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
+  7. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
 
-          DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
+          DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
  
       or set Flask enviroment variable: 
      
-          export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'  
+          export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'  
       
-  6. Create tables in DB
+  8. Create tables in DB
 
     python3 db_init.py
 
@@ -53,15 +57,19 @@ Windows setup
 
 This project is using poppler library whose installation on windows is very problematic. You can try using Build tools for Visual Studio and Anaconda but we recommend using WSL (Windows Subsystem for Linux) for the whole environment.
       
-  1. Enable WSL in widows. Run Window’s Powershell as an administrator:
+  1. Install and configure PostgreSQL on your local machine
+  
+    https://www.postgresql.org/download/
+  
+  2. Enable WSL in widows. Run Window’s Powershell as an administrator:
      
     Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
     
-  2. Install Ubuntu from Microsoft Store
+  3. Install Ubuntu from Microsoft Store
   
     https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6#activetab=pivot:overviewtab
 
-  3. Open Ubuntu app and do the initial setup and then run the following commands:
+  4. Open Ubuntu app and do the initial setup and then run the following commands:
       
     sudo apt-get clean
     sudo apt-get update
@@ -70,23 +78,23 @@ This project is using poppler library whose installation on windows is very prob
     sudo apt install build-essential libpoppler-cpp-dev pkg-config python3-dev -y
     sudo apt install libpq-dev python3-virtualenv -y
     
-  4. Go to project's main directory and run WSL in terminal:
+  5. Go to project's main directory and run WSL in terminal:
 
     wsl
 
-  5. Create python virtual env
+  6. Create python virtual env
 
     python3 -m virtualenv venv
  
-  6. Activate virtual env
+  7. Activate virtual env
  
     source venv/bin/activate
       
-  7. Install requirements
+  8. Install requirements
 
     pip install -r requirements.txt
  
-  8 Install nltk packages
+  9. Install nltk packages
   
    Run Python interptreter 
      
@@ -97,15 +105,15 @@ This project is using poppler library whose installation on windows is very prob
     import nltk
     [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
  
-  9. Temporary step*) Create temporary_config.py file in main directory which must contain database uri:
+  10. Temporary step*) Create temporary_config.py file in main directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
 
-    DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'
+    DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
  
    or set Flask enviroment variable: 
       
-    export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB'  
+    export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'  
             
-  10. Create tables in DB
+  11. Create tables in DB
 
     python3 db_init.py
 

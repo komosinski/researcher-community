@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA
 from open_science import app
 from open_science.models import User
 
-from search_engine import get_similar_users_to_user
+from text_processing.search_engine import get_similar_users_to_user
 
 # creates user plot and saves to file with path given in config
 def create_save_users_plot():

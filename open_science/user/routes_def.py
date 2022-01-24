@@ -58,7 +58,7 @@ def register_page():
             #     preprocessed_text = Mocks.get_text(url)
             # ))
         user_to_create = User.query.filter(User.email == form.email.data,
-                                           User.registered_on.is_(None))
+                                           User.registered_on.is_(None)).first()
 
         # check if user exists because is co-author of someone's paper
         if user_to_create:
