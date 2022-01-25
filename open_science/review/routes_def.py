@@ -10,6 +10,7 @@ from open_science.db_helper import get_hidden_filter
 import datetime as dt
 from open_science.routes_def import check_numeric_args
 from open_science import app
+from open_science.notification.helpers import add_new_review_notification
 
 def review_request_page(request_id):
     # TODO: show paper abstract ...
@@ -124,9 +125,9 @@ def review_edit_page(review_id):
             review.rel_suggestions = [Suggestion(
                 suggestion=s["suggestion"],
                 location=s["location"]
-            ) for s in suggestions]            
+            ) for s in suggestions]
 
-            if True in form.check_anonymous.data:
+            if form.check_anonymous.data is True:
                 review.is_anonymous = True
             else:
                 review.is_anonymous = False
@@ -137,6 +138,7 @@ def review_edit_page(review_id):
             review.is_anonymous = form.check_anonymous.data
 
             db.session.commit()
+            add_new_review_notification(review)
             flash('The review has been added', category='success')
             return redirect(url_for('profile_page', user_id=current_user.id))
 

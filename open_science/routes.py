@@ -22,6 +22,12 @@ def before_req():
         return render_template("maintenance.html")
 
 
+@app.route('/page/')
+@app.route('/page/<name>')
+def auto_page(name=None):
+    return rd.auto_page(name)
+
+
 @app.route("/t")
 def test():
     Thread(target=create_test_data, args=[app]).start()
@@ -322,3 +328,5 @@ def forum_page():
 @rd.researcher_user_required
 def increase_needed_reviews(revision_id):
     return review_rd.increase_needed_reviews(revision_id)
+
+

@@ -79,6 +79,28 @@ $(document).ready(function(){
     $("#suggestionsField").val(JSON.stringify(suggestionsArray));
    
   });
+
+
+  $("#submit").on('click', function(e) {
+    // e.preventDefault();
+    e.stopPropagation();
+    const suggestionsArray = [];
+    for(i = 0; i < add_input_count; i++){
+      const suggestion = $(`#suggestion-input-${i}`).val();
+      const location = $(`#location-input-${i}`).val();
+
+      if(suggestion){
+        suggestionsArray.push({
+          suggestion, location
+        });
+      }
+    }
+
+    $("#suggestionsField").val(JSON.stringify(suggestionsArray));
+   
+  });
+
+
 });
   
 </script>

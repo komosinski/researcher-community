@@ -1,0 +1,16 @@
+<h3>Hello from open science!</h3>
+<div>
+A new review for the article 
+<br>
+" {{ data['paper_title'] }} "
+<br>
+has been published.
+</div>
+
+<div>
+    <h4>Review:</h4>
+    <a href="{{url_for('review_page',review_id=data['review_id'], _external=True)}}" >
+        {{url_for('review_page',review_id=data['review_id'], _external=True)}}
+    </a>
+</div>
+

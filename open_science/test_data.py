@@ -4002,7 +4002,7 @@ def create_test_data(app):
             weight=3.3,
             registered_on=dt.datetime(2020, 7, 1, 2, 2, 2, 2)
         )
-        u3.rel_created_paper_revisions = [pve2_1, pve3, pve8, pve13]
+        u3.rel_created_paper_revisions = [pve2_1, pve3, pve8, pve13, pve2_2]
         u3.rel_tags_to_user = [t9, t10, t11, t12]
         u3.rel_created_tags = [t19, t20, t21, t22]
         u3.rel_privileges_set = PrivilegeSet.query.filter(PrivilegeSet.id == UserTypeEnum.RESEARCHER_USER.value).first()

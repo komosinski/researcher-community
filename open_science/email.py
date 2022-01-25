@@ -62,13 +62,18 @@ def send_invite(email, first_name, second_name):
     subject = "Invitation for OpenScience"
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
-# TODO: use this later
-
 
 def send_review_request(email, abstract, request_id):
     data = {'abstract': abstract, 'request_id': request_id}
-    html = render_template('email/review_request.html', data=data)
+    html = render_template('email/review_request_email.html', data=data)
     subject = "Review request"
+    Thread(target=send_email, args=(app, email, subject, html)).start()
+
+
+def send_new_review_notification(email, review_id, paper_title):
+    data = {'review_id': review_id, 'paper_title': paper_title}
+    html = render_template('email/new_review_email.html', data=data)
+    subject = "New paper's review"
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 

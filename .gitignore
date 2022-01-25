@@ -134,6 +134,7 @@ dmypy.json
 #articles
 migrations
 temporary_config.py
+config_db.py
 open_science/static/res/profileImages
 open_science/static/articles/Algorytm_szeregowania_dla_problemu___1___Rj_Sij___Lmax_.pdf
 open_science/static/articles/ang_Marek_Zieba.pdf

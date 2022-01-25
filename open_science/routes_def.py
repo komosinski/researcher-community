@@ -48,18 +48,17 @@ def validatePDF(content):
     return content.decode("ascii", "ignore").startswith("%PDF-")
 
 
-# class FileUploadForm(FlaskForm):
-#     title = StringField("Title", validators=[DataRequired()])
-#     file = FileField("Paper PDF", validators=[FileRequired(), FileAllowed(['pdf'])])
-#     anonymousFile = FileField("Anonymous version (optional)", validators=[FileAllowed(['pdf'])])
-#     description = TextAreaField("Abstract", validators=[DataRequired()])
-#     license = SelectField("License", coerce=int)
+def auto_page(name):
 
-#     coauthors = HiddenField(id="coauthors-input-field")
-#     tags = HiddenField(id="tags-input-field")
+    if not name:
+        return redirect(url_for('home_page'))
 
-#     submitbtn = SubmitField("Upload")
-#     # c = HiddenField()
+    else:
+        try:
+            template = render_template(f'pages/{name}.html')
+            return template
+        except Exception:
+            return redirect(url_for('home_page'))
 
 
 def home_page():

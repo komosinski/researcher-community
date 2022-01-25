@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 # TODO: Remove it in the future
 try:
-    from temporary_config import DATABASE_URI
+    from config_db import DATABASE_URI
 except ImportError or ModuleNotFoundError:
     DATABASE_URI = None
     print('If you have not set an environment variable SQLALCHEMY_DATABASE_URI , set it')
