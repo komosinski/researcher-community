@@ -48,6 +48,7 @@ def validatePDF(content):
     return content.decode("ascii", "ignore").startswith("%PDF-")
 
 
+<<<<<<< Updated upstream
 def auto_page(name):
 
     if not name:
@@ -61,6 +62,8 @@ def auto_page(name):
             return redirect(url_for('home_page'))
 
 
+=======
+>>>>>>> Stashed changes
 def home_page():
     users_plot_url = app.config['USERS_PLOT_URL']
 
@@ -77,6 +80,7 @@ def file_upload_page():
     if form.validate_on_submit():
         print(form.data)
         f = form.file.data
+        af = form.anonymousFile.data
 
         if not validatePDF(f.read(16)):
             abort(415)
@@ -122,6 +126,17 @@ def file_upload_page():
         url = url_for('static', filename=f"articles/{filename}")
 
         f.save(path)
+
+        if af is not None and validatePDF(af.read(16)):
+            af.seek(0,0)
+
+            anonymous_filename = f"anonymous_paper_{id}.pdf"
+            anon_path = f"open_science/static/articles/{anonymous_filename}"
+            anon_url = url_for('static', filename=f"articles/{anonymous_filename}")
+
+            af.save(anon_path)
+
+            paper_version.anonymized_pdf_url = anon_url
 
         paper_version.pdf_url = url
         paper_version.preprocessed_text = get_text(path)
@@ -174,7 +189,7 @@ def upload_revision(id):
     if form.validate_on_submit():
         print(form.data)
         f = form.file.data
-        
+        af = form.anonymousFile.data
 
         if not validatePDF(f.read(16)):
             abort(415)
@@ -206,6 +221,17 @@ def upload_revision(id):
         url = url_for('static', filename=f"articles/{filename}")
 
         f.save(path)
+
+        if af is not None and validatePDF(af.read(16)):
+            af.seek(0,0)
+
+            anonymous_filename = f"anonymous_paper_{id}.pdf"
+            anon_path = f"open_science/static/articles/{anonymous_filename}"
+            anon_url = url_for('static', filename=f"articles/{anonymous_filename}")
+
+            af.save(anon_path)
+
+            new_version.anonymized_pdf_url = anon_url
 
         new_version.pdf_url = url
         new_version.preprocessed_text = get_text(path)

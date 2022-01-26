@@ -29,3 +29,6 @@ def create_save_users_plot():
     # ax.axes.yaxis.set_visible(False)
     users_plot_url = app.config['USERS_PLOT_URL']
     # plt.savefig(users_plot_url, dpi=200)
+
+    # TODO: print variance preserved 
+    # 3D version
