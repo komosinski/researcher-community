@@ -155,7 +155,7 @@ def file_upload_page():
         db.session.commit()
   
         # update matrixes
-        sm.update_dictionary()
+        sm.update_dictionary(paper_version.preprocessed_text)
         sm.update_tfidf_matrix()
         sm.update_similarity_matrix(paper_version.preprocessed_text)
 

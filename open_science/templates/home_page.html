@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>HOME PAGE</h1>
-    <img src="{{users_plot_url}}" alt="Users" width="500" height="600">
+    <h3>Users</h3>
+    <img src="{{url_for('static', filename='res/users_plot.png')}}" alt="Users" width="500" height="600">
 {% endblock %}
