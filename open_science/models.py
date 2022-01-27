@@ -395,7 +395,7 @@ class User(db.Model, UserMixin):
                     or review.deadline_date >= date_after.date():
 
                 for author in review.rel_related_paper_version.rel_creators:
-                    users.update(author.id)
+                    users.update(author)
         return users
 
 
