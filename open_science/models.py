@@ -307,7 +307,8 @@ class User(db.Model, UserMixin):
         all_users = User.query.all()
         users_dict_id = {}
         for user in all_users:
-            users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
+            if user.id != 0:
+                users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
 
         similar_ids = se.get_similar_users_to_user(self.id, users_dict_id)
 
@@ -655,7 +656,8 @@ class PaperRevision(db.Model):
         all_users = User.query.all()
         users_dict_id = {}
         for user in all_users:
-            users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
+            if user.id != 0:
+                users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
 
         similar_ids = se.get_similar_users_to_article(self.id, users_dict_id)
 

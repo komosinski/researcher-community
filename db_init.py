@@ -15,7 +15,7 @@ init_engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 if not database_exists(init_engine.url):
     create_database(init_engine.url)
 
-drop_all_from_database()
+db.drop_all()
 db.create_all()
 db.session.commit()
 
