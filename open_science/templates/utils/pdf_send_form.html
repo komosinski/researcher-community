@@ -83,7 +83,6 @@
         }
         
         const fillHiddenFields = (e) => {
-            console.log("AAAAAAAAAAAAAA");
             e.preventDefault();
             e.stopPropagation();
             
@@ -141,7 +140,6 @@
         })
 
         $('.add-input-tag').on('click', function () {
-            console.log("dupa");
             addInput('tags-wrapper',createNewTagInput, ++tagStartId);
         })
 

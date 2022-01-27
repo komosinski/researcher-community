@@ -104,7 +104,7 @@ class Config(object):
     # Url to processing text similarities matrix
     SIMILARITIES_MATRIX_URL = './server_files/generated_files/similarities_matrix.npy'
     # Url to processing text users plot
-    USERS_PLOT_URL = './server_files/generated_files/users_plot'
+    USERS_PLOT_URL = './open_science/static/res/users_plot'
 
     # the maximum number of reviews a user can request
     MAX_CONFIDECNE_LEVEL = int(os.environ.get(
