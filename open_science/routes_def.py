@@ -571,10 +571,10 @@ def contact_staff_page():
 
 import open_science.schedule.schedule as sch
 def test_text_preprocessing():
+    sch.daily_jobs()
     sm.update_dictionary("- Dzień dobry, ja chciałbym się zorientować w cenie biletu na mecz ligi mistrzów - Tutaj u nas w Warszawie, tak? - Tak - A jaka pana interesuje trybuna?  Żyleta - Żyleta, z kartą, czy bez? - Halo, słucham? - Z kartą, czy bez? - Yyy bez, bo ja tu kibicem Lecha jestem - Co Pan jest? - Yy nic yyyy bilety bym chciał się zorientować cenę - Trzydzieścipięć złotych - Trzydzieścipięć, a na taką siedzącą? - Jak na siedzącą? - Słucham? - Jak na siedzącą? - No na... - Tam się nie siedzi, tam się stoi i się kibicuje - Ale na siedzącą trybunę - No to na krytą, czy gdzieś, tak? - Tak - No to od sześćdziesięciu do osiemdziesięciu złotych - Uhuhu... ")
     sm.update_tfidf_matrix()
     sm.update_similarity_matrix("- Dzień dobry, ja chciałbym się zorientować w cenie biletu na mecz ligi mistrzów - Tutaj u nas w Warszawie, tak? - Tak - A jaka pana interesuje trybuna?  Żyleta - Żyleta, z kartą, czy bez? - Halo, słucham? - Z kartą, czy bez? - Yyy bez, bo ja tu kibicem Lecha jestem - Co Pan jest? - Yy nic yyyy bilety bym chciał się zorientować cenę - Trzydzieścipięć złotych - Trzydzieścipięć, a na taką siedzącą? - Jak na siedzącą? - Słucham? - Jak na siedzącą? - No na... - Tam się nie siedzi, tam się stoi i się kibicuje - Ale na siedzącą trybunę - No to na krytą, czy gdzieś, tak? - Tak - No to od sześćdziesięciu do osiemdziesięciu złotych - Uhuhu..")
-    sch.daily_jobs()
     return 'test ok'
 
 

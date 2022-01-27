@@ -102,8 +102,7 @@ class Config(object):
     TFIDF_MATRIX_URL = './server_files/generated_files/tfidf_matrix'
 
     # Url to processing text similarities matrix
-    SIMILARITIES_MATRIX_URL = './server_files/generated_files/similarities_matrix'
-
+    SIMILARITIES_MATRIX_URL = './server_files/generated_files/similarities_matrix.npy'
     # Url to processing text users plot
     USERS_PLOT_URL = './server_files/generated_files/users_plot'
 

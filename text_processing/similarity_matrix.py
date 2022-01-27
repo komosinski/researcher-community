@@ -128,9 +128,10 @@ def update_similarity_matrix(new_article):
     dictionary = get_dictionary()
     new_text = dictionary.doc2bow(new_article.split())
     new_article_similarities = matrix_tfidf.get_similarities(new_text)
-    similarity_matrix_add_column = np.column_stack((similarity_matrix, new_article_similarities))
-    new_article_similarities = np.append(new_article_similarities, 1.00)
-    similarity_matrix = np.row_stack((similarity_matrix_add_column, new_article_similarities))
-    save_similarities_matrix(similarity_matrix)
+    if len(new_article_similarities) == len(similarity_matrix):
+        similarity_matrix_add_column = np.column_stack((similarity_matrix, new_article_similarities))
+        new_article_similarities = np.append(new_article_similarities, 1.00)
+        similarity_matrix = np.row_stack((similarity_matrix_add_column, new_article_similarities))
+        save_similarities_matrix(similarity_matrix)
 
     return similarity_matrix
