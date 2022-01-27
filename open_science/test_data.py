@@ -3633,7 +3633,8 @@ def create_test_data(app):
                         "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                         "Suspendisse auctor id orci quis placerat.",
             preprocessed_text=get_text(f"{app.config['PDFS_FOLDER_FULL_URL']}15.pdf"),
-            confidence_level=2
+            confidence_level=2,
+            publication_date=dt.datetime(2020, 8, 10, 2, 2, 2, 2),
         )
         pve15_2.rel_parent_paper = p15
         db.session.add(pve15_2)
@@ -4570,6 +4571,7 @@ def create_test_data(app):
         rr36 = ReviewRequest(
             decision=True,
             creation_datetime=dt.datetime(2020, 9, 5, 2, 2, 2, 2),
+            response_date=dt.date(2020, 9, 5),
             deadline_date=dt.date(2020, 10, 5),
         )
         rr36.rel_requested_user = u2
@@ -4580,6 +4582,7 @@ def create_test_data(app):
             decision=True,
             creation_datetime=dt.datetime(2020, 9, 6, 2, 2, 2, 2),
             deadline_date=dt.date(2020, 10, 6),
+            response_date=dt.date(2020, 9, 5),
         )
         rr37.rel_requested_user = u3
         rr37.rel_related_paper_version = pve14
@@ -4589,6 +4592,7 @@ def create_test_data(app):
             decision=True,
             creation_datetime=dt.datetime(2020, 9, 7, 2, 2, 2, 2),
             deadline_date=dt.date(2020, 10, 7),
+            response_date=dt.date(2020, 9, 5),
         )
         rr38.rel_requested_user = u5
         rr38.rel_related_paper_version = pve14
@@ -4598,6 +4602,7 @@ def create_test_data(app):
             decision=True,
             creation_datetime=dt.datetime(2020, 9, 8, 2, 2, 2, 2),
             deadline_date=dt.date(2020, 10, 8),
+            response_date=dt.date(2020, 9, 5),
         )
         rr39.rel_requested_user = u4
         rr39.rel_related_paper_version = pve15_1
@@ -4607,6 +4612,7 @@ def create_test_data(app):
             decision=True,
             creation_datetime=dt.datetime(2020, 9, 9, 2, 2, 2, 2),
             deadline_date=dt.date(2020, 10, 9),
+            response_date=dt.date(2020, 9, 5),
         )
         rr40.rel_requested_user = u1
         rr40.rel_related_paper_version = pve15_1

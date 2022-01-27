@@ -157,7 +157,7 @@ def file_upload_page():
         # update matrixes
         sm.update_dictionary()
         sm.update_tfidf_matrix()
-        sm.update_similarity_matrix()
+        sm.update_similarity_matrix(paper_version.preprocessed_text)
 
         # bin   d old unpublished reviews and unanswered review reqests
         # to nthe ewest paper's revision
@@ -304,11 +304,13 @@ def view_article(id):
         db.session.commit()
         create_paper_comment_notifications(pv, comment, current_user.id)
 
+
+
         return redirect(url_for("article", id=id, version=pv.version))
 
     # similar papers
     similar_papaers = pv.get_similar_revisions()
- 
+            
     return render_template("article/view.html",
                            article=pv, similar=similar_papaers[:3],
                            form=commentForm,
@@ -570,7 +572,11 @@ def contact_staff_page():
 import open_science.schedule.schedule as sch
 def test_text_preprocessing():
     sch.daily_jobs()
-    return 'test'
+    # update matrixes
+    sm.update_dictionary()
+    sm.update_tfidf_matrix()
+    # sm.update_similarity_matrix() TODO: test this 
+    return 'test ok'
 
 
 def about_page():

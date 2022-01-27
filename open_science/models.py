@@ -386,7 +386,7 @@ class User(db.Model, UserMixin):
             return False
 
     def get_users_ids_whose_user_reviewed(self, days=10000):
-        users = set()
+        users_ids = set()
         date_after = dt.datetime.utcnow() - dt.timedelta(days=days)
 
         for review in self.rel_created_reviews:
@@ -395,8 +395,8 @@ class User(db.Model, UserMixin):
                     or review.deadline_date >= date_after.date():
 
                 for author in review.rel_related_paper_version.rel_creators:
-                    users.update(author)
-        return users
+                    users_ids.add(author.id)
+        return users_ids
 
 
 class PrivilegeSet(db.Model):
@@ -615,7 +615,7 @@ class PaperRevision(db.Model):
         for review_request in self.rel_related_review_requests:
             if review_request.decision is True:
                 count += 1
-            elif review_request.decision is None and \
+            elif review_request.decision is None and\
                     review_request.deadline_date\
                     >= dt.datetime.utcnow().date():
                 count += 1

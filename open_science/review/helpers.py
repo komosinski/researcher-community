@@ -13,7 +13,8 @@ in the system to review this paper. We will wait until more similar researchers 
 def create_review_request(reviewer, paper_revision):
 
     review_request = ReviewRequest(
-        creation_datetime=dt.datetime.utcnow()
+        creation_datetime=dt.datetime.utcnow(),
+        deadline_date=dt.datetime.utcnow().date() + dt.timedelta(days=30)
     )
     review_request.rel_requested_user = reviewer
     review_request.rel_related_paper_version = paper_revision
@@ -50,8 +51,12 @@ def select_reviewers(paper_revision):
 
     for creator in creators:
         for paper_revision in creator.rel_created_paper_revisions:
-            co_authors_ids \
-                .update(paper_revision.get_paper_co_authors_ids(days))
+            ids = paper_revision.get_paper_co_authors_ids(days)
+            if isinstance(ids, int):
+                co_authors_ids.add(ids)
+            else:
+                co_authors_ids \
+                    .update(ids)
  
         ids = creator\
             .get_users_ids_whose_user_reviewed(
@@ -59,8 +64,10 @@ def select_reviewers(paper_revision):
                 .config['EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS']
                 )
 
-        reviewed_users_ids.update(ids)
-        
+        if isinstance(ids, int):
+            reviewed_users_ids.add(ids)
+        else:
+            reviewed_users_ids.update(ids)
     # Users who declined to review this paper are removed.
     # except users who declined with reason "don't have time"
     # more than N days ago
@@ -70,7 +77,7 @@ def select_reviewers(paper_revision):
         for request in revision.rel_related_review_requests:
             if request.decision is False and\
                 request.can_request_after_decline() is False:
-                users_who_declined_ids.update(request.requested_user)
+                users_who_declined_ids.add(request.requested_user)
   
     # If a new revision of the paper needs to be reviewed,
     # first the reviewers of previous revision(s) are asked
@@ -79,7 +86,7 @@ def select_reviewers(paper_revision):
     if paper_revision.version > 1:
         for revision in paper_revision.get_previous_revisions():
             for review in revision.rel_related_reviews:
-                previous_reviewers_ids.update(review.creator)
+                previous_reviewers_ids.add(review.creator)
 
     for user in users:
         if user.is_active() is False:
