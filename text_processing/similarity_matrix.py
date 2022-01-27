@@ -41,10 +41,9 @@ def get_dictionary():
     return dictionary
 
 # new_text is array of strings
-def update_dictionary():
-    new_text = get_all_papers_texts()
+def update_dictionary(new_article):
     dictionary = get_dictionary()
-    new_words = [[text for text in doc.split()] for doc in new_text]
+    new_words = [[text for text in doc.split()] for doc in new_article]
     dictionary.add_documents(new_words)
     save_dictionary(dictionary)
 
@@ -118,9 +117,8 @@ def save_similarities_matrix(similarities_matrix):
 def get_similarities_matrix():
     similarities_matrix = []
 
-    tfidf_similarities_url = app.config['TFIDF_MATRIX_URL']
-    similarities_matrix = corpora.Dictionary.load(tfidf_similarities_url)
-    similarities_matrix = np.array(similarities_matrix, dtype="float64")
+    similarities_matrix_url = app.config['SIMILARITIES_MATRIX_URL']
+    similarities_matrix = np.load(similarities_matrix_url, similarities_matrix)
 
     return similarities_matrix
 
@@ -129,10 +127,10 @@ def update_similarity_matrix(new_article):
     matrix_tfidf = get_tfidf_matrix()
     dictionary = get_dictionary()
     new_text = dictionary.doc2bow(new_article.split())
-    new_article_similarities = matrix_tfidf[new_text]
+    new_article_similarities = matrix_tfidf.get_similarities(new_text)
     similarity_matrix_add_column = np.column_stack((similarity_matrix, new_article_similarities))
     new_article_similarities = np.append(new_article_similarities, 1.00)
-    similarity_matrix = np.row_stack(similarity_matrix_add_column, new_article_similarities)
+    similarity_matrix = np.row_stack((similarity_matrix_add_column, new_article_similarities))
     save_similarities_matrix(similarity_matrix)
 
     return similarity_matrix

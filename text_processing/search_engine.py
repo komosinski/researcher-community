@@ -14,11 +14,13 @@ def get_similar_users_to_user(user_id, users_dict_id):
     similarities_matrix = {i: [] for i in users_id}
     ranking = {i: [] for i in users_id}
     ranking_sorted = []
+
     if users_dict_id[user_id] != []:
         for users in users_dict_id:
             for enteredUser in users_dict_id[user_id]:
                 for otherUser in users_dict_id[users]:
-                    similarities_matrix[users].append(matrix[enteredUser][otherUser])
+                    if otherUser < len(matrix) and enteredUser < len(matrix):
+                        similarities_matrix[users].append(matrix[enteredUser][otherUser])
         for array in similarities_matrix:
             if similarities_matrix[array] == []:
                 similarities_matrix[array] = [0.0]
