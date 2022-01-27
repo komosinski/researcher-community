@@ -48,7 +48,6 @@ def validatePDF(content):
     return content.decode("ascii", "ignore").startswith("%PDF-")
 
 
-<<<<<<< Updated upstream
 def auto_page(name):
 
     if not name:
@@ -62,8 +61,6 @@ def auto_page(name):
             return redirect(url_for('home_page'))
 
 
-=======
->>>>>>> Stashed changes
 def home_page():
     users_plot_url = app.config['USERS_PLOT_URL']
 

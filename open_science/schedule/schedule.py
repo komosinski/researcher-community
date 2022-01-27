@@ -94,4 +94,3 @@ def daily_jobs():
     create_review_deadline_notification()
     send_notifiactions_count()
     prepare_and_send_review_requests()
-    
