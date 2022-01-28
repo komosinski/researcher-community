@@ -71,8 +71,5 @@ def get_similar_users_to_article(article_id, users_dict_id):
             if int(article_id) in user_articles:
                 user = key_list[position]
     ranking_users = list(filter(lambda a: a != user, ranking_users))
-    first_part_of_list = int(len(ranking_users)/4)
-    ranking_users = ranking_users[:first_part_of_list]
-    similar_users = {item: ranking_users.count(item) for item in ranking_users}
-    similar_users = list(similar_users.keys())
+    ranking_users = set(ranking_users)
     return ranking_users
