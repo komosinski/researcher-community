@@ -21,6 +21,10 @@
 
     <br>
 
+    {% if review.edit_counter > 0%}
+        Review was edited {{review.edit_counter}} times after first published
+    {%endif%}
+
     <div>
         <table>
             <tr>

@@ -20,7 +20,8 @@ from open_science import app
 from open_science.routes_def import check_numeric_args
 from open_science.enums import EmailTypeEnum, NotificationTypeEnum
 from open_science.db_helper import get_hidden_filter
-import text_processing.mocks as Mocks
+from text_processing.prepocess_text import get_text
+import text_processing.similarity_matrix as sm
 
 def register_page():
     form = RegisterForm()
@@ -48,15 +49,14 @@ def register_page():
             file.save(path)
 
             calibration_paper.pdf_url = url
-            calibration_paper.preprocessed_text = Mocks.get_text(url)
+            calibration_paper.preprocessed_text = get_text(path)
 
             calibration_files.append(calibration_paper)
-
-            # # TODO: substitute with real function when it becomes available
-            # calibration_files.append(CalibrationPaper(
-            #     pdf_url = "",
-            #     preprocessed_text = Mocks.get_text(url)
-            # ))
+            
+            sm.update_dictionary(calibration_paper.preprocessed_text)
+            sm.update_tfidf_matrix()
+            sm.update_similarity_matrix(calibration_paper.preprocessed_text)
+  
         user_to_create = User.query.filter(User.email == form.email.data,
                                            User.registered_on.is_(None)).first()
 

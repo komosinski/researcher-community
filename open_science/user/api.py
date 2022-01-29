@@ -11,7 +11,7 @@ def user_papers_data():
 
     total_results = query.count()
 
-    # search filter
+    # search filters
     search = request.args.get('search[value]')
     if search:
         query = query.filter(db.or_(
@@ -19,7 +19,7 @@ def user_papers_data():
         ))
     total_filtered = query.count()
 
-    # sorting
+    # sorting by one or more attributes
     order = []
     i = 0
     while True:
@@ -43,7 +43,6 @@ def user_papers_data():
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
 
-    # response
     return {
         'data': [paper.to_dict() for paper in query],
         'recordsFiltered': total_filtered,
@@ -57,7 +56,7 @@ def user_reviews_data():
     query = Review.query.filter(Review.creator == current_user.id)
     total_results = query.count()
 
-    # search filter
+    # search filters
     search = request.args.get('search[value]')
     if search:
         query = query.filter(db.or_(
@@ -65,7 +64,7 @@ def user_reviews_data():
         ))
     total_filtered = query.count()
 
-    # sorting
+    # sorting by one or more attributes
     order = []
     i = 0
     while True:
@@ -89,7 +88,6 @@ def user_reviews_data():
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
 
-    # response
     return {
         'data': [review.to_dict() for review in query],
         'recordsFiltered': total_filtered,
@@ -103,7 +101,7 @@ def user_tags_data():
     query = Tag.query.filter(Tag.creator == current_user.id)
     total_results = query.count()
 
-    # search filter
+    # search filters
     search = request.args.get('search[value]')
     if search:
         query = query.filter(db.or_(
@@ -112,7 +110,7 @@ def user_tags_data():
         ))
     total_filtered = query.count()
 
-    # sorting
+    # sorting by one or more attributes
     order = []
     i = 0
     while True:
@@ -136,7 +134,6 @@ def user_tags_data():
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
 
-    # response
     return {
         'data': [tag.to_dict() for tag in query],
         'recordsFiltered': total_filtered,
@@ -158,7 +155,7 @@ def user_comments_data():
         ))
     total_filtered = query.count()
 
-    # sorting
+    # sorting by one or more attributes
     order = []
     i = 0
     while True:
@@ -182,7 +179,6 @@ def user_comments_data():
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
 
-    # response
     return {
         'data': [comment.to_dict() for comment in query],
         'recordsFiltered': total_filtered,
