@@ -46,7 +46,7 @@ def search_articles_by_text(search_text, articles_id_list):
     dictionary = get_dictionary()
     query = preprocess_text(search_text).split()
     query = dictionary.doc2bow(query)
-    similarites_array = matrix.get_similarities(query)
+    similarites_array = matrix[query]
     similar_ranking = [b[0] for b in sorted(enumerate(similarites_array), key=lambda i: i[1], reverse=True)]
     similar_articles = [articles_id_list[i] for i in similar_ranking]
     return similar_articles
