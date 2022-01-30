@@ -391,6 +391,12 @@ def verify_user_liked():
     try:
         user_id = int(request.json.get('userID'))
         comment_id = int(request.json.get('commentID'))
+
+        print(f"user_id = {user_id}\ncurrent_user.id = {current_user.id}\ncomment.rel_creator.id = {Comment.query.get(comment_id).rel_creator.id}")
+
+        if Comment.query.get(comment_id).rel_creator == current_user:
+            print("fired")
+            return json.dumps({'result': True}), 200, {'ContentType': 'application/json'}
     except ValueError:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
 
@@ -403,6 +409,12 @@ def verify_user_disliked():
     try:
         user_id = int(request.json.get('userID'))
         comment_id = int(request.json.get('commentID'))
+
+        print(f"user_id = {user_id}\ncurrent_user.id = {current_user.id}\ncomment.rel_creator.id = {Comment.query.get(comment_id).rel_creator.id}")
+
+        if Comment.query.get(comment_id).rel_creator == current_user:
+            print("fired")
+            return json.dumps({'result': True}), 200, {'ContentType': 'application/json'}
     except ValueError:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
 
