@@ -27,8 +27,8 @@ def user_papers_data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['version']:
-            col_name = 'version'
+        if col_name not in ['version', 'title', 'publication_date']:
+            col_name = 'publication_date'
         descending = request.args.get(f'order[{i}][dir]') == 'desc'
         col = getattr(PaperRevision, col_name)
         if descending:
@@ -118,7 +118,7 @@ def user_tags_data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['deadline']:
+        if col_name not in ['deadline', 'name', 'description']:
             col_name = 'deadline'
         descending = request.args.get(f'order[{i}][dir]') == 'desc'
         col = getattr(Tag, col_name)
@@ -163,7 +163,7 @@ def user_comments_data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['date']:
+        if col_name not in ['date', 'text', 'votes_score']:
             col_name = 'date'
         descending = request.args.get(f'order[{i}][dir]') == 'desc'
         col = getattr(Comment, col_name)

@@ -25,10 +25,10 @@
         serverSide: true,
         rowId: 'id',
         columns: [
-          {data: 'paper_title'},
-          {data: 'paper_version'},
+          {data: 'paper_title', orderable: false},
+          {data: 'paper_version', orderable: false},
           {data: 'publication_datetime'},
-          {data: 'is_visible'},
+          {data: 'is_visible', orderable: false},
           {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false }
         ],
       });
