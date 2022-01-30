@@ -33,8 +33,7 @@ def get_similar_articles_to_articles(article_id, articles_id_list):
     article_index = articles_id_list.index(article_id)
     similar_ranking = [b[0] for b in sorted(enumerate(matrix[int(article_index)]), key=lambda i: i[1], reverse=True)]
     similar_ranking = similar_ranking[1:]
-    similar_articles = [articles_id_list[i] for i in similar_ranking]
-    return similar_articles
+    return similar_ranking
 
 
 def search_articles_by_text(search_text, articles_id_list):
