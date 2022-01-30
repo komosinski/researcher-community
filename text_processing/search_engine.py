@@ -4,9 +4,6 @@ from text_processing.prepocess_text import preprocess_text
 from text_processing.similarity_matrix import get_similarities_matrix, get_tfidf_matrix, get_dictionary
 
 
-# users_dict_id - dictionary of users_id articles_id (example: { user1: [article1, article30], user2: [article3, article10] } )
-# wejscie: id uzytkownika dla ktorego szukamy podobnych, slownik uzytkiowników i ich id_artykułów
-# wyjscie: lista uzytkowników najbardziej podobnych
 def get_similar_users_to_user(user_id, users_dict_id):
     matrix = get_similarities_matrix()
     matrix = np.array(matrix)
@@ -30,7 +27,7 @@ def get_similar_users_to_user(user_id, users_dict_id):
     return ranking_users[1:], np.concatenate(list(ranking.values()), axis=0)
 
 
-# wejscie: id artykulu, articles_id_list - lista id artykulow w tej samej kolejnosci co jest dodawana w macierzy
+
 def get_similar_articles_to_articles(article_id, articles_id_list):
     matrix = get_similarities_matrix()
     article_index = articles_id_list.index(article_id)
@@ -40,7 +37,6 @@ def get_similar_articles_to_articles(article_id, articles_id_list):
     return similar_articles
 
 
-# wejscie: wyszukiwany tekst, Lista z przetworzonym tekstem artykułów (lista stringów), lista id artykulow w tej samej kolejnosci co jest dodawana w macierzy
 def search_articles_by_text(search_text, articles_id_list):
     matrix = get_tfidf_matrix()
     dictionary = get_dictionary()

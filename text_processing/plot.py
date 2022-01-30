@@ -32,5 +32,4 @@ def create_save_users_plot():
         plt.savefig(users_plot_url, dpi=200)
         plt.close(fig)
 
-    # TODO: print variance preserved 
     # 3D version
