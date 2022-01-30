@@ -256,7 +256,7 @@ def edit_tag_page(tag_id):
     return tag_rd.edit_tag_page(tag_id)
 
 
-@app.route('/review/<review_id>',)
+@app.route('/review/<review_id>', methods = ['GET', 'POST'])
 def review_page(review_id):
     return review_rd.review_page(review_id)
 

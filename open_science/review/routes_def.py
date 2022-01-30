@@ -1,6 +1,7 @@
+from open_science.forms import CommentForm
 from open_science.review.forms import ReviewRequestForm, ReviewEditForm
 from open_science import db
-from open_science.models import PaperRevision, ReviewRequest, Review
+from open_science.models import Comment, PaperRevision, ReviewRequest, Review
 from open_science.models import Suggestion
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request, abort
@@ -187,6 +188,38 @@ def review_page(review_id):
 
     creator = review.rel_creator
 
+    commentForm = CommentForm(refObject="review", refObjectID = review.id)
+
+    # current_user.is_authenticated()
+    user_liked_comments = [vote.rel_to_comment for vote in current_user.rel_comment_votes_created if vote.is_up] if current_user.is_authenticated else []
+    user_disliked_comments = [vote.rel_to_comment for vote in current_user.rel_comment_votes_created if not vote.is_up] if current_user.is_authenticated else []
+
+    if commentForm.validate_on_submit():
+        comment = Comment(
+            text=commentForm.content.data,
+            votes_score = 0,
+            red_flags_count = 0,
+            level = 1,
+            date = dt.datetime.utcnow(),
+            creator_role = current_user.privileges_set
+        )
+
+        if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
+            print(commentForm.comment_ref.data)
+            comment.comment_ref = ref_comment.id
+
+        if current_user.rel_created_comments:
+            current_user.rel_created_comments.append(comment)
+        else: current_user.rel_created_comments = [comment]
+
+        if review.rel_comments_to_this_review:
+            review.rel_comments_to_this_review.append(comment)
+        else: review.rel_comments_to_this_review = [comment]
+
+        db.session.commit()
+
+        return redirect(url_for("review_page", review_id=review_id) + f"#c{comment.id}")
+
     data = {
         'paper_url':
             url_for('article',
@@ -198,7 +231,8 @@ def review_page(review_id):
         'paper_title': review.rel_related_paper_version.title
     }
 
-    return render_template('review/review.html', review=review, data=data)
+    return render_template('review/review.html', review=review, data=data, form=commentForm, user_liked_comments=user_liked_comments,
+                           user_disliked_comments=user_disliked_comments)
 
 
 def increase_needed_reviews(revision_id):

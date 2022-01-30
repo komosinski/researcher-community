@@ -1,4 +1,135 @@
+{% from "helpers/form_helper.html" import render_register_field %}
+
 {% extends 'base.html' %}
+
+{% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".comment").on('click', '.reply-action', function() {
+            const id = $(this).parents().closest('.comment').attr('id');
+            $("#reply-info").html(`Replying to <a href="#${id}">#${id}</a>`)
+            $("#reply-info-wrapper").removeClass("disabled");
+            $("#comment_ref").val(id);
+        })
+
+        $("#cancel-reply-button").on('click', function(e) {
+            e.preventDefault();
+            $("#reply-info-wrapper").addClass('disabled');
+            $("#comment_ref").val('');
+        })
+
+        $('#submit_comment').on('click', function(e) {
+            //e.preventDefault();
+            console.log($("#comment_ref").val());
+        })
+
+        $(".comment").on('click', '.like-icon', function(e) {
+            e.preventDefault();
+            const id = $(this).parents().closest('.comment').attr('id').substring(1);
+            const relatedDisliker = $(this).parents().closest('.stats-element-wraper').children().closest('.dislike-icon');//.addClass('dislike-pressed');
+            const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
+            const elem = $(this);
+            const uid = {{current_user.id}};
+
+            /*axios.post("/action/like", {type: 'comment', article_id: id, action: 'up'}).then(function(response) {
+                $(this).addClass('like-pressed');
+                const newCount = parseInt($(this).children().closest('.stat-value').val()) + 1;
+                $(this).children().closest('.stat-value').val(newCount);
+                console.log(response);
+            }).catch((error) => {
+                alert('Unable to like this item\n'+error)
+            })*/
+
+            $.ajax({
+                url: "/action/verify_liked",
+                type: "POST",
+                data: JSON.stringify({userID: uid, commentID: id}),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function(data) {
+                    console.log(data)
+                    if(data.result) {
+                        console.log('liked');
+                        alert('You already liked this comment!')
+                    }
+                    else {
+                        console.log('not liked');
+                        $.ajax({
+                            url: "/action/like",
+                            type: "POST",
+                            data: JSON.stringify({action: 'up', article_id: id, type: 'comment'}),
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            success: function (response) {
+                                console.log(response);
+                                relatedDisliker.removeClass('dislike-pressed');
+                                elem.addClass('like-pressed');
+                                const newCount = parseInt(response.new_value);
+                                console.log(newCount);
+                                valueField.text(newCount);
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
+            $(".comment").on('click', '.dislike-icon', function(e) {
+                e.preventDefault();
+                const id = $(this).parents().closest('.comment').attr('id').substring(1);
+                const relatedLiker = $(this).parents().closest('.stats-element-wraper').children().closest('.like-icon');
+                const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
+                console.log(relatedLiker);
+                const elem = $(this);
+                const uid = {{current_user.id}};
+    
+                /*axios.post("/action/like", {type: 'comment', article_id: id, action: 'up'}).then(function(response) {
+                    $(this).addClass('like-pressed');
+                    const newCount = parseInt($(this).children().closest('.stat-value').val()) + 1;
+                    $(this).children().closest('.stat-value').val(newCount);
+                    console.log(response);
+                }).catch((error) => {
+                    alert('Unable to like this item\n'+error)
+                })*/
+    
+                $.ajax({
+                    url: "/action/verify_disliked",
+                    type: "POST",
+                    data: JSON.stringify({userID: uid, commentID: id}),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        console.log(data)
+                        if(data.result) {
+                            console.log('liked');
+                            alert('You already disliked this comment!')
+                        }
+                        else {
+                            console.log('not liked');
+                            $.ajax({
+                                url: "/action/like",
+                                type: "POST",
+                                data: JSON.stringify({action: 'down', article_id: id, type: 'comment'}),
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                success: function (response) {
+                                    console.log(response);
+                                    relatedLiker.removeClass('like-pressed');
+                                    elem.addClass('dislike-pressed');
+                                    const newCount = parseInt(response.new_value);
+                                    console.log(valueField.text());
+                                    valueField.text(newCount);
+                                }
+                            })
+                        }
+                    }
+                });
+            })
+    });
+</script>
+{% endblock %}
+
 {% block content %}
 
 
@@ -100,8 +231,91 @@
 
     <br>
 
-    <div>
-        <h5>Comments:</h5>
+    <h3 class="comments-header">
+        Comments
+    </h3>
+    <div class="comments-wrapper">
+        {% for comment in review.rel_comments_to_this_review %}
+        {% with author=comment.rel_creator %}
+            {%if author in review.rel_creators %}
+            <div class="comment comment-by-author" id="c{{comment.id}}">
+            {%else%}
+            <div class="comment comment-{{comment.creator_role}}" id="c{{comment.id}}">
+            {%endif%}
+                <div class="comment-header-wrapper">
+                    <div class="author-wrapper comment-author">
+                        <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~author.get_id()~'.png' if author.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}"/>
+                        <div class="comment-answer-info">
+                            <a style="font-size: 1.2rem;"class="author-name header-username" href="{{url_for('profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
+                            {%if comment.comment_ref %}
+                                answering to <a href="#c{{comment.comment_ref}}">#c{{comment.comment_ref}}</a>
+                            {%endif%}
+                        </div>
+                    </div>
+                    <div class="filler">
+
+                    </div>
+                    <div class="comment-info-wrapper">
+                        <div class="stats-element-wraper">
+                            {% if comment in user_liked_comments %}
+                            <a href="/login" class="linked-icon like-icon like-pressed">
+                                <i class="fas fa-arrow-up fa-center"></i>
+                            </a>
+                            {% else %}
+                            <a href="/login" class="linked-icon like-icon">
+                                <i class="fas fa-arrow-up fa-center"></i>
+                            </a>
+                            {% endif %}
+                            {% if comment in user_disliked_comments %}
+                            <a href="/login" class="linked-icon dislike-icon dislike-pressed">
+                                <i class="fas fa-arrow-down fa-center"></i>
+                                <p class="stat-value">{{comment.votes_score}}</p>
+                            </a>
+                            {%else%}
+                            <a href="/login" class="linked-icon dislike-icon">
+                                <i class="fas fa-arrow-down fa-center"></i>
+                                <p class="stat-value">{{comment.votes_score}}</p>
+                            </a>
+                            {%endif%}
+                        </div>
+                    </div>
+                </div> 
+                <div class="comment-text-wrapper">
+                    {{comment.text}}
+                </div>
+                <div class="reply-action-wrapper">
+                    <a href="#add-comment" class="reply-action">Reply</a>
+                </div>
+            </div>
+        {%endwith%}
+        {%endfor%}
+        {% if current_user.is_authenticated and current_user.can_comment() %}
+        <div class="create-comment-wrapper" id="add-comment">
+            <form method="POST" action="{{url_for('review_page', review_id=review.id)}}">
+                {{form.hidden_tag()}}
+                {{form.comment_ref()}}
+                <!-- {{render_register_field(form.content, "Type your comment here...")}} -->
+                <div class="profile-edit-input-wrapper">
+                    <div class="label-wrapper"> {{ form.content.label}}</div>
+                    <div id="reply-info-wrapper" class="disabled">
+                        <p id="reply-info"></p>
+                        <button id="cancel-reply-button">Cancel</button>
+                    </div>
+                    <div class="input-wrapper"> {{ form.content(placeholder="Type your comment here...")|safe }}</div>
+                    {% if form.content.errors %}
+                        {% for error in form.content.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="buttons-wrapper">
+            
+                    {{ form.submit_comment(class="large-button main-button") }}
+            
+                </div>
+            </form>
+        </div>
+        {% endif %}
     </div>
 
     
