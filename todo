@@ -1,9 +1,1 @@
 1. .git_public (obsługa 2 repozytoriów)
-2. Zmiana nazwy temporary_config na config_db
-3. Przeniesienie trybu debug do config
-4. frontend/backend - ... działający po stronie klienta/serwera i w nawiasie (frontend/backend)
-5. Powiększenie czcionek w schemacie db / poprawa czytelności na ile to możliwe (może bardziej ścisnąć w osi poziomej - żeby był wyższy)
-6. w latex -- zamiast -
-7. moduł przetwarzania plików PDF -> m. p. tekstu; logiki biznesowej -> komunikacji z bazą danych
-8. automatyczny template endpoint
-9. mail z dodana recenzja
