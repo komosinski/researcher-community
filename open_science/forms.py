@@ -58,13 +58,13 @@ class FileUploadForm(FlaskForm):
     license = SelectField("License", coerce=int)
 
     rights_declaration = \
-        BooleanField(STR.RIGHTS_DECLARATION, validators=[DataRequired()])
-    authors_declaration = BooleanField(STR.AUTHORS_DECLARATION,
+        BooleanField(STR.DECLARATION_RIGHTS, validators=[DataRequired()])
+    authors_declaration = BooleanField(STR.DECLARATION_AUTHORS,
                                        validators=[DataRequired()])
-    interest_conflict_declaration = BooleanField(STR.NO_INTEREST_CONFLICT_DECLARATION,
+    interest_conflict_declaration = BooleanField(STR.DECLARATION_NO_INTEREST_CONFLICT,
                                                  validators=[DataRequired()])
-    anonymity_declaration = BooleanField(STR.ANONYMITY_DECLARATION)
-    review_declaration = BooleanField(STR.REVIEW_DECLARATION)
+    anonymity_declaration = BooleanField(STR.DECLARATION_ANONYMITY)
+    review_declaration = BooleanField(STR.DECLARATION_REVIEW)
 
     confidence_level = SelectField("Choose review confidence level:", choices=[(2, 'low'), (3, 'medium'), (4, 'high')], validators=[validate_review, Optional()])
 

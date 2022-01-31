@@ -113,7 +113,7 @@ def register_page():
 
         db.session.commit()
         em.send_email_confirmation(user_to_create.email)
-        flash(STR.EMAIL_CONFIRM_LINK_SENDED, category='success')
+        flash(STR.EMAIL_CONFIRM_LINK_SENT, category='success')
         return redirect(url_for('unconfirmed_email_page'))
 
     return render_template('user/register.html', form=form)
@@ -302,7 +302,7 @@ def edit_profile_page():
 
             email_change = True
             em.send_email_change_confirmation(form.email.data)
-            flash_message += STR.EMAIL_CONFIRM_LINK_SENDED + form.email.data
+            flash_message += STR.EMAIL_CONFIRM_LINK_SENT + form.email.data
 
         current_user.affiliation = form.affiliation.data
         current_user.orcid = form.orcid.data

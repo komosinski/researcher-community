@@ -60,12 +60,12 @@ class ReviewEditForm(FlaskForm):
                     'You must declare no conflict of interest')
 
     evaluation_novel = DecimalRangeField(STR.EVALUATION_NOVEL, default=0)
-    evaluation_conclusion = DecimalRangeField(STR.EVALUATION_CONCLUSION,
+    evaluation_conclusion = DecimalRangeField(STR.EVALUATION_JUSTIFIED,
                                               default=0)
     evaluation_error = DecimalRangeField(
-        STR.EVALUATION_ERROR, default=0)
+        STR.EVALUATION_NOERRORS, default=0)
     evaluation_organize = DecimalRangeField(
-        STR.EVALUATION_ORGANIZE, default=0)
+        STR.EVALUATION_WELLPRESENTED, default=0)
     evaluation_accept = BooleanField(
         STR.EVALUATION_ACCEPT,
         default=False)

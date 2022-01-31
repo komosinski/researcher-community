@@ -165,7 +165,7 @@ def file_upload_page():
         transfer_old_reviews(paper)
         enough_reviews = prepare_review_requests(paper_version)
         if enough_reviews is False:
-            flash(STR.NOT_ENOUGHT_RESEARCHERS, category='warning')
+            flash(STR.NOT_ENOUGH_RESEARCHERS, category='warning')
 
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
 
