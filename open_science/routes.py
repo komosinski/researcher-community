@@ -16,6 +16,7 @@ from threading import Thread
 # TODO: remove this temporary variable and read the state from another source
 VAR = False
 
+
 @app.before_request
 def before_req():
     if VAR:
@@ -34,6 +35,7 @@ def test():
     return 'DO NOT RELOAD THE PAGE!\n\
             Test data is being created.\n\
             Progress is displayed in the terminal.'
+
 
 @app.route("/")
 def home_page():
@@ -105,6 +107,7 @@ def confirm_email_change(token):
 def article(id):
     return rd.view_article(id)
 
+
 @app.route('/paper/anon/<id>')
 def anonymous_article_page(id):
     return rd.anonymous_article_page(id)
@@ -116,27 +119,33 @@ def anonymous_article_page(id):
 def upload_file_page():
     return rd.file_upload_page()
 
+
 @app.route('/article/<id>/add_revision', methods=['GET', 'POST'])
 @login_required
 @rd.researcher_user_required
 def upload_new_revision(id):
     return rd.upload_revision(id)
 
+
 @app.route('/action/like', methods=['POST'])
 def addLike():
     return rd.like()
+
 
 @app.route('/action/verify_liked', methods=['POST'])
 def verify_like():
     return rd.verify_user_liked()
 
+
 @app.route('/action/verify_disliked', methods=['POST'])
 def verify_dislike():
     return rd.verify_user_disliked()
 
+
 @app.route('/action/delete-like', methods=['POST'])
 def like_delete():
     return rd.delete_like()
+
 
 @app.route('/search/results')
 def search_papers_page():
@@ -215,11 +224,14 @@ def request_endorsement(endorser_id):
     return user_rd.request_endorsement(endorser_id)
 
 
-@app.route('/endorsement/confirm/<notification_id>/<user_id>/<endorser_id>', methods=['GET', 'POST'])
+@app.route('/endorsement/confirm/<notification_id>/<user_id>/<endorser_id>',
+           methods=['GET', 'POST'])
 @login_required
 @rd.researcher_user_required
 def confirm_endorsement_page(notification_id, user_id, endorser_id):
-    return user_rd.confirm_endorsement_page(notification_id, user_id, endorser_id)
+    return user_rd.confirm_endorsement_page(notification_id,
+                                            user_id,
+                                            endorser_id)
 
 
 @app.route('/review/edit/<review_id>', methods=['GET', 'POST'])
@@ -256,7 +268,8 @@ def edit_tag_page(tag_id):
     return tag_rd.edit_tag_page(tag_id)
 
 
-@app.route('/review/<review_id>', methods = ['GET', 'POST'])
+@app.route('/review/<review_id>',
+           methods=['GET', 'POST'])
 def review_page(review_id):
     return review_rd.review_page(review_id)
 
@@ -328,5 +341,3 @@ def forum_page():
 @rd.researcher_user_required
 def increase_needed_reviews(revision_id):
     return review_rd.increase_needed_reviews(revision_id)
-
-

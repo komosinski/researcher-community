@@ -23,7 +23,8 @@ def confirm_password_token(token, expiration=7200):
 
 def generate_account_recovery_token(email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    return serializer.dumps(email, salt=app.config['SECURITY_ACCOUNT_RECOVERY_SALT'])
+    return serializer.dumps(email,
+                            salt=app.config['SECURITY_ACCOUNT_RECOVERY_SALT'])
 
 # throws exception if failed
 
@@ -42,11 +43,11 @@ def confirm_account_recovery_token(token, expiration=7200):
 
 def generate_email_change_token(email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    return serializer.dumps(email, salt=app.config['SECURITY_CHANGE_EMAIL_SALT'])
+    return serializer.dumps(email,
+                            salt=app.config['SECURITY_CHANGE_EMAIL_SALT'])
+
 
 # throws exception if failed
-
-
 def confirm_email_change_token(token, expiration=7200):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
@@ -61,7 +62,8 @@ def confirm_email_change_token(token, expiration=7200):
 
 def generate_profile_delete_token(email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    return serializer.dumps(email, salt=app.config['SECURITY_PROFILE_DELETE_SALT'])
+    return serializer.dumps(email,
+                            salt=app.config['SECURITY_PROFILE_DELETE_SALT'])
 
 # throws exception if failed
 

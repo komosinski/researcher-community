@@ -5,6 +5,7 @@ from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request, abort
 from open_science.routes_def import check_numeric_args
 
+
 def create_tag_page():
 
     if current_user.can_create_tag() is False:
@@ -12,7 +13,7 @@ def create_tag_page():
         return redirect(url_for('profile_page', user_id=current_user.id))
 
     form = EditTagForm()
-    
+
     if form.validate_on_submit():
 
         tag = Tag(
@@ -67,10 +68,7 @@ def tag_page(tag_name):
         return redirect(
             url_for('advanced_search_tags_page',
                     page=1,
-                    search_data={'name':''},
+                    search_data={'name': ''},
                     order_by='newest'))
 
     return render_template('tag/tag_page.html', tag=tag)
-
-
-

@@ -1,6 +1,6 @@
-from open_science import db
 from open_science.models import Tag
 from flask import request
+
 
 def get_all_tags_data():
 
@@ -10,7 +10,8 @@ def get_all_tags_data():
     # search filter and sorting
     search = request.args.get('search[value]')
     if search:
-        query = query.filter(Tag.name.like(f'%{search.upper()}%')).order_by(Tag.name.asc())
+        query = query.filter(Tag.name.like(f'%{search.upper()}%'))\
+            .order_by(Tag.name.asc())
 
     total_filtered = query.count()
 
@@ -20,4 +21,3 @@ def get_all_tags_data():
         'recordsTotal': total_results,
         'draw': request.args.get('draw', type=int),
     }
-

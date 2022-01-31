@@ -11,18 +11,25 @@ from open_science.models import MessageTopic
 def validate_review(form, field):
     if form.review_declaration.data:
         if not field.data:
-            raise StopValidation("You need to provide a confidence level  if you want your paper reviewed")
+            raise StopValidation("You need to provide a confidence level \
+                if you want your paper reviewed")
 
 
 class PaperRevisionUploadForm(FlaskForm):
     # TODO: add valid max version from config
-    file = FileField("Paper PDF", validators=[FileRequired(), FileAllowed(['pdf'])])
-    anonymousFile = FileField("Anonymous version (optional)", validators=[FileAllowed(['pdf'])])
+    file = FileField("Paper PDF", validators=[FileRequired(),
+                                              FileAllowed(['pdf'])])
+    anonymousFile = FileField("Anonymous version (optional)",
+                              validators=[FileAllowed(['pdf'])])
 
-    anonymity_declaration = BooleanField("I certify that this version is anonymized")
+    anonymity_declaration = \
+        BooleanField("I certify that this version is anonymized")
     review_declaration = BooleanField("I would like this paper reviewed")
 
-    confidence_level = SelectField("Choose review confidence level:", choices=[(2, 'low'), (3, 'medium'), (4, 'high')], validators=[validate_review, Optional()])
+    confidence_level = \
+        SelectField("Choose review confidence level:",
+                    choices=[(2, 'low'), (3, 'medium'), (4, 'high')],
+                    validators=[validate_review, Optional()])
 
     changes = HiddenField()
 
@@ -30,7 +37,10 @@ class PaperRevisionUploadForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    content = TextAreaField("Add comment", validators=[DataRequired(), Length(max=mc.COMMENT_TEXT_L)])
+    content = TextAreaField("Add comment",
+                            validators=[DataRequired(),
+                                        Length(max=mc.COMMENT_TEXT_L)]
+                            )
     refObjectType = HiddenField()
     refObjectID = HiddenField()
     comment_ref = HiddenField()
@@ -39,13 +49,17 @@ class CommentForm(FlaskForm):
 
 class FileUploadForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
-    file = FileField("Paper PDF", validators=[FileRequired(), FileAllowed(['pdf'])])
-    anonymousFile = FileField("Anonymous version (optional)", validators=[FileAllowed(['pdf'])])
+    file = FileField("Paper PDF",
+                     validators=[FileRequired(), FileAllowed(['pdf'])])
+    anonymousFile = FileField("Anonymous version (optional)",
+                              validators=[FileAllowed(['pdf'])])
     description = TextAreaField("Abstract", validators=[DataRequired()])
     changes = TextAreaField("Changes since last version")
     license = SelectField("License", coerce=int)
 
-    rights_declaration = BooleanField("I certify that this is original and not published anywhere else (except from venues not restricting publication here such as preprint servers, private websites, conferences and journals with permissive agreements, etc.)", validators=[DataRequired()])
+    rights_declaration = \
+        BooleanField("I certify that this is original and not published anywhere else \
+            (except from venues not restricting publication here such as preprint servers, private websites, conferences and journals with permissive agreements, etc.)", validators=[DataRequired()])
     authors_declaration = BooleanField("All authors read and approved the final manuscript", validators=[DataRequired()])
     interest_conflict_declaration = BooleanField("The authors declare that they have no conflict of interest", validators=[DataRequired()])
     anonymity_declaration = BooleanField("I certify that this version is anonymized")

@@ -7,11 +7,11 @@ from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request, abort
 import json
 from open_science.db_helper import get_hidden_filter
-
 import datetime as dt
 from open_science.routes_def import check_numeric_args
 from open_science import app
 from open_science.notification.helpers import add_new_review_notification
+
 
 def review_request_page(request_id):
     # TODO: show paper abstract ...
@@ -58,8 +58,8 @@ def review_request_page(request_id):
     data = {
         'abstract': paper_version.abstract,
         'paper_url': url_for('anonymous_article_page',
-                                    id =paper_version.parent_paper,
-                                    version=paper_version.version)
+                             id=paper_version.parent_paper,
+                             version=paper_version.version)
     }
     return render_template('review/review_request.html', form=form, data=data)
 
@@ -152,7 +152,7 @@ def review_edit_page(review_id):
         form.confidence.data = int(review.confidence*100)
         form.check_hide.data = review.is_hidden
         form.check_anonymous.data = review.is_anonymous
-    
+
     data = {
         'is_published': review.is_published(),
         # TODO: change 2nd link to anonymized version
@@ -188,37 +188,47 @@ def review_page(review_id):
 
     creator = review.rel_creator
 
-    commentForm = CommentForm(refObject="review", refObjectID = review.id)
+    commentForm = CommentForm(refObject="review", refObjectID=review.id)
 
     # current_user.is_authenticated()
-    user_liked_comments = [vote.rel_to_comment for vote in current_user.rel_comment_votes_created if vote.is_up] if current_user.is_authenticated else []
-    user_disliked_comments = [vote.rel_to_comment for vote in current_user.rel_comment_votes_created if not vote.is_up] if current_user.is_authenticated else []
+    user_liked_comments = [vote.rel_to_comment
+                           for vote
+                           in current_user.rel_comment_votes_created
+                           if vote.is_up] if current_user.is_authenticated else []
+    user_disliked_comments = [vote.rel_to_comment
+                              for vote
+                              in current_user.rel_comment_votes_created
+                              if not vote.is_up] if current_user.is_authenticated else []
 
     if commentForm.validate_on_submit():
         comment = Comment(
             text=commentForm.content.data,
-            votes_score = 0,
-            red_flags_count = 0,
-            level = 1,
-            date = dt.datetime.utcnow(),
-            creator_role = current_user.privileges_set
+            votes_score=0,
+            red_flags_count=0,
+            level=1,
+            date=dt.datetime.utcnow(),
+            creator_role=current_user.privileges_set
         )
 
-        if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
+        if commentForm.comment_ref.data and \
+                (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
             print(commentForm.comment_ref.data)
             comment.comment_ref = ref_comment.id
 
         if current_user.rel_created_comments:
             current_user.rel_created_comments.append(comment)
-        else: current_user.rel_created_comments = [comment]
+        else:
+            current_user.rel_created_comments = [comment]
 
         if review.rel_comments_to_this_review:
             review.rel_comments_to_this_review.append(comment)
-        else: review.rel_comments_to_this_review = [comment]
+        else:
+            review.rel_comments_to_this_review = [comment]
 
         db.session.commit()
 
-        return redirect(url_for("review_page", review_id=review_id) + f"#c{comment.id}")
+        return redirect(url_for("review_page",
+                                review_id=review_id) + f"#c{comment.id}")
 
     data = {
         'paper_url':
@@ -231,7 +241,11 @@ def review_page(review_id):
         'paper_title': review.rel_related_paper_version.title
     }
 
-    return render_template('review/review.html', review=review, data=data, form=commentForm, user_liked_comments=user_liked_comments,
+    return render_template('review/review.html',
+                           review=review,
+                           data=data,
+                           form=commentForm,
+                           user_liked_comments=user_liked_comments,
                            user_disliked_comments=user_disliked_comments)
 
 
@@ -239,7 +253,8 @@ def increase_needed_reviews(revision_id):
     if not check_numeric_args(revision_id):
         abort(404)
 
-    revision = PaperRevision.query.filter(PaperRevision.id == revision_id).first()
+    revision = PaperRevision.query.filter(PaperRevision.id == revision_id)\
+                                  .first()
     if revision:
         creators_ids = [creator.id for creator in revision.rel_creators]
         if current_user.id not in creators_ids:
@@ -252,6 +267,7 @@ def increase_needed_reviews(revision_id):
         else:
             revision.confidence_level += 1
             db.session.commit()
-            flash('The number of expected reviews has been increased', category='success')
+            flash('The number of expected reviews has been increased',
+                  category='success')
 
     return redirect(url_for('profile_page', user_id=current_user.id))

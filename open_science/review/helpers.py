@@ -1,6 +1,7 @@
-from open_science.models import Notification, NotificationType, User, ReviewRequest, Review
+from open_science.models import ReviewRequest, Review
 from open_science import app, db
-from open_science.enums import UserTypeEnum, EmailTypeEnum, NotificationTypeEnum
+from open_science.enums import UserTypeEnum, EmailTypeEnum,\
+     NotificationTypeEnum
 import open_science.email as em
 import datetime as dt
 from open_science.notification.helpers import create_notification
@@ -9,6 +10,7 @@ from flask.helpers import url_for
 NOT_ENOUGHT_RESEARCHERS_TEXT = 'There are not enough researchers with similar research profiles\
 in the system to review this paper. We will wait until more similar researchers are\
         available. You can help with peer review by inviting your colleagues to join [sitename]!'
+
 
 def create_review_request(reviewer, paper_revision):
 
@@ -32,6 +34,7 @@ def create_review_request(reviewer, paper_revision):
                         url_for('review_request_page',
                                 request_id=review_request.id))
 
+
 def select_reviewers(paper_revision):
 
     # TODO: replace this with users from text_processing module
@@ -39,13 +42,13 @@ def select_reviewers(paper_revision):
 
     potential_reviewers = []
 
-    # for each author of this paper, all co-authors of their papers 
+    # for each author of this paper, all co-authors of their papers
     # from the last n days are removed
     creators = paper_revision.rel_creators
     co_authors_ids = set()
     days = app.config['EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS']
 
-    #those for whom the current authors reviewed any paper within n-days
+    # those for whom the current authors reviewed any paper within n-days
     # are removed
     reviewed_users_ids = set()
 
@@ -57,7 +60,7 @@ def select_reviewers(paper_revision):
             else:
                 co_authors_ids \
                     .update(ids)
- 
+
         ids = creator\
             .get_users_ids_whose_user_reviewed(
                 app
@@ -71,14 +74,15 @@ def select_reviewers(paper_revision):
     # Users who declined to review this paper are removed.
     # except users who declined with reason "don't have time"
     # more than N days ago
-    paper_revisions = [rev for rev in paper_revision.rel_parent_paper.rel_related_versions]
+    paper_revisions = [rev for rev in
+                       paper_revision.rel_parent_paper.rel_related_versions]
     users_who_declined_ids = set()
     for revision in paper_revisions:
         for request in revision.rel_related_review_requests:
             if request.decision is False and\
-                request.can_request_after_decline() is False:
+                    request.can_request_after_decline() is False:
                 users_who_declined_ids.add(request.requested_user)
-  
+
     # If a new revision of the paper needs to be reviewed,
     # first the reviewers of previous revision(s) are asked
     previous_reviewers = []
@@ -153,7 +157,8 @@ def transfer_old_reviews(paper):
         review_requests_to_transfer = []
         # check already requested users in latest_revision
         requested_reviewers_ids = [review_r.requested_user for
-        review_r in latest_revision.rel_related_review_requests]
+                                   review_r in latest_revision
+                                   .rel_related_review_requests]
         for revision in paper.rel_related_versions:
             if revision.version == 1:
                 continue

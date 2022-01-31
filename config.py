@@ -5,7 +5,8 @@ try:
     from config_db import DATABASE_URI
 except ImportError or ModuleNotFoundError:
     DATABASE_URI = None
-    print('If you have not set an environment variable SQLALCHEMY_DATABASE_URI , set it')
+    print('If you have not set an environment variable\
+         SQLALCHEMY_DATABASE_URI , set it')
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
@@ -102,7 +103,8 @@ class Config(object):
     TFIDF_MATRIX_URL = './server_files/generated_files/tfidf_matrix'
 
     # Url to processing text similarities matrix
-    SIMILARITIES_MATRIX_URL = './server_files/generated_files/similarities_matrix.npy'
+    SIMILARITIES_MATRIX_URL = \
+        './server_files/generated_files/similarities_matrix.npy'
     # Url to processing text users plot
     USERS_PLOT_URL = './open_science/static/res/users_plot'
 

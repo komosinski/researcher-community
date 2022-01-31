@@ -16,7 +16,8 @@ class EditTagForm(FlaskForm):
             if char in string.whitespace:
                 raise ValidationError("Name can not contains whitespaces")
 
-        if form.previous_name.data is None or form.previous_name.data != name.data.upper():
+        if form.previous_name.data is None \
+                or form.previous_name.data != name.data.upper():
             tag = Tag.query.filter(Tag.name == name.data.upper()).first()
             if tag is not None:
                 raise ValidationError('This tag already exists')
@@ -24,9 +25,12 @@ class EditTagForm(FlaskForm):
     name = StringField(label='Name', validators=[Length(
         max=mc.TAG_NAME_L), validate_tag_name, DataRequired()])
     description = TextAreaField(label='Description', validators=[
-                                Length(max=mc.TAG_DESCRIPTION_L), DataRequired()])
+                                Length(max=mc.TAG_DESCRIPTION_L),
+                                DataRequired()])
     deadline = DateTimeLocalField(
-        label='Deadline (Optional)', format='%Y-%m-%dT%H:%M', validators=[Optional()])
+        label='Deadline (Optional)',
+        format='%Y-%m-%dT%H:%M',
+        validators=[Optional()])
 
     previous_name = StringField()
 

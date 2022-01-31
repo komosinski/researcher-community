@@ -1,7 +1,5 @@
 from open_science import db
 from open_science.models import Notification
-from flask.helpers import url_for
-from flask.templating import render_template
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request
 from flask import abort

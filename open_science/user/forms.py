@@ -3,7 +3,8 @@ from wtforms.fields.simple import TextAreaField
 from open_science.models import User
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, MultipleFileField
+from wtforms import StringField, PasswordField, \
+    SubmitField, BooleanField, MultipleFileField
 from wtforms.validators import Length, EqualTo, Email,\
     DataRequired, Optional, ValidationError
 import re
@@ -61,8 +62,6 @@ def validate_orcid(self, orcid):
 
     if not correct:
         raise ValidationError('Invalid ORCID iD')
-
-
 
 
 class RegisterForm(FlaskForm):
@@ -176,9 +175,11 @@ class EditProfileForm(FlaskForm):
                     'Monthly limit for email change has been exceeded')
 
     first_name = StringField(label='First Name', validators=[
-                             Length(min=2, max=mc.USER_FIRST_NAME_L), DataRequired()])
+                             Length(min=2, max=mc.USER_FIRST_NAME_L),
+                             DataRequired()])
     second_name = StringField(label='Second Name', validators=[
-                              Length(min=2, max=mc.USER_SECOND_NAME_L), DataRequired()])
+                              Length(min=2, max=mc.USER_SECOND_NAME_L),
+                              DataRequired()])
     email = StringField(label='Email Address', validators=[
                         Email(), DataRequired()])
     affiliation = StringField(label='Affiliation (Optional)', validators=[
@@ -197,10 +198,12 @@ class EditProfileForm(FlaskForm):
                                                       max=mc.USER_PERSONAL_WEBSITE_L),
                                                Optional()])
     review_mails_limit = SelectField(choices=[1, 2, 3, 4, 0])
-    notifications_frequency = SelectField(choices=[(
-        1, '1 day'), (3, '3 days'), (7, '1 week'), (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
+    notifications_frequency = SelectField(choices=[
+        (1, '1 day'), (3, '3 days'), (7, '1 week'), (14, '2 weeks'),
+        (30, '1 month'), (0, 'Never')])
     profile_image = FileField(label='Profile image', validators=[
-                              Optional(), FileAllowed(['jpg', 'png'], 'Images only!')])
+                              Optional(), FileAllowed(['jpg', 'png'],
+                                                      'Images only!')])
 
     submit = SubmitField(label='Save changes')
 
@@ -231,6 +234,6 @@ class DeleteProfileForm(FlaskForm):
 
 class RemarksForm(FlaskForm):
 
-    remarks = TextAreaField(validators=[Length(max=mc.USER_REMARKS_L), Optional()])
+    remarks = TextAreaField(validators=[Length(max=mc.USER_REMARKS_L),
+                                        Optional()])
     submit = SubmitField(label='Save remarks')
-

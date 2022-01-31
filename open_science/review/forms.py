@@ -1,4 +1,5 @@
-from wtforms import StringField, SubmitField, RadioField, widgets, SelectMultipleField
+from wtforms import StringField, SubmitField, RadioField,\
+    widgets, SelectMultipleField
 from wtforms.fields.core import BooleanField
 from wtforms.fields.simple import HiddenField
 from wtforms.validators import Length, Optional, StopValidation
@@ -40,7 +41,7 @@ class ReviewRequestForm(FlaskForm):
                  (28, '4 weeks'),
                  (35, '5 weeks'),
                  (42, '6 weeks')])
-        
+
     submit_accept = SubmitField(label='Accept')
     submit_decline = SubmitField(label='Decline')
 
@@ -59,7 +60,8 @@ class ReviewEditForm(FlaskForm):
                     'You must declare no conflict of interest')
 
     evaluation_novel = DecimalRangeField(
-        'Novel and substantial compared to previous papers by the author(s) and the existing literature',
+        'Novel and substantial compared to previous papers \
+            by the author(s) and the existing literature',
         default=0)
     evaluation_conclusion = DecimalRangeField(
         'Claims and conclusions reasonable and justified', default=0)
@@ -68,7 +70,8 @@ class ReviewEditForm(FlaskForm):
     evaluation_organize = DecimalRangeField(
         'Well organized, well presented, readable', default=0)
     evaluation_accept = BooleanField(
-        'Accept (the paper may not be perfect, but is free from any serious problems)',
+        'Accept (the paper may not be perfect, \
+            but is free from any serious problems)',
         default=False)
     confidence = DecimalRangeField('How confident I am', default=0)
 
@@ -80,7 +83,8 @@ class ReviewEditForm(FlaskForm):
         default=False)
 
     check_anonymous = BooleanField(
-        label='I want my review to be anonymous (you will be visible as "ReviewerX")',
+        label='I want my review to be anonymous \
+            (you will be visible as "ReviewerX")',
         default=False)
 
     check_hide = BooleanField(

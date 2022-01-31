@@ -1,14 +1,16 @@
 from flask_migrate import current
-from open_science.user.forms import RegisterForm, LoginForm, RemarksForm, ResendConfirmationForm, AccountRecoveryForm, \
+from open_science.user.forms import RegisterForm, LoginForm, RemarksForm, \
+    ResendConfirmationForm, AccountRecoveryForm, \
     SetNewPasswordForm
-from open_science.user.forms import InviteUserForm, EditProfileForm, EndorsementRequestForm, DeleteProfileForm
+from open_science.user.forms import InviteUserForm, EditProfileForm, \
+    EndorsementRequestForm, DeleteProfileForm
 from open_science import db
-from open_science.tokens import confirm_password_token, confirm_account_recovery_token, confirm_email_change_token, confirm_profile_delete_token
-from open_science.models import CalibrationPaper, Notification, Paper, PrivilegeSet, User, Tag, Review, EndorsementRequestLog, \
-    NotificationType
+from open_science.tokens import confirm_password_token, \
+    confirm_account_recovery_token, confirm_email_change_token, \
+    confirm_profile_delete_token
+from open_science.models import CalibrationPaper, Notification, PrivilegeSet,\
+     User, EndorsementRequestLog, NotificationType
 import open_science.email as em
-from flask.helpers import url_for
-from flask.templating import render_template
 from flask_login import login_user, logout_user, current_user
 from flask import render_template, redirect, url_for, flash, request
 from flask import abort
@@ -23,18 +25,20 @@ from open_science.db_helper import get_hidden_filter
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
 
+
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
         ps_standard_user = PrivilegeSet.query.filter(
-            PrivilegeSet.id == User.user_types_enum.STANDARD_USER.value).first()
+            PrivilegeSet.id == User.user_types_enum.STANDARD_USER.value)\
+                .first()
         print(form.password.data)
 
         # get the calibration files
         calibration_files = []
         for file in form.calibration_files.data:
             calibration_paper = CalibrationPaper(
-                pdf_url = ""
+                pdf_url=""
             )
 
             db.session.add(calibration_paper)
@@ -52,13 +56,14 @@ def register_page():
             calibration_paper.preprocessed_text = get_text(path)
 
             calibration_files.append(calibration_paper)
-            
+
             sm.update_dictionary(calibration_paper.preprocessed_text)
             sm.update_tfidf_matrix()
             sm.update_similarity_matrix(calibration_paper.preprocessed_text)
-  
+
         user_to_create = User.query.filter(User.email == form.email.data,
-                                           User.registered_on.is_(None)).first()
+                                           User.registered_on
+                                               .is_(None)).first()
 
         # check if user exists because is co-author of someone's paper
         if user_to_create:
@@ -158,8 +163,9 @@ def logout_page():
 def confirm_email(token):
     try:
         email = confirm_password_token(token)
-    except:
-        flash('The confirmation link is invalid or has expired.', category='error')
+    except Exception:
+        flash('The confirmation link is invalid or has expired.',
+              category='error')
         return redirect(url_for('home_page'))
     user = User.query.filter_by(email=email).first_or_404()
     if user.confirmed:
@@ -181,9 +187,10 @@ def unconfirmed_email_page():
 
     form = ResendConfirmationForm()
     if form.validate_on_submit():
-        emails_limit = app.config['CONFIRM_REGISTRATION_ML'] - em.get_emails_count_to_address_last_days(form.email.data,
-                                                                                                        EmailTypeEnum.REGISTRATION_CONFIRM.value,
-                                                                                                        1)
+        emails_count = em.get_emails_count_to_address_last_days(form.email.data,
+                                                                EmailTypeEnum.REGISTRATION_CONFIRM.value,
+                                                                1)
+        emails_limit = app.config['CONFIRM_REGISTRATION_ML'] - emails_count
         if emails_limit > 0:
             em.insert_email_log(0, None, form.email.data,
                                 EmailTypeEnum.REGISTRATION_CONFIRM.value)
@@ -192,7 +199,8 @@ def unconfirmed_email_page():
             return redirect(url_for('home_page'))
         else:
             flash(
-                'Daily limit for account confirmation emails has been exceeded. Check your SPAM folder or try again tomorrow.',
+                'Daily limit for account confirmation emails has been exceeded. \
+                    Check your SPAM folder or try again tomorrow.',
                 'error')
     return render_template('user/unconfirmed.html', form=form)
 
@@ -204,7 +212,7 @@ def account_recovery_page():
     form = AccountRecoveryForm()
     if form.validate_on_submit():
         em.send_account_recovery(form.email.data)
-        flash(f"'A account recovery email has been sent.", category='success')
+        flash("A account recovery email has been sent.", category='success')
         return redirect(url_for('home_page'))
 
     if form.errors != {}:
@@ -217,8 +225,9 @@ def account_recovery_page():
 def set_password_page(token):
     try:
         email = confirm_account_recovery_token(token)
-    except:
-        flash('The account recovery link is invalid or has expired.', category='error')
+    except Exception:
+        flash('The account recovery link is invalid or has expired.',
+              category='error')
         return redirect(url_for('home_page'))
 
     form = SetNewPasswordForm()
@@ -228,9 +237,10 @@ def set_password_page(token):
             user = User.query.filter_by(email=email).first_or_404()
             user.password = form.password.data
             db.session.commit()
-            flash('Your password has been successfully changed.', category='success')
+            flash('Your password has been successfully changed.',
+                  category='success')
             return redirect(url_for('login_page'))
-        except:
+        except Exception:
             flash('Something went wrong.', category='error')
             return redirect(url_for('home_page'))
 
@@ -238,7 +248,7 @@ def set_password_page(token):
 
 
 def profile_page(user_id):
-    
+
     if not check_numeric_args(user_id):
         abort(404)
 
@@ -248,7 +258,7 @@ def profile_page(user_id):
     if not user or user.confirmed is False or user.is_deleted is True:
         flash('User does not exists', category='error')
         return redirect(url_for('home_page'))
-  
+
     data = {
         'articles_num': len(user.rel_created_paper_revisions),
         'reputation': user.reputation,
@@ -346,9 +356,10 @@ def change_password_page():
                 id=current_user.get_id()).first_or_404()
             user.password = form.password.data
             db.session.commit()
-            flash('Your password has been successfully changed.', category='success')
+            flash('Your password has been successfully changed.',
+                  category='success')
             return redirect(url_for('edit_profile_page'))
-        except:
+        except Exception:
             flash('Something went wrong.', category='error')
             return redirect(url_for('home_page'))
 
@@ -358,7 +369,7 @@ def change_password_page():
 def confirm_email_change(token):
     try:
         new_email = confirm_email_change_token(token)
-    except:
+    except Exception:
         flash('The confirmation link is invalid or has expired.', category='error')
         return redirect(url_for('home_page'))
     user = User.query.filter_by(new_email=new_email).first_or_404()
@@ -443,7 +454,8 @@ def request_endorsement(endorser_id):
 
         db.session.add(endorsement_log)
         db.session.commit()
-        flash('The Endorsement request was successfully sent', category='success')
+        flash('The Endorsement request was successfully sent',
+              category='success')
         return redirect(url_for('profile_page', user_id=endorser_id))
     else:
         flash('You cannot send your endorsement request', category='error')
@@ -473,7 +485,7 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         flash('Endorsement request not exists', category='error')
         return redirect(url_for('notifications_page', page=1, unread='False'))
 
-    if endorsement_log.considered == True:
+    if endorsement_log.considered is True:
         flash('Endorsement request has been already considered', category='warning')
         return redirect(url_for('notifications_page', page=1, unread='False'))
 
@@ -518,7 +530,7 @@ def delete_profile_page():
 def confirm_profile_delete(token):
     try:
         email = confirm_profile_delete_token(token)
-    except:
+    except Exception:
         flash('The confirmation link is invalid or has expired.', category='error')
         return redirect(url_for('home_page'))
 

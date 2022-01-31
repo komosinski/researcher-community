@@ -1,4 +1,3 @@
-from re import L
 from flask.helpers import url_for
 from open_science.enums import NotificationTypeEnum, EmailTypeEnum
 from open_science.models import EmailLog, EmailType, Review, User, Paper
@@ -10,6 +9,7 @@ import open_science.email as em
 from open_science.review.helpers import prepare_review_requests
 import text_processing.similarity_matrix as sm
 from text_processing.plot import create_save_users_plot
+
 
 def delete_old_logs(days, email_type):
     date_before = dt.datetime.utcnow().date() - dt.timedelta(days=days)
@@ -62,7 +62,8 @@ def send_notifiactions_count():
                     user.notifications_frequency
                 )
                 if last_emails == 0:
-                    text = f'You have {count} unread notifications on your profile'
+                    text = f'You have {count} unread \
+                        notifications on your profile'
                     subject = 'New notifications'
 
                     em.send_notification_email(user.email,
