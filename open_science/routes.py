@@ -316,11 +316,6 @@ def get_all_tags_data():
     return tag_api.get_all_tags_data()
 
 
-@app.route('/test')
-def test_text_preprocessing():
-    return rd.test_text_preprocessing()
-
-
 @app.route('/about')
 def about_page():
     return rd.about_page()
