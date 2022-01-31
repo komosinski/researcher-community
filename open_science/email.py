@@ -1,5 +1,8 @@
 from flask_mail import Message
-from open_science.tokens import generate_password_confirmation_token, generate_account_recovery_token, generate_email_change_token, generate_profile_delete_token
+from open_science.tokens import generate_password_confirmation_token, \
+                                generate_account_recovery_token, \
+                                generate_email_change_token, \
+                                generate_profile_delete_token
 from open_science import app, mail, db
 from flask import render_template, url_for
 from threading import Thread
@@ -95,12 +98,16 @@ def get_emails_cout_last_days(sender_id, email_type_id, days):
         .count()
     return count
 
+
 # to reciever
 def get_emails_count_to_address_last_days(reciever_email, email_type_id, days):
 
     date_after = dt.datetime.utcnow().date() - dt.timedelta(days=days)
-    count = EmailLog.query.filter(EmailLog.email_type_id == email_type_id, func.DATE(
-        EmailLog.date) >= date_after, EmailLog.receiver_email == reciever_email).count()
+    count = EmailLog.query.filter(EmailLog.email_type_id == email_type_id, 
+                                  func.DATE(
+                                            EmailLog.date) >= date_after, 
+                                  EmailLog.receiver_email == reciever_email) \
+        .count()
     return count
 
 
@@ -108,5 +115,3 @@ def send_notification_email(email, text, subject):
     data = {'text': text}
     html = render_template('email/notification_email.html', data=data)
     Thread(target=send_email, args=(app, email, subject, html)).start()
-
-

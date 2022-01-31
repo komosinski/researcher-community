@@ -36,6 +36,7 @@ class NotificationTypeEnum(Enum):
     REVIEW_REMINDER = 8
     REVIEW_TRANSFER = 9
 
+
 @unique
 class MessageTopicEnum(Enum):
 
@@ -43,6 +44,7 @@ class MessageTopicEnum(Enum):
     ENDORSEMENT = 2
     TECHNICAL_ISSUES = 3
     CORRETIONCS = 4
+
 
 @unique
 class LicenseEnum(Enum):

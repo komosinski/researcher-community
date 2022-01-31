@@ -8,7 +8,8 @@ from text_processing.search_engine import search_articles_by_text
 # returns paper versions with not enough reviews
 def get_missing_reviews_pvs(page_num, rows_per_page):
     subq_max_versions = (db.session.query(PaperRevision.parent_paper,
-                                          func.max(PaperRevision.version).label("max_version"))
+                                          func.max(PaperRevision.version).
+                                          label("max_version"))
                          .group_by(PaperRevision.parent_paper)
                          ).subquery()
 
@@ -43,7 +44,8 @@ def can_show_object(item):
         return item.red_flags_count < app.config['RED_FLAGS_THRESHOLD']
 
 
-# returns filter for hidden items based on red flags, force hide and force show for given class
+# returns filter for hidden items based on red flags, force hide and force 
+# show for given class
 def get_hidden_filter(item_class):
     return and_(or_(item_class.force_show == true(),
                     item_class.red_flags_count < app.config['RED_FLAGS_THRESHOLD']),
@@ -53,7 +55,6 @@ def get_hidden_filter(item_class):
 # returns filter for matching paper revisions by search_text
 # paper_revisions_query -> current query
 def get_search_by_text_filter(search_text):
-    matched_revisions = []
 
     all_paper_revisions = PaperRevision.query.all()
     all_calibration_papers = CalibrationPaper.query.all()

@@ -27,12 +27,18 @@ class UserView(MyModelView):
     can_edit = True
     can_delete = False
     column_sortable_list = ['id', 'registered_on',
-                            'confirmed', 'remarks','force_hide', ('first_name', 'second_name')]
+                            'confirmed', 'remarks', 'force_hide', 
+                            ('first_name', 'second_name')]
+
     column_searchable_list = ['id', 'first_name', 'second_name', 'email']
-    list_columns = ['id', 'first_name', 'second_name', 'email', 'privileges_set', 'registered_on', 'confirmed',
-                     'force_hide', 'remarks']
+
+    list_columns = ['id', 'first_name', 'second_name', 'email', 
+                    'privileges_set', 'registered_on', 'confirmed',
+                    'force_hide', 'remarks']
+                    
     column_exclude_list = ['password_hash', 'confirmed_on',
-                           'review_mails_limit', 'notifications_frequency', 'new_email', 'has_photo']
+                           'review_mails_limit', 'notifications_frequency',
+                           'new_email', 'has_photo']
 
 
 class MessageToStaffView(MyModelView):

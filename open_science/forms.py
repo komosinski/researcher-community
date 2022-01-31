@@ -1,4 +1,3 @@
-from typing import Text
 from flask_wtf.file import FileAllowed, FileRequired
 from wtforms.fields.core import SelectField, BooleanField
 from flask_wtf import FlaskForm
@@ -8,10 +7,12 @@ from wtforms.validators import Length, DataRequired, Optional, StopValidation
 import open_science.config.models_config as mc
 from open_science.models import MessageTopic
 
+
 def validate_review(form, field):
-        if form.review_declaration.data:
-            if not field.data:
-                raise StopValidation("You need to provide a confidence level if you want your paper reviewed")
+    if form.review_declaration.data:
+        if not field.data:
+            raise StopValidation("You need to provide a confidence level  if you want your paper reviewed")
+
 
 class PaperRevisionUploadForm(FlaskForm):
     # TODO: add valid max version from config
@@ -21,11 +22,12 @@ class PaperRevisionUploadForm(FlaskForm):
     anonymity_declaration = BooleanField("I certify that this version is anonymized")
     review_declaration = BooleanField("I would like this paper reviewed")
 
-    confidence_level = SelectField("Choose review confidence level:", choices = [(2, 'low'), (3, 'medium'), (4, 'high')], validators=[validate_review, Optional()])
+    confidence_level = SelectField("Choose review confidence level:", choices=[(2, 'low'), (3, 'medium'), (4, 'high')], validators=[validate_review, Optional()])
 
     changes = HiddenField()
 
     submitbtn = SubmitField("Upload")
+
 
 class CommentForm(FlaskForm):
     content = TextAreaField("Add comment", validators=[DataRequired(), Length(max=mc.COMMENT_TEXT_L)])
@@ -33,6 +35,7 @@ class CommentForm(FlaskForm):
     refObjectID = HiddenField()
     comment_ref = HiddenField()
     submit_comment = SubmitField("Publish comment")
+
 
 class FileUploadForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
@@ -48,7 +51,7 @@ class FileUploadForm(FlaskForm):
     anonymity_declaration = BooleanField("I certify that this version is anonymized")
     review_declaration = BooleanField("I would like this paper reviewed")
 
-    confidence_level = SelectField("Choose review confidence level:", choices = [(2, 'low'), (3, 'medium'), (4, 'high')], validators=[validate_review, Optional()])
+    confidence_level = SelectField("Choose review confidence level:", choices=[(2, 'low'), (3, 'medium'), (4, 'high')], validators=[validate_review, Optional()])
 
     coauthors = HiddenField(id="coauthors-input-field")
     tags = HiddenField(id="tags-input-field")
