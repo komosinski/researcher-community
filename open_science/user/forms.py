@@ -13,7 +13,7 @@ import open_science.email as em
 from config import Config
 from flask_login import current_user
 from open_science.enums import EmailTypeEnum
-
+from open_science.config import strings as STR
 
 def validate_password(form, password):
     if not re.search("[a-z]", password.data):
@@ -226,8 +226,9 @@ class DeleteProfileForm(FlaskForm):
             if not field.data:
                 raise ValidationError('You must acknowledge the consequences')
 
-    check_read = BooleanField("I have read the information stated above and understand the implications of having my profile deleted", validators=[
-                              validate_read_information], default=False)
+    check_read = BooleanField(STR.CHECK_READ_BEFORE_PROFILE_DELETE,
+                              validators=[
+                                validate_read_information], default=False)
 
     submit = SubmitField(label='Send an account deletion email')
 

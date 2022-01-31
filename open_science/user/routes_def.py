@@ -24,6 +24,7 @@ from open_science.enums import EmailTypeEnum, NotificationTypeEnum
 from open_science.db_helper import get_hidden_filter
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
+from open_science.config import strings as STR
 
 
 def register_page():
@@ -112,7 +113,7 @@ def register_page():
 
         db.session.commit()
         em.send_email_confirmation(user_to_create.email)
-        flash('A confirmation email has been sent.', category='success')
+        flash(STR.EMAIL_CONFIRM_LINK_SENDED, category='success')
         return redirect(url_for('unconfirmed_email_page'))
 
     return render_template('user/register.html', form=form)
@@ -199,8 +200,7 @@ def unconfirmed_email_page():
             return redirect(url_for('home_page'))
         else:
             flash(
-                'Daily limit for account confirmation emails has been exceeded. \
-                    Check your SPAM folder or try again tomorrow.',
+                STR.ACC_CONFIRM_DAILY_LIMIT_EXC,
                 'error')
     return render_template('user/unconfirmed.html', form=form)
 
@@ -302,7 +302,7 @@ def edit_profile_page():
 
             email_change = True
             em.send_email_change_confirmation(form.email.data)
-            flash_message += ' A confirmation link has been send to your email address: ' + form.email.data
+            flash_message += STR.EMAIL_CONFIRM_LINK_SENDED + form.email.data
 
         current_user.affiliation = form.affiliation.data
         current_user.orcid = form.orcid.data
@@ -449,8 +449,10 @@ def request_endorsement(endorser_id):
         db.session.add(notification)
         db.session.flush()
         db.session.refresh(notification)
-        notification.action_url = url_for('confirm_endorsement_page', notification_id=notification.id,
-                                          user_id=current_user.id, endorser_id=endorser_id)
+        notification.action_url = url_for('confirm_endorsement_page',
+                                          notification_id=notification.id,
+                                          user_id=current_user.id,
+                                          endorser_id=endorser_id)
 
         db.session.add(endorsement_log)
         db.session.commit()

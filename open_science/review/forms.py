@@ -7,7 +7,7 @@ from flask_wtf import FlaskForm
 import open_science.config.models_config as mc
 from open_science.models import DeclinedReason
 from wtforms.fields.html5 import DecimalRangeField
-
+from open_science.config import strings as STR
 
 class MultiCheckboxField(SelectMultipleField):
 
@@ -59,19 +59,15 @@ class ReviewEditForm(FlaskForm):
                 raise StopValidation(
                     'You must declare no conflict of interest')
 
-    evaluation_novel = DecimalRangeField(
-        'Novel and substantial compared to previous papers \
-            by the author(s) and the existing literature',
-        default=0)
-    evaluation_conclusion = DecimalRangeField(
-        'Claims and conclusions reasonable and justified', default=0)
+    evaluation_novel = DecimalRangeField(STR.EVALUATION_NOVEL, default=0)
+    evaluation_conclusion = DecimalRangeField(STR.EVALUATION_CONCLUSION,
+                                              default=0)
     evaluation_error = DecimalRangeField(
-        'Free of essential and technical errors', default=0)
+        STR.EVALUATION_ERROR, default=0)
     evaluation_organize = DecimalRangeField(
-        'Well organized, well presented, readable', default=0)
+        STR.EVALUATION_ORGANIZE, default=0)
     evaluation_accept = BooleanField(
-        'Accept (the paper may not be perfect, \
-            but is free from any serious problems)',
+        STR.EVALUATION_ACCEPT,
         default=False)
     confidence = DecimalRangeField('How confident I am', default=0)
 

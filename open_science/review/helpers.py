@@ -7,10 +7,6 @@ import datetime as dt
 from open_science.notification.helpers import create_notification
 from flask.helpers import url_for
 
-NOT_ENOUGHT_RESEARCHERS_TEXT = 'There are not enough researchers with similar research profiles\
-in the system to review this paper. We will wait until more similar researchers are\
-        available. You can help with peer review by inviting your colleagues to join [sitename]!'
-
 
 def create_review_request(reviewer, paper_revision):
 

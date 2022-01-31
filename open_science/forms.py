@@ -6,7 +6,7 @@ from wtforms.fields.simple import FileField, HiddenField
 from wtforms.validators import Length, DataRequired, Optional, StopValidation
 import open_science.config.models_config as mc
 from open_science.models import MessageTopic
-
+from open_science.config import strings as STR
 
 def validate_review(form, field):
     if form.review_declaration.data:
@@ -58,12 +58,13 @@ class FileUploadForm(FlaskForm):
     license = SelectField("License", coerce=int)
 
     rights_declaration = \
-        BooleanField("I certify that this is original and not published anywhere else \
-            (except from venues not restricting publication here such as preprint servers, private websites, conferences and journals with permissive agreements, etc.)", validators=[DataRequired()])
-    authors_declaration = BooleanField("All authors read and approved the final manuscript", validators=[DataRequired()])
-    interest_conflict_declaration = BooleanField("The authors declare that they have no conflict of interest", validators=[DataRequired()])
-    anonymity_declaration = BooleanField("I certify that this version is anonymized")
-    review_declaration = BooleanField("I would like this paper reviewed")
+        BooleanField(STR.RIGHTS_DECLARATION, validators=[DataRequired()])
+    authors_declaration = BooleanField(STR.AUTHORS_DECLARATION,
+                                       validators=[DataRequired()])
+    interest_conflict_declaration = BooleanField(STR.NO_INTEREST_CONFLICT_DECLARATION,
+                                                 validators=[DataRequired()])
+    anonymity_declaration = BooleanField(STR.ANONYMITY_DECLARATION)
+    review_declaration = BooleanField(STR.REVIEW_DECLARATION)
 
     confidence_level = SelectField("Choose review confidence level:", choices=[(2, 'low'), (3, 'medium'), (4, 'high')], validators=[validate_review, Optional()])
 
