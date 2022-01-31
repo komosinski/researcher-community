@@ -48,9 +48,7 @@ def preprocess_text(text):
     text = " ".join(text)
     return text
 
-# Pobieranie tekstu z pdf i przetwarzanie
-# Wejście: plik pdf
-# Wyjście: plik txt z przetworzonym tekstem
+
 def get_text(file):
     with open(file, "rb") as f:
         pdf = pdftotext.PDF(f)
