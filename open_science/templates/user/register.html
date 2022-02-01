@@ -30,10 +30,10 @@ function showReviewWarning(value) {
   
         {{render_register_field(form.email,"Email Address","(preferably institutional email address. Will not be displayed publicly except from \"Verified email at [domain]\")")}}
     
-        <div class="double-input-wrapper">
-            {{render_register_field(form.password,"Password")}}
+  
+            {{render_register_field(form.password,"Password","(Must contain at least: one lowarcase character, one uppercase character, one digit and one special character)")}}
             {{render_register_field(form.password_confirm,"Confirm Password")}}
-        </div>
+ 
      
         <p><strong>Optional fields:</strong></p>
         <br>

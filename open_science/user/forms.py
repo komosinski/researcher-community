@@ -98,11 +98,11 @@ class RegisterForm(FlaskForm):
     notifications_frequency = SelectField(choices=[(
         1, '1 day'), (3, '3 days'), (7, '1 week'),
         (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
-    profile_image = FileField(label='Profile image', validators=[
+    profile_image = FileField(label='Profile image(Optional)', validators=[
                               Optional(), FileAllowed(['jpg', 'png'],
                                                       'Images only!')])
 
-    calibration_files = MultipleFileField(label="Upload calibration papers",
+    calibration_files = MultipleFileField(label="Upload calibration papers(Optional)",
                                           validators=[FileAllowed('pdf')])
 
     # recaptcha = RecaptchaField()
