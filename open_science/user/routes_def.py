@@ -38,6 +38,9 @@ def register_page():
         # get the calibration files
         calibration_files = []
         for file in form.calibration_files.data:
+            if not file.filename: 
+                continue
+            
             calibration_paper = CalibrationPaper(
                 pdf_url=""
             )
