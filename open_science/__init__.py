@@ -3,7 +3,7 @@ from open_science.admin import MyAdminIndexView
 from open_science.extensions import db, login_manager, \
     bcrypt, mail, limiter, admin, migrate, scheduler
 import atexit
-from config import Config
+from config.config import Config
 
 
 def register_extensions(app):

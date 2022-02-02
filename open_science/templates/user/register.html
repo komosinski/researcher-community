@@ -50,7 +50,7 @@ function showReviewWarning(value) {
 
         {{render_register_field(form.about_me,"About me","(Will be displayed on your profile page, you may write any information you wish to be publicly visible)")}}
 
-        <div class="double-input-wrapper">
+      
             <div class="profile-edit-input-wrapper">
                 <div class="label-wrapper">{{ form.review_mails_limit.label() }}</div>
                 <div class="label-wrapper">
@@ -62,7 +62,7 @@ function showReviewWarning(value) {
                 </div>
                 <div class="input-wrapper">{{ form.review_mails_limit(id='review_mails_limit',oninput="showReviewWarning(value)")}} </div>
             </div>   
-
+            <br>
             <div class="profile-edit-input-wrapper">
                 <div class="label-wrapper">{{ form.notifications_frequency.label() }}</div>
                 <div class="label-wrapper">
@@ -73,8 +73,7 @@ function showReviewWarning(value) {
                     (Note: you will always be notified immediately when a reviewer posts a message under your paper).
                 </div>
             </div> 
-        </div>
-      
+     
         <br>
 
         <div class="label-wrapper">{{ form.profile_image.label()}}</div>
@@ -91,9 +90,9 @@ function showReviewWarning(value) {
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
 
-        <!-- <br><br>
+        <br><br>
         {{ form.recaptcha }}
-        <br><br> -->
+        <br>
 
         <div class="buttons-wrapper">
             {{ form.submit(class="large-button main-button")}}

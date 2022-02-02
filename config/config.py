@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 # TODO: Remove it in the future
 try:
-    from config_db import DATABASE_URI
+    from config.config_db import DATABASE_URI
 except ImportError or ModuleNotFoundError:
     DATABASE_URI = None
     print('If you have not set an environment variable\

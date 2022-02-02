@@ -8,12 +8,12 @@ from wtforms import StringField, PasswordField, \
 from wtforms.validators import Length, EqualTo, Email,\
     DataRequired, Optional, ValidationError
 import re
-import open_science.config.models_config as mc
+import config.models_config as mc
 import open_science.email as em
-from config import Config
+from config.config import Config
 from flask_login import current_user
 from open_science.enums import EmailTypeEnum
-from open_science.config import strings as STR
+from config import strings as STR
 
 def validate_password(form, password):
     if not re.search("[a-z]", password.data):
@@ -105,7 +105,7 @@ class RegisterForm(FlaskForm):
     calibration_files = MultipleFileField(label="Upload calibration papers(Optional)",
                                           validators=[FileAllowed('pdf')])
 
-    # recaptcha = RecaptchaField()
+    recaptcha = RecaptchaField()
 
     submit = SubmitField(label='Create Account')
 

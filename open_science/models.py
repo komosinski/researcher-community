@@ -11,14 +11,14 @@ from open_science.db_queries import q_update_comment_score, q_update_user_red_fl
     qt_update_revision_red_flags_count, qt_update_comment_red_flags_count, qt_update_revision_averages
 from open_science.extensions import db, login_manager, bcrypt, admin
 from flask_login import UserMixin
-import open_science.config.models_config as mc
+import config.models_config as mc
 from open_science.admin import MyModelView, UserView, MessageToStaffView
 import datetime as dt
 from sqlalchemy import func
 from open_science import app
 from open_science.enums import UserTypeEnum, EmailTypeEnum, \
     NotificationTypeEnum, MessageTopicEnum, LicenseEnum
-from open_science.config.auto_endorse_config import EMAIL_REGEXPS
+from config.auto_endorse_config import EMAIL_REGEXPS
 import re
 
 # from text_processing.search_engine import se.get_similar_articles_to_articles, get_similar_users_to_article, \

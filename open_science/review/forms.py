@@ -4,10 +4,10 @@ from wtforms.fields.core import BooleanField
 from wtforms.fields.simple import HiddenField
 from wtforms.validators import Length, Optional, StopValidation
 from flask_wtf import FlaskForm
-import open_science.config.models_config as mc
+import config.models_config as mc
 from open_science.models import DeclinedReason
 from wtforms.fields.html5 import DecimalRangeField
-from open_science.config import strings as STR
+from config import strings as STR
 
 class MultiCheckboxField(SelectMultipleField):
 

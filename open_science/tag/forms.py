@@ -3,7 +3,7 @@ from open_science.models import Tag
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import Length, DataRequired, Optional, ValidationError
-import open_science.config.models_config as mc
+import config.models_config as mc
 from wtforms.fields.html5 import DateTimeLocalField
 import string
 

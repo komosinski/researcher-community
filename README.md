@@ -39,7 +39,7 @@ Linux setup
     [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
      
   
-  7. (Temporary step*) Create temporary_config.py file in main directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
+  7. (Temporary step*) Create config_db.py file in config/ directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
 
           DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
  
@@ -105,7 +105,7 @@ This project is using poppler library whose installation on windows is very prob
     import nltk
     [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
  
-  10. Temporary step*) Create temporary_config.py file in main directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
+  10. Temporary step*) Create config_db.py file in config/ directory which must contain  database uri to your DB. Defualt DB_NAME is postgres.
 
     DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
  

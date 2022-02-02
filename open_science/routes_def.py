@@ -17,7 +17,7 @@ from open_science.db_helper import get_hidden_filter
 from open_science.notification.helpers import create_paper_comment_notifications
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
-from open_science.config import strings as STR
+from config import strings as STR
 
 # Routes decorator
 def researcher_user_required(func):

@@ -1,14 +1,14 @@
 import datetime as dt
 from flask import url_for
-
 from open_science import db
 from open_science.models import create_essential_data, PaperRevision, Comment, Review, Paper, Tag, User, PrivilegeSet, \
     ReviewRequest, VoteComment, MessageToStaff, MessageTopic, NotificationType, Notification, Suggestion, \
     CalibrationPaper, RedFlagComment, RedFlagPaperRevision, RedFlagReview, RedFlagTag, RedFlagUser, \
     RevisionChangesComponent
-
 from open_science.enums import UserTypeEnum, NotificationTypeEnum
 from text_processing.prepocess_text import get_text
+import text_processing.similarity_matrix as sm
+from text_processing.plot import create_save_users_plot
 
 
 def create_test_data(app):
@@ -2001,7 +2001,7 @@ def create_test_data(app):
         c129.rel_related_comment = [c128]
         db.session.add(c129)
 
-        print('creating test data 20%...')
+      
 
         c130 = Comment(
                 text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut tellus ac leo accumsan hendrerit. "
@@ -4012,7 +4012,7 @@ def create_test_data(app):
                                     c94, c101, c109, c116, c124, c131, c139, c146, c154, c161, c169]
         db.session.add(u3)
 
-        print('creating test data 40%...')
+        print('creating test data 20%...')
 
         u4 = User(
             first_name="Sylvia",
@@ -6013,7 +6013,7 @@ def create_test_data(app):
         vc194.rel_to_comment = c65
         db.session.add(vc194)
 
-        print('creating test data 60%...')
+        print('creating test data 40%...')
 
         vc195 = VoteComment(
                 is_up=True
@@ -8010,7 +8010,7 @@ def create_test_data(app):
         vc479.rel_to_comment = c160
         db.session.add(vc479)
 
-        print('creating test data 80%...')
+        print('creating test data 60%...')
 
         vc480 = VoteComment(
                 is_up=False
@@ -11253,6 +11253,17 @@ def create_test_data(app):
 
         print('committing ...')
         db.session.commit()
+
+        print('creating test data 80%...')
+        print('creating similarity matrix...')
+
+        dictionary = sm.create_dictionary()
+        sm.save_dictionary(dictionary)
+        tfidf_matrix = sm.create_tfidf_matrix()
+        sm.save_tfidf_matrix(tfidf_matrix)
+        similarities_matrix = sm.create_similarities_matrix()
+        sm.save_similarities_matrix(similarities_matrix)
+        create_save_users_plot()
 
         print('Test data has been created 100%')
 

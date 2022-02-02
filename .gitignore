@@ -137,3 +137,4 @@ temporary_config.py
 config_db.py
 open_science/static/res/profileImages
 open_science/static/articles/
+config/config_db.py

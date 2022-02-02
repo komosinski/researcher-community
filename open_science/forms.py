@@ -4,9 +4,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.fields.simple import FileField, HiddenField
 from wtforms.validators import Length, DataRequired, Optional, StopValidation
-import open_science.config.models_config as mc
+import config.models_config as mc
 from open_science.models import MessageTopic
-from open_science.config import strings as STR
+from config import strings as STR
 
 def validate_review(form, field):
     if form.review_declaration.data:
