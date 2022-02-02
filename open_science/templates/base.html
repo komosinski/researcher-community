@@ -30,7 +30,6 @@
             {% if messages %}
                 {% for category, message in messages %}
               <div class="message message-{{category}}">
-                  <!-- TODO: Zrobić aby po naciśnięciu przycisku informacja znikła -->
                   <button type="button" class="message-button" data-dismiss="alert" aria-label="Close" onclick=delete_flash(this)>
                     <i class="fas fa-times fa-center"></i>
                   </button>

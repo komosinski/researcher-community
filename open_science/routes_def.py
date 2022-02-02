@@ -64,7 +64,7 @@ def auto_page(name):
 
 def home_page():
     users_plot_url = app.config['USERS_PLOT_URL']
-
+    flash('This is a testing version', category='warning')
     return render_template("home_page.html",
                            users_plot_url=users_plot_url)
 

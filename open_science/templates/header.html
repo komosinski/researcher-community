@@ -1,8 +1,9 @@
 <div class="main-header">
     <div class="header-logo-wrapper">
-        <a class="header-text" href="{{url_for('home_page')}}">OpenScience</a>
+        <a class="header-text" href="{{url_for('home_page')}}">OpenScience</a> 
+        <div>(Testing version)</div>
     </div>
-
+ 
     <div>
         {% with search_text=""%}
         {% include 'utils/basic_search_form.html' %}
