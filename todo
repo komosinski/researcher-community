@@ -1,1 +1,25 @@
-1. .git_public (obsługa 2 repozytoriów)
+working "red flags" for all supported objects
+
+update SIMILARITY.md
+
+after clicking the 2D plot on the main page, open a self-contained html with a 3D scatter plot (also re-created daily), points on hover display names of researchers. https://plotly.com/python/3d-scatter-plots/
+
+nicer css, also tested on mobile
+
+captcha in "Sign Up" just like in "Sign In"
+
+top-page message saying "this is a testing version"
+
+reviewer remarks movable up/down (reorder'able)
+
+revision answers assigned to reviewer remarks (missing key value is treated as the assignment to no particular remark)
+
+database benchmarks with more realistic and complete, generated data (not just "users" and name lookup)
+
+update README.md, unify linux with windows installation, add info about required minimal permissions to directories
+
+pdf dropped to a field area (drag-drop) additionally to the "Browse" button
+
+the ability of researchers to update/delete/add their "profiling papers" anytime
+
+.git_public (two repositories in one root directory)
