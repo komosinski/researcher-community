@@ -2,7 +2,8 @@ working "red flags" for all supported objects
 
 update SIMILARITY.md
 
-after clicking the 2D plot on the main page, open a self-contained html with a 3D scatter plot (also re-created daily), points on hover display names of researchers. https://plotly.com/python/3d-scatter-plots/
+after clicking the 2D plot on the main page, open a self-contained html with a 3D scatter plot (also re-created daily) https://plotly.com/python/3d-scatter-plots/
+with points displaying names of researchers on-hover. https://plotly.com/python/hover-text-and-formatting/
 
 nicer css, also tested on mobile
 
