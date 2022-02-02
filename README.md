@@ -3,7 +3,6 @@
 Introduction
 ------------
 
-
 Linux setup
 ------------
 
@@ -11,23 +10,36 @@ Linux setup
 
     https://www.postgresql.org/download/
     
-  2. Install poppler 
+   You can use:
+   
+    $ sudo apt install postgresql postgresql-contrib
+
+  2. Install libpq
+
+    $ sudo apt install libpq - dev
+    
+  3. Install python
+
+    $ sudo apt install python3
+    $ sudo apt install python3-pip python3-virtualenv python3-dev
+    
+  4. Install poppler 
   
-    $ sudo apt install build-essential libpoppler-cpp-dev pkg-config python3-dev
+    $ sudo apt install poppler-utils build-essential libpoppler-cpp-dev pkg-config
       
-  3. Move to main directory and create python virtual environment
+  5. Move to main directory and create python virtual environment
 
     python3 -m virtualenv venv
   
-  4. Activate virtual environment
+  6. Activate virtual environment
 
     $ source venv/bin/activate
   
-  5. Install requirements
+  7. Install requirements
   
     pip install -r requirements.txt
   
-  6. Install nltk packages
+  8. Install nltk packages
   
    Run Python interptreter 
      
@@ -39,7 +51,7 @@ Linux setup
     [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
      
   
-  7. (Temporary step*) Create config_db.py file in config/ directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
+  9. (Temporary step*) Create config_db.py file in config/ directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
 
           DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
  
@@ -47,7 +59,7 @@ Linux setup
      
           export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'  
       
-  8. Create tables in DB
+  10. Create tables in DB
 
     python3 db_init.py
 
@@ -55,7 +67,7 @@ Linux setup
 Windows setup
 ------------
 
-This project is using poppler library whose installation on windows is very problematic. You can try using Build tools for Visual Studio and Anaconda but we recommend using WSL (Windows Subsystem for Linux) for the whole environment.
+This project is using poppler library whose installation on windows is problematic. You can try using Build tools for Visual Studio and Anaconda but we recommend using WSL (Windows Subsystem for Linux) for the whole environment.
       
   1. Install and configure PostgreSQL on your local machine
   
@@ -69,55 +81,20 @@ This project is using poppler library whose installation on windows is very prob
   
     https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6#activetab=pivot:overviewtab
 
-  4. Open Ubuntu app and do the initial setup and then run the following commands:
+  4. Open Ubuntu app, do the initial setup and run the following commands:
       
     sudo apt-get clean
     sudo apt-get update
     sudo apt-get upgrade
-    sudo apt install python3 poppler-utils python3-pip python3.8-venv -y
-    sudo apt install build-essential libpoppler-cpp-dev pkg-config python3-dev -y
-    sudo apt install libpq-dev python3-virtualenv -y
+
     
   5. Go to project's main directory and run WSL in terminal:
 
     wsl
 
-  6. Create python virtual env
-
-    python3 -m virtualenv venv
+  6. Go through the steps in described earlier installation for Linux starting with step 2.
  
-  7. Activate virtual env
- 
-    source venv/bin/activate
-      
-  8. Install requirements
 
-    pip install -r requirements.txt
- 
-  9. Install nltk packages
-  
-   Run Python interptreter 
-     
-    python3
-     
-   And type:
-   
-    import nltk
-    [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
- 
-  10. Temporary step*) Create config_db.py file in config/ directory which must contain  database uri to your DB. Defualt DB_NAME is postgres.
-
-    DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
- 
-   or set Flask enviroment variable: 
-      
-    export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'  
-            
-  11. Create tables in DB
-
-    python3 db_init.py
-
-  
   
 Run
 ------------
@@ -131,9 +108,11 @@ On Windows you must do the same but remember to using WSL.
 Initializing test data
 ------------
 
-Go to http://127.0.0.1:5000/t to initiate test records in the database 
+If you want to initiate test data, you must ensure that there are pdf files in the folder open_science/static/articles named from 1.pdf to 130.pdf.
 
-  
+If articles folder contains pdf files, go to http://127.0.0.1:5000/t to initiate test records in the database.
+
+
 Reset DB
 ------------
 In your virtual environment type:
@@ -147,4 +126,5 @@ Production mode
 Set environment variable in .flaskenv file:
 
     FLASK_ENV=production
+    FLASK_DEBUG=0
 
