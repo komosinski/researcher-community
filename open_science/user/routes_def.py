@@ -115,6 +115,8 @@ def register_page():
             user_to_create.has_photo = True
 
         db.session.commit()
+        em.insert_email_log(0, None, user_to_create.email,
+                            EmailTypeEnum.REGISTRATION_CONFIRM.value)
         em.send_email_confirmation(user_to_create.email)
         flash(STR.EMAIL_CONFIRM_LINK_SENT, category='success')
         return redirect(url_for('unconfirmed_email_page'))

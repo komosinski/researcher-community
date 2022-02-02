@@ -1,3 +1,4 @@
+from sqlalchemy import false
 from wtforms.fields.core import SelectField
 from wtforms.fields.simple import TextAreaField
 from open_science.models import User
@@ -39,6 +40,17 @@ def validate_password_with_userdata(form, password):
             'The password can not contain your email address')
 
 
+# protect against creating multiple researcher accounts with same email
+def was_email_used_in_site(email):
+    confirm_emails_count = em.get_emails_count_to_address_last_days(
+                    email,
+                    EmailTypeEnum.REGISTRATION_CONFIRM.value
+                )
+    if confirm_emails_count > 0:
+        return True
+    return False
+
+
 def validate_email(self, email):
     user_with_email_address = User.query.filter_by(email=email.data).first()
     if user_with_email_address \
@@ -46,6 +58,12 @@ def validate_email(self, email):
         raise ValidationError(
             'That email address is already in use, \
             please use a different email address')
+
+    if was_email_used_in_site(email.data):
+        raise ValidationError(
+            'You cannot use the same email \
+                address for registration again.')
+
 
 
 def validate_orcid(self, orcid):
@@ -170,9 +188,15 @@ class EditProfileForm(FlaskForm):
                     if user_with_email_address.id != current_user.id:
                         raise ValidationError(
                             'That email address is already in use, please use a different email address')
+                else:
+                    if was_email_used_in_site(field.data):
+                        raise ValidationError(
+                              'This email address has already \
+                                  been used for user registration')
             else:
                 raise ValidationError(
                     'Monthly limit for email change has been exceeded')
+
 
     first_name = StringField(label='First Name', validators=[
                              Length(min=2, max=mc.USER_FIRST_NAME_L),

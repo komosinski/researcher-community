@@ -100,7 +100,9 @@ def get_emails_cout_last_days(sender_id, email_type_id, days):
 
 
 # to reciever
-def get_emails_count_to_address_last_days(reciever_email, email_type_id, days):
+def get_emails_count_to_address_last_days(reciever_email,
+                                          email_type_id,
+                                          days=10000):
 
     date_after = dt.datetime.utcnow().date() - dt.timedelta(days=days)
     count = EmailLog.query.filter(EmailLog.email_type_id == email_type_id,
