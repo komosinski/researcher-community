@@ -1,10 +1,13 @@
-# Private sources of the openscience project.
+# Private sources of the researcher.community project.
 
-Introduction
-------------
+Overwiew of the sources
+-----------------------
+
+TODO high-level description of what is where, directories, modules, dependencies within sources
+
 
 Linux setup
-------------
+-----------
 
   1. Install and configure PostgreSQL on your local machine
 
@@ -51,21 +54,26 @@ Linux setup
     [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
      
   
-  9. (Temporary step*) Create config_db.py file in config/ directory which must contain database uri to your DB.
+  9. Create config_db.py file in the config/ directory which must contain database uri to your DB.
 
-          DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
+          DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
  
       or set Flask enviroment variable: 
      
-          export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'  
+          export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
       
-  10. Create tables in 
+  10. Create tables in the database
 
     python3 db_init.py
 
+  11. Setting up minimal permissions for files and directories
+  
+    TODO
+
+
 
 Windows setup
-------------
+-------------
 
 This project is using poppler library whose installation on windows is problematic. You can try using Build tools for Visual Studio and Anaconda but we recommend using WSL (Windows Subsystem for Linux) for the whole environment.
       
@@ -97,7 +105,7 @@ This project is using poppler library whose installation on windows is problemat
 
   
 Run
-------------
+---
 
 On Linux in your virtual environment type:
 
@@ -106,22 +114,22 @@ On Linux in your virtual environment type:
 On Windows you must do the same but remember to using WSL.
  
 Initializing test data
-------------
+----------------------
 
 If you want to initiate test data, you must ensure that there are pdf files in the folder open_science/static/articles named from 1.pdf to 130.pdf.
 
 If articles folder contains pdf files, go to http://127.0.0.1:5000/t to initiate test records in the database.
 
 
-Reset DB
-------------
+Reset database
+--------------
 In your virtual environment type:
 
     python3 db_init.py
 
 
 Production mode
-------------
+---------------
 
 Set environment variable in .flaskenv file:
 
