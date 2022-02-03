@@ -51,7 +51,7 @@ Linux setup
     [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
      
   
-  9. (Temporary step*) Create config_db.py file in config/ directory which must contain database uri to your DB. Defualt DB_NAME is postgres.
+  9. (Temporary step*) Create config_db.py file in config/ directory which must contain database uri to your DB.
 
           DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'
  
@@ -59,7 +59,7 @@ Linux setup
      
           export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/open_science'  
       
-  10. Create tables in DB
+  10. Create tables in 
 
     python3 db_init.py
 
