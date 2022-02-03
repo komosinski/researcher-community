@@ -1,72 +1,71 @@
 # Private sources of the researcher.community project.
 
-Overwiew of the sources
+Overview of the sources
 -----------------------
 
-TODO high-level description of what is where, directories, modules, dependencies within sources
+TODO high-level description of what is where, what purpose, directories, modules, dependencies within sources
 
 
 Linux setup
 -----------
 
-  1. Install and configure PostgreSQL on your local machine
+1. Install and configure PostgreSQL
 
-    https://www.postgresql.org/download/
+        https://www.postgresql.org/download/
     
-   You can use:
-   
-    $ sudo apt install postgresql postgresql-contrib
+    You can use:
 
-  2. Install libpq
+        $ sudo apt install postgresql postgresql-contrib
 
-    $ sudo apt install libpq - dev
+2. Install libpq
+
+        $ sudo apt install libpq - dev
     
-  3. Install python
+3. Install python
 
-    $ sudo apt install python3
-    $ sudo apt install python3-pip python3-virtualenv python3-dev
+        $ sudo apt install python3
+        $ sudo apt install python3-pip python3-virtualenv python3-dev
     
-  4. Install poppler 
+4. Install poppler 
   
-    $ sudo apt install poppler-utils build-essential libpoppler-cpp-dev pkg-config
+        $ sudo apt install poppler-utils build-essential libpoppler-cpp-dev pkg-config
       
-  5. Move to main directory and create python virtual environment
+5. Move to main directory and create python virtual environment
 
-    python3 -m virtualenv venv
+        python3 -m virtualenv venv
   
-  6. Activate virtual environment
+6. Activate virtual environment
 
-    $ source venv/bin/activate
+        $ source venv/bin/activate
   
-  7. Install requirements
+7. Install requirements
   
-    pip install -r requirements.txt
+        pip install -r requirements.txt
   
-  8. Install nltk packages
+8. Install nltk packages
   
-   Run Python interptreter 
+    Run Python interptreter 
      
-    python3
+        python3
      
-   And type:
+    And type:
    
-    import nltk
-    [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
+        import nltk
+        [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
      
-  
-  9. Create config_db.py file in the config/ directory which must contain database uri to your DB.
+9. Create config_db.py file in the config/ directory which must contain database uri to your DB.
 
-          DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
+        DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
  
-      or set Flask enviroment variable: 
+    or set Flask enviroment variable: 
      
-          export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
+        export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
       
-  10. Create tables in the database
+10. Create tables in the database
 
-    python3 db_init.py
+        python3 db_init.py
 
-  11. Setting up minimal permissions for files and directories
+11. Setting up minimal permissions for files and directories
   
     TODO
 
@@ -77,42 +76,42 @@ Windows setup
 
 This project is using poppler library whose installation on windows is problematic. You can try using Build tools for Visual Studio and Anaconda but we recommend using WSL (Windows Subsystem for Linux) for the whole environment.
       
-  1. Install and configure PostgreSQL on your local machine
+1. Install and configure PostgreSQL on your local machine
   
-    https://www.postgresql.org/download/
+        https://www.postgresql.org/download/
   
-  2. Enable WSL in widows. Run Window’s Powershell as an administrator:
+2. Enable WSL in widows. Run Window’s Powershell as an administrator:
      
-    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+        Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
     
-  3. Install Ubuntu from Microsoft Store
+3. Install Ubuntu from Microsoft Store
   
-    https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6#activetab=pivot:overviewtab
+        https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6#activetab=pivot:overviewtab
 
-  4. Open Ubuntu app, do the initial setup and run the following commands:
+4. Open Ubuntu app, do the initial setup and run the following commands:
       
-    sudo apt-get clean
-    sudo apt-get update
-    sudo apt-get upgrade
-
+        sudo apt-get clean
+        sudo apt-get update
+        sudo apt-get upgrade
     
-  5. Go to project's main directory and run WSL in terminal:
+5. Go to project's main directory and run WSL in terminal:
 
-    wsl
+        wsl
 
-  6. Go through the steps in described earlier installation for Linux starting with step 2.
+6. Go through the steps in described earlier installation for Linux starting with step 2.
  
 
   
 Run
 ---
 
-On Linux in your virtual environment type:
+If running the flask server, on Linux in your virtual environment type:
 
-    flask run
+        flask run
  
-On Windows you must do the same but remember to using WSL.
- 
+On Windows you can do the same, but remember to use WSL.
+
+
 Initializing test data
 ----------------------
 
@@ -123,9 +122,9 @@ If articles folder contains pdf files, go to http://127.0.0.1:5000/t to initiate
 
 Reset database
 --------------
-In your virtual environment type:
+In your virtual environment, type:
 
-    python3 db_init.py
+        python3 db_init.py
 
 
 Production mode
@@ -133,6 +132,6 @@ Production mode
 
 Set environment variable in .flaskenv file:
 
-    FLASK_ENV=production
-    FLASK_DEBUG=0
+        FLASK_ENV=production
+        FLASK_DEBUG=0
 
