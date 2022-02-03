@@ -13,6 +13,10 @@ revision answers assigned to reviewer remarks (missing key value is treated as t
 
 database benchmarks with more realistic and complete, generated data (not just "users" and name lookup)
 
+"Individual paper page" looking just like in the specification, also URLs just like in spec
+
+update README.md, add general description of sources
+add comments in sources, especially where non-standard solutions are used (describe intention!)
 update README.md, add info about required minimal permissions to directories
 
 pdf dropped to a field area (drag-drop) additionally to the "Browse" button
@@ -20,9 +24,3 @@ pdf dropped to a field area (drag-drop) additionally to the "Browse" button
 the ability of researchers to update/delete/add their "profiling papers" anytime
 
 .git_public (two repositories in one root directory)
-
-
-done:
-captcha in "Sign Up" just like in "Sign In"
-top-page message saying "this is a testing version"
-update README.md unify linux with windows installation
