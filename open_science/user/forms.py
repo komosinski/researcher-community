@@ -14,7 +14,7 @@ import open_science.email as em
 from config.config import Config
 from flask_login import current_user
 from open_science.enums import EmailTypeEnum
-from config import strings as STR
+from open_science import strings as STR
 
 def validate_password(form, password):
     if not re.search("[a-z]", password.data):

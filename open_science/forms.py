@@ -6,7 +6,7 @@ from wtforms.fields.simple import FileField, HiddenField
 from wtforms.validators import Length, DataRequired, Optional, StopValidation
 import config.models_config as mc
 from open_science.models import MessageTopic
-from config import strings as STR
+from open_science import strings as STR
 
 def validate_review(form, field):
     if form.review_declaration.data:

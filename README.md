@@ -63,6 +63,8 @@ TODO high-level description of what is where, what purpose, directories, modules
 
 `open_science/admin.py` - customization of admin panel
 
+`open_science/strings.py` - strings definitions
+
 ------------------
 
 `text_processing` - text processing module
@@ -187,6 +189,9 @@ If running the flask server, on Linux in your virtual environment type:
         flask run
  
 On Windows you can do the same, but remember to use WSL.
+
+The jobs scheduler is turned off by default.
+To start the scheduler, you need to go to the address /admin and click 'Start scheduler' button.
 
 
 Initializing test data
