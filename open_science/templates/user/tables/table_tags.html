@@ -12,18 +12,20 @@
     </tbody>
   </table>
 
+
+{% set api_user_tags_url = url_for('user_tags_data')%}
+
+
 {%block scripts%}
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
 
-
-
 <script>
     $(document).ready(function () {
       const table = $('#data_tags').DataTable({
         lengthChange: false,
-        ajax: '/api/user_tags',
+        ajax: '{{api_user_tags_url}}',
         serverSide: true,
         rowId: 'id',
         columns: [

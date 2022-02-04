@@ -12,6 +12,9 @@
     </tbody>
   </table>
 
+{% set api_user_reviews_url = url_for('user_reviews_data')%}
+
+
 {%block scripts%}
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
@@ -21,7 +24,7 @@
     $(document).ready(function () {
       const table = $('#data_reviews').DataTable({
         lengthChange: false,
-        ajax: '/api/user_reviews',
+        ajax: '{{api_user_reviews_url}}',
         serverSide: true,
         rowId: 'id',
         columns: [

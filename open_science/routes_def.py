@@ -18,6 +18,7 @@ from open_science.notification.helpers import create_paper_comment_notifications
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
 from config import strings as STR
+import open_science.schedule.schedule as scheduler
 
 # Routes decorator
 def researcher_user_required(func):
@@ -30,6 +31,22 @@ def researcher_user_required(func):
         elif current_user.privileges_set < User.user_types_enum.RESEARCHER_USER.value:
             flash('You must be a scientist user to access this page',
                   category='warning')
+            return redirect(url_for('home_page'))
+        return func(*args, **kwargs)
+
+    return decorated_view
+
+
+def admin_required(func):
+    @functools.wraps(func)
+    def decorated_view(*args, **kwargs):
+        if request.method in EXEMPT_METHODS:
+            return func(*args, **kwargs)
+        elif not current_user.is_authenticated:
+            return redirect(url_for('login_page'))
+        elif current_user.privileges_set < User.user_types_enum.ADMIN.value:
+            flash('You must be a admin to access this page',
+                  category='error')
             return redirect(url_for('home_page'))
         return func(*args, **kwargs)
 
@@ -594,3 +611,8 @@ def privacy_page():
 def forum_page():
     return render_template('forum.html')
 
+
+def force_daily_jobs():
+
+    scheduler.daily_jobs()
+    return 'Daily jobs '

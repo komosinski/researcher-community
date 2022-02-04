@@ -118,7 +118,7 @@ def register_page():
         em.insert_email_log(0, None, user_to_create.email,
                             EmailTypeEnum.REGISTRATION_CONFIRM.value)
         em.send_email_confirmation(user_to_create.email)
-        flash(STR.EMAIL_CONFIRM_LINK_SENT, category='success')
+        flash(STR.EMAIL_CONFIRM_LINK_SENT+user_to_create.email, category='success')
         return redirect(url_for('unconfirmed_email_page'))
 
     return render_template('user/register.html', form=form)
