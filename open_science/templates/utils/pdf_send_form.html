@@ -117,7 +117,7 @@
                     <input type="text" placeholder="E-mail" value="" id="email-input-${id}"/>
                     <div class="hidden" style="color: red;">E-mail niepoprawny!</div>
                     <a href="javascript:void(0);" class="remove-input" title="Remove input">
-                        <img src="/static/res/del.png"/>
+                        <img src={{url_for('static', filename='res/del.png')}}/>
                     </a>
                 </div>`;
             }
@@ -130,7 +130,7 @@
                         ${tags}
                     </select>
                     <a href="javascript:void(0);" class="remove-input" title="Remove input">
-                        <img src="/static/res/del.png"/>
+                        <img src={{url_for('static', filename='res/del.png')}}/>
                     </a>
                 </div>`
         };
@@ -186,13 +186,13 @@
         <input type="text" placeholder="Last name" value="" id="sname-input-0"/>
         <input type="text" placeholder="E-mail" value="" id="email-input-0"/>
         <div class="hidden" style="color: red;">E-mail niepoprawny!</div>
-        <a href="javascript:void(0);" class="add-input" title="Add input"><img src="/static/res/add.png"/></a>
+        <a href="javascript:void(0);" class="add-input" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
         </div>
     </div>
     <div id="tags-wrapper">
         <div id="0">
             <select placeholder="Select tag" id="tag-select-0"></select>
-        <a href="javascript:void(0);" class="add-input-tag" title="Add input"><img src="/static/res/add.png"/></a>
+        <a href="javascript:void(0);" class="add-input-tag" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
         </div>
     </div>
     <input id="companyName" list="companyList" />

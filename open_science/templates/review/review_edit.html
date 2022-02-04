@@ -21,7 +21,7 @@ function outputUpdateConfidence(value) {
 
 
 $(document).ready(function(){
-  const createNewInput = (id) => `<div id="${id}"><textarea name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"></textarea><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>`;
+  const createNewInput = (id) => `<div id="${id}"><textarea name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"></textarea><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src={{url_for('static', filename='res/del.png')}}/></a></div>`;
   let startId = 0;
   const suggestions = {{suggestions|tojson}};
   console.log(suggestions);
@@ -33,7 +33,6 @@ $(document).ready(function(){
   var max_input_fields = 10;
   var add_input = $('.add-input');
   var input_wrapper = $('#suggestions');
-  // var new_input = '<div id=""><input type="text" name="field[]" placeholder="Suggestion" value=""/><input type="text"  placeholder="Location" name="field2[]" value=""/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src="/static/res/del.png"/></a></div>';
   var add_input_count = 1; 
 
   const addInput = (sugContent = "", locContent = "") => {
@@ -127,7 +126,7 @@ $(document).ready(function(){
               <div id="suggestions">
                   <div>Suggestions with optional location in the article: 
 
-                  <a href="javascript:void(0);" class="add-input" title="Add input"><img src="/static/res/add.png"/></a>
+                  <a href="javascript:void(0);" class="add-input" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
                   </div>
               </div>
        
