@@ -73,7 +73,7 @@ TODO high-level description of what is where, what purpose, directories, modules
 
 ------------------
 
-Directories that should be accessible via server:
+Directories that should be accessible via server: (TODO list of minimal permissions as `chmod` commands)
 
    1. `open_science/static/fonts`
    2. `open_science/static/styles`
