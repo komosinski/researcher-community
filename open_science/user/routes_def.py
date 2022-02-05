@@ -24,7 +24,7 @@ from open_science.enums import EmailTypeEnum, NotificationTypeEnum
 from open_science.db_helper import get_hidden_filter
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
-from config import strings as STR
+from open_science import strings as STR
 
 
 def register_page():
@@ -118,7 +118,7 @@ def register_page():
         em.insert_email_log(0, None, user_to_create.email,
                             EmailTypeEnum.REGISTRATION_CONFIRM.value)
         em.send_email_confirmation(user_to_create.email)
-        flash(STR.EMAIL_CONFIRM_LINK_SENT, category='success')
+        flash(STR.EMAIL_CONFIRM_LINK_SENT+user_to_create.email, category='success')
         return redirect(url_for('unconfirmed_email_page'))
 
     return render_template('user/register.html', form=form)
@@ -126,7 +126,7 @@ def register_page():
 
 def login_page():
     if current_user.is_authenticated:
-        flash('You are already logged in.', category='warning')
+        flash(STR.ALREADY_LOGGED, category='warning')
         return redirect(url_for('home_page'))
     form = LoginForm()
     if form.validate_on_submit():
@@ -138,21 +138,21 @@ def login_page():
             login_user(attempted_user)
             attempted_user.last_seen = dt.datetime.utcnow()
             db.session.commit()
-            flash('Success! You are logged in', category='success')
+            flash(STR.LOGIN_SUCCESS, category='success')
             next_dest = request.args.get('next')
             if next_dest:
                 return redirect(next_dest)
             return redirect(url_for('home_page'))
         elif not attempted_user:
-            flash('Email and password are not match! Please try again',
+            flash(STR.EMAIL_PASSWORD_NOT_MATCH,
                   category='error')
         elif not attempted_user.confirmed:
-            flash('Please confirm your account!', 'warning')
+            flash(STR.CONFIRM_YOUR_ACCOUNT, category='warning')
             return redirect(url_for('unconfirmed_email_page'))
         elif attempted_user.is_deleted is True:
-            flash('Profile is deleted', category='error')
+            flash(STR.PROFILE_IS_DELETED, category='error')
         else:
-            flash('Email and password are not match! Please try again',
+            flash(STR.EMAIL_PASSWORD_NOT_MATCH,
                   category='error')
 
     return render_template('user/login.html', form=form)
@@ -170,12 +170,12 @@ def confirm_email(token):
     try:
         email = confirm_password_token(token)
     except Exception:
-        flash('The confirmation link is invalid or has expired.',
+        flash(STR.INVALID_CONFIRM_LINK,
               category='error')
         return redirect(url_for('home_page'))
     user = User.query.filter_by(email=email).first_or_404()
     if user.confirmed:
-        flash('Account already confirmed. Please login.', category='success')
+        flash(STR.ACCOUNT_ALREADY_CONFIRMED, category='success')
         return redirect(url_for('login_page'))
     else:
         user.confirmed = True
@@ -183,7 +183,7 @@ def confirm_email(token):
         user.try_endorse_with_email()
         db.session.add(user)
         db.session.commit()
-        flash('You have confirmed your account.', category='success')
+        flash(STR.ACCOUNT_CONFIRMED, category='success')
     return redirect(url_for('home_page'))
 
 
@@ -201,7 +201,7 @@ def unconfirmed_email_page():
             em.insert_email_log(0, None, form.email.data,
                                 EmailTypeEnum.REGISTRATION_CONFIRM.value)
             em.send_email_confirmation(form.email.data)
-            flash('A new confirmation email has been sent.', 'success')
+            flash(STR.EMAIL_CONFIRM_EMAIL_SENT, 'success')
             return redirect(url_for('home_page'))
         else:
             flash(
@@ -217,7 +217,7 @@ def account_recovery_page():
     form = AccountRecoveryForm()
     if form.validate_on_submit():
         em.send_account_recovery(form.email.data)
-        flash("A account recovery email has been sent.", category='success')
+        flash(STR.EMAIL_RECOVERY_SENT, category='success')
         return redirect(url_for('home_page'))
 
     if form.errors != {}:
@@ -231,7 +231,7 @@ def set_password_page(token):
     try:
         email = confirm_account_recovery_token(token)
     except Exception:
-        flash('The account recovery link is invalid or has expired.',
+        flash(STR.INVALID_REVOVERY_LINK,
               category='error')
         return redirect(url_for('home_page'))
 
@@ -242,11 +242,11 @@ def set_password_page(token):
             user = User.query.filter_by(email=email).first_or_404()
             user.password = form.password.data
             db.session.commit()
-            flash('Your password has been successfully changed.',
+            flash(STR.PASSWORD_CHANGED_SUCCESSFULLY,
                   category='success')
             return redirect(url_for('login_page'))
         except Exception:
-            flash('Something went wrong.', category='error')
+            flash(STR.STH_WENT_WRONG, category='error')
             return redirect(url_for('home_page'))
 
     return render_template('user/set_password.html', form=form)
@@ -261,7 +261,7 @@ def profile_page(user_id):
                              get_hidden_filter(User)).first()
 
     if not user or user.confirmed is False or user.is_deleted is True:
-        flash('User does not exists', category='error')
+        flash(STR.USER_NOT_EXISTS, category='error')
         return redirect(url_for('home_page'))
 
     data = {
@@ -275,7 +275,7 @@ def profile_page(user_id):
     if remarks_form.validate_on_submit():
         user.remarks = remarks_form.remarks.data
         db.session.commit()
-        flash('Remarks has been saved', category='success')
+        flash(STR.REMARKS_SAVED, category='success')
         return render_template('user/user_profile.html',
                                user=user, data=data, remarks_form=remarks_form)
     elif request.method == 'GET':
@@ -292,7 +292,7 @@ def edit_profile_page():
     email_change = False
 
     if form.validate_on_submit():
-        flash_message = 'Your changes have been saved.'
+        flash_message = STR.EDIT_PROFILE_CHANGES_SAVED
         current_user.first_name = form.first_name.data
         current_user.second_name = form.second_name.data
 
@@ -361,7 +361,7 @@ def change_password_page():
                 id=current_user.get_id()).first_or_404()
             user.password = form.password.data
             db.session.commit()
-            flash('Your password has been successfully changed.',
+            flash(STR.PASSWORD_CHANGED,
                   category='success')
             return redirect(url_for('edit_profile_page'))
         except Exception:
@@ -375,7 +375,7 @@ def confirm_email_change(token):
     try:
         new_email = confirm_email_change_token(token)
     except Exception:
-        flash('The confirmation link is invalid or has expired.', category='error')
+        flash(STR.INVALID_CONFIRM_LINK, category='error')
         return redirect(url_for('home_page'))
     user = User.query.filter_by(new_email=new_email).first_or_404()
     if user.email == user.new_email:
@@ -387,7 +387,7 @@ def confirm_email_change(token):
         user.try_endorse_with_email()
         db.session.add(user)
         db.session.commit()
-        flash('You have changed your email address', category='success')
+        flash(STR.EMAIL_CHANGED, category='success')
 
     return redirect(url_for('login_page'))
 
@@ -414,17 +414,17 @@ def invite_user_page():
                     em.send_invite(email, current_user.first_name,
                                    current_user.second_name)
 
-                    flash('An invitation email has been sent',
+                    flash(STR.EMAIL_INVITATION_SENT,
                           category='success')
                     return redirect(url_for('profile_page', user_id=current_user.get_id()))
                 else:
                     flash(
-                        'An invitation email to this person has already been sent', category='warning')
+                        STR.INVITATION_EMAIL_ALREADY_SENT, category='warning')
             else:
-                flash('User with this e-mail already exists', category='warning')
+                flash(STR.USER_ALREADY_EXISTS, category='warning')
 
         else:
-            flash('Daily limit for invitations has been exceeded', category='error')
+            flash(STR.INVITATION_DAILY_LIMIT_EXC, category='error')
 
     if form.errors != {}:
         for err_msg in form.errors.values():
@@ -461,11 +461,11 @@ def request_endorsement(endorser_id):
 
         db.session.add(endorsement_log)
         db.session.commit()
-        flash('The Endorsement request was successfully sent',
+        flash(STR.ENDORSEMENT_REQUEST_SENT,
               category='success')
         return redirect(url_for('profile_page', user_id=endorser_id))
     else:
-        flash('You cannot send your endorsement request', category='error')
+        flash(STR.CANT_REQUEST_ENDORSEMENT, category='error')
         return redirect(url_for('profile_page', user_id=endorser_id))
 
 
@@ -485,15 +485,15 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         Notification.id == notification_id).first()
 
     if not notification:
-        flash('Endorsement request not exists', category='error')
+        flash(STR.ENDORSEMENT_REQUEST_NOT_EXISTS, category='error')
         return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if not user or current_user.id != endorser_id or not endorsement_log:
-        flash('Endorsement request not exists', category='error')
+        flash(STR.ENDORSEMENT_REQUEST_NOT_EXISTS, category='error')
         return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if endorsement_log.considered is True:
-        flash('Endorsement request has been already considered', category='warning')
+        flash(STR.ENDORSEMENT_REQUEST_ALREADY_CONSIDERED, category='warning')
         return redirect(url_for('notifications_page', page=1, unread='False'))
 
     if form.validate_on_submit():
@@ -512,7 +512,7 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         db.session.delete(notification)
         db.session.commit()
 
-        flash('The form has been completed', category='success')
+        flash(STR.ENDORSEMENT_REQUEST_FORM_COMPLETED, category='success')
         return redirect(url_for('notifications_page', page=1, unread='False'))
 
     return render_template('user/endorsement_request.html', form=form, user=user)
@@ -528,7 +528,7 @@ def delete_profile_page():
         db.session.commit()
         em.send_profile_delete(current_user.email)
 
-        flash('Account deletion email was sent', category='success')
+        flash(STR.EMAIL_DELETE_ACCOUNT_SENT, category='success')
         return redirect(url_for('profile_page', user_id=current_user.id))
 
     return render_template('user/delete_profile.html', form=form)
@@ -538,7 +538,7 @@ def confirm_profile_delete(token):
     try:
         email = confirm_profile_delete_token(token)
     except Exception:
-        flash('The confirmation link is invalid or has expired.', category='error')
+        flash(STR.INVALID_CONFIRM_LINK, category='error')
         return redirect(url_for('home_page'))
 
     user = User.query.filter_by(email=email).first_or_404()
@@ -547,9 +547,9 @@ def confirm_profile_delete(token):
 
         current_user.delete_profile()
         logout_user()
-        flash('You have deleted your profile.', category='success')
+        flash(STR.ACCOUNT_DELETED_SUCCESSFULLY, category='success')
         return redirect(url_for('home_page'))
 
     else:
-        flash('The confirmation link is invalid or has expired.', category='error')
+        flash(STR.INVALID_CONFIRM_LINK, category='error')
         return redirect(url_for('home_page'))

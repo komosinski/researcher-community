@@ -7,7 +7,7 @@ from flask_wtf import FlaskForm
 import config.models_config as mc
 from open_science.models import DeclinedReason
 from wtforms.fields.html5 import DecimalRangeField
-from config import strings as STR
+from open_science import strings as STR
 
 class MultiCheckboxField(SelectMultipleField):
 

@@ -13,16 +13,19 @@
     </tbody>
   </table>
 
+{% set api_user_papers_url = url_for('user_papers_data')%}
+
 {%block scripts%}
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
 
 <script>
+
     $(document).ready(function () {
       const table =  $('#data_papers').DataTable({
         lengthChange: false,
-        ajax: '/api/user_papers',
+        ajax: '{{api_user_papers_url}}',
         serverSide: true,
         rowId: 'id',
         columns: [

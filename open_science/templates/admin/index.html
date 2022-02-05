@@ -1,0 +1,24 @@
+{% extends 'admin/master.html'%}
+
+{% block body%}
+<h2>Open science administration panel</h2>
+
+
+<br><br>
+<h4>Scheduler</h4>
+<br>
+<a href="{{url_for('start_scheduler')}}">
+    <button type="button" class="btn">Start scheduler</button>
+</a>
+<br><br>
+
+{% if current_user.is_authenticated and current_user.is_admin()%}
+    <a href="{{url_for('force_daily_jobs')}}">
+    <button type="button" class="btn">Force daily jobs</button>
+    </a>
+{% else %}
+    <h3>You must be an administrator to access other functions</h3>
+{%endif%}
+
+
+{% endblock %}

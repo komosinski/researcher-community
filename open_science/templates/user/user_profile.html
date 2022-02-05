@@ -10,7 +10,7 @@
 <div class="user-profile-wrapper">
     <div class="user-profile-header">
         <div class="profile-picture-wrapper">
-            <img src="{{config['PROFILE_IMAGE_URL']~user.id~'.png' if user.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}" class="profile-picture" />
+            <img src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.png') if current_user.has_photo else url_for('static',filename='res/profileImages/img.png')}}" class="profile-picture" />
         </div>
         <div class="user-info-wrapper">
             <div class="username-wrapper">

@@ -1,4 +1,4 @@
-from flask.helpers import url_for
+from flask.helpers import url_for, flash
 from open_science.enums import NotificationTypeEnum, EmailTypeEnum
 from open_science.models import EmailLog, EmailType, Review, User, Paper
 import datetime as dt
@@ -9,7 +9,8 @@ import open_science.email as em
 from open_science.review.helpers import prepare_review_requests
 import text_processing.similarity_matrix as sm
 from text_processing.plot import create_save_users_plot
-
+from open_science.extensions import scheduler
+import atexit
 
 def delete_old_logs(days, email_type):
     date_before = dt.datetime.utcnow().date() - dt.timedelta(days=days)
@@ -94,3 +95,29 @@ def daily_jobs():
     create_review_deadline_notification()
     send_notifiactions_count()
     prepare_and_send_review_requests()
+
+
+def run_scheduler():
+
+    if scheduler.running:
+        print("Scheduler Instance is already running")
+        flash('Scheduler Instance is already running', category='warning')
+    else:
+        print("Starting Scheduler Instance")
+        flash('Scheduler has been started', category='success')
+        # Two schedulers will be launched when Flask is in debug mode
+        scheduler.start()
+        atexit.register(lambda: scheduler.shutdown())
+        scheduler.add_job(
+            id='Monthly jobs',
+            func=monthly_jobs,
+            start_date='2022-1-1 03:00:00',
+            trigger='interval',
+            days=31)
+
+        scheduler.add_job(
+            id='Daily jobs',
+            func=daily_jobs,
+            start_date='2022-1-1 03:30:00',
+            trigger='interval',
+            days=1)

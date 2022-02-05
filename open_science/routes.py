@@ -336,3 +336,17 @@ def forum_page():
 @rd.researcher_user_required
 def increase_needed_reviews(revision_id):
     return review_rd.increase_needed_reviews(revision_id)
+
+
+@app.route('/admin/force_daily_jobs')
+@login_required
+@rd.admin_required
+def force_daily_jobs():
+    return rd.force_daily_jobs()
+
+
+@app.route('/admin/start_scheduler')
+def start_scheduler():
+    return rd.start_scheduler()
+
+

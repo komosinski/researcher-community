@@ -17,7 +17,9 @@ from open_science.db_helper import get_hidden_filter
 from open_science.notification.helpers import create_paper_comment_notifications
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
-from config import strings as STR
+from open_science import strings as STR
+import open_science.schedule.schedule as schedule
+from open_science.extensions import scheduler
 
 # Routes decorator
 def researcher_user_required(func):
@@ -28,8 +30,24 @@ def researcher_user_required(func):
         elif not current_user.is_authenticated:
             return redirect(url_for('login_page'))
         elif current_user.privileges_set < User.user_types_enum.RESEARCHER_USER.value:
-            flash('You must be a scientist user to access this page',
+            flash(STR.RESEARCHER_ROLE_REQUIRED,
                   category='warning')
+            return redirect(url_for('home_page'))
+        return func(*args, **kwargs)
+
+    return decorated_view
+
+
+def admin_required(func):
+    @functools.wraps(func)
+    def decorated_view(*args, **kwargs):
+        if request.method in EXEMPT_METHODS:
+            return func(*args, **kwargs)
+        elif not current_user.is_authenticated:
+            return redirect(url_for('login_page'))
+        elif current_user.privileges_set < User.user_types_enum.ADMIN.value:
+            flash(STR.ADMIN_ROLE_REQUIRED,
+                  category='error')
             return redirect(url_for('home_page'))
         return func(*args, **kwargs)
 
@@ -64,7 +82,7 @@ def auto_page(name):
 
 def home_page():
     users_plot_url = app.config['USERS_PLOT_URL']
-    flash('This is a testing version', category='warning')
+    flash(STR.FLASH_TEST_VERISON, category='warning')
     return render_template("home_page.html",
                            users_plot_url=users_plot_url)
 
@@ -112,7 +130,7 @@ def file_upload_page():
             publication_date=dt.datetime.utcnow(),
             rel_creators=[current_user] + users,
             rel_related_tags=tags,
-            preprocessed_text = ""
+            preprocessed_text=""
         )
 
         db.session.flush()
@@ -126,7 +144,7 @@ def file_upload_page():
         f.save(path)
 
         if af is not None and validatePDF(af.read(16)):
-            af.seek(0,0)
+            af.seek(0, 0)
 
             anonymous_filename = f"anonymous_paper_{id}.pdf"
             anon_path = f"open_science/static/articles/{anonymous_filename}"
@@ -206,8 +224,8 @@ def upload_revision(id):
             publication_date=dt.datetime.utcnow(),
             rel_creators=authors,
             rel_related_tags=tags,
-            preprocessed_text = "",
-            version = int(previous_version.version) + 1
+            preprocessed_text="",
+            version=int(previous_version.version) + 1
         )
 
         db.session.flush()
@@ -221,7 +239,7 @@ def upload_revision(id):
         f.save(path)
 
         if af is not None and validatePDF(af.read(16)):
-            af.seek(0,0)
+            af.seek(0, 0)
 
             anonymous_filename = f"anonymous_paper_{id}.pdf"
             anon_path = f"open_science/static/articles/{anonymous_filename}"
@@ -235,8 +253,8 @@ def upload_revision(id):
         new_version.preprocessed_text = get_text(path)
 
         changes = [RevisionChangesComponent(
-            change_description = change['suggestion'],
-            location = change['location']
+            change_description=change['suggestion'],
+            location=change['location']
         ) for change in json.loads(form.changes.data)]
 
         new_version.rel_changes = changes
@@ -341,7 +359,6 @@ def anonymous_article_page(id):
     return render_template("article/anonymous_view.html", article=pv)
 
 
-
 def like():
     # print(request.json)
     # print(request.content)
@@ -406,6 +423,7 @@ def verify_user_liked():
     else:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
 
+
 def verify_user_disliked():
     try:
         user_id = int(request.json.get('userID'))
@@ -423,6 +441,7 @@ def verify_user_disliked():
         return json.dumps({'result': True}), 200, {'ContentType': 'application/json'}
     else:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
+
 
 def delete_like():
     try:
@@ -573,7 +592,7 @@ def contact_staff_page():
                               date=dt.datetime.utcnow())
         db.session.add(mssg)
         db.session.commit()
-        flash(f'Message has been send', category='success')
+        flash('Message has been sent', category='success')
         return redirect(url_for('help_page'))
 
     if form.errors != {}:
@@ -582,8 +601,8 @@ def contact_staff_page():
 
     return render_template('help/contact_staff.html', form=form)
 
-
 def about_page():
+    start_scheduler()
     return render_template('about.html')
 
 
@@ -594,3 +613,13 @@ def privacy_page():
 def forum_page():
     return render_template('forum.html')
 
+
+def force_daily_jobs():
+    schedule.daily_jobs()
+    flash('Daily jobs have been performed', category='success')
+    return redirect(url_for('home_page'))
+
+
+def start_scheduler():
+    schedule.run_scheduler()
+    return redirect(url_for('home_page'))
