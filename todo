@@ -2,6 +2,8 @@ working "red flags" for all supported objects
 
 update SIMILARITY.md
 
+adjust the reasonable similarity threshold value to find reviewers matching papers (to properly match their area of expertise)
+
 after clicking the 2D plot on the main page, open a self-contained html with a 3D scatter plot (also re-created daily) https://plotly.com/python/3d-scatter-plots/
 with points displaying names of researchers on-hover. https://plotly.com/python/hover-text-and-formatting/
 
@@ -22,5 +24,7 @@ update README.md, add info about required minimal permissions to directories
 pdf dropped to a field area (drag-drop) additionally to the "Browse" button
 
 the ability of researchers to update/delete/add their "profiling papers" anytime
+
+if the profile image is larger than 256px in any dimension, rescale proportionally down to max 256px, then save as jpeg, quality 90%.
 
 .git_public (two repositories in one root directory)
