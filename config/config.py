@@ -43,8 +43,6 @@ class Config(object):
         'RECAPTCHA_PUBLIC_KEY') or '6Ldr23IdAAAAAAdwsCoT1r6NIpdmpyzxOaafY8fP'
     RECAPTCHA_PRIVATE_KEY = os.environ.get(
         'RECAPTCHA_PRIVATE_KEY') or '6Ldr23IdAAAAAHcZdWkjR4IWLcr3qpp6_i-N_xeT'
-    PROFILE_IMAGE_URL = os.environ.get(
-        'PROFILE_IMAGE_URL') or '/static/res/profileImages/'
 
     # Mail Limit = ML
     # per day
@@ -117,3 +115,10 @@ class Config(object):
 
     # Full url to pdfs folder
     PDFS_FOLDER_FULL_URL = 'open_science/static/articles/'
+
+    # project directory path
+    ROOTDIR = "/home/marek/studia/inżynierka4"
+    
+    # url of profile pics directory
+    PROFILE_IMAGE_URL = os.environ.get(
+        'PROFILE_IMAGE_URL') or '/static/res/profileImages/'

@@ -1,5 +1,7 @@
+import os
 from sqlalchemy.sql.elements import and_
 from werkzeug.utils import secure_filename
+from config.config import Config
 from open_science import db, app
 from open_science.models import Comment, License, Paper, PaperRevision, Review, RevisionChangesComponent, Tag, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm, PaperRevisionUploadForm
@@ -138,7 +140,8 @@ def file_upload_page():
         id = paper_version.id
 
         filename = f"paper_{id}.pdf"
-        path = f"open_science/static/articles/{filename}"
+        # path = f"open_science/static/articles/{filename}"
+        path = os.path.join(Config.ROOTDIR, "open_science/static/articles", filename)
         url = url_for('static', filename=f"articles/{filename}")
 
         f.save(path)
@@ -147,7 +150,8 @@ def file_upload_page():
             af.seek(0, 0)
 
             anonymous_filename = f"anonymous_paper_{id}.pdf"
-            anon_path = f"open_science/static/articles/{anonymous_filename}"
+            # anon_path = f"open_science/static/articles/{anonymous_filename}"
+            anon_path = os.path.join(Config.ROOTDIR, "open_science/static/articles", anonymous_filename)
             anon_url = url_for('static', filename=f"articles/{anonymous_filename}")
 
             af.save(anon_path)
@@ -233,7 +237,8 @@ def upload_revision(id):
         vid = new_version.id
 
         filename = f"paper_{vid}.pdf"
-        path = f"open_science/static/articles/{filename}"
+        # path = f"open_science/static/articles/{filename}"
+        path = os.path.join(Config.ROOTDIR, "open_science/static/articles", filename)
         url = url_for('static', filename=f"articles/{filename}")
 
         f.save(path)
@@ -242,7 +247,8 @@ def upload_revision(id):
             af.seek(0, 0)
 
             anonymous_filename = f"anonymous_paper_{id}.pdf"
-            anon_path = f"open_science/static/articles/{anonymous_filename}"
+            # anon_path = f"open_science/static/articles/{anonymous_filename}"
+            anon_path = os.path.join(Config.ROOTDIR, "open_science/static/articles", anonymous_filename)
             anon_url = url_for('static', filename=f"articles/{anonymous_filename}")
 
             af.save(anon_path)

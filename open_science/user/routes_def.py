@@ -25,7 +25,7 @@ from open_science.db_helper import get_hidden_filter
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
 from open_science import strings as STR
-
+from config.config import Config
 
 def register_page():
     form = RegisterForm()
@@ -51,7 +51,8 @@ def register_page():
             id = calibration_paper.id
 
             filename = secure_filename(f"{id}.pdf")
-            path = f"open_science/static/articles/{filename}"
+            # path = f"open_science/static/articles/{filename}"
+            path = os.path.join(Config.ROOTDIR, "open_science/static/articles", filename)
             url = url_for('static', filename=f"articles/{filename}")
 
             file.save(path)
@@ -108,7 +109,8 @@ def register_page():
         f = form.profile_image.data
         if f:
             filename = secure_filename(f'{user_to_create.id}.png')
-            path = f"open_science/{app.config['PROFILE_IMAGE_URL']}{filename}"
+            # path = f"open_science/{app.config['PROFILE_IMAGE_URL']}{filename}"
+            path = os.path.join(Config.ROOTDIR, "open_science/static/res/profileImages", filename)
             img = Image.open(f)
             img = img.resize((256, 256))
             img.save(path, "PNG")
@@ -320,7 +322,8 @@ def edit_profile_page():
         f = form.profile_image.data
         if f:
             filename = secure_filename(f'{current_user.id}.png')
-            path = f"open_science/{app.config['PROFILE_IMAGE_URL']}{filename}"
+            # path = f"open_science/{app.config['PROFILE_IMAGE_URL']}{filename}"
+            path = os.path.join(Config.ROOTDIR, "open_science/static/res/profileImages", filename)
             if current_user.has_photo:
                 os.remove(path)
 
