@@ -82,6 +82,7 @@ Directories that should be accessible via server:
    3. `chmod +rw open_science/static/articles`
    4. `chmod +rw open_science/static/res`
    5. `chmod +rw open_science/static/res/profileImages`
+   6. `chmod +rw server_files/generated_files`
 
 ------------------
 
