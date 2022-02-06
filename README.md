@@ -128,12 +128,12 @@ Linux setup
 
 11. Setting up minimal permissions for files and directories
   
-   `chmod +r open_science/static/fonts`
-   `chmod +r open_science/static/styles`
-   `chmod +rw open_science/static/articles`
-   `chmod +rw open_science/static/res`
-   `chmod +rw open_science/static/res/profileImages`
-   `chmod +rw server_files/generated_files`
+   `chmod +r open_science/static/fonts`  <br />
+   `chmod +r open_science/static/styles` <br />
+   `chmod +rw open_science/static/articles` <br />
+   `chmod +rw open_science/static/res` <br />
+   `chmod +rw open_science/static/res/profileImages` <br />
+   `chmod +rw server_files/generated_files` <br />
 
 
 
