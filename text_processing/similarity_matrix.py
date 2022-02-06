@@ -3,7 +3,7 @@ from gensim.utils import simple_preprocess
 import numpy as np
 from open_science import app
 import open_science.models as db_models
-
+import os
 
 # returns list with all calibration papers and paper revisions preprocessed texts
 def get_all_papers_texts():
@@ -28,14 +28,17 @@ def create_dictionary():
 
 
 def save_dictionary(dictionary):
-    dictionary_url = app.config['DICTIONARY_URL']
+
+    dictionary_url = os.path.join(app.config['ROOTDIR'],
+                                  app.config['DICTIONARY_URL'])
     dictionary.save(dictionary_url)
 
 
 def get_dictionary():
     dictionary = []
 
-    dictionary_url = app.config['DICTIONARY_URL']
+    dictionary_url = os.path.join(app.config['ROOTDIR'],
+                                  app.config['DICTIONARY_URL'])
     dictionary = corpora.Dictionary.load(dictionary_url)
 
     return dictionary
@@ -66,14 +69,16 @@ def create_tfidf_matrix():
 
 # saves given matrix as tfidf matrix in matrices table in database
 def save_tfidf_matrix(tfidf_matrix):
-    tfidf_matrix_url = app.config['TFIDF_MATRIX_URL']
+    tfidf_matrix_url = os.path.join(app.config['ROOTDIR'],
+                                    app.config['TFIDF_MATRIX_URL'])
     tfidf_matrix.save(tfidf_matrix_url)
 
 
 def get_tfidf_matrix():
     tfidf_matrix = []
 
-    tfidf_matrix_url = app.config['TFIDF_MATRIX_URL']
+    tfidf_matrix_url = os.path.join(app.config['ROOTDIR'], 
+                                    app.config['TFIDF_MATRIX_URL'])
     tfidf_matrix = corpora.Dictionary.load(tfidf_matrix_url)
 
     return tfidf_matrix
@@ -110,14 +115,16 @@ def create_similarities_matrix():
 
 # saves given matrix as similarities matrix in matrices table in database
 def save_similarities_matrix(similarities_matrix):
-    similarities_matrix_url = app.config['SIMILARITIES_MATRIX_URL']
+    similarities_matrix_url = os.path.join(app.config['ROOTDIR'],
+                                           app.config['SIMILARITIES_MATRIX_URL'])
     np.save(similarities_matrix_url, similarities_matrix)
 
 
 def get_similarities_matrix():
     similarities_matrix = []
 
-    similarities_matrix_url = app.config['SIMILARITIES_MATRIX_URL']
+    similarities_matrix_url = os.path.join(app.config['ROOTDIR'],
+                                           app.config['SIMILARITIES_MATRIX_URL'])
     similarities_matrix = np.load(similarities_matrix_url, similarities_matrix)
 
     return similarities_matrix

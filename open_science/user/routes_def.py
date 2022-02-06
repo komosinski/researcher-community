@@ -51,8 +51,8 @@ def register_page():
             id = calibration_paper.id
 
             filename = secure_filename(f"{id}.pdf")
-            # path = f"open_science/static/articles/{filename}"
-            path = os.path.join(Config.ROOTDIR, "open_science/static/articles", filename)
+           
+            path = os.path.join(Config.ROOTDIR, Config.PDFS_FOLDER_URL, filename)
             url = url_for('static', filename=f"articles/{filename}")
 
             file.save(path)
@@ -109,8 +109,7 @@ def register_page():
         f = form.profile_image.data
         if f:
             filename = secure_filename(f'{user_to_create.id}.jpg')
-            # path = f"open_science/{app.config['PROFILE_IMAGE_URL']}{filename}"
-            path = os.path.join(Config.ROOTDIR, "open_science/static/res/profileImages", filename)
+            path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGE_URL, filename)
             img = Image.open(f)
             img = img.resize((256, 256))
             img.save(path, format="JPEG", quality=90)
@@ -322,8 +321,7 @@ def edit_profile_page():
         f = form.profile_image.data
         if f:
             filename = secure_filename(f'{current_user.id}.jpg')
-            # path = f"open_science/{app.config['PROFILE_IMAGE_URL']}{filename}"
-            path = os.path.join(Config.ROOTDIR, "open_science/static/res/profileImages", filename)
+            path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGE_URL, filename)
             if current_user.has_photo:
                 os.remove(path)
 

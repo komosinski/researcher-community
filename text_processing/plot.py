@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 from sklearn.decomposition import PCA
 from open_science import app
 from open_science.models import User
-
+import os
 from text_processing.search_engine import get_similar_users_to_user
 
 # creates user plot and saves to file with path given in config
@@ -28,7 +28,7 @@ def create_save_users_plot():
         plt.scatter(standardized_pca[:, 0], standardized_pca[:, 1])
         ax.axes.xaxis.set_visible(False)
         ax.axes.yaxis.set_visible(False)
-        users_plot_url = app.config['USERS_PLOT_URL']
+        users_plot_url = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_URL'])
         plt.savefig(users_plot_url, dpi=200)
         plt.close(fig)
 

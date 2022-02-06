@@ -668,7 +668,6 @@ class PaperRevision(db.Model):
 
         similar_users_ids = self.get_similar_users_ids()
         similar_users = User.query.filter(User.id.in_(similar_users_ids)).all()
-        #paginate().items
 
         return similar_users
 

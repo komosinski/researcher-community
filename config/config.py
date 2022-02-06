@@ -98,24 +98,27 @@ class Config(object):
     ROOTDIR = "./"
 
     # Url to processing text dictionary
-    DICTIONARY_URL = './server_files/generated_files/dictionary'
+    DICTIONARY_URL = 'server_files/generated_files/dictionary'
 
     # Url to processing text tfidf matrix
-    TFIDF_MATRIX_URL = './server_files/generated_files/tfidf_matrix'
+    TFIDF_MATRIX_URL = 'server_files/generated_files/tfidf_matrix'
 
     # Url to processing text similarities matrix
     SIMILARITIES_MATRIX_URL = \
-        './server_files/generated_files/similarities_matrix.npy'
+        'server_files/generated_files/similarities_matrix.npy'
     # Url to processing text users plot
-    USERS_PLOT_URL = './open_science/static/res/users_plot'
+    USERS_PLOT_URL = 'open_science/static/res/users_plot'
 
-    # Url to pdfs folder
-    PDFS_FOLDER_URL = '/static/articles/'
-
-    # Full url to pdfs folder
-    PDFS_FOLDER_FULL_URL = 'open_science/static/articles/'
+    # url to pdfs folder
+    PDFS_FOLDER_URL = 'open_science/static/articles'
 
     # url of profile pics directory
-    PROFILE_IMAGE_URL = os.environ.get(
-        'PROFILE_IMAGE_URL') or '/static/res/profileImages/'
+    PROFILE_IMAGE_URL = 'open_science/static/res/profileImages'
 
+    # only for tests
+    # test data PDFS_FOLDER_URL
+    # '/' is needed bcs changes in test_data.py are hard to do..
+    TEST_PDFS_URL = '/static/articles/'
+
+    # test data PDFS_FOLDER_FULL_URL
+    TEST_PDFS_FULL_URL = 'open_science/static/articles/'

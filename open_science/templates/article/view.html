@@ -192,7 +192,7 @@
             <div class="article-authors-wrapper">
                 {% for user in article.rel_creators %}
                     <div class="author-wrapper">
-                        <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~user.get_id()~'.jpg' if user.has_photo else config['PROFILE_IMAGE_URL']~'img.jpg'}}"/>
+                        <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
                         <a class="author-name" href="{{url_for('profile_page', user_id=user.id)}}">{{user.first_name + " " + user.second_name}}</a>
                     </div>
                 {% endfor %}
@@ -222,7 +222,7 @@
                 {%endif%}
                     <div class="comment-header-wrapper">
                         <div class="author-wrapper comment-author">
-                            <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~author.get_id()~'.jpg' if author.has_photo else config['PROFILE_IMAGE_URL']~'img.jpg'}}"/>
+                            <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
                             <div class="comment-answer-info">
                                 <a style="font-size: 1.2rem;"class="author-name header-username" href="{{url_for('profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
                                 {%if comment.comment_ref %}
