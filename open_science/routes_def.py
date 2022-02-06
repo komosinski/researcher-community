@@ -3,7 +3,7 @@ from sqlalchemy.sql.elements import and_
 from werkzeug.utils import secure_filename
 from config.config import Config
 from open_science import db, app
-from open_science.models import Comment, License, Paper, PaperRevision, Review, RevisionChangesComponent, Tag, User, MessageToStaff, VoteComment
+from open_science.models import CalibrationPaper, Comment, License, Paper, PaperRevision, Review, RevisionChangesComponent, Tag, User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm, PaperRevisionUploadForm
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, abort, request
@@ -189,7 +189,8 @@ def file_upload_page():
         if enough_reviews is False:
             flash(STR.NOT_ENOUGH_RESEARCHERS, category='warning')
 
-        return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+        # return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+        return redirect(url_for('article', id=paper.id))
 
     return render_template("utils/pdf_send_form.html", form=form, tags=tags)
 
@@ -273,7 +274,8 @@ def upload_revision(id):
         
         db.session.commit()
 
-        return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+        # return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+        return redirect(url_for('article', id=new_version.parent_paper))
 
     return render_template("utils/revisionUploadForm.html", form=form, paperID=parent_paper.id)
 
@@ -334,10 +336,11 @@ def view_article(id):
         return redirect(url_for("article", id=id, version=pv.version))
 
     # similar papers
-    similar_papaers = pv.get_similar_revisions()
+    similar_papers = pv.get_similar_revisions()
+    similar_papers = list(filter(lambda p: type(p) != CalibrationPaper and p.parent_paper != pv.parent_paper, similar_papers))
             
     return render_template("article/view.html",
-                           article=pv, similar=similar_papaers[:3],
+                           article=pv, similar=similar_papers[:3],
                            form=commentForm,
                            user_liked_comments=user_liked_comments,
                            user_disliked_comments=user_disliked_comments)

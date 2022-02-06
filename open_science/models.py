@@ -597,7 +597,7 @@ class PaperRevision(db.Model):
             'version': self.version,
             'show_url': url_for('article', id=self.parent_paper, version=self.version),
             # TODO: change new_verison
-            'new_verison_url': url_for('article', id=self.parent_paper),
+            'new_verison_url': url_for('upload_new_revision', id=self.parent_paper),
             'reviews_count':\
             f'{len(self.get_published_reviews_list())}\
                  / {self.confidence_level}',

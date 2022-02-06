@@ -12,7 +12,7 @@ class Config(object):
 
     # 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'SQLALCHEMY_DATABASE_URI') or "postgresql://postgres:buraczek@localhost:5432/open_science"
+        'SQLALCHEMY_DATABASE_URI') or "postgresql://postgres:postgres@localhost:5432/open_science"
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or '88d74de749c87a6b38400d2c3e62e802'
     SECURITY_PASSWORD_SALT = os.environ.get(
