@@ -108,12 +108,12 @@ def register_page():
 
         f = form.profile_image.data
         if f:
-            filename = secure_filename(f'{user_to_create.id}.png')
+            filename = secure_filename(f'{user_to_create.id}.jpg')
             # path = f"open_science/{app.config['PROFILE_IMAGE_URL']}{filename}"
             path = os.path.join(Config.ROOTDIR, "open_science/static/res/profileImages", filename)
             img = Image.open(f)
             img = img.resize((256, 256))
-            img.save(path, "PNG")
+            img.save(path, format="JPEG", quality=90)
             user_to_create.has_photo = True
 
         db.session.commit()
@@ -321,7 +321,7 @@ def edit_profile_page():
 
         f = form.profile_image.data
         if f:
-            filename = secure_filename(f'{current_user.id}.png')
+            filename = secure_filename(f'{current_user.id}.jpg')
             # path = f"open_science/{app.config['PROFILE_IMAGE_URL']}{filename}"
             path = os.path.join(Config.ROOTDIR, "open_science/static/res/profileImages", filename)
             if current_user.has_photo:
@@ -329,7 +329,7 @@ def edit_profile_page():
 
             img = Image.open(f)
             img = img.resize((256, 256))
-            img.save(path, "PNG")
+            img.save(path, format="JPEG", quality=90)
 
             current_user.has_photo = True
 

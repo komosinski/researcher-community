@@ -4,6 +4,7 @@ from open_science.admin import MyAdminIndexView
 from open_science.extensions import db, login_manager, \
     bcrypt, mail, limiter, admin, migrate, scheduler
 from config.config import Config
+import atexit
 
 
 def register_extensions(app):
@@ -41,3 +42,10 @@ app = create_app()
 # (we can also refactor the code to use blueprints to get rid of this import)
 from open_science import routes, models
 
+# also importing add_scheduler_jobs earlier causes circular imports
+from open_science.schedule.schedule import add_scheduler_jobs
+if app.config['START_SCHEDULER'] is True and scheduler.running is False:
+    scheduler.start()
+    atexit.register(lambda: scheduler.shutdown())
+    add_scheduler_jobs()
+    print("Scheduler is running")

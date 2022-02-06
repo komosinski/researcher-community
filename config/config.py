@@ -1,24 +1,18 @@
 import os
 from dotenv import load_dotenv
-# TODO: Remove it in the future
-try:
-    from config.config_db import DATABASE_URI
-except ImportError or ModuleNotFoundError:
-    DATABASE_URI = None
-    print('If you have not set an environment variable\
-         SQLALCHEMY_DATABASE_URI , set it')
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
-
 
 class Config(object):
 
     #  TODO: Delete/Hide some default config values like KEYs in the future
 
     SERVER_NAME = os.environ.get('SERVER_NAME') or '127.0.0.1:5000'
+
+    # 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'SQLALCHEMY_DATABASE_URI') or DATABASE_URI
+        'SQLALCHEMY_DATABASE_URI') or "postgresql://postgres:buraczek@localhost:5432/open_science"
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or '88d74de749c87a6b38400d2c3e62e802'
     SECURITY_PASSWORD_SALT = os.environ.get(
@@ -43,6 +37,8 @@ class Config(object):
         'RECAPTCHA_PUBLIC_KEY') or '6Ldr23IdAAAAAAdwsCoT1r6NIpdmpyzxOaafY8fP'
     RECAPTCHA_PRIVATE_KEY = os.environ.get(
         'RECAPTCHA_PRIVATE_KEY') or '6Ldr23IdAAAAAHcZdWkjR4IWLcr3qpp6_i-N_xeT'
+
+    START_SCHEDULER = True
 
     # Mail Limit = ML
     # per day
@@ -94,6 +90,13 @@ class Config(object):
     REVIEWER_WORKOLOAD_ON_DAYS = int(os.environ.get(
         'REVIEWER_WORKOLOAD_ON_DAYS') or 365)
 
+    # the maximum number of reviews a user can request
+    MAX_CONFIDECNE_LEVEL = int(os.environ.get(
+        'MAX_CONFIDECNE_LEVEL') or 3)
+
+    # project directory path
+    ROOTDIR = "./"
+
     # Url to processing text dictionary
     DICTIONARY_URL = './server_files/generated_files/dictionary'
 
@@ -106,19 +109,13 @@ class Config(object):
     # Url to processing text users plot
     USERS_PLOT_URL = './open_science/static/res/users_plot'
 
-    # the maximum number of reviews a user can request
-    MAX_CONFIDECNE_LEVEL = int(os.environ.get(
-        'MAX_CONFIDECNE_LEVEL') or 3)
-
     # Url to pdfs folder
     PDFS_FOLDER_URL = '/static/articles/'
 
     # Full url to pdfs folder
     PDFS_FOLDER_FULL_URL = 'open_science/static/articles/'
 
-    # project directory path
-    ROOTDIR = "/home/marek/studia/inżynierka4"
-    
     # url of profile pics directory
     PROFILE_IMAGE_URL = os.environ.get(
         'PROFILE_IMAGE_URL') or '/static/res/profileImages/'
+

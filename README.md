@@ -132,13 +132,7 @@ Linux setup
         import nltk
         [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
      
-9. Create config_db.py file in the config/ directory which must contain database uri to your DB.
-
-        DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
- 
-    or set Flask enviroment variable: 
-     
-        export SQLALCHEMY_DATABASE_URI = 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
+9. Setup configuration file   config/config.py (mainly ROOTDIR and DATABASE_URI)
       
 10. Create tables in the database
 
@@ -189,9 +183,6 @@ If running the flask server, on Linux in your virtual environment type:
         flask run
  
 On Windows you can do the same, but remember to use WSL.
-
-The jobs scheduler is turned off by default.
-To start the scheduler, you need to go to the address /admin and click 'Start scheduler' button.
 
 
 Initializing test data

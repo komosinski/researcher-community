@@ -97,6 +97,22 @@ def daily_jobs():
     prepare_and_send_review_requests()
 
 
+def add_scheduler_jobs():
+    scheduler.add_job(
+        id='Monthly jobs',
+        func=monthly_jobs,
+        start_date='2022-1-1 03:00:00',
+        trigger='interval',
+        days=31)
+
+    scheduler.add_job(
+        id='Daily jobs',
+        func=daily_jobs,
+        start_date='2022-1-1 03:30:00',
+        trigger='interval',
+        days=1)
+
+
 def run_scheduler():
 
     if scheduler.running:
@@ -106,18 +122,7 @@ def run_scheduler():
         print("Starting Scheduler Instance")
         flash('Scheduler has been started', category='success')
         # Two schedulers will be launched when Flask is in debug mode
+        # to prevent this you can disable reloader: app.run(use_reloader=False)
         scheduler.start()
         atexit.register(lambda: scheduler.shutdown())
-        scheduler.add_job(
-            id='Monthly jobs',
-            func=monthly_jobs,
-            start_date='2022-1-1 03:00:00',
-            trigger='interval',
-            days=31)
-
-        scheduler.add_job(
-            id='Daily jobs',
-            func=daily_jobs,
-            start_date='2022-1-1 03:30:00',
-            trigger='interval',
-            days=1)
+        add_scheduler_jobs()

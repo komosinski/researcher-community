@@ -25,8 +25,7 @@
                     <span class="notif-counter">99+</span>
                     {% endif %}
                 </div>
-                <!-- <img class="author-profile-pic" src="{{config['PROFILE_IMAGE_URL']~current_user.get_id()~'.png' if current_user.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}"/> -->
-                <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.png') if current_user.has_photo else url_for('static',filename='res/profileImages/img.png')}}" />
+                <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" />
                 <a class="author-name header-username" href="{{url_for('profile_page', user_id=current_user.get_id()|int)}}">{{current_user.first_name + " " + current_user.second_name}}</a>
                 |
                 <a href="{{ url_for('logout_page') }}"><i class="fas fa-sign-out-alt fa-center logout-icon" ></i></a>

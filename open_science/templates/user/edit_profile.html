@@ -10,7 +10,7 @@
            Edit account
         </h1>
         <div class="profile-pic-selection-wrapper">
-            <img src="{{config['PROFILE_IMAGE_URL']~current_user.id~'.png' if current_user.has_photo else config['PROFILE_IMAGE_URL']~'img.png'}}" class="edit-profile-picture" />
+            <img src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="edit-profile-picture" />
             <div class="profile-edit-input-wrapper">
                 <div clas="label-wrapper">{{ form.profile_image.label()}}</div>
                 <div class="input-wrapper">{{ form.profile_image()}}</div>
