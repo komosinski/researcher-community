@@ -75,13 +75,13 @@ TODO high-level description of what is where, what purpose, directories, modules
 
 ------------------
 
-Directories that should be accessible via server: (TODO list of minimal permissions as `chmod` commands)
+Directories that should be accessible via server:
 
-   1. `open_science/static/fonts` `chmod +r`
-   2. `open_science/static/styles` `chmod +r`
-   3. `open_science/static/articles` `chmod +rw`
-   4. `open_science/static/res` `chmod +rw`
-   5. `open_science/static/res/profileImages` `chmod +rw`
+   1. `chmod +r open_science/static/fonts`
+   2. `chmod +r open_science/static/styles`
+   3. `chmod +rw open_science/static/articles`
+   4. `chmod +rw open_science/static/res`
+   5. `chmod +rw open_science/static/res/profileImages`
 
 ------------------
 
