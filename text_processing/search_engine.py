@@ -29,10 +29,12 @@ def get_similar_users_to_user(user_id, users_dict_id):
 
 
 def get_similar_articles_to_articles(article_id, articles_id_list):
+    similar_ranking = []
     matrix = get_similarities_matrix()
     article_index = articles_id_list.index(article_id)
-    similar_ranking = [b[0] for b in sorted(enumerate(matrix[int(article_index)]), key=lambda i: i[1], reverse=True)]
-    similar_ranking = similar_ranking[1:]
+    if len(articles_id_list) > 0 and len(matrix) > 0 and article_index < len(matrix):
+        similar_ranking = [b[0] for b in sorted(enumerate(matrix[int(article_index)]), key=lambda i: i[1], reverse=True)]
+        similar_ranking = similar_ranking[1:]
     return similar_ranking
 
 

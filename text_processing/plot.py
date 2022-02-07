@@ -22,7 +22,7 @@ def create_save_users_plot():
     for array in user_matrix:
         if array != []:
             users_with_articles.append(array)
-    if users_with_articles != []:
+    if len(users_with_articles) > 1:
         pca = PCA(n_components=2, whiten=False, random_state=42)
         standardized_pca = pca.fit_transform(users_with_articles)
         plt.scatter(standardized_pca[:, 0], standardized_pca[:, 1])
@@ -30,6 +30,6 @@ def create_save_users_plot():
         ax.axes.yaxis.set_visible(False)
         users_plot_url = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_URL'])
         plt.savefig(users_plot_url, dpi=200)
-        plt.close(fig)
+    plt.close(fig)
 
     # 3D version
