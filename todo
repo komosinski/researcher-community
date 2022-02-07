@@ -11,8 +11,6 @@ nicer css, also tested on mobile
 
 reviewer remarks movable up/down (reorder'able)
 
-revision answers assigned to reviewer remarks (missing key value is treated as the assignment to no particular remark)
-
 database benchmarks with more realistic and complete, generated data (not just "users" and name lookup)
 
 "Individual paper page" looking just like in the specification, also URLs just like in spec

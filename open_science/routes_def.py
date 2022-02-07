@@ -207,10 +207,23 @@ def upload_revision(id):
     if current_user not in previous_version.rel_creators:
         abort(401)
     
-    form = PaperRevisionUploadForm()
+    # to prepare fields to answer review suggestions:
+    reviews = previous_version.get_published_reviews_list()
+    suggestions = []
+    for review in reviews:
+        for suggestion in review.rel_suggestions:
+            suggestions.append(suggestion)
+
+    form = PaperRevisionUploadForm(suggestion_answers=[{} for i in range(len(suggestions))])
 
     if parent_paper is None:
         abort(404)
+
+    # to prepare fields to answer review suggestions:
+    for i, suggestion in enumerate(suggestions):
+        form.suggestion_answers[i].answer.description = suggestion.suggestion
+        form.suggestion_answers[i].suggestion_id.data = suggestion.id
+
 
     if form.validate_on_submit():
         print(form.data)
@@ -268,6 +281,15 @@ def upload_revision(id):
             change_description=change['suggestion'],
             location=change['location']
         ) for change in json.loads(form.changes.data)]
+
+        # add answers to review suggestions
+        for i, suggestion in enumerate(suggestions):
+            if form.suggestion_answers[i].answer.data:
+                review_answer = RevisionChangesComponent(
+                    change_description=form.suggestion_answers[i].answer.data,
+                    rel_review_suggestion=suggestion
+                )
+                changes.append(review_answer)
 
         new_version.rel_changes = changes
 

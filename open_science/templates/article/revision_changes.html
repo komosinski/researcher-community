@@ -5,32 +5,33 @@
 </div>
 
 <h5>Remarks of all the reviewers:</h5>
-{% for review in previous_revision.rel_related_reviews%}
+{% for review in previous_revision.get_published_reviews_list()%}
+    {% if not review.is_hidden%}
+        {% if review.is_anonymous %}
+        <strong>Anonymous reviewer:</strong>
+        {% else %}
+        <strong>{{review.rel_creator.first_name}} {{review.rel_creator.second_name}}:</strong>
+        {% endif%}
+    
+        <br>
 
-    {% if review.is_anonymous %}
-    <strong>Anonymous reviewer:</strong>
-    {% else %}
-    <strong>{{review.rel_creator.first_name}} {{review.rel_creator.second_name}}:</strong>
-    {% endif%}
-  
-    <br>
-
-    {% for suggestion in review.rel_suggestions%}
-        <div class="comment-20 comment">
-            {{suggestion.suggestion}}
+        {% for suggestion in review.rel_suggestions%}
+            <div class="comment-20 comment">
+                {{suggestion.suggestion}}
+                <br>
+                <strong>Location: </strong>{{suggestion.location}}
+            </div>
             <br>
-            <strong>Location: </strong>{{suggestion.location}}
-        </div>
-        <br>
-        <div class="comment-by-author comment revision_changes">
-            {% if suggestion.rel_revision_change_component %}
-                {{suggestion.rel_revision_change_component}}
-            {% else %}
-                (no response)
-            {% endif %}
-        </div>
-        <br>
-    {% endfor %}
+            <div class="comment-by-author comment revision_changes">
+                {% if suggestion.rel_revision_change_component.change_description %}
+                    {{suggestion.rel_revision_change_component.change_description}}
+                {% else %}
+                    (no response)
+                {% endif %}
+            </div>
+            <br>
+        {% endfor %}
+    {% endif %}
 {% endfor %}
 
 

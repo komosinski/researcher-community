@@ -1,11 +1,12 @@
 from flask_wtf.file import FileAllowed, FileRequired
 from wtforms.fields.core import SelectField, BooleanField
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField
+from wtforms import StringField, SubmitField, TextAreaField,\
+     FormField, FieldList
 from wtforms.fields.simple import FileField, HiddenField
 from wtforms.validators import Length, DataRequired, Optional, StopValidation
 import config.models_config as mc
-from open_science.models import MessageTopic
+from open_science.models import MessageTopic, Suggestion
 from open_science import strings as STR
 
 def validate_review(form, field):
@@ -13,6 +14,14 @@ def validate_review(form, field):
         if not field.data:
             raise StopValidation("You need to provide a confidence level \
                 if you want your paper reviewed")
+
+
+class TemplateReviewAnswer(FlaskForm):
+    answer = TextAreaField(label='Your answer',
+                           validators=[Optional(),
+                                       Length(max=mc.S_SUGGESTION_L)])
+    suggestion_id = HiddenField()
+    
 
 
 class PaperRevisionUploadForm(FlaskForm):
@@ -32,6 +41,10 @@ class PaperRevisionUploadForm(FlaskForm):
                     validators=[validate_review, Optional()])
 
     changes = HiddenField()
+
+    suggestion_answers = FieldList(FormField(TemplateReviewAnswer),
+                                   min_entries=0,
+                                   validators=[Optional()])
 
     submitbtn = SubmitField("Upload")
 
