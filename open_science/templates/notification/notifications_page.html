@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/notification.css')}}" />
+{% endblock %}
+
 {% block content %}
 
-<div>
+<div class='notifications-wrapper'>
     <h2>Notifications</h2>
     
         <a class="link-button  {% if unread != 'True' %}pressed{% endif %}"
@@ -10,6 +15,8 @@
         <a class="link-button  {% if unread == 'True' %}pressed{% endif %}"
         href="{{ url_for('notifications_page', page=1, unread='True') }}">UNREAD</a>
 
+        <br><br>
+        
         {% for notification in results.items%}
             {% with item=notification%}
                 {% include 'notification/notification_item.html' %}

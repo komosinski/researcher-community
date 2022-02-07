@@ -1,0 +1,15 @@
+.notif_item {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 35%;
+}
+
+.notif_was_seen {
+    background-color: rgb(200, 200, 210);
+}
+
+.notif_not_seen {
+    background-color: rgb(240, 240, 255);
+}

@@ -22,14 +22,14 @@
     </a>
 
     <br><br>
-    <h4>Maintenace mode</h4>
+    <h4>Maintenance mode</h4>
     {% if config['MAINTENANCE_MODE'] %}
         <a href="{{url_for('disable_maintenance_mode')}}">
-            <button type="button" class="btn">Disable maintenace mode</button>
+            <button type="button" class="btn">Disable Maintenance Mode</button>
         </a>
     {% else %}
         <a href="{{url_for('enable_maintenance_mode')}}">
-            <button type="button" class="btn">Enable maintenace mode</button>
+            <button type="button" class="btn">Enable Maintenance Mode</button>
         </a>
     {% endif %}    
 {% else %}
