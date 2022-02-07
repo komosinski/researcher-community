@@ -4,7 +4,7 @@
             <div class="">
                 <h4></h4>
                 <p><strong>Name: </strong><a href="{{url_for('tag_page',tag_name=item.name)}}">{{item.name}}</a></p>
-                <p><strong>Deadline: </strong>{{item.deadline}}</p>
+                <p><strong>Deadline: </strong>{{moment(item.deadline).format('LLLL') if item.deadline else 'Not set'}}</p>
                 <p><strong>Description: </strong>{{item.description}}</p>
             </div>
         </div>

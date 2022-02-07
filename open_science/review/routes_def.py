@@ -14,7 +14,6 @@ from open_science.notification.helpers import add_new_review_notification
 
 
 def review_request_page(request_id):
-    # TODO: show paper abstract ...
     if not check_numeric_args(request_id):
         abort(404)
 
@@ -155,7 +154,6 @@ def review_edit_page(review_id):
 
     data = {
         'is_published': review.is_published(),
-        # TODO: change 2nd link to anonymized version
         'paper_url':
             url_for('anonymous_article_page',
                     id=review.rel_related_paper_version.parent_paper,

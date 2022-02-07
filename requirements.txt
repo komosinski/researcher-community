@@ -20,6 +20,7 @@ python-dotenv>=0.19.2
 Pillow>=9.0.0
 sqlalchemy-utils >= 0.38.2
 pytest~=6.2.5
+Flask-Moment~=1.0.2
 
 # text_processing module
 pdftotext>=2.2.2

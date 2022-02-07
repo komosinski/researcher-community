@@ -26,7 +26,7 @@
 
             <div>Verified email at {{user.email.split('@')[1]}}</div>
 
-            <div>Last seen: {{ user.last_seen.strftime("%Y-%m-%d %H:%M") if user.last_seen else 'never'  }}</div>
+            <div>Last seen: {{ moment(user.last_seen).fromNow() if user.last_seen else 'never'  }}</div>
 
             {% if user.orcid%}
                 <div>ORCID: {{user.get_orcid()}}</div>

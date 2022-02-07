@@ -21,7 +21,6 @@ def create_notification(type_id, text, user, action_url):
     db.session.commit()
 
 
-# TODO: add scroll to comment's div in url
 def create_paper_comment_notifications(paper_revision, comment, comment_creator_id):
 
     # get paper creators

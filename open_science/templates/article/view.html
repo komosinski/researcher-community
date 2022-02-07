@@ -311,9 +311,9 @@
              {% for version in  article.rel_parent_paper.rel_related_versions %}
                 <div>
                     {% if version.version == article.version %}
-                        <p style="margin: 0">{{version.publication_date}}</p>
+                        <p style="margin: 0">v{{version.version}} {{moment(version.publication_date).format('LLL')}}</p>
                     {%else%}
-                        <a href="{{url_for('article', id=article.parent_paper, version=version.version)}}">{{version.publication_date}}</a>
+                        <a href="{{url_for('article', id=article.parent_paper, version=version.version)}}">v{{version.version}} {{moment(version.publication_date).format('LLL')}}</a>
                     {%endif%}
                 </div>
              {% endfor %}

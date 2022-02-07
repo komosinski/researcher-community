@@ -10,7 +10,8 @@
                             <a href="{{url_for('profile_page', user_id=a.id)}}"> {{a.first_name}} {{a.second_name}} </a>
                         {% endfor %}
                 </p>
-                <p><strong>publication date: </strong>{{item.publication_date}}</p>
+                <p><strong>publication date: </strong>{{moment(item.publication_date).format('LL')}}</p>
+
             </div>
         </div>
     </article>

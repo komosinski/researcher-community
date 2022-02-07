@@ -4,7 +4,7 @@
 <div class="notif_item {{'notif_was_seen' if item.was_seen else 'notif_not_seen'}}" onclick="location.href='{{url}}';"style="cursor: pointer;">
     <p><strong>{{item.title}}</strong></p>
     <p>{{item.text}}</p>
-    <p>{{item.datetime}}</p>
+    <p>{{moment(item.datetime).format('LLLL')}}</p>
 </div>
 
 

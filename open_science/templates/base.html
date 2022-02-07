@@ -11,12 +11,14 @@
     {% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/76299a18fd.js" crossorigin="anonymous"></script>
-   
+
     <script>
         const delete_flash = (flash) => {
             $(flash).parent().remove();
         }
     </script>
+    {{ moment.include_moment() }}
+    
     {% block scripts %}
     {% endblock %}
     <title>OpenScience</title>

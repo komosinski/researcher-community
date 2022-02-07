@@ -16,7 +16,6 @@ from flask import request
 
 @app.before_request
 def before_req():
-    print(request.endpoint)
     if app.config['MAINTENANCE_MODE'] is True \
         and request.endpoint != 'admin.index' \
             and request.endpoint != 'disable_maintenance_mode':
@@ -42,13 +41,13 @@ def home_page():
     return rd.home_page()
 
 
-@limiter.limit("2 per second")
+@limiter.limit("3 per second")
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     return user_rd.register_page()
 
 
-@limiter.limit("2 per second")
+@limiter.limit("3 per second")
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     return user_rd.login_page()

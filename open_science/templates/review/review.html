@@ -137,7 +137,7 @@
 
     <h2><a href="{{data['paper_url']}}">{{data['paper_title']}}'s</a> Review</h2>
     <div>
-        {{review.publication_datetime}}
+        {{moment(review.publication_datetime).format('LLL')}}
     </div>
 
     <h4>Author: 

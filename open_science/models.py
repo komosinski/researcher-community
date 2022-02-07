@@ -3,7 +3,6 @@ from flask import Markup
 from sqlalchemy import Table, DDL, event, Sequence
 from sqlalchemy.orm import validates
 from operator import and_, or_
-
 from open_science.db_queries import q_update_comment_score, q_update_user_red_flags_count, q_update_tag_red_flags_count, \
     q_update_review_red_flags_count, q_update_user_reputation, q_update_revision_red_flags_count, \
     q_update_comment_red_flags_count, q_update_revision_averages, qt_update_comment_score, qt_update_user_reputation, \
@@ -485,12 +484,6 @@ class Paper(db.Model):
     def get_latest_revision(self):
         return max(self.rel_related_versions, key=lambda v: v.version)
 
-    # TODO: I think this new dict conversion will be better and should maintain backwards compatibility
-    # However, in case of problems just uncomment the old version below
-    # def to_dict(self):
-    #     return {
-    #         'id': self.id
-    #     }
     def to_dict(self):
         return {
             'id': self.id,

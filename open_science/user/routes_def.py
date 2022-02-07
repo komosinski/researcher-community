@@ -74,7 +74,7 @@ def register_page():
         if user_to_create:
             user_to_create.first_name = form.first_name.data
             user_to_create.second_name = form.second_name.data
-            user_to_create.plain_text_password = form.password.data
+            user_to_create.password = form.password.data
             user_to_create.affiliation = form.affiliation.data
             user_to_create.orcid = form.orcid.data
             user_to_create.google_scholar = form.google_scholar.data
@@ -99,8 +99,8 @@ def register_page():
                                   notifications_frequency=form.
                                   notifications_frequency.data,
                                   registered_on=dt.datetime.utcnow())
-            user_to_create.rel_privileges_set = ps_standard_user
-        # TODO: check if .add should fire when user already exists
+            
+        user_to_create.rel_privileges_set = ps_standard_user
         db.session.add(user_to_create)
         db.session.flush()
 

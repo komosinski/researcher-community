@@ -2,7 +2,7 @@ from re import L
 from flask import Flask
 from open_science.admin import MyAdminIndexView
 from open_science.extensions import db, login_manager, \
-    bcrypt, mail, limiter, admin, migrate, scheduler
+    bcrypt, mail, limiter, admin, migrate, scheduler, moment
 from config.config import Config
 import atexit
 
@@ -22,7 +22,7 @@ def register_extensions(app):
     admin.template_mode = 'bootstrap4'
     migrate.init_app(app, db)
     scheduler.init_app(app)
-
+    moment.init_app(app)
 
 def create_app(config_class=Config):
 

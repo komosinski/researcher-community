@@ -15,7 +15,7 @@
     <br>
 
     <div>
-        Deadline: {{tag.deadline}}
+        Deadline: {{moment(tag.deadline).format('LLLL') if tag.deadline else 'Not set'}}
     </div>
 
     <br>
