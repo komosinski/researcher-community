@@ -632,3 +632,13 @@ def force_daily_jobs():
 def start_scheduler():
     schedule.run_scheduler()
     return redirect(url_for('home_page'))
+
+
+def enable_maintenance_mode():
+    app.config.update(MAINTENANCE_MODE=True)
+    return redirect(url_for('home_page'))
+
+
+def disable_maintenance_mode():
+    app.config.update(MAINTENANCE_MODE=False)
+    return redirect(url_for('home_page'))

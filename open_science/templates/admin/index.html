@@ -2,9 +2,12 @@
 
 {% block body%}
 
+
+
+
+
 {% if current_user.is_authenticated and current_user.is_admin()%}
     <h2>Open science administration panel</h2>
-
     <br><br>
     <h4>Scheduler</h4>
     <br>
@@ -18,6 +21,17 @@
     <button type="button" class="btn">Force daily jobs</button>
     </a>
 
+    <br><br>
+    <h4>Maintenace mode</h4>
+    {% if config['MAINTENANCE_MODE'] %}
+        <a href="{{url_for('disable_maintenance_mode')}}">
+            <button type="button" class="btn">Disable maintenace mode</button>
+        </a>
+    {% else %}
+        <a href="{{url_for('enable_maintenance_mode')}}">
+            <button type="button" class="btn">Enable maintenace mode</button>
+        </a>
+    {% endif %}    
 {% else %}
     <h3>You must be an administrator to access this page</h3>
 {%endif%}

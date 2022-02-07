@@ -11,15 +11,15 @@ from flask_login import login_required, fresh_login_required
 from open_science import limiter
 from flask import render_template
 from threading import Thread
-
-
-# TODO: remove this temporary variable and read the state from another source
-VAR = False
+from flask import request
 
 
 @app.before_request
 def before_req():
-    if VAR:
+    print(request.endpoint)
+    if app.config['MAINTENANCE_MODE'] is True \
+        and request.endpoint != 'admin.index' \
+            and request.endpoint != 'disable_maintenance_mode':
         return render_template("maintenance.html")
 
 
@@ -348,5 +348,20 @@ def force_daily_jobs():
 @app.route('/admin/start_scheduler')
 def start_scheduler():
     return rd.start_scheduler()
+
+
+@app.route('/enable_maintenance')
+@login_required
+@rd.admin_required
+def enable_maintenance_mode():
+    return rd.enable_maintenance_mode()
+
+
+@app.route('/disable_maintenance')
+@login_required
+@rd.admin_required
+def disable_maintenance_mode():
+    return rd.disable_maintenance_mode()
+
 
 

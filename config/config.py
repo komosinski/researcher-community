@@ -40,6 +40,8 @@ class Config(object):
 
     START_SCHEDULER = True
 
+    MAINTENANCE_MODE = False
+
     # Mail Limit = ML
     # per day
     CONFIRM_REGISTRATION_ML = int(
