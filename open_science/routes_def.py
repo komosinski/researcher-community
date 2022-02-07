@@ -3,8 +3,12 @@ from sqlalchemy.sql.elements import and_
 from werkzeug.utils import secure_filename
 from config.config import Config
 from open_science import db, app
-from open_science.models import CalibrationPaper, Comment, License, Paper, PaperRevision, Review, RevisionChangesComponent, Tag, User, MessageToStaff, VoteComment
-from open_science.forms import AdvancedSearchPaperForm, AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, FileUploadForm, CommentForm, PaperRevisionUploadForm
+from open_science.models import CalibrationPaper, Comment, License,\
+    Paper, PaperRevision, Review, RevisionChangesComponent, Tag, \
+    User, MessageToStaff, VoteComment
+from open_science.forms import AdvancedSearchPaperForm, \
+    AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, \
+    FileUploadForm, CommentForm, PaperRevisionUploadForm
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, abort, request
 import datetime as dt
@@ -22,6 +26,7 @@ import text_processing.similarity_matrix as sm
 from open_science import strings as STR
 import open_science.schedule.schedule as schedule
 from open_science.extensions import scheduler
+from operator import or_
 
 # Routes decorator
 def researcher_user_required(func):
@@ -642,3 +647,23 @@ def enable_maintenance_mode():
 def disable_maintenance_mode():
     app.config.update(MAINTENANCE_MODE=False)
     return redirect(url_for('home_page'))
+
+
+def revision_changes_page(id, version):
+    if check_numeric_args(id, version) is False:
+        abort(404)
+
+    paper_revision = PaperRevision.query\
+        .filter(PaperRevision.parent_paper == int(id),
+                PaperRevision.version == int(version)).first()
+
+    previous_revision = PaperRevision.query\
+        .filter(PaperRevision.parent_paper == int(id),
+                PaperRevision.version == int(version)-1).first()
+
+    if not paper_revision or not previous_revision:
+        abort(404)
+    
+    return render_template('article/revision_changes.html',
+                           paper_revision=paper_revision,
+                           previous_revision=previous_revision)

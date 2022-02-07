@@ -19,9 +19,6 @@ from open_science.enums import UserTypeEnum, EmailTypeEnum, \
     NotificationTypeEnum, MessageTopicEnum, LicenseEnum
 from config.auto_endorse_config import EMAIL_REGEXPS
 import re
-
-# from text_processing.search_engine import se.get_similar_articles_to_articles, get_similar_users_to_article, \
-#     get_similar_users_to_user
 import text_processing.search_engine as se
 
 
@@ -1111,6 +1108,8 @@ class Suggestion(db.Model):
 
     # relationships
     rel_review = db.relationship("Review", back_populates="rel_suggestions")
+    rel_revision_change_component = db.relationship("RevisionChangesComponent",
+     back_populates='rel_review_suggestion', uselist=False)
 
     def to_dict(self):
         return {
@@ -1169,10 +1168,13 @@ class RevisionChangesComponent(db.Model):
     # foreign keys
     paper_revision = db.Column(db.Integer, db.ForeignKey(
         'paper_revisions.id'))
+    review_suggestion_id = db.Column(db.Integer, db.ForeignKey('suggestions.id'))
 
     # relationships
     rel_paper_revision = db.relationship(
         "PaperRevision", back_populates="rel_changes")
+
+    rel_review_suggestion = db.relationship("Suggestion", back_populates="rel_revision_change_component", uselist=False)
 
 
 class VoteComment(db.Model):

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h4><a href="{{url_for('article', id=paper_revision.parent_paper, version=paper_revision.version)}}">{{paper_revision.title}}'s</a> changes in revision {{paper_revision.version}}</h4>
+</div>
+
+<h5>Remarks of all the reviewers:</h5>
+{% for review in previous_revision.rel_related_reviews%}
+
+    {% if review.is_anonymous %}
+    <strong>Anonymous reviewer:</strong>
+    {% else %}
+    <strong>{{review.rel_creator.first_name}} {{review.rel_creator.second_name}}:</strong>
+    {% endif%}
+  
+    <br>
+
+    {% for suggestion in review.rel_suggestions%}
+        <div class="comment-20 comment">
+            {{suggestion.suggestion}}
+            <br>
+            <strong>Location: </strong>{{suggestion.location}}
+        </div>
+        <br>
+        <div class="comment-by-author comment revision_changes">
+            {% if suggestion.rel_revision_change_component %}
+                {{suggestion.rel_revision_change_component}}
+            {% else %}
+                (no response)
+            {% endif %}
+        </div>
+        <br>
+    {% endfor %}
+{% endfor %}
+
+
+<h5>Unconnected changes:</h5>
+
+{% for change in paper_revision.rel_changes%}
+        {% if not change.rel_review_suggestion %}
+        <div class="comment-by-author comment revision_changes">
+        
+                {{change.change_description}}
+                <br>
+                <strong>Location: </strong>{{change.location}}
+          
+        </div>
+        <br>
+        {% endif %}
+{% endfor %}
+
+
+{% endblock %}

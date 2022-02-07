@@ -363,4 +363,11 @@ def disable_maintenance_mode():
     return rd.disable_maintenance_mode()
 
 
+@app.route('/paper/<id>/changes/<version>')
+def revision_changes_page(id, version):
+    return rd.revision_changes_page(id, version)
+
+
+
+
 
