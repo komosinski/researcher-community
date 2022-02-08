@@ -4,7 +4,7 @@ from open_science.models import Tag
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request, abort
 from open_science.routes_def import check_numeric_args
-
+import datetime as dt
 
 def create_tag_page():
 
@@ -20,7 +20,8 @@ def create_tag_page():
             name=form.name.data,
             description=form.description.data,
             deadline=form.deadline.data,
-            creator=current_user.id
+            creator=current_user.id,
+            creation_date=dt.datetime.utcnow().date()
         )
         db.session.add(tag)
         db.session.commit()
