@@ -776,6 +776,7 @@ class Review(db.Model):
         else:
             return False
 
+
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
 
