@@ -26,7 +26,7 @@
 <div class="user-profile-wrapper">
     <div class="user-profile-header">
         <div class="profile-picture-wrapper">
-            <img src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="profile-picture" />
+            <img src="{{url_for('static',filename='res/profileImages/'~user.get_id()~'.jpg') if user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="profile-picture" />
         </div>
         <div class="user-info-wrapper">
             <div class="username-wrapper">
@@ -104,6 +104,15 @@
             </div>
         {% endif %}
     {% endif %}
+
+
+    {% if current_user.is_authenticated and current_user.is_standard_user() %}
+        <div>
+            <h3>Note: You must be a researcher to publish articles and gain access to other features. More information: <a href="{{url_for('help_page')}}">Help</a> </h3>
+           
+        </div>
+    {% endif %}
+
 
 
     <div>

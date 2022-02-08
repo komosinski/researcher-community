@@ -282,6 +282,12 @@ class User(db.Model, UserMixin):
         else:
             return False
 
+    def is_standard_user(self):
+        if self.privileges_set == UserTypeEnum.STANDARD_USER.value:
+            return True
+        else:
+            return False
+
     def endorse(self):
         if self.privileges_set < UserTypeEnum.RESEARCHER_USER.value:
             self.rel_privileges_set = PrivilegeSet.query.filter(

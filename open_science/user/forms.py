@@ -111,7 +111,11 @@ class RegisterForm(FlaskForm):
                                    validators=[
                                                Length(max=mc.USER_PERSONAL_WEBSITE_L),
                                                Optional()])
-    review_mails_limit = SelectField(choices=[1, 2, 3, 4, 0])
+    review_mails_limit = SelectField(choices=[(1, '1'),
+                                              (2, '2'),
+                                              (3, '3'),
+                                              (4, '4'),
+                                              (0, 'I don\'t want to participate in peer review')])
     notifications_frequency = SelectField(choices=[(
         1, '1 day'), (3, '3 days'), (7, '1 week'),
         (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
@@ -220,7 +224,11 @@ class EditProfileForm(FlaskForm):
                                                Length(
                                                       max=mc.USER_PERSONAL_WEBSITE_L),
                                                Optional()])
-    review_mails_limit = SelectField(choices=[1, 2, 3, 4, 0])
+    review_mails_limit = SelectField(choices=[(1, '1'),
+                                              (2, '2'),
+                                              (3, '3'),
+                                              (4, '4'),
+                                              (0, 'I don\'t want to participate in peer review')])
     notifications_frequency = SelectField(choices=[
         (1, '1 day'), (3, '3 days'), (7, '1 week'), (14, '2 weeks'),
         (30, '1 month'), (0, 'Never')])
