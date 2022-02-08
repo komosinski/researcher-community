@@ -54,6 +54,7 @@ def search_articles_by_text(search_text, articles_id_list):
 # in: id of article, users id and their articles id dictionary
 # out: list of users similar to article
 def get_similar_users_to_article(article_id, users_dict_id):
+    ranking = []
     matrix = get_similarities_matrix()
     key_list = list(users_dict_id.keys())
     val_list = list(users_dict_id.values())
