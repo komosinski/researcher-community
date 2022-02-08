@@ -8,6 +8,17 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     $(document).ready(function () {
+        $("#flag").click( function(e) {
+            console.log('reee');
+            e.preventDefault();
+            const aid = {{article.parent_paper}};
+            $.post(`/paper/${aid}/flag`, function() {
+                alert("Paper has been reported. Thanks for letting us know.")
+            }).fail(function() {
+                alert("Error");
+            });
+        });
+
         $(".comment").on('click', '.reply-action', function() {
             const id = $(this).parents().closest('.comment').attr('id');
             $("#reply-info").html(`Replying to <a href="#${id}">#${id}</a>`)
@@ -25,6 +36,16 @@
             //e.preventDefault();
             console.log($("#comment_ref").val());
         })
+        
+        $(".comment").on('click', '.flag-comment', function(e) {
+            e.preventDefault();
+            const id = $(this).parents().closest('.comment').attr('id').substring(1);
+            $.post(`/comment/${id}/flag`, function() {
+                alert("Comment has been reported. Thanks for letting us know.")
+            }).fail(function() {
+                alert("An error occured");
+            });
+        });
 
         $(".comment").on('click', '.like-icon', function(e) {
             e.preventDefault();
@@ -138,6 +159,11 @@
     <div class="article-page">
         <div class="article-info-wrapper">
             <h2 class="article-title">{{article.title}}</h2>
+            {% if current_user.is_authenticated %}
+            <div class="flag-wrapper">
+                <a href="#" id="flag">Flag this comment</a>
+            </div>
+            {%endif%}
             <div class="stats-wrapper">
                 <div class="stats-element-wraper">
                     <a href="/login" class="linked-icon">
@@ -261,9 +287,13 @@
                     <div class="comment-text-wrapper">
                         {{comment.text}}
                     </div>
+                    {%if current_user.is_authenticated%}
                     <div class="reply-action-wrapper">
                         <a href="#add-comment" class="reply-action">Reply</a>
+                        |
+                        <a href="#" class="flag-comment">Flag</a>
                     </div>
+                    {%endif%}
                 </div>
             {%endwith%}
             {%endfor%}

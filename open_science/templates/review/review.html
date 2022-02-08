@@ -6,6 +6,16 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     $(document).ready(function () {
+        $(".comment").on('click', '.flag-comment', function(e) {
+            e.preventDefault();
+            const id = $(this).parents().closest('.comment').attr('id').substring(1);
+            $.post(`/comment/${id}/flag`, function() {
+                alert("Comment has been reported. Thanks for letting us know.")
+            }).fail(function() {
+                alert("An error occured");
+            });
+        });
+
         $(".comment").on('click', '.reply-action', function() {
             const id = $(this).parents().closest('.comment').attr('id');
             $("#reply-info").html(`Replying to <a href="#${id}">#${id}</a>`)
@@ -283,9 +293,13 @@
                 <div class="comment-text-wrapper">
                     {{comment.text}}
                 </div>
+                {%if current_user.is_authenticated%}
                 <div class="reply-action-wrapper">
                     <a href="#add-comment" class="reply-action">Reply</a>
+                    |
+                    <a href="#" class="flag-comment">Flag</a>
                 </div>
+                {%endif%}
             </div>
         {%endwith%}
         {%endfor%}

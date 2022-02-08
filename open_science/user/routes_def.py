@@ -111,6 +111,7 @@ def register_page():
             filename = secure_filename(f'{user_to_create.id}.jpg')
             path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGE_URL, filename)
             img = Image.open(f)
+            img = img.convert('RGB')
             img = img.resize((256, 256))
             img.save(path, format="JPEG", quality=90)
             user_to_create.has_photo = True
@@ -326,6 +327,7 @@ def edit_profile_page():
                 os.remove(path)
 
             img = Image.open(f)
+            img = img.convert('RGB')
             img = img.resize((256, 256))
             img.save(path, format="JPEG", quality=90)
 

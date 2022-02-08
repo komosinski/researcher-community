@@ -6,6 +6,22 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
 {%endblock%}
 
+{%block scripts%}
+<script>
+    $(document).ready(function() {
+        $("#flag").click( function(e) {
+            e.preventDefault();
+            const uid = {{user.id}};
+            $.post(`/user/${uid}/flag`, function() {
+                alert("User has been reported. Thanks for letting us know.")
+            }).fail(function() {
+                alert("Error");
+            });
+        });
+    });
+</script>
+{%endblock%}
+
 {% block content %}
 <div class="user-profile-wrapper">
     <div class="user-profile-header">
@@ -58,6 +74,11 @@
                     <p class="stat-value">{{data['reputation']}}</p>
                 </div>
             </div>
+            {%if current_user.is_authenticated%}
+            <div>
+                <a href="#" id="flag">Flag</a>
+            </div>
+            {%endif%}
         </div>
     </div>
  

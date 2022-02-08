@@ -13,6 +13,20 @@ from flask import render_template
 from threading import Thread
 from flask import request
 
+@app.route('/paper/<id>/flag', methods=['POST'])
+@login_required
+def article_flag(id):
+    return rd.flag_article(id)
+
+@app.route('/comment/<id>/flag', methods=['POST'])
+@login_required
+def comment_flag(id):
+    return rd.flag_comment(id)
+
+@app.route('/user/<id>/flag', methods=['POST'])
+@login_required
+def user_flag(id):
+    return rd.flag_user(id)
 
 @app.before_request
 def before_req():
