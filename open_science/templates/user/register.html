@@ -84,7 +84,6 @@ function showReviewWarning(value) {
         {% endfor %}
 
         <div class="label-wrapper">{{ form.calibration_files.label()}}</div>
-        <!-- <div class="label-wrapper">(Please use a photo of your face if you decide to set a photo)</div> -->
         {{ form.calibration_files()}}
         {% for error in form.calibration_files.errors %}
         <span style="color: red;">[{{ error }}]</span>

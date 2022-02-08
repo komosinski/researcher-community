@@ -229,6 +229,9 @@ class EditProfileForm(FlaskForm):
                               Optional(), FileAllowed(['jpg', 'png'],
                                                       'Images only!')])
 
+    calibration_files = MultipleFileField(label="Upload calibration papers(Optional)",
+                                        validators=[FileAllowed('pdf')])
+
     submit = SubmitField(label='Save changes')
 
 

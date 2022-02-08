@@ -290,7 +290,7 @@ def profile_page(user_id):
 def edit_profile_page():
     form = EditProfileForm(review_mails_limit=current_user.review_mails_limit,
                            notifications_frequency=current_user.notifications_frequency)
-
+ 
     email_change = False
 
     if form.validate_on_submit():
@@ -318,6 +318,37 @@ def edit_profile_page():
         current_user.personal_website = form.personal_website.data
         current_user.review_mails_limit = form.review_mails_limit.data
         current_user.notifications_frequency = form.notifications_frequency.data
+
+        # get the calibration files
+        for file in form.calibration_files.data:
+            if not file.filename: 
+                continue
+            
+            calibration_paper = CalibrationPaper(
+                pdf_url=""
+            )
+
+            db.session.add(calibration_paper)
+            db.session.flush()
+
+            id = calibration_paper.id
+
+            filename = secure_filename(f"{id}.pdf")
+           
+            path = os.path.join(Config.ROOTDIR, Config.PDFS_FOLDER_URL, filename)
+            url = url_for('static', filename=f"articles/{filename}")
+
+            file.save(path)
+
+            calibration_paper.pdf_url = url
+            calibration_paper.preprocessed_text = get_text(path)
+
+            current_user.rel_calibration_papers.append(calibration_paper)
+
+            sm.update_dictionary(calibration_paper.preprocessed_text)
+            sm.update_tfidf_matrix()
+            sm.update_similarity_matrix(calibration_paper.preprocessed_text)
+
 
         f = form.profile_image.data
         if f:
