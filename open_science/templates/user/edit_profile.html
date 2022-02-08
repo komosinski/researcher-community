@@ -20,6 +20,14 @@
             </div>
         </div>
         
+        <br>
+        <div class="label-wrapper">{{ form.calibration_files.label()}}</div>
+        {{ form.calibration_files()}}
+        {% for error in form.calibration_files.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        <br>
+
         <div class="double-input-wrapper">
             {{ render_edit_profile_field(form.first_name,"First Name") }}
             {{ render_edit_profile_field(form.second_name,"Second Name") }}
@@ -48,6 +56,7 @@
             <div class="label-wrapper">{{ form.notifications_frequency.label() }}</div>
             <div class="input-wrapper">{{ form.notifications_frequency()}} </div>  
         </div> 
+
 
         <div class="buttons-wrapper">
             {{ form.submit(class="large-button main-button")}}

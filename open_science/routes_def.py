@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from config.config import Config
 from open_science import db, app
 from open_science.models import CalibrationPaper, Comment, License,\
-    Paper, PaperRevision, Review, RevisionChangesComponent, Tag, \
+    Paper, PaperRevision, RedFlagComment, RedFlagPaperRevision, RedFlagUser, Review, RevisionChangesComponent, Tag, \
     User, MessageToStaff, VoteComment
 from open_science.forms import AdvancedSearchPaperForm, \
     AdvancedSearchUserForm, AdvancedSearchTagForm, ContactStaffForm, \
@@ -27,6 +27,72 @@ from open_science import strings as STR
 import open_science.schedule.schedule as schedule
 from open_science.extensions import scheduler
 from operator import or_
+
+def flag_article(id):
+    try:
+        paper = PaperRevision.query.get(id)
+
+        flag = RedFlagPaperRevision()
+        flag.rel_creator = current_user
+
+        if paper.rel_red_flags_received:
+            paper.rel_red_flags_received.append(flag)
+        else:
+            paper.rel_red_flags_received = [flag]
+        
+        db.session.commit()
+
+        print(f"Paper {id} flagged successfuly")
+
+        return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+    
+    except Exception:
+        abort(400)
+
+def flag_comment(id):
+    try:
+        comment = Comment.query.get(id)
+
+        flag = RedFlagComment()
+        flag.rel_creator = current_user
+
+        if comment.rel_red_flags_received:
+            comment.rel_red_flags_received.append(flag)
+        else:
+            comment.rel_red_flags_received = [flag]
+        
+        db.session.commit()
+
+        print(f"Comment {id} flagged successfuly")
+
+        return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+    
+    except Exception:
+        abort(400)
+
+def flag_user(id):
+    try:
+        user = User.query.get(id)
+
+        if user == current_user:
+            abort(400)
+
+        flag = RedFlagUser()
+        flag.rel_creator = current_user
+
+        if user.rel_red_flags_received:
+            user.rel_red_flags_received.append(flag)
+        else:
+            user.rel_red_flags_received = [flag]
+        
+        db.session.commit()
+
+        print(f"User {id} flagged successfuly")
+
+        return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+    
+    except Exception:
+        abort(400)
 
 # Routes decorator
 def researcher_user_required(func):

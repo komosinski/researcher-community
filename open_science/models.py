@@ -282,6 +282,12 @@ class User(db.Model, UserMixin):
         else:
             return False
 
+    def is_standard_user(self):
+        if self.privileges_set == UserTypeEnum.STANDARD_USER.value:
+            return True
+        else:
+            return False
+
     def endorse(self):
         if self.privileges_set < UserTypeEnum.RESEARCHER_USER.value:
             self.rel_privileges_set = PrivilegeSet.query.filter(
@@ -433,8 +439,7 @@ class Tag(db.Model):
                      nullable=False, unique=True)
     description = db.Column(
         db.String(length=mc.TAG_DESCRIPTION_L), nullable=False)
-    creation_date = db.Column(db.DateTime, nullable=False,
-                              default=dt.datetime.utcnow().date())
+    creation_date = db.Column(db.DateTime, nullable=False)
     deadline = db.Column(db.DateTime, nullable=True)
     red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
@@ -777,6 +782,7 @@ class Review(db.Model):
         else:
             return False
 
+
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"
 
@@ -1059,7 +1065,7 @@ class Notification(db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
-    datetime = db.Column(db.DateTime, nullable=False, default=dt.datetime.utcnow())
+    datetime = db.Column(db.DateTime, nullable=False)
     title = db.Column(
         db.String(length=mc.NOTIFICATION_TITLE_L), nullable=False)
     text = db.Column(db.String(length=mc.NOTIFICATION_TEXT_L), nullable=False)

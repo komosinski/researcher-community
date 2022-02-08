@@ -14,6 +14,27 @@ from threading import Thread
 from flask import request
 
 
+@app.route('/paper/<id>/flag', methods=['POST'])
+@limiter.limit("5 per day")
+@login_required
+def article_flag(id):
+    return rd.flag_article(id)
+
+
+@app.route('/comment/<id>/flag', methods=['POST'])
+@limiter.limit("5 per day")
+@login_required
+def comment_flag(id):
+    return rd.flag_comment(id)
+
+
+@app.route('/user/<id>/flag', methods=['POST'])
+@limiter.limit("5 per day")
+@login_required
+def user_flag(id):
+    return rd.flag_user(id)
+
+
 @app.before_request
 def before_req():
     if app.config['MAINTENANCE_MODE'] is True \
@@ -41,14 +62,14 @@ def home_page():
     return rd.home_page()
 
 
-@limiter.limit("3 per second")
 @app.route('/register', methods=['GET', 'POST'])
+@limiter.limit("3 per second")
 def register_page():
     return user_rd.register_page()
 
 
-@limiter.limit("3 per second")
 @app.route('/login', methods=['GET', 'POST'])
+@limiter.limit("3 per second")
 def login_page():
     return user_rd.login_page()
 
@@ -69,8 +90,8 @@ def unconfirmed_email_page():
     return user_rd.unconfirmed_email_page()
 
 
-@limiter.limit("2 per second")
 @app.route('/user/account-recovery', methods=['GET', 'POST'])
+@limiter.limit("2 per second")
 def account_recovery_page():
     return user_rd.account_recovery_page()
 

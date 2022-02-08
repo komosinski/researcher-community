@@ -34,9 +34,8 @@ function showReviewWarning(value) {
             {{render_register_field(form.password,"Password","(Must contain at least: one lowarcase character, one uppercase character, one digit and one special character)")}}
             {{render_register_field(form.password_confirm,"Confirm Password")}}
  
-     
-        <p><strong>Optional fields:</strong></p>
         <br>
+        <p><strong>Optional fields:</strong></p>
 
         <div class="double-input-wrapper">
             {{render_register_field(form.affiliation,"Affiliation")}}
@@ -70,7 +69,7 @@ function showReviewWarning(value) {
                 </div>
                 <div class="input-wrapper">{{ form.notifications_frequency()}} </div>  
                 <div class="label-wrapper">
-                    (Note: you will always be notified immediately when a reviewer posts a message under your paper).
+                    (Note: you will always be notified immediately when your paper is reviewed)
                 </div>
             </div> 
      
@@ -84,7 +83,6 @@ function showReviewWarning(value) {
         {% endfor %}
 
         <div class="label-wrapper">{{ form.calibration_files.label()}}</div>
-        <!-- <div class="label-wrapper">(Please use a photo of your face if you decide to set a photo)</div> -->
         {{ form.calibration_files()}}
         {% for error in form.calibration_files.errors %}
         <span style="color: red;">[{{ error }}]</span>

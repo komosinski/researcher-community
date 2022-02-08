@@ -1,13 +1,3 @@
-@font-face {
-    font-family: Ubuntu;
-    src: url(/static/fonts/Ubuntu-Light.ttf);
-}
-
-* {
-    box-sizing: border-box;
-    font-family: 'Ubuntu';
-}
-
 .disabled {
     display: none !important;
 }

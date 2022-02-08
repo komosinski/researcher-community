@@ -65,7 +65,6 @@ def validate_email(self, email):
                 address for registration again.')
 
 
-
 def validate_orcid(self, orcid):
     correct = False
     if re.search(r"^[0-9]{16}$", orcid.data):
@@ -99,28 +98,32 @@ class RegisterForm(FlaskForm):
     password_confirm = PasswordField(label='Confirm Password', validators=[
                                      EqualTo('password'), DataRequired()])
 
-    affiliation = StringField(label='Affiliation(Optional)', validators=[
+    affiliation = StringField(label='Affiliation (Optional)', validators=[
                               Length(max=mc.USER_AFFILIATION_L), Optional()])
-    orcid = StringField(label='ORCID(Optional)', validators=[Length(
+    orcid = StringField(label='ORCID (Optional)', validators=[Length(
         min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
-    google_scholar = StringField(label='Google scholar(Optional)', validators=[
+    google_scholar = StringField(label='Google scholar (Optional)', validators=[
                                  Length(max=mc.USER_GOOGLE_SCHOLAR_L),
                                  Optional()])
-    about_me = TextAreaField(label='About me(Optional)', validators=[
+    about_me = TextAreaField(label='About me (Optional)', validators=[
                              Length(max=mc.USER_ABOUT_ME_L), Optional()])
-    personal_website = StringField(label='Personal website(Optional)',
+    personal_website = StringField(label='Personal website (Optional)',
                                    validators=[
                                                Length(max=mc.USER_PERSONAL_WEBSITE_L),
                                                Optional()])
-    review_mails_limit = SelectField(choices=[1, 2, 3, 4, 0])
+    review_mails_limit = SelectField(choices=[(1, '1'),
+                                              (2, '2'),
+                                              (3, '3'),
+                                              (4, '4'),
+                                              (0, 'I don\'t want to participate in peer review')])
     notifications_frequency = SelectField(choices=[(
         1, '1 day'), (3, '3 days'), (7, '1 week'),
         (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
-    profile_image = FileField(label='Profile image(Optional)', validators=[
+    profile_image = FileField(label='Profile image (Optional)', validators=[
                               Optional(), FileAllowed(['jpg', 'png'],
                                                       'Images only!')])
 
-    calibration_files = MultipleFileField(label="Upload calibration papers(Optional)",
+    calibration_files = MultipleFileField(label="Upload calibration papers (Optional)",
                                           validators=[FileAllowed('pdf')])
 
     recaptcha = RecaptchaField()
@@ -221,13 +224,20 @@ class EditProfileForm(FlaskForm):
                                                Length(
                                                       max=mc.USER_PERSONAL_WEBSITE_L),
                                                Optional()])
-    review_mails_limit = SelectField(choices=[1, 2, 3, 4, 0])
+    review_mails_limit = SelectField(choices=[(1, '1'),
+                                              (2, '2'),
+                                              (3, '3'),
+                                              (4, '4'),
+                                              (0, 'I don\'t want to participate in peer review')])
     notifications_frequency = SelectField(choices=[
         (1, '1 day'), (3, '3 days'), (7, '1 week'), (14, '2 weeks'),
         (30, '1 month'), (0, 'Never')])
     profile_image = FileField(label='Profile image', validators=[
                               Optional(), FileAllowed(['jpg', 'png'],
                                                       'Images only!')])
+
+    calibration_files = MultipleFileField(label="Upload calibration papers (Optional)",
+                                        validators=[FileAllowed('pdf')])
 
     submit = SubmitField(label='Save changes')
 

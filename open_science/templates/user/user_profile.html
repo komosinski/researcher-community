@@ -6,11 +6,27 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
 {%endblock%}
 
+{%block scripts%}
+<script>
+    $(document).ready(function() {
+        $("#flag").click( function(e) {
+            e.preventDefault();
+            const uid = {{user.id}};
+            $.post(`/user/${uid}/flag`, function() {
+                alert("User has been reported. Thanks for letting us know.")
+            }).fail(function() {
+                alert("Error");
+            });
+        });
+    });
+</script>
+{%endblock%}
+
 {% block content %}
 <div class="user-profile-wrapper">
     <div class="user-profile-header">
         <div class="profile-picture-wrapper">
-            <img src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="profile-picture" />
+            <img src="{{url_for('static',filename='res/profileImages/'~user.get_id()~'.jpg') if user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="profile-picture" />
         </div>
         <div class="user-info-wrapper">
             <div class="username-wrapper">
@@ -58,6 +74,11 @@
                     <p class="stat-value">{{data['reputation']}}</p>
                 </div>
             </div>
+            {%if current_user.is_authenticated%}
+            <div>
+                <a href="#" id="flag">Flag</a>
+            </div>
+            {%endif%}
         </div>
     </div>
  
@@ -83,6 +104,15 @@
             </div>
         {% endif %}
     {% endif %}
+
+
+    {% if current_user.is_authenticated and current_user.is_standard_user() and (current_user.get_id()|int==user.id) %}
+        <div>
+            <h3>Note: You must be a researcher to publish articles and gain access to other features. More information: <a href="{{url_for('help_page')}}">Help</a> </h3>
+           
+        </div>
+    {% endif %}
+
 
 
     <div>
