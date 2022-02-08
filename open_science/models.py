@@ -782,6 +782,18 @@ class Review(db.Model):
         else:
             return False
 
+    def can_show(self):
+        if self.force_show and self.force_hide:
+            raise ValueError("Both force_show and force_hide values can't be true")
+        elif self.force_show:
+            return True
+        elif self.force_hide:
+            return False
+        elif self.is_hidden:
+            return False
+        else:
+            return self.red_flags_count < app.config['RED_FLAGS_THRESHOLD']
+
 
 class ReviewRequest(db.Model):
     __tablename__ = "review_requests"

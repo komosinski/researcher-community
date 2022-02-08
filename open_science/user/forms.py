@@ -1,4 +1,3 @@
-from sqlalchemy import false
 from wtforms.fields.core import SelectField
 from wtforms.fields.simple import TextAreaField
 from open_science.models import User
@@ -15,6 +14,7 @@ from config.config import Config
 from flask_login import current_user
 from open_science.enums import EmailTypeEnum
 from open_science import strings as STR
+
 
 def validate_password(form, password):
     if not re.search("[a-z]", password.data):
@@ -51,20 +51,6 @@ def was_email_used_in_site(email):
     return False
 
 
-def validate_email(self, email):
-    user_with_email_address = User.query.filter_by(email=email.data).first()
-    if user_with_email_address \
-       and user_with_email_address.registered_on:
-        raise ValidationError(
-            'That email address is already in use, \
-            please use a different email address')
-
-    if was_email_used_in_site(email.data):
-        raise ValidationError(
-            'You cannot use the same email \
-                address for registration again.')
-
-
 def validate_orcid(self, orcid):
     correct = False
     if re.search(r"^[0-9]{16}$", orcid.data):
@@ -81,8 +67,21 @@ def validate_orcid(self, orcid):
         raise ValidationError('Invalid ORCID iD')
 
 
-class RegisterForm(FlaskForm):
+def validate_register_email(self, email):
+    user_with_email_address = User.query.filter_by(email=email.data).first()
+    if user_with_email_address \
+       and user_with_email_address.registered_on:
+        raise ValidationError(
+            'That email address is already in use, \
+            please use a different email address')
 
+    if was_email_used_in_site(email.data):
+        raise ValidationError(
+            'You cannot use the same email \
+                address for registration again.')
+
+
+class RegisterFormTemplate(FlaskForm):
     first_name = StringField(label='First Name', validators=[
                              Length(min=2,
                                     max=mc.USER_FIRST_NAME_L),
@@ -90,41 +89,52 @@ class RegisterForm(FlaskForm):
     second_name = StringField(label='Second Name', validators=[
                               Length(min=2, max=mc.USER_SECOND_NAME_L),
                               DataRequired()])
-    email = StringField(label='Email Address', validators=[
-                        Email(), DataRequired(), validate_email])
-    password = PasswordField(label='Password', validators=[Length(
-        min=8, max=32), DataRequired(), validate_password,
-        validate_password_with_userdata])
-    password_confirm = PasswordField(label='Confirm Password', validators=[
-                                     EqualTo('password'), DataRequired()])
 
     affiliation = StringField(label='Affiliation (Optional)', validators=[
-                              Length(max=mc.USER_AFFILIATION_L), Optional()])
+                            Length(max=mc.USER_AFFILIATION_L), Optional()])
+
     orcid = StringField(label='ORCID (Optional)', validators=[Length(
         min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
+
     google_scholar = StringField(label='Google scholar (Optional)', validators=[
                                  Length(max=mc.USER_GOOGLE_SCHOLAR_L),
                                  Optional()])
+  
     about_me = TextAreaField(label='About me (Optional)', validators=[
                              Length(max=mc.USER_ABOUT_ME_L), Optional()])
+
     personal_website = StringField(label='Personal website (Optional)',
                                    validators=[
                                                Length(max=mc.USER_PERSONAL_WEBSITE_L),
                                                Optional()])
+
     review_mails_limit = SelectField(choices=[(1, '1'),
                                               (2, '2'),
                                               (3, '3'),
                                               (4, '4'),
                                               (0, 'I don\'t want to participate in peer review')])
+
     notifications_frequency = SelectField(choices=[(
         1, '1 day'), (3, '3 days'), (7, '1 week'),
         (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
+
     profile_image = FileField(label='Profile image (Optional)', validators=[
                               Optional(), FileAllowed(['jpg', 'png'],
                                                       'Images only!')])
 
     calibration_files = MultipleFileField(label="Upload calibration papers (Optional)",
                                           validators=[FileAllowed('pdf')])
+
+                        
+class RegisterForm(RegisterFormTemplate):
+
+    email = StringField(label='Email Address', validators=[
+                        Email(), DataRequired(), validate_register_email])
+    password = PasswordField(label='Password', validators=[Length(
+        min=8, max=32), DataRequired(), validate_password,
+        validate_password_with_userdata])
+    password_confirm = PasswordField(label='Confirm Password', validators=[
+                                     EqualTo('password'), DataRequired()])
 
     recaptcha = RecaptchaField()
 
@@ -178,7 +188,7 @@ class SetNewPasswordForm(FlaskForm):
     submit = SubmitField(label='Set password')
 
 
-class EditProfileForm(FlaskForm):
+class EditProfileForm(RegisterFormTemplate):
     def validate_email(form, field):
         if field.data != current_user.email:
             emails_limit = Config.CHANGE_MAIL_ML - \
@@ -200,44 +210,8 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError(
                     'Monthly limit for email change has been exceeded')
 
-
-    first_name = StringField(label='First Name', validators=[
-                             Length(min=2, max=mc.USER_FIRST_NAME_L),
-                             DataRequired()])
-    second_name = StringField(label='Second Name', validators=[
-                              Length(min=2, max=mc.USER_SECOND_NAME_L),
-                              DataRequired()])
     email = StringField(label='Email Address', validators=[
                         Email(), DataRequired()])
-    affiliation = StringField(label='Affiliation (Optional)', validators=[
-                              Length(max=mc.USER_AFFILIATION_L), Optional()])
-    orcid = StringField(label='ORCID (Optional)', validators=[Length(
-        min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
-    google_scholar = StringField(label='Google scholar (Optional)',
-                                 validators=[
-                                             Length(max=mc.USER_GOOGLE_SCHOLAR_L),
-                                             Optional()])
-    about_me = TextAreaField(label='About me (Optional)', validators=[
-                             Length(max=mc.USER_ABOUT_ME_L), Optional()])
-    personal_website = StringField(label='Personal website (Optional)',
-                                   validators=[
-                                               Length(
-                                                      max=mc.USER_PERSONAL_WEBSITE_L),
-                                               Optional()])
-    review_mails_limit = SelectField(choices=[(1, '1'),
-                                              (2, '2'),
-                                              (3, '3'),
-                                              (4, '4'),
-                                              (0, 'I don\'t want to participate in peer review')])
-    notifications_frequency = SelectField(choices=[
-        (1, '1 day'), (3, '3 days'), (7, '1 week'), (14, '2 weeks'),
-        (30, '1 month'), (0, 'Never')])
-    profile_image = FileField(label='Profile image', validators=[
-                              Optional(), FileAllowed(['jpg', 'png'],
-                                                      'Images only!')])
-
-    calibration_files = MultipleFileField(label="Upload calibration papers (Optional)",
-                                        validators=[FileAllowed('pdf')])
 
     submit = SubmitField(label='Save changes')
 

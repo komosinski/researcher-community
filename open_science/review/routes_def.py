@@ -180,7 +180,7 @@ def review_page(review_id):
     if not review:
         flash('Review does not exists', category='error')
         return redirect(url_for('home_page'))
-    elif review.is_published() is False:
+    elif review.is_published() is False or review.is_hidden:
         flash('Review is not publshed', category='warning')
         return redirect(url_for('home_page'))
 

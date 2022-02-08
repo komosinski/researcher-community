@@ -203,7 +203,8 @@ def file_upload_page():
             publication_date=dt.datetime.utcnow(),
             rel_creators=[current_user] + users,
             rel_related_tags=tags,
-            preprocessed_text=""
+            preprocessed_text="",
+            confidence_level=form.confidence_level.data
         )
 
         db.session.flush()
@@ -256,6 +257,7 @@ def file_upload_page():
         # bin   d old unpublished reviews and unanswered review reqests
         # to nthe ewest paper's revision
         transfer_old_reviews(paper)
+        print(paper_version.confidence_level)
         enough_reviews = prepare_review_requests(paper_version)
         if enough_reviews is False:
             flash(STR.NOT_ENOUGH_RESEARCHERS, category='warning')

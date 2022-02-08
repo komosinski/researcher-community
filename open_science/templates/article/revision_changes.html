@@ -6,7 +6,7 @@
 
 <h5>Remarks of all the reviewers:</h5>
 {% for review in previous_revision.get_published_reviews_list()%}
-    {% if not review.is_hidden%}
+    {% if review.can_show()%}
         {% if review.is_anonymous %}
         <strong>Anonymous reviewer:</strong>
         {% else %}
