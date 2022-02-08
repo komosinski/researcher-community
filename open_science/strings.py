@@ -3,7 +3,7 @@ NOT_ENOUGH_RESEARCHERS = 'There are not enough researchers with similar research
 in the system to review this paper. \
     We will wait until more similar researchers are available. \
         You can help with peer review \
-            by inviting your colleagues to join [sitename]!'
+            by inviting your colleagues to join Open Science!'
 
 
 # REVIEW forms.py

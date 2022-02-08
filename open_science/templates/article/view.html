@@ -218,7 +218,7 @@
             <div class="article-authors-wrapper">
                 {% for user in article.rel_creators %}
                     <div class="author-wrapper">
-                        <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
+                        <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~user.id~'.jpg') if user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
                         <a class="author-name" href="{{url_for('profile_page', user_id=user.id)}}">{{user.first_name + " " + user.second_name}}</a>
                     </div>
                 {% endfor %}

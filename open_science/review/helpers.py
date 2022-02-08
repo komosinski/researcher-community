@@ -35,9 +35,8 @@ def select_reviewers(paper_revision):
 
     # TODO: replace this with users from text_processing module
     users = paper_revision.get_similar_users()
-
     potential_reviewers = []
-
+  
     # for each author of this paper, all co-authors of their papers
     # from the last n days are removed
     creators = paper_revision.rel_creators

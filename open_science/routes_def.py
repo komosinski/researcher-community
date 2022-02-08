@@ -194,7 +194,10 @@ def file_upload_page():
             else:
                 users.append(user)
 
-        print(users)
+        if form.review_declaration.data is True:
+            chosen_confidence_level = form.confidence_level.data
+        else:
+            chosen_confidence_level = 0
 
         paper_version = PaperRevision(
             pdf_url="",
@@ -204,9 +207,8 @@ def file_upload_page():
             rel_creators=[current_user] + users,
             rel_related_tags=tags,
             preprocessed_text="",
-            confidence_level=form.confidence_level.data
+            confidence_level=chosen_confidence_level
         )
-
         db.session.flush()
 
         id = paper_version.id
