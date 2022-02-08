@@ -433,8 +433,7 @@ class Tag(db.Model):
                      nullable=False, unique=True)
     description = db.Column(
         db.String(length=mc.TAG_DESCRIPTION_L), nullable=False)
-    creation_date = db.Column(db.DateTime, nullable=False,
-                              default=dt.datetime.utcnow().date())
+    creation_date = db.Column(db.DateTime, nullable=False)
     deadline = db.Column(db.DateTime, nullable=True)
     red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
@@ -1059,7 +1058,7 @@ class Notification(db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
     # columns
-    datetime = db.Column(db.DateTime, nullable=False, default=dt.datetime.utcnow())
+    datetime = db.Column(db.DateTime, nullable=False)
     title = db.Column(
         db.String(length=mc.NOTIFICATION_TITLE_L), nullable=False)
     text = db.Column(db.String(length=mc.NOTIFICATION_TEXT_L), nullable=False)
