@@ -27,7 +27,7 @@ def send_email_confirmation(email):
     confirm_url = url_for('confirm_email', token=token, _external=True)
     html = render_template('email/activate_email.html',
                            confirm_url=confirm_url)
-    subject = "Verify your email for OpenScience"
+    subject = "Verify your account at Researcher.community"
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 
@@ -37,7 +37,7 @@ def send_account_recovery(email):
         'set_password_page', token=token, _external=True)
     html = render_template('email/reset_password_email.html',
                            set_password_url=set_password_url)
-    subject = "Account recovery"
+    subject = "Account recovery for Researcher.community"
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 
@@ -47,7 +47,7 @@ def send_profile_delete(email):
         'confirm_profile_delete', token=token, _external=True)
     html = render_template('email/delete_profile_email.html',
                            delete_profile_url=delete_profile_url)
-    subject = "Deletion of the profile"
+    subject = "Deletion of the profile at Researcher.community"
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 
@@ -55,28 +55,28 @@ def send_email_change_confirmation(email):
     token = generate_email_change_token(email)
     confirm_url = url_for('confirm_email_change', token=token, _external=True)
     html = render_template('email/change_email.html', confirm_url=confirm_url)
-    subject = "Email change confirmation"
+    subject = "Email address change confirmation at Researcher.community"
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 
 def send_invite(email, first_name, second_name):
     data = {'first_name': first_name, 'second_name': second_name}
     html = render_template('email/invitation_email.html', data=data)
-    subject = "Invitation for OpenScience"
+    subject = "Invitation to join Researcher.community"
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 
 def send_review_request(email, abstract, request_id):
     data = {'abstract': abstract, 'request_id': request_id}
     html = render_template('email/review_request_email.html', data=data)
-    subject = "Review request"
+    subject = "Review request from Researcher.community"
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 
 def send_new_review_notification(email, review_id, paper_title):
     data = {'review_id': review_id, 'paper_title': paper_title}
     html = render_template('email/new_review_email.html', data=data)
-    subject = "New paper's review"
+    subject = "New paper review at Researcher.community"
     Thread(target=send_email, args=(app, email, subject, html)).start()
 
 

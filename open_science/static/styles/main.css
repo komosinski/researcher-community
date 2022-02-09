@@ -343,10 +343,13 @@ main {
     height: 100px;
 }
 
+label {
+    font-weight: bold;
+    margin-top: 2ex;
+}
+
 .label-wrapper {
-    font-size: 0.8em;
-    font-weight: 600;
-    margin-bottom: 4px;
+/*    margin-bottom: 2ex; */
 }
 
 .double-input-wrapper {

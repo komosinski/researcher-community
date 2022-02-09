@@ -7,7 +7,7 @@
 function showReviewWarning(value) {
     var mails_limit = document.querySelector('#review_mails_limit').value;
     if (mails_limit==0){
-        alert("This has consequences…");
+        alert("With this choice, you will never be asked by researcher.community to peer review papers, and the option to ask peers to review your papers will be disabled.");
     }
 }
 </script>
@@ -18,9 +18,9 @@ function showReviewWarning(value) {
 <div class="profile-edit-wrapper">
     <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
-        <h1>
-            Please Create your Account
-        </h1>
+        <h1>Creating your account</h1>
+        <p>(You will also be able to edit these fields later)</p>
+
         
         <div class="double-input-wrapper">
             {{render_register_field(form.first_name,"First name")}}
@@ -31,7 +31,7 @@ function showReviewWarning(value) {
         {{render_register_field(form.email,"Email address","(preferrably institutional email address - this may help with endorsement if you are a researcher.\nWill not be displayed publicly except from \"Verified email at [yourdomain]\" unless you are indicated as the corresponding author of some paper.)")}}
     
   
-            {{render_register_field(form.password,"Password","(Must contain at least: one lowarcase character, one uppercase character, one digit and one special character)")}}
+            {{render_register_field(form.password,"Password","(Must contain at least: 8 characters, one lowarcase character, one uppercase character, one digit and one special character)")}}
             {{render_register_field(form.password_confirm,"Confirm password")}}
  
         <br>
@@ -57,7 +57,7 @@ function showReviewWarning(value) {
                     <br>
                     We will periodically send you emails with new papers similar to your scientific profile of interest (based on your papers you provided).
                     <br>
-                    Authors of some of these new papers may ask for an opinion or a review.<br>How many emails per month do you wish to receive at most?<br>(This is the maximal number, if you are selected as a reviewer for your peers).
+                    Authors of some of these new papers may ask for an opinion or a review.<br>How many emails per month do you wish to receive at most?<br>(This is the maximal number, applicable only if you are selected as a reviewer for your peers).
                 </div>
                 <div class="input-wrapper">{{ form.review_mails_limit(id='review_mails_limit',oninput="showReviewWarning(value)")}} </div>
             </div>   

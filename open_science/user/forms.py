@@ -19,25 +19,25 @@ from open_science import strings as STR
 def validate_password(form, password):
     if not re.search("[a-z]", password.data):
         raise ValidationError(
-            'The password must contain at least one lowercase character')
+            'The password must contain at least one lowercase character.')
     elif not re.search("[A-Z]", password.data):
         raise ValidationError(
-            'The password must contain at least one uppercase character')
+            'The password must contain at least one uppercase character.')
     elif not re.search("[0-9]", password.data):
-        raise ValidationError('The password must contain at least one digit')
+        raise ValidationError('The password must contain at least one digit.')
     elif not re.search("[^A-Za-z0-9]", password.data):
         raise ValidationError(
-            'The password must contain at least one special character')
+            'The password must contain at least one special character.')
 
 
 def validate_password_with_userdata(form, password):
     if form.first_name.data.lower() in password.data.lower():
-        raise ValidationError('The password can not contain your first name')
+        raise ValidationError('The password can not contain your first name.')
     elif form.second_name.data.lower() in password.data.lower():
-        raise ValidationError('The password can not contain your second name')
+        raise ValidationError('The password can not contain your second name.')
     elif form.email.data.lower().split("@")[0] in password.data.lower():
         raise ValidationError(
-            'The password can not contain your email address')
+            'The password can not contain your email address.')
 
 
 # protect against creating multiple researcher accounts with same email
@@ -82,11 +82,11 @@ def validate_register_email(self, email):
 
 
 class RegisterFormTemplate(FlaskForm):
-    first_name = StringField(label='First Name', validators=[
+    first_name = StringField(label='First name', validators=[
                              Length(min=2,
                                     max=mc.USER_FIRST_NAME_L),
                              DataRequired()])
-    second_name = StringField(label='Second Name', validators=[
+    second_name = StringField(label='Second name', validators=[
                               Length(min=2, max=mc.USER_SECOND_NAME_L),
                               DataRequired()])
 
@@ -96,10 +96,10 @@ class RegisterFormTemplate(FlaskForm):
     orcid = StringField(label='ORCID (Optional)', validators=[Length(
         min=mc.USER_ORCID_L, max=19), Optional(), validate_orcid])
 
-    google_scholar = StringField(label='Google scholar (Optional)', validators=[
+    google_scholar = StringField(label='Google scholar ID (Optional)', validators=[
                                  Length(max=mc.USER_GOOGLE_SCHOLAR_L),
                                  Optional()])
-  
+
     about_me = TextAreaField(label='About me (Optional)', validators=[
                              Length(max=mc.USER_ABOUT_ME_L), Optional()])
 
@@ -108,13 +108,13 @@ class RegisterFormTemplate(FlaskForm):
                                                Length(max=mc.USER_PERSONAL_WEBSITE_L),
                                                Optional()])
 
-    review_mails_limit = SelectField(choices=[(1, '1'),
+    review_mails_limit = SelectField(label='Limit on the number of review requests', choices=[(1, '1'),
                                               (2, '2'),
                                               (3, '3'),
                                               (4, '4'),
                                               (0, 'I don\'t want to participate in peer review')])
 
-    notifications_frequency = SelectField(choices=[(
+    notifications_frequency = SelectField(label='Frequency of notifications', choices=[(
         1, '1 day'), (3, '3 days'), (7, '1 week'),
         (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
 
@@ -122,23 +122,23 @@ class RegisterFormTemplate(FlaskForm):
                               Optional(), FileAllowed(['jpg', 'png'],
                                                       'Images only!')])
 
-    calibration_files = MultipleFileField(label="Upload calibration papers (Optional)",
+    calibration_files = MultipleFileField(label="Upload papers representative to your area of expertise (Optional)",
                                           validators=[FileAllowed('pdf')])
 
-                        
+
 class RegisterForm(RegisterFormTemplate):
 
-    email = StringField(label='Email Address', validators=[
+    email = StringField(label='Email address', validators=[
                         Email(), DataRequired(), validate_register_email])
     password = PasswordField(label='Password', validators=[Length(
         min=8, max=32), DataRequired(), validate_password,
         validate_password_with_userdata])
-    password_confirm = PasswordField(label='Confirm Password', validators=[
+    password_confirm = PasswordField(label='Confirm password', validators=[
                                      EqualTo('password'), DataRequired()])
 
     recaptcha = RecaptchaField()
 
-    submit = SubmitField(label='Create Account')
+    submit = SubmitField(label='Create account')
 
 
 class LoginForm(FlaskForm):
@@ -152,11 +152,11 @@ class ResendConfirmationForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if not user:
-            raise ValidationError('Invalid email address')
+            raise ValidationError('Invalid email address.')
         elif user.confirmed:
-            raise ValidationError('Email address is already confirmed')
+            raise ValidationError('This email address is already confirmed.')
 
-    email = StringField(label='Email Address', validators=[
+    email = StringField(label='Email address', validators=[
                         Email(), DataRequired()])
     submit = SubmitField(label='Resend confirmation email')
 
@@ -165,11 +165,11 @@ class AccountRecoveryForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if not user:
-            raise ValidationError('Invalid email address')
+            raise ValidationError('Invalid email address.')
         if user.confirmed is False:
-            raise ValidationError('Email address is not confirmed')
+            raise ValidationError('This email address is not confirmed.')
 
-    email = StringField(label='Email Address', validators=[
+    email = StringField(label='Email address', validators=[
                         Email(), DataRequired()])
     submit = SubmitField(label='Send recovery email')
 
@@ -178,11 +178,11 @@ class SetNewPasswordForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if not user:
-            raise ValidationError('Invalid email address')
+            raise ValidationError('Invalid email address.')
 
     password = PasswordField(label='Password', validators=[Length(
         min=8, max=32), DataRequired(), validate_password])
-    password_confirm = PasswordField(label='Confirm Password', validators=[
+    password_confirm = PasswordField(label='Confirm password', validators=[
                                      EqualTo('password'), DataRequired()])
 
     submit = SubmitField(label='Set password')
@@ -200,7 +200,7 @@ class EditProfileForm(RegisterFormTemplate):
                 if user_with_email_address:
                     if user_with_email_address.id != current_user.id:
                         raise ValidationError(
-                            'That email address is already in use, please use a different email address')
+                            'This email address is already in use, please use a different email address.')
                 else:
                     if was_email_used_in_site(field.data):
                         raise ValidationError(
@@ -208,16 +208,16 @@ class EditProfileForm(RegisterFormTemplate):
                                   been used for user registration')
             else:
                 raise ValidationError(
-                    'Monthly limit for email change has been exceeded')
+                    'Monthly limit for email change has been exceeded.')
 
-    email = StringField(label='Email Address', validators=[
+    email = StringField(label='Email address', validators=[
                         Email(), DataRequired()])
 
     submit = SubmitField(label='Save changes')
 
 
 class InviteUserForm(FlaskForm):
-    email = StringField(label='E-mail', validators=[Email(), DataRequired()])
+    email = StringField(label='Email', validators=[Email(), DataRequired()])
     submit = SubmitField(label='Send an invitation')
 
 
@@ -232,7 +232,7 @@ class DeleteProfileForm(FlaskForm):
     def validate_read_information(form, field):
         if form.submit.data:
             if not field.data:
-                raise ValidationError('You must acknowledge the consequences')
+                raise ValidationError('You must acknowledge the consequences.')
 
     check_read = BooleanField(STR.CHECK_READ_BEFORE_PROFILE_DELETE,
                               validators=[
