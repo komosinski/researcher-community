@@ -23,16 +23,16 @@ function showReviewWarning(value) {
         </h1>
         
         <div class="double-input-wrapper">
-            {{render_register_field(form.first_name,"First Name")}}
-            {{render_register_field(form.second_name,"Second Name")}}
+            {{render_register_field(form.first_name,"First name")}}
+            {{render_register_field(form.second_name,"Second name")}}
         </div>
        
   
-        {{render_register_field(form.email,"Email Address","(preferably institutional email address. Will not be displayed publicly except from \"Verified email at [domain]\")")}}
+        {{render_register_field(form.email,"Email address","(preferrably institutional email address - this may help with endorsement if you are a researcher.\nWill not be displayed publicly except from \"Verified email at [yourdomain]\" unless you are indicated as the corresponding author of some paper.)")}}
     
   
             {{render_register_field(form.password,"Password","(Must contain at least: one lowarcase character, one uppercase character, one digit and one special character)")}}
-            {{render_register_field(form.password_confirm,"Confirm Password")}}
+            {{render_register_field(form.password_confirm,"Confirm password")}}
  
         <br>
         <p><strong>Optional fields:</strong></p>
@@ -47,7 +47,7 @@ function showReviewWarning(value) {
             {{render_register_field(form.personal_website,"Personal website url")}} 
         </div>
 
-        {{render_register_field(form.about_me,"About me","(Will be displayed on your profile page, you may write any information you wish to be publicly visible)")}}
+        {{render_register_field(form.about_me,"About me","(Will be displayed on your profile page. You may write any information you wish to be publicly visible)")}}
 
       
             <div class="profile-edit-input-wrapper">
@@ -57,7 +57,7 @@ function showReviewWarning(value) {
                     <br>
                     We will periodically send you emails with new papers similar to your scientific profile of interest (based on your papers you provided).
                     <br>
-                    Authors of some of these new papers may ask for an opinion or a review. How many emails per month do you wish to receive?
+                    Authors of some of these new papers may ask for an opinion or a review.<br>How many emails per month do you wish to receive at most?<br>(This is the maximal number, if you are selected as a reviewer for your peers).
                 </div>
                 <div class="input-wrapper">{{ form.review_mails_limit(id='review_mails_limit',oninput="showReviewWarning(value)")}} </div>
             </div>   

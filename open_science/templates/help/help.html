@@ -1,24 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Help</h1>
-    <div>
-        <a href="{{url_for('faq_page')}}">Frequently Asked Questions</a>
-        <br><br>
+
+        <p>See also <a href="{{url_for('faq_page')}}">Frequently asked questions</a>.</p>
+
+            <h4>The "researcher status" and endorsement</h4>
+                <p>Some users are automatically endrosed based on their institutional email address.
+                <p>To get the researcher status, you can ask other endorsed users (via the button in their profile pages) to endorse you.
+Alternatively, you can send a message to our staff to have your institution included or your particular account endorsed.
+  
+
+<br><br><br>
+        
         <form class="user-action" action="{{url_for('contact_staff_page')}}" method="GET">    
             <button class="large-button secondary-button" type="submit">Contact our staff</button>
         </form>
-        <br>
-        <div>
-            <h4>Endorsement</h4>
-            <div>
-                Some users are automatically endrosed based on their email address.
-                <br>
-                To get researcher status you can ask other verified users (via button on their profiles) or write a message to administration.
-            </div>
-        </div>
-  
-        
-    </div>
 
 
 {% endblock %}

@@ -3,7 +3,7 @@ NOT_ENOUGH_RESEARCHERS = 'There are not enough researchers with similar research
 in the system to review this paper. \
     We will wait until more similar researchers are available. \
         You can help with peer review \
-            by inviting your colleagues to join Open Science!'
+            by inviting your colleagues to join researcher.community!'
 
 
 # REVIEW forms.py
@@ -26,7 +26,7 @@ EMAIL_CONFIRM_LINK_SENT = ' A confirmation link has been sent to your email addr
 ACC_CONFIRM_DAILY_LIMIT_EXC = 'Daily limit for account confirmation emails has been exceeded. \
                     Check your SPAM folder or try again tomorrow.'
 
-EMAIL_RECOVERY_SENT = 'A account recovery email has been sent'
+EMAIL_RECOVERY_SENT = 'The account recovery email has been sent'
 
 EMAIL_CONFIRM_EMAIL_SENT = 'A new confirmation email has been sent.'
 
@@ -42,58 +42,58 @@ ACCOUNT_CONFIRMED = 'You have confirmed your account.'
 
 STH_WENT_WRONG = 'Something went wrong.'
 
-USER_NOT_EXISTS = 'User does not exists'
+USER_NOT_EXISTS = 'User does not exist.'
 
-REMARKS_SAVED = 'Remarks has been saved'
+REMARKS_SAVED = 'Remarks have been saved.'
 
 EDIT_PROFILE_CHANGES_SAVED = 'Your changes have been saved.'
 
 PASSWORD_CHANGED = 'Your password has been successfully changed.'
 
-EMAIL_CHANGED = 'You have changed your email address'
+EMAIL_CHANGED = 'You have changed your email address.'
 
-EMAIL_INVITATION_SENT = 'An invitation email has been sent'
+EMAIL_INVITATION_SENT = 'An invitation email has been sent.'
 
-INVITATION_EMAIL_ALREADY_SENT = 'An invitation email to this person has already been sent'
+INVITATION_EMAIL_ALREADY_SENT = 'An invitation email to this person has already been sent.'
 
-USER_ALREADY_EXISTS = 'User with this e-mail already exists'
+USER_ALREADY_EXISTS = 'A user with this e-mail already exists.'
 
-INVITATION_DAILY_LIMIT_EXC = 'Daily limit for invitations has been exceeded'
+INVITATION_DAILY_LIMIT_EXC = 'Daily limit for invitations has been exceeded.'
 
-ENDORSEMENT_REQUEST_SENT = 'The Endorsement request was successfully sent'
+ENDORSEMENT_REQUEST_SENT = 'The endorsement request was successfully sent.'
 
-CANT_REQUEST_ENDORSEMENT = 'You cannot send your endorsement request'
+CANT_REQUEST_ENDORSEMENT = 'You cannot send your endorsement request.'
 
-ENDORSEMENT_REQUEST_NOT_EXISTS = 'Endorsement request not exists'
+ENDORSEMENT_REQUEST_NOT_EXISTS = 'The endorsement request does not exist.'
 
-ENDORSEMENT_REQUEST_ALREADY_CONSIDERED = 'Endorsement request has been already considered'
+ENDORSEMENT_REQUEST_ALREADY_CONSIDERED = 'The endorsement request has already been considered.'
 
-EMAIL_DELETE_ACCOUNT_SENT = 'Profile deletion email was sent'
+EMAIL_DELETE_ACCOUNT_SENT = 'The profile deletion email was sent.'
 
 ACCOUNT_DELETED_SUCCESSFULLY = 'You have deleted your profile.'
 
 # (completed by researcher)
-ENDORSEMENT_REQUEST_FORM_COMPLETED = 'The form has been completed'
+ENDORSEMENT_REQUEST_FORM_COMPLETED = 'The form has been completed.'
 
 #   login_page
 
 ALREADY_LOGGED = 'You are already logged in.'
 
-LOGIN_SUCCESS = 'Success! You are logged in'
+LOGIN_SUCCESS = 'You logged in.'
 
-EMAIL_PASSWORD_NOT_MATCH = 'Email and password are not match! Please try again'
+EMAIL_PASSWORD_NOT_MATCH = 'Email and password do not match! Please try again.'
 
 CONFIRM_YOUR_ACCOUNT = 'Please confirm your account!'
 
-PROFILE_IS_DELETED = 'Profile is deleted'
+PROFILE_IS_DELETED = 'The profile is deleted.'
 
 # USER forms.py
-CHECK_READ_BEFORE_PROFILE_DELETE = "I have read the information stated above and understand the implications of having my profile deleted"
+CHECK_READ_BEFORE_PROFILE_DELETE = "I have read the information stated above and understand the implications of having my profile deleted."
 
 # forms.py
 
 DECLARATION_RIGHTS = "I certify that this is original and not published anywhere else \
-            (except from venues not restricting publication here such as preprint servers, \
+            (except from venues not restricting publication on this site such as preprint servers, \
                  private websites, conferences and journals with permissive agreements, etc.)"
 
 DECLARATION_AUTHORS = "All authors read and approved the final manuscript"
@@ -106,9 +106,9 @@ DECLARATION_REVIEW = "I would like this paper reviewed"
 
 # routes_def.py
 
-ADMIN_ROLE_REQUIRED = 'You must be a admin to access this page'
+ADMIN_ROLE_REQUIRED = 'You must be an admin to access this page.'
 
-RESEARCHER_ROLE_REQUIRED = 'You must be a scientist user to access this page'
+RESEARCHER_ROLE_REQUIRED = 'You must be a researcher user to access this page.'
 
-FLASH_TEST_VERISON = 'This is a testing version'
+FLASH_TEST_VERISON = 'This is a test version.'
 

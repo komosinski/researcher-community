@@ -108,8 +108,7 @@
 
     {% if current_user.is_authenticated and current_user.is_standard_user() and (current_user.get_id()|int==user.id) %}
         <div>
-            <h3>Note: You must be a researcher to publish articles and gain access to other features. More information: <a href="{{url_for('help_page')}}">Help</a> </h3>
-           
+            <h3>Note: To publish and review articles, you need to be endorsed as a researcher. More information: <a href="{{url_for('help_page')}}">Help</a> </h3>
         </div>
     {% endif %}
 
