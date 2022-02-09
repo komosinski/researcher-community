@@ -309,7 +309,13 @@ def upload_revision(id):
         authors = previous_version.rel_creators
         tags = previous_version.rel_related_tags
 
-        # TODO: add changes
+        
+        if form.review_declaration.data is True:
+            chosen_confidence_level = form.confidence_level.data
+        else:
+            chosen_confidence_level = 0
+
+
         new_version = PaperRevision(
             pdf_url="",
             title=title,
@@ -318,7 +324,8 @@ def upload_revision(id):
             rel_creators=authors,
             rel_related_tags=tags,
             preprocessed_text="",
-            version=int(previous_version.version) + 1
+            version=int(previous_version.version) + 1,
+            confidence_level=chosen_confidence_level
         )
 
         db.session.flush()
@@ -707,8 +714,8 @@ def contact_staff_page():
 
     return render_template('help/contact_staff.html', form=form)
 
+
 def about_page():
-    start_scheduler()
     return render_template('about.html')
 
 
