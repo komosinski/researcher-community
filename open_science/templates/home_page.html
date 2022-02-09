@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+
     <!--h1>HOME PAGE</h1-->
+<center>
     <h3>This is the map of researchers in our community. Join us to be included!</h3>
-    <img src="{{url_for('static', filename='res/users_plot.png')}}" alt="Users" height="70%">
+    <img src="{{url_for('static', filename='res/users_plot.png')}}" alt="Users" width="70%" />
+</center>
+
 {% endblock %}
