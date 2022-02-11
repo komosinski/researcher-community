@@ -105,19 +105,28 @@ main {
     align-items: center;
     background-color: #c6e4ff;
     height: fit-content;
-    text-align: center;
-    padding: 4px 0px 4px 0px;
+    padding: 8px 16px 8px 16px;
     flex-wrap: wrap;
 }
 
-.header-logo-wrapper {
-    font-size: 2em;
-    font-weight: 600;
-    padding: 0px 10px 0px 10px;
+.header-logo-image {
+    height: 4rem;
+}
+
+.header-logo-text {
+    font-size: 60%;
+    margin: 0;
+}
+
+.header-search {
+    text-align: center;
+}
+
+.header-login-span {
+    padding: 0.2rem;
 }
 
 .header-user-control {
-    padding: 0px 10px 0px 10px;
 }
 
 .author-wrapper {
@@ -150,6 +159,24 @@ main {
 .header-username {
     margin-right: 0px;
 }
+
+
+
+
+@media screen and (max-width: 900px) {
+	.header-logo-wrapper {order: 0;}
+	.header-user-control {order: 1;}
+	.header-search {order: 2; flex-basis: 100%; margin-top: 1.5rem;}
+
+	.header-logo-image {height: 3rem;}
+}
+
+
+
+
+
+
+
 
 .main-footer {
     background-color: #c6e4ff;

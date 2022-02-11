@@ -7,7 +7,7 @@ adjust the reasonable similarity threshold value to find reviewers matching pape
 after clicking the 2D plot on the main page, open a self-contained html with a 3D scatter plot (also re-created daily) https://plotly.com/python/3d-scatter-plots/
 with points displaying names of researchers on-hover. https://plotly.com/python/hover-text-and-formatting/
 
-nicer css (in most cases, use rem instead of px units), also tested on mobile
+nicer css, also tested on mobile
 
 reviewer remarks movable up/down (reorder'able)
 

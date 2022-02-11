@@ -29,8 +29,7 @@
 }
 
 .header-search-wrapper {
-    display: flex;
-    height: 35px;
+    display: inline-flex;
 }
 
 .search-button {
