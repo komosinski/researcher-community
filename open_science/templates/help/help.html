@@ -2,19 +2,53 @@
 {% block content %}
     <h1>Help</h1>
 
-        <p>See also <a href="{{url_for('faq_page')}}">Frequently asked questions</a>.</p>
 
-            <h4>The "researcher status" and endorsement</h4>
-                <p>Some users are automatically endrosed based on their institutional email address.
-                <p>To get the researcher status, you can ask other endorsed users (via the button in their profile pages) to endorse you.
-Alternatively, you can send a message to our staff to have your institution included or your particular account endorsed.
-  
+
+<style>
+.indent {margin-left: 8%;}
+.question {font-weight: bold; margin-top:2rem;}
+</style>
+
+<p class="question">May I publish my paper here and then submit it to some journal or conference?</p>
+
+<p class="indent">
+If your paper is original and they allow it (most publishers do), then yes.
+If your paper that exists here gets accepted and published somewhere else, remember to indicate this in the last revision of your paper here.
+</p>
+
+
+<p class="question">May I publish my paper here given that it was already published in some journal or conference proceedings?</p>
+
+<p class="indent">
+This depends on the publishing agreement (if you signed any) or publisher's arrangements.
+</p>
+
+
+<p class="question">I have created an account. How can I get the <i>researcher</i> status to upload and review papers?</p>
+
+<p class="indent">
+You can ask other endorsed users (via the button in their profile pages) to endorse you. Alternatively, you can send a message to our staff to have your particular endorsed.
+</p>
+
+
+
+<p class="question">Can I really ask for reviews here? Who will review my paper?</p>
+
+<p class="indent">
+Endorsed researchers like you and me will review it, if they agree. This service relies on peer review, as it is traditionally done in research. The system will try to find reviewers matching the area of your paper while avoiding obvious conflicts of interest. This is why it is so important to invite your peers to join, so that all researchers can cooperate in our journey of scientific progress.
+</p>
+
+
+
+
 
 <br><br><br>
-        
-        <form class="user-action" action="{{url_for('contact_staff_page')}}" method="GET">    
-            <button class="large-button secondary-button" type="submit">Contact our staff</button>
-        </form>
+
+<form class="user-action" action="{{url_for('contact_staff_page')}}" method="GET">
+	<button class="large-button secondary-button" type="submit">Contact our staff</button>
+</form>
+
+
 
 
 {% endblock %}
