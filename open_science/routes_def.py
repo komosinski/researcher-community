@@ -687,13 +687,11 @@ def reviews_list_page(page, search_data, order_by):
                            order_by=order_by)
 
 
-def faq_page():
-    # TODO: implement search etc
-    return render_template('help/faq.html')
+def contribute_page():
+    return render_template('help/contribute.html')
 
 
 def help_page():
-    # TODO: implement search etc
     return render_template('help/help.html')
 
 

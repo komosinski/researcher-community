@@ -203,9 +203,9 @@ def invite_user_page():
     return user_rd.invite_user_page()
 
 
-@app.route('/help/faq')
-def faq_page():
-    return rd.faq_page()
+@app.route('/contribute')
+def contribute_page():
+    return rd.contribute_page()
 
 
 @app.route('/help')
