@@ -122,7 +122,7 @@ class RegisterFormTemplate(FlaskForm):
                               Optional(), FileAllowed(['jpg', 'png'],
                                                       'Images only!')])
 
-    calibration_files = MultipleFileField(label="Upload papers representative to your area of expertise (Optional)",
+    calibration_files = MultipleFileField(label="Upload papers (PDF files) representative to your area of expertise (Optional)",
                                           validators=[FileAllowed('pdf')])
 
 

@@ -83,6 +83,9 @@ function showReviewWarning(value) {
         {% endfor %}
 
         <div class="label-wrapper">{{ form.calibration_files.label()}}</div>
+                <div class="label-wrapper">
+                    These papers will not be published here, so you can even upload papers for which you have transferred copyright. These articles are only used to extract raw text in order to identify your area of expertise.
+                </div>
         {{ form.calibration_files()}}
         {% for error in form.calibration_files.errors %}
         <span style="color: red;">[{{ error }}]</span>
