@@ -27,4 +27,40 @@ the <head>'s <title> should also contain the title of each particular page; mayb
 
 if the profile image is larger than 256px in any dimension, rescale proportionally down to max 256px, then save as jpeg, quality 90%.
 
+------------------------------------------------------------------------
+
+pola edycyjne - usuniecie wszelkich powielen (na ile można) zarowno w py jak i w templates
+
+
+refaktoryzacja kodu pod kątem eliminacji powtórzeń
+
+
+komentarz do pola powinien byc w kodzie zwiazany z polem, zeby w templatach nie trzeba bylo go powielac?
+np. uzyc pole description, ale fajnie by bylo zeby w nim <br> albo <p> albo \n albo cos innego dzialalo jako zlamanie linii
+
+
+enumy: w bazie danych tylko ID, a w kodzie pythonowym zmienne enum i slowniki - odpowiadajace enumom teksty (w strings.py)
+
+
+problem z autoryzacja: jestem zalogowany od kilkunastu godzin, widze sie jako zalogowany, wszystko prywatne dziala,
+ale po kliknieciu "edit profile" (/user/edit_profile?) widzę
+"Unauthorized
+The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."
+...to dlatego, że jest dekorator wymuszajacy powtorne logowanie przy odtworzeniu sesji z cookies?
+- dodanie poprawnego redirect'a zeby flask-login wiedzial gdzie jest logowanie
+- i do sprawdzenia doklandie kiedy on chce przelogowania.
+
+
+tworzenie klucza sesji: do ID dodac tez email? (nie bedzie ryzyka ze inny user o tym samym id (np. user/1) "przejmie" zalogowanie
+
+
+wykres 2D na glownej stronie: bbox=tight
+
+
+emails & regexps: poprawna, bezpieczna implementacja (do omówienia)
+
+
+tryb read-only = zadnych zapisow do bazy danych, poza tym maksymalnie funkcjonalne na ile można
+
+
 .git_public (two repositories in one root directory)
