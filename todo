@@ -46,9 +46,9 @@ problem z autoryzacja: jestem zalogowany od kilkunastu godzin, widze sie jako za
 ale po kliknieciu "edit profile" (/user/edit_profile?) widzę
 "Unauthorized
 The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."
-...to dlatego, że jest dekorator wymuszajacy powtorne logowanie przy odtworzeniu sesji z cookies?
+...to dlatego, że jest dekorator wymuszajacy powtorne logowanie przy odtworzeniu sesji z cookies? (dotyczy 4 stron?)
 - dodanie poprawnego redirect'a zeby flask-login wiedzial gdzie jest logowanie
-- i do sprawdzenia doklandie kiedy on chce przelogowania.
+- i do sprawdzenia dokladnie kiedy on chce przelogowania.
 
 
 tworzenie klucza sesji: do ID dodac tez email? (nie bedzie ryzyka ze inny user o tym samym id (np. user/1) "przejmie" zalogowanie
@@ -58,6 +58,9 @@ wykres 2D na glownej stronie: bbox=tight
 
 
 emails & regexps: poprawna, bezpieczna implementacja (do omówienia)
+
+
+in config.py, MAINTENANCE_MESSAGE = "(scheduled maintenance)" displayed on the maintenance page.
 
 
 tryb read-only = zadnych zapisow do bazy danych, poza tym maksymalnie funkcjonalne na ile można
