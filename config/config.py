@@ -109,7 +109,9 @@ class Config(object):
     SIMILARITIES_MATRIX_URL = \
         'server_files/generated_files/similarities_matrix.npy'
     # Url to processing text users plot
-    USERS_PLOT_URL = 'open_science/static/res/users_plot.html'
+    USERS_PLOT_URL = 'open_science/static/res/users_plot'
+
+    USERS_PLOT_3D_URL = 'open_science/static/res/users_plot_3D.html'
 
     # url to pdfs folder
     PDFS_FOLDER_URL = 'open_science/static/articles'
