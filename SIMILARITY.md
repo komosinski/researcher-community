@@ -72,6 +72,8 @@ Sparsity of the similarity matrix is around 5%.
 With 120 articles
 Matrix size =  14 400 values.
 In this matrix, there was 720 non-zero values. 
+This value depends of articles in the system. 
+If function (gensim similarities.SparseMatrixSimilarity), that creates sparse matrix, finds more or less values important, sparsity can be higher or lower.
 
 ## Triggers and scheduled events: when and what is recalculated
 
