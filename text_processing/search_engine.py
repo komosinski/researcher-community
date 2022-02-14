@@ -68,9 +68,9 @@ def get_similar_users_to_article(article_id, users_dict_id):
     for article_ranked in ranking:
         for user_articles in users_dict_id.values():
             position = val_list.index(user_articles)
-            if article_ranked in user_articles and position < len(key_list):
+            if article_ranked in user_articles:
                 ranking_users.append(key_list[position])
-            if int(article_id) in user_articles and position < len(key_list):
+            if int(article_id) in user_articles:
                 user = key_list[position]
     ranking_users = list(filter(lambda a: a != user, ranking_users))
     ranking_users = set(ranking_users)
