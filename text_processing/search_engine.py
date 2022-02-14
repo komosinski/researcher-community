@@ -5,7 +5,7 @@ from text_processing.similarity_matrix import get_similarities_matrix, get_tfidf
 
 
 # In: User ID and dictionary of users and array of his articles ID
-# Out: Array as ranking od most similar users to User ID specified in function argument
+# Out: Array as ranking of most similar users to User ID specified in function argument
 def get_similar_users_to_user(user_id, users_dict_id):
     matrix = get_similarities_matrix()
     matrix = np.array(matrix)

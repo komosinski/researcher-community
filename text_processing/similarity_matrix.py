@@ -141,7 +141,7 @@ def get_similarities_matrix():
 
 
 # Calculate similarity of new article to all articles in th system
-# Add this values as column and row with 1.00 as similarity to itself
+# Add this values to similarity matrix as column and row with 1.00 as similarity to itself
 def update_similarity_matrix(new_article):
     similarity_matrix = get_similarities_matrix()
     matrix_tfidf = get_tfidf_matrix()
