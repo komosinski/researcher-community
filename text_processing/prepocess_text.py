@@ -37,7 +37,6 @@ def stemming(text):
     stem_text = [porter_stemmer.stem(word) for word in text]
     return stem_text
 
-
 def preprocess_text(text):
     text = lower_text(text)
     text = word_tokenize(text)
@@ -48,7 +47,7 @@ def preprocess_text(text):
     text = " ".join(text)
     return text
 
-
+# Extract text from PDF file
 def get_text(file):
     with open(file, "rb") as f:
         pdf = pdftotext.PDF(f)

@@ -5,6 +5,7 @@ from open_science import app
 import open_science.models as db_models
 import os
 
+
 # returns list with all calibration papers and paper revisions preprocessed texts
 def get_all_papers_texts():
     all_paper_texts = []
@@ -17,6 +18,7 @@ def get_all_papers_texts():
     return all_paper_texts
 
 
+# Creates new dictionary from text in database
 def create_dictionary():
     dictionary = []
 
@@ -27,13 +29,14 @@ def create_dictionary():
     return dictionary
 
 
+# Save dictionary to the file
 def save_dictionary(dictionary):
-
     dictionary_url = os.path.join(app.config['ROOTDIR'],
                                   app.config['DICTIONARY_URL'])
     dictionary.save(dictionary_url)
 
 
+# Get dictionary from file
 def get_dictionary():
     dictionary = []
 
@@ -43,7 +46,9 @@ def get_dictionary():
 
     return dictionary
 
+
 # new_text is array of strings
+# Adds new added words that didn't appear in dictionary
 def update_dictionary(new_article):
     dictionary = get_dictionary()
     new_words = [[text for text in doc.split()] for doc in new_article]
@@ -74,15 +79,18 @@ def save_tfidf_matrix(tfidf_matrix):
     tfidf_matrix.save(tfidf_matrix_url)
 
 
+# Get tf-idf model from file
 def get_tfidf_matrix():
     tfidf_matrix = []
 
-    tfidf_matrix_url = os.path.join(app.config['ROOTDIR'], 
+    tfidf_matrix_url = os.path.join(app.config['ROOTDIR'],
                                     app.config['TFIDF_MATRIX_URL'])
     tfidf_matrix = corpora.Dictionary.load(tfidf_matrix_url)
 
     return tfidf_matrix
 
+
+# Create new model with updated dictionary
 def update_tfidf_matrix():
     tfidf_matrix = []
 
@@ -95,6 +103,7 @@ def update_tfidf_matrix():
     save_tfidf_matrix(tfidf_matrix)
 
     return tfidf_matrix
+
 
 # returns similarities matrix created from preprocessed texts
 def create_similarities_matrix():
@@ -120,6 +129,7 @@ def save_similarities_matrix(similarities_matrix):
     np.save(similarities_matrix_url, similarities_matrix)
 
 
+# Get similarity matrix from file
 def get_similarities_matrix():
     similarities_matrix = []
 
@@ -129,6 +139,9 @@ def get_similarities_matrix():
 
     return similarities_matrix
 
+
+# Calculate similarity of new article to all articles in th system
+# Add this values as column and row with 1.00 as similarity to itself
 def update_similarity_matrix(new_article):
     similarity_matrix = get_similarities_matrix()
     matrix_tfidf = get_tfidf_matrix()

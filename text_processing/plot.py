@@ -8,6 +8,8 @@ import plotly.express as px
 import pandas as pd
 
 
+# This function create plot for the main page. Plot shows similarities of users in the system.
+# It uses get_similar_users_to_user function for creating matrix of similarity of all users in system.
 def create_save_users_plot():
     all_users = User.query.all()
     users_dict_id = {}

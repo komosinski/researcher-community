@@ -4,6 +4,8 @@ from text_processing.prepocess_text import preprocess_text
 from text_processing.similarity_matrix import get_similarities_matrix, get_tfidf_matrix, get_dictionary
 
 
+# In: User ID and dictionary of users and array of his articles ID
+# Out: Array as ranking od most similar users to User ID specified in function argument
 def get_similar_users_to_user(user_id, users_dict_id):
     matrix = get_similarities_matrix()
     matrix = np.array(matrix)
@@ -28,6 +30,8 @@ def get_similar_users_to_user(user_id, users_dict_id):
     return ranking_users[1:], np.concatenate(list(ranking.values()), axis=0)
 
 
+# In: Article ID and list of articles ID's in the system
+# Out: Array as ranking of the most similar articles
 def get_similar_articles_to_articles(article_id, articles_id_list):
     similar_ranking = []
     matrix = get_similarities_matrix()
@@ -40,6 +44,8 @@ def get_similar_articles_to_articles(article_id, articles_id_list):
     return similar_ranking
 
 
+# In: Searched text by the user and list of articles ID's in the system
+# Out: Array as ranking of most similar articles
 def search_articles_by_text(search_text, articles_id_list):
     matrix = get_tfidf_matrix()
     dictionary = get_dictionary()
