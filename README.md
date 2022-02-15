@@ -67,7 +67,7 @@ TODO high-level description of what is where, what purpose, directories, modules
 
 ------------------
 
-`text_processing` - text processing module
+`text_processing` - text processing module, [see SIMILARITY.md](SIMILARITY.md)
 
  <br />
  
