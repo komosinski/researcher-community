@@ -1,80 +1,82 @@
 # Specification of similarity calculations
 
-Similarity matrix is created using tf-idf model. First system creates dictionary that store every word in the system and give words an ID. 
+Similarity matrix is created using the tf-idf model. First, the system creates the dictionary that stores every word in the system and gives words an ID.
 
 text_processing/similarity_matrix.py function:
 
     def create_dictionary()
 
-After that created is tfidf model. This model creates corpus that shows what words from dictionary appear in specific articles and how often.
-Using this corpus tf-idf model changes weights of some words to find the most important. And with tf-idf model we want to create sparse matrix that we can use to find similarities between articles.
-Sparse matrix is created using gensim similarities.SparseMatrixSimilarity function that we need to specify its min size, that is the size of the dictionary created before.
+After that, the tf-idf model is created. This model creates a corpus that shows what words from the dictionary appear in specific articles, and how often.
+Using this corpus, the tf-idf model changes weights of some words to find the most important ones. And with the tf-idf model, we want to create a sparse matrix that we can use to find similarities between articles.
+The sparse matrix is created using the gensim `similarities.SparseMatrixSimilarity` function and we need to specify its min size, that is the size of the dictionary created before.
 
 text_processing/similarity_matrix.py function:
 
     def create_tfidf_matrix()
 
-Finally, when we have tf-idf model, we can create similarities between articles by adding to this model whole corpus. 
-This will allow us to see similarities between articles. We can add here some specific words, and we will get similarities between these words and all articles in the system.
-This functionality is used in function search_articles_by_text in text_processing/similarity_matrix.py file. 
+Finally, when we have the tf-idf model, we can create similarities between articles by adding to this model the entire corpus. 
+This will allow us to calculate similarities between articles. We can add here some specific words, and we will get similarities between these words and all articles in the system.
+This functionality is used in function search_articles_by_text in the `text_processing/similarity_matrix.py` file. 
 
 text_processing/similarity_matrix.py function:
 
     def create_similarities_matrix()
 
-This 3 functions save and read its object to files in its own specific object format for optimization.
+These 3 functions save and read their objects to files in their own specific object format (for efficiency).
 
 ## Estimating the similarity between two articles
 
-Similarity between articles is calculated, using the similarity matrix saved in file in text_processing/search_engine.py
+Similarity between articles is calculated using the similarity matrix saved in the file in `text_processing/search_engine.py`.
 
     def get_similar_articles_to_articles(article_id, articles_id_list)
 
-We have to give article ID which we search for similar articles and list of ID of articles in system. The result is sorted in a list of most similar articles.
+We have to provide an article ID for which we search for similar articles, and a list of IDs of articles in the system. The result is sorted in a list of most similar articles.
 
 ## Estimating the similarity between two researchers
 
-Similarities between users is calculated using similarity matrix saved in file. 
+Similarities between users are calculated using the similarity matrix saved in the file.
 
 In text_processing/search_engine.py:
 
     def get_similar_users_to_user(user_id, users_dict_id)
 
-We have to give specific user ID that we search for similar users and list of ID's of users in the system. 
-Users similarity is calculated by the average similarity of users articles (we are searching for articles that some user written, then we calculate average similarity to specific user (user_ID in this function)).
+We have to provide a specific user ID for which we search for similar users, and a list of IDs of users in the system.
+Users similarity is calculated as the average similarity of users' articles; we search for articles that some user authored, then we calculate the average similarity to a specific user (user_ID in this function).
 
 
 ## What happens when a user uses "search"
 
-Search by text function uses saved in file tf-idf model. Function calculate similarity between words that user searched and all articles in system. 
+The "Search by text" function uses the tf-idf model saved in the file. The function calculates the similarity between words that the user searched for and all articles in system. 
 
     def search_articles_by_text(search_text, articles_id_list)
 
+
 ## What happens when a researcher uploads/updates a paper
 
-First we extract text from pdf, using pdftotext library.
+First, raw text from the pdf is extraced using the `pdftotext` library.
 
 In text_processing/prepocess_text.py file:
 
     def get_text(file) 
 
-Then we preprocess text which will be saved in database. 
+Then we preprocess the text so that it can be saved in the database. 
 
     def preprocess_text(text) in text_processing/prepocess_text.py file
 
-This text is used in creating dictionary and tf-idf model. We only uses preprocess text to calculate similarities.
+This text is used in creating the dictionary and the tf-idf model. We only use the preprocessed text to calculate similarities.
 
-When we add new article we don't calculate new object every time, instead we add new values to existing object so that we can calculate similarities much faster and more efficient.
+When we add a new article, we don't calculate the entire new object every time. Instead we incrementally add only new values to the existing object so that we can calculate similarities much faster and more efficiently.
+
 
 ## Similarity matrix
 
-Sparsity of the similarity matrix is around 5%. 
-With 120 articles
-Matrix size =  14 400 values.
-In this matrix, there was 720 non-zero values. 
-This value depends of articles in the system. 
-If function (gensim similarities.SparseMatrixSimilarity), that creates sparse matrix, finds more or less values important, sparsity can be higher or lower.
+For a small set of test articles (120 papers), the sparsity of the similarity matrix is around 5%. 
+Matrix size is 120^2=14400 values.
+In this matrix, for the test papers, there were 720 non-zero values. 
+This amount depends on the particular articles in the system. 
+If the function gensim `similarities.SparseMatrixSimilarity` that creates the sparse matrix finds more or less important values, the sparsity ratio can be higher or lower.
+
 
 ## Triggers and scheduled events: when and what is recalculated
 
-Scheduled event is calculating all saved objects in files form scratch and creates new scatter plot for the main page.
+The scheduled event is calculating all saved objects in files from scratch and creates new scatter plot(s) for the main page.
