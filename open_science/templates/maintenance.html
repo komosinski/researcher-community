@@ -2,45 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/76299a18fd.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='res/favicon.png') }}">
     <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-top: 80px;
-        }
+	body, html {
+		margin: 0;
+		height: 100%;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Liberation Sans", sans-serif;
+	}
 
         .maintenance-wrapper {
             display: flex;
             flex-direction: column;
+            height: 100%;
             align-items: center;
             justify-content: center;
         }
 
+	.header-logo-image {
+		height: 4rem;
+	}
+
         .icon {
-            font-size: 180px;
-            margin-bottom: 40px;
+            font-size: 6rem;
+            margin-bottom: 2rem;
         }
 
         .row-major {
-            margin-bottom: 0px;
+            margin-bottom: 0rem;
+            text-align: center;
         }
 
         .row-minor {
-            margin-top: 10px;
+            margin-top: 2rem;
+            text-align: center;
         }
     </style>
-    <title>Website maintenance</title>
+    <title>Website maintenance | researcher.community</title>
 </head>
 <body>
     <div class="maintenance-wrapper">
+        <img src="{{url_for('static', filename='res/logo.png')}}" class="header-logo-image" alt="Researcher.community main page" />
         <i class="fas fa-wrench icon"></i>
         <h1 class="row-major">We are currently undergoing maintenance.</h1>
-        <h4 class="row-minor">Come back soon!</h4>
+        <h3 class="row-minor">Come back soon!</h3>
     </div>
 </body>
 </html>
