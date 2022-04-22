@@ -1,6 +1,5 @@
 from itsdangerous import URLSafeTimedSerializer
-from open_science import app
-
+from flask import current_app as app
 
 def generate_password_confirmation_token(email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])

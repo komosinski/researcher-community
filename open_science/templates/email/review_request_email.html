@@ -10,7 +10,5 @@ You have a new review request for consideration.
 <br>
 <div>
     <h4>Please visit our site for more details:</h4>
-    <a class="btn" href="{{url_for('review_request_page', request_id=data['request_id'], _external=True)}}" >Request details</a>
+    <a class="btn" href="{{url_for('review.review_request_page', request_id=data['request_id'], _external=True)}}" >Request details</a>
 </div>
-
-<!-- <a href="{{ url_for('profile_page',user_id=data['user_id'], _external=True) }}">{{ url_for('profile_page',user_id=data['user_id'], _external=True) }}</a> -->

@@ -6,7 +6,7 @@
 
   
         <h2>
-            <a class="" href="{{ url_for('profile_page',user_id=reviews.items[0].creator)}}">
+            <a class="" href="{{ url_for('user.profile_page',user_id=reviews.items[0].creator)}}">
             {{reviews.items[0].get_author_name()}}'s 
             </a>
             reviews

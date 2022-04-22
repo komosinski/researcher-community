@@ -1,8 +1,8 @@
 from wtforms import StringField, SubmitField, RadioField,\
-    widgets, SelectMultipleField
+    widgets, SelectMultipleField, TextAreaField
 from wtforms.fields.core import BooleanField
 from wtforms.fields.simple import HiddenField
-from wtforms.validators import Length, Optional, StopValidation
+from wtforms.validators import Length, Optional, StopValidation, DataRequired
 from flask_wtf import FlaskForm
 import config.models_config as mc
 from open_science.models import DeclinedReason
@@ -88,3 +88,13 @@ class ReviewEditForm(FlaskForm):
 
     submit = SubmitField(label='Send')
     save = SubmitField(label='Save')
+
+class CommentForm(FlaskForm):
+    content = TextAreaField("Add comment",
+                            validators=[DataRequired(),
+                                        Length(max=mc.COMMENT_TEXT_L)]
+                            )
+    refObjectType = HiddenField()
+    refObjectID = HiddenField()
+    comment_ref = HiddenField()
+    submit_comment = SubmitField("Publish comment")

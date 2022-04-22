@@ -42,7 +42,7 @@ def create_paper_comment_notifications(paper_revision, comment, comment_creator_
                                     f'Reviewer commented article: \
                                         {paper_revision.title}',
                                     paper_creator,
-                                    url_for('article',
+                                    url_for('paper.article',
                                             id=paper_revision.parent_paper) +
                                     f'#c{comment.id}'
                 )
@@ -65,7 +65,7 @@ def create_paper_comment_notifications(paper_revision, comment, comment_creator_
                                     f'New comment under article: \
                                         {paper_revision.title}',
                                     paper_creator,
-                                    url_for('article',
+                                    url_for('paper.article',
                                             id=paper_revision.parent_paper) +
                                     f'#c{comment.id}'
                 )
@@ -78,7 +78,7 @@ def add_new_review_notification(review):
         create_notification(NotificationTypeEnum.NEW_REVIEW.value,
                             'You have new review under your paper',
                             paper_creator,
-                            url_for('review_page', review_id=review.id))
+                            url_for('review.review_page', review_id=review.id))
         em.send_new_review_notification(paper_creator.email,
                                         review.id,
                                         paper_revision.title)

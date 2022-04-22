@@ -154,7 +154,7 @@
         {% if review.is_anonymous %}
         Anonymous
         {% else %}
-        <a href="{{url_for('profile_page', user_id=data['creator_id'])}}">
+        <a href="{{url_for('user.profile_page', user_id=data['creator_id'])}}">
             {{data['creator_first_name']}}  {{data['creator_second_name']}}
         </a>    
         {% endif %}
@@ -256,7 +256,7 @@
                     <div class="author-wrapper comment-author">
                         <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~author.get_id()~'.jpg') if author.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
                         <div class="comment-answer-info">
-                            <a style="font-size: 1.2rem;"class="author-name header-username" href="{{url_for('profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
+                            <a style="font-size: 1.2rem;"class="author-name header-username" href="{{url_for('user.profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
                             {%if comment.comment_ref %}
                                 answering to <a href="#c{{comment.comment_ref}}">#c{{comment.comment_ref}}</a>
                             {%endif%}
@@ -305,7 +305,7 @@
         {%endfor%}
         {% if current_user.is_authenticated and current_user.can_comment() %}
         <div class="create-comment-wrapper" id="add-comment">
-            <form method="POST" action="{{url_for('review_page', review_id=review.id)}}">
+            <form method="POST" action="{{url_for('review.review_page', review_id=review.id)}}">
                 {{form.hidden_tag()}}
                 {{form.comment_ref()}}
                 <!-- {{render_register_field(form.content, "Type your comment here...")}} -->

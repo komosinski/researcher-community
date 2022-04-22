@@ -219,7 +219,7 @@
                 {% for user in article.rel_creators %}
                     <div class="author-wrapper">
                         <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~user.id~'.jpg') if user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
-                        <a class="author-name" href="{{url_for('profile_page', user_id=user.id)}}">{{user.first_name + " " + user.second_name}}</a>
+                        <a class="author-name" href="{{url_for('user.profile_page', user_id=user.id)}}">{{user.first_name + " " + user.second_name}}</a>
                     </div>
                 {% endfor %}
             </div>
@@ -228,7 +228,7 @@
             </div>
             <div class="tags-wrapper">
                 {% for tag in article.rel_related_tags %}
-                    <a href="{{url_for('tag_page',tag_name=tag.name)}}">#{{tag.name}}</a>
+                    <a href="{{url_for('tag.tag_page',tag_name=tag.name)}}">#{{tag.name}}</a>
                 {%endfor%}
             </div>
         </div>
@@ -250,7 +250,7 @@
                         <div class="author-wrapper comment-author">
                             <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
                             <div class="comment-answer-info">
-                                <a style="font-size: 1.2rem;"class="author-name header-username" href="{{url_for('profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
+                                <a style="font-size: 1.2rem;"class="author-name header-username" href="{{url_for('user.profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
                                 {%if comment.comment_ref %}
                                     answering to <a href="#c{{comment.comment_ref}}">#c{{comment.comment_ref}}</a>
                                 {%endif%}
@@ -299,7 +299,7 @@
             {%endfor%}
             {% if current_user.is_authenticated and current_user.can_comment() %}
             <div class="create-comment-wrapper" id="add-comment">
-                <form method="POST" action="{{url_for('article', id=article.parent_paper, version=article.version)}}">
+                <form method="POST" action="{{paper.article', id=article.parent_paper, version=article.version)}}">
                     {{form.hidden_tag()}}
                     {{form.comment_ref()}}
                     <!-- {{render_register_field(form.content, "Type your comment here...")}} -->
@@ -343,14 +343,14 @@
                     {% if version.version == article.version %}
                         <p style="margin: 0">v{{version.version}}, {{moment(version.publication_date).format('L')}}
                             {% if version.version >1%}
-                            [<a href="{{url_for('revision_changes_page', id=article.parent_paper, version=version.version)}}">changes</a>]
+                            [<a href="{{url_for('paper.revision_changes_page', id=article.parent_paper, version=version.version)}}">changes</a>]
                             {%endif%}
                         </p>
 
                     {%else%}
-                        <a href="{{url_for('article', id=article.parent_paper, version=version.version)}}">v{{version.version}}, {{moment(version.publication_date).format('L')}}</a>
+                        <a href="{{url_for('paper.article', id=article.parent_paper, version=version.version)}}">v{{version.version}}, {{moment(version.publication_date).format('L')}}</a>
                         {% if version.version >1%}
-                        [<a href="{{url_for('revision_changes_page', id=article.parent_paper, version=version.version)}}">changes</a>]
+                        [<a href="{{url_for('paper.revision_changes_page', id=article.parent_paper, version=version.version)}}">changes</a>]
                         {%endif%}
                     {%endif%}
                

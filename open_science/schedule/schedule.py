@@ -3,10 +3,11 @@ from open_science.enums import NotificationTypeEnum, EmailTypeEnum
 from open_science.models import EmailLog, EmailType, Review, User, Paper
 import datetime as dt
 from sqlalchemy import func
-from open_science import app, db
-from open_science.notification.helpers import create_notification
+from flask import current_app as app
+from open_science import db
+from open_science.blueprints.notification.helpers import create_notification
 import open_science.email as em
-from open_science.review.helpers import prepare_review_requests
+from open_science.blueprints.review.helpers import prepare_review_requests
 import text_processing.similarity_matrix as sm
 from text_processing.plot import create_save_users_plot
 from open_science.extensions import scheduler

@@ -1,9 +1,39 @@
-from open_science import db
+from open_science.blueprints.api import bp
+from flask import current_app as app
+from flask_login import login_required
 from open_science.models import Tag, Review, Comment, PaperRevision, User
-from flask_login import current_user
 from flask import request
+from open_science import db
+from flask_login import current_user
+from open_science.utils import researcher_user_required
 
 
+@bp.route('/api/tags')
+def get_all_tags_data():
+
+    query = Tag.query
+    total_results = query.count()
+
+    # search filter and sorting
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(Tag.name.like(f'%{search.upper()}%'))\
+            .order_by(Tag.name.asc())
+
+    total_filtered = query.count()
+
+    return {
+        'data': [tag.to_dict() for tag in query],
+        'recordsFiltered': total_filtered,
+        'recordsTotal': total_results,
+        'draw': request.args.get('draw', type=int),
+    }
+
+
+
+@bp.route('/api/user_papers')
+@login_required
+@researcher_user_required
 def user_papers_data():
     query = PaperRevision.query \
         .join(User, PaperRevision.rel_creators) \
@@ -51,6 +81,10 @@ def user_papers_data():
     }
 
 
+
+@bp.route('/api/user_reviews')
+@login_required
+@researcher_user_required
 def user_reviews_data():
 
     query = Review.query.filter(Review.creator == current_user.id)
@@ -96,6 +130,11 @@ def user_reviews_data():
     }
 
 
+
+
+@bp.route('/api/user_tags')
+@login_required
+@researcher_user_required
 def user_tags_data():
 
     query = Tag.query.filter(Tag.creator == current_user.id)
@@ -142,6 +181,8 @@ def user_tags_data():
     }
 
 
+@bp.route('/api/user_comments')
+@login_required
 def user_comments_data():
 
     query = Comment.query.filter(Comment.creator == current_user.id)

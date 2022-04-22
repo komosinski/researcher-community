@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div>
-    <h4><a href="{{url_for('article', id=paper_revision.parent_paper, version=paper_revision.version)}}">{{paper_revision.title}}</a> changes in revision {{paper_revision.version}}</h4>
+    <h4><a href="{{url_for('paper.article', id=paper_revision.parent_paper, version=paper_revision.version)}}">{{paper_revision.title}}</a> changes in revision {{paper_revision.version}}</h4>
 </div>
 
 <h5>Remarks of all the reviewers:</h5>

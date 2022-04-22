@@ -1,10 +1,11 @@
 from gensim import corpora, models, similarities
 from gensim.utils import simple_preprocess
 import numpy as np
-from open_science import app
 import open_science.models as db_models
 import os
-
+# ImportError, use current_app instead
+# from open_science import app
+from flask import current_app as app
 
 # returns list with all calibration papers and paper revisions preprocessed texts
 def get_all_papers_texts():

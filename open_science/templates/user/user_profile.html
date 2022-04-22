@@ -57,14 +57,17 @@
             {% endif %}
 
             <div class="stats-wrapper">
+                {% if user.is_researcher() %}
                 <div class="stats-element-wraper">
                     <i class="fas fa-file-alt fa-center"></i>
-                    <a class="stat-value" href="{{url_for('advanced_search_papers_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['articles_num']}}</a>
+                    <a class="stat-value" href="{{url_for('search.advanced_search_papers_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['articles_num']}}</a>
                 </div>
                 <div class="stats-element-wraper">
                     <i class="fas  fa-center">Reviews:</i>
-                    <a class="stat-value" href="{{url_for('reviews_list_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['reviews_num']}}</a>
+                    <a class="stat-value" href="{{url_for('search.reviews_list_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['reviews_num']}}</a>
                 </div>
+                {% endif %}
+
                 <div class="stats-element-wraper">
                     <i class="fas fa-comment-alt fa-center"></i>
                     <p class="stat-value">{{data['comments_num']}}</p>
@@ -84,11 +87,11 @@
  
     {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) %}
     <div class="actions-wrapper">
-        <form class="user-action" action="{{url_for('edit_profile_page')}}" method="GET">    
+        <form class="user-action" action="{{url_for('user.edit_profile_page')}}" method="GET">    
             <button type="submit">Edit profile</button>
          </form>
 
-         <form class="user-action" action="{{url_for('invite_user_page')}}" method="GET">    
+         <form class="user-action" action="{{url_for('user.invite_user_page')}}" method="GET">    
             <button type="submit">Invite users</button>
          </form>
 
@@ -98,7 +101,7 @@
     {% if current_user.is_authenticated %}
         {% if current_user.can_request_endorsement(user.id) %}
             <div class="actions-wrapper">
-                <form class="user-action" action="{{url_for('request_endorsement', endorser_id = user.id)}}" method="GET">    
+                <form class="user-action" action="{{url_for('user.request_endorsement', endorser_id = user.id)}}" method="GET">    
                     <button type="submit">Request endorsement</button>
                 </form>
             </div>
@@ -108,7 +111,7 @@
 
     {% if current_user.is_authenticated and current_user.is_standard_user() and (current_user.get_id()|int==user.id) %}
         <div>
-            <h3>Note: To publish and review articles, you need to be endorsed as a researcher. More information: <a href="{{url_for('help_page')}}">Help</a> </h3>
+            <h3>Note: To publish and review articles, you need to be endorsed as a researcher. More information: <a href="{{url_for('main.help_page')}}">Help</a> </h3>
         </div>
     {% endif %}
 
@@ -142,7 +145,7 @@
         <div>
             <h3>My Papers</h3>
             {% if current_user.can_upload_paper() %}
-            <form class="user-action" action="{{url_for('upload_file_page')}}" method="GET">    
+            <form class="user-action" action="{{url_for('paper.upload_file_page')}}" method="GET">    
                 <button type="submit">Upload paper</button>
             </form>
             {% endif %}
@@ -160,7 +163,7 @@
         <div>
             <h3>My Tags</h3>
             {% if current_user.can_create_tag() %}
-            <form class="user-action" action="{{url_for('create_tag_page')}}" method="GET">    
+            <form class="user-action" action="{{url_for('tag.create_tag_page')}}" method="GET">    
                 <button type="submit">Create Tag</button>
             </form>
             {% endif %}

@@ -11,24 +11,24 @@
     <br><br>
     <h4>Scheduler</h4>
     <br>
-    <a href="{{url_for('start_scheduler')}}">
+    <a href="{{url_for('main.start_scheduler')}}">
         <button type="button" class="btn">Start scheduler</button>
     </a>
 
     <br><br>
 
-    <a href="{{url_for('force_daily_jobs')}}">
+    <a href="{{url_for('main.force_daily_jobs')}}">
     <button type="button" class="btn">Force daily jobs</button>
     </a>
 
     <br><br>
     <h4>Maintenance mode</h4>
     {% if config['MAINTENANCE_MODE'] %}
-        <a href="{{url_for('disable_maintenance_mode')}}">
+        <a href="{{url_for('main.disable_maintenance_mode')}}">
             <button type="button" class="btn">Disable Maintenance Mode</button>
         </a>
     {% else %}
-        <a href="{{url_for('enable_maintenance_mode')}}">
+        <a href="{{url_for('main.enable_maintenance_mode')}}">
             <button type="button" class="btn">Enable Maintenance Mode</button>
         </a>
     {% endif %}    

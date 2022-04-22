@@ -10,7 +10,7 @@ class MyAdminIndexView(admin.AdminIndexView):
     @expose('/')
     def index(self):
         if not current_user.is_authenticated:
-            return redirect(url_for('login_page'))
+            return redirect(url_for('auth.login_page'))
         elif current_user.privileges_set != \
                 current_user.user_types_enum.ADMIN.value:
             return redirect(url_for('home_page'))

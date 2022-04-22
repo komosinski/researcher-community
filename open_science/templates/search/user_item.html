@@ -3,7 +3,7 @@
         <div class = "">
             <div class="">
                 <h4></h4>
-                <a class="" href="{{ url_for('profile_page',user_id=item.id)}}">
+                <a class="" href="{{ url_for('user.profile_page',user_id=item.id)}}">
                     <p>{{item.first_name}} {{item.second_name}}</p>
                 </a>
                 <p><strong>Affiliation: </strong>{{item.affiliation}}</p>

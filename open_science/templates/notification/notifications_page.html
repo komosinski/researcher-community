@@ -10,10 +10,10 @@
     <h2>Notifications</h2>
     
         <a class="link-button  {% if unread != 'True' %}pressed{% endif %}"
-        href="{{ url_for('notifications_page', page=1, unread='False') }}">ALL</a>
+        href="{{ url_for('notification.notifications_page', page=1, unread='False') }}">ALL</a>
         
         <a class="link-button  {% if unread == 'True' %}pressed{% endif %}"
-        href="{{ url_for('notifications_page', page=1, unread='True') }}">UNREAD</a>
+        href="{{ url_for('notification.notifications_page', page=1, unread='True') }}">UNREAD</a>
 
         <br><br>
         
@@ -27,7 +27,7 @@
         {% if results.pages > 1 %}
             <div >
                 {% if results.page != 1 %}
-                <a href="{{ url_for('notifications_page', page=results.prev_num, unread=unread) }}"
+                <a href="{{ url_for('notification.notifications_page', page=results.prev_num, unread=unread) }}"
                     class="page-number">
                     &laquo;
                 </a>
@@ -36,12 +36,12 @@
                 {% for page_num in results.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                     {% if page_num %}
                         {% if results.page == page_num %}
-                        <a href="{{ url_for('notifications_page', page=page_num, unread=unread ) }}"
+                        <a href="{{ url_for('notification.notifications_page', page=page_num, unread=unread ) }}"
                         class="page-number pressed">
                             {{ page_num }}
                         </a>
                         {% else %}
-                        <a href="{{ url_for('notifications_page', page=page_num, unread=unread) }}"
+                        <a href="{{ url_for('notification.notifications_page', page=page_num, unread=unread) }}"
                         class="page-number">
                             {{ page_num }}
                         </a>
@@ -52,7 +52,7 @@
                 {% endfor %}
             
                 {% if results.page != results.pages %}
-                <a href="{{ url_for('notifications_page', page=results.next_num, unread=unread ) }}"
+                <a href="{{ url_for('notification.notifications_page', page=results.next_num, unread=unread ) }}"
                     class="page-number">
                     &raquo;
                 </a>

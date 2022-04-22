@@ -3,23 +3,26 @@ from flask import Markup
 from sqlalchemy import Table, DDL, event, Sequence
 from sqlalchemy.orm import validates
 from operator import and_, or_
+from flask_login import UserMixin
+import config.models_config as mc
+import datetime as dt
+from sqlalchemy import func
+from config.auto_endorse_config import EMAIL_REGEXPS
+import re
+import text_processing.search_engine as se
+
+from flask import current_app as app
+# ImportError, use current_app instead
+#from open_science import app
+
+from open_science.enums import UserTypeEnum, EmailTypeEnum, \
+    NotificationTypeEnum, MessageTopicEnum, LicenseEnum
 from open_science.db_queries import q_update_comment_score, q_update_user_red_flags_count, q_update_tag_red_flags_count, \
     q_update_review_red_flags_count, q_update_user_reputation, q_update_revision_red_flags_count, \
     q_update_comment_red_flags_count, q_update_revision_averages, qt_update_comment_score, qt_update_user_reputation, \
     qt_update_user_red_flags_count, qt_update_tag_red_flags_count, qt_update_review_red_flags_count, \
     qt_update_revision_red_flags_count, qt_update_comment_red_flags_count, qt_update_revision_averages
 from open_science.extensions import db, login_manager, bcrypt, admin
-from flask_login import UserMixin
-import config.models_config as mc
-from open_science.admin import MyModelView, UserView, MessageToStaffView
-import datetime as dt
-from sqlalchemy import func
-from open_science import app
-from open_science.enums import UserTypeEnum, EmailTypeEnum, \
-    NotificationTypeEnum, MessageTopicEnum, LicenseEnum
-from config.auto_endorse_config import EMAIL_REGEXPS
-import re
-import text_processing.search_engine as se
 
 
 @login_manager.user_loader
@@ -468,8 +471,8 @@ class Tag(db.Model):
             'name': Markup.escape(self.name),
             'description': Markup.escape(f'{self.description[:29]}...'),
             'deadline': self.deadline,
-            'edit_url': url_for('edit_tag_page', tag_id=self.id),
-            'show_url': url_for('tag_page', tag_name=Markup.escape(self.name))
+            'edit_url': url_for('tag.edit_tag_page', tag_id=self.id),
+            'show_url': url_for('tag.tag_page', tag_name=Markup.escape(self.name))
         }
 
 
@@ -590,13 +593,13 @@ class PaperRevision(db.Model):
             'title': Markup.escape(self.title),
             'publication_date': self.publication_date,
             'version': self.version,
-            'show_url': url_for('article', id=self.parent_paper, version=self.version),
+            'show_url': url_for('paper.article', id=self.parent_paper, version=self.version),
             # TODO: change new_verison
-            'new_verison_url': url_for('upload_new_revision', id=self.parent_paper),
+            'new_verison_url': url_for('paper.upload_new_revision', id=self.parent_paper),
             'reviews_count':\
             f'{len(self.get_published_reviews_list())}\
                  / {self.confidence_level}',
-            'more_reviews_url': url_for('increase_needed_reviews', revision_id=self.id)
+            'more_reviews_url': url_for('review.increase_needed_reviews', revision_id=self.id)
         }
 
     def get_published_reviews_list(self):
@@ -735,9 +738,9 @@ class Review(db.Model):
             'paper_title': Markup.escape(paper_revision.title),
             'paper_version': paper_revision.version,
             'publication_datetime': self.publication_datetime,
-            'edit_url': url_for('review_edit_page', review_id=self.id),
+            'edit_url': url_for('review.review_edit_page', review_id=self.id),
             'is_visible': 'No' if self.is_hidden else 'Yes',
-            'show_url': url_for('review_page', review_id=self.id)
+            'show_url': url_for('review.review_page', review_id=self.id)
         }
 
     def get_author_name(self):
@@ -899,11 +902,11 @@ class Comment(db.Model):
 
     def to_dict(self):
         refers_to = ''
-        show_url = url_for('home_page')
+        show_url = url_for('main.home_page')
         paper_verison = self.rel_related_paper_version
         if paper_verison:
             refers_to = 'Paper'
-            show_url = url_for('article',
+            show_url = url_for('paper.article',
                                id=paper_verison.parent_paper,
                                version=paper_verison.version) \
                 + f'#c{self.id}'
@@ -911,7 +914,7 @@ class Comment(db.Model):
         review = self.rel_related_review
         if review:
             refers_to = 'Review'
-            show_url = url_for('review_page', review_id=review.id) \
+            show_url = url_for('review.review_page', review_id=review.id) \
                 + f'#c{self.id}'
 
         return {
@@ -1439,14 +1442,6 @@ event.listen(
     'after_create',
     db_trig_update_revision_averages.execute_if(dialect='postgresql')
 )
-
-admin.add_view(MessageToStaffView(MessageToStaff, db.session))
-admin.add_view(UserView(User, db.session))
-admin.add_view(MyModelView(PaperRevision, db.session))
-admin.add_view(MyModelView(Tag, db.session))
-admin.add_view(MyModelView(Review, db.session))
-admin.add_view(MyModelView(ReviewRequest, db.session))
-admin.add_view(MyModelView(Comment, db.session))
 
 
 def create_essential_data():

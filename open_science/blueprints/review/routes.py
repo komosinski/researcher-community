@@ -1,18 +1,21 @@
-from open_science.forms import CommentForm
-from open_science.review.forms import ReviewRequestForm, ReviewEditForm
+from open_science.blueprints.review.forms import ReviewRequestForm, ReviewEditForm, CommentForm
 from open_science import db
 from open_science.models import Comment, PaperRevision, ReviewRequest, Review
 from open_science.models import Suggestion
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request, abort
 import json
-from open_science.db_helper import get_hidden_filter
+from open_science.blueprints.database.db_helper import get_hidden_filter
 import datetime as dt
-from open_science.routes_def import check_numeric_args
-from open_science import app
-from open_science.notification.helpers import add_new_review_notification
+from open_science.utils import check_numeric_args, researcher_user_required
+from flask import current_app as app
+from flask_login import login_required
+from open_science.blueprints.notification.helpers import add_new_review_notification
+from open_science.blueprints.review import bp
 
 
+@bp.route('/review/request/<request_id>', methods=['GET', 'POST'])
+@login_required
 def review_request_page(request_id):
     if not check_numeric_args(request_id):
         abort(404)
@@ -22,7 +25,7 @@ def review_request_page(request_id):
         ReviewRequest.requested_user == current_user.id).first_or_404()
     if review_request.decision is not None:
         flash('Review request has been resolved', category='warning')
-        return redirect(url_for('profile_page', user_id=current_user.id))
+        return redirect(url_for('user.profile_page', user_id=current_user.id))
 
     form = ReviewRequestForm()
     if form.validate_on_submit():
@@ -46,7 +49,7 @@ def review_request_page(request_id):
         db.session.add(review_request)
         db.session.commit()
 
-        return redirect(url_for('profile_page', user_id=current_user.id))
+        return redirect(url_for('user.profile_page', user_id=current_user.id))
 
     if form.errors != {}:
         for err_msg in form.errors.values():
@@ -56,13 +59,16 @@ def review_request_page(request_id):
 
     data = {
         'abstract': paper_version.abstract,
-        'paper_url': url_for('anonymous_article_page',
+        'paper_url': url_for('paper.anonymous_article_page',
                              id=paper_version.parent_paper,
                              version=paper_version.version)
     }
     return render_template('review/review_request.html', form=form, data=data)
 
 
+@bp.route('/review/edit/<review_id>', methods=['GET', 'POST'])
+@login_required
+@researcher_user_required
 def review_edit_page(review_id):
 
     if not check_numeric_args(review_id):
@@ -73,7 +79,7 @@ def review_edit_page(review_id):
     if review.can_be_edited() is False:
         flash('Review can\'t be edited due to new paper\'s revison',
               category='warning')
-        return redirect(url_for('profile_page', user_id=current_user.id))
+        return redirect(url_for('user.profile_page', user_id=current_user.id))
 
     suggestions = [s.to_dict() for s in review.rel_suggestions]
 
@@ -108,7 +114,7 @@ def review_edit_page(review_id):
 
             db.session.commit()
             flash('The review has been saved', category='success')
-            return redirect(url_for('profile_page', user_id=current_user.id))
+            return redirect(url_for('user.profile_page', user_id=current_user.id))
         elif form.submit.data:
             review.evaluation_novel = form.evaluation_novel.data/100
             review.evaluation_conclusion = form.evaluation_conclusion.data/100
@@ -140,7 +146,7 @@ def review_edit_page(review_id):
             db.session.commit()
             add_new_review_notification(review)
             flash('The review has been added', category='success')
-            return redirect(url_for('profile_page', user_id=current_user.id))
+            return redirect(url_for('user.profile_page', user_id=current_user.id))
 
     elif request.method == 'GET':
         form.evaluation_novel.data = int(review.evaluation_novel*100)
@@ -155,7 +161,7 @@ def review_edit_page(review_id):
     data = {
         'is_published': review.is_published(),
         'paper_url':
-            url_for('anonymous_article_page',
+            url_for('paper.anonymous_article_page',
                     id=review.rel_related_paper_version.parent_paper,
                     version=review.rel_related_paper_version.version,
                     ),
@@ -169,6 +175,8 @@ def review_edit_page(review_id):
         previous_reviews=previous_reviews, suggestions=suggestions)
 
 
+@bp.route('/review/<review_id>',
+           methods=['GET', 'POST'])
 def review_page(review_id):
 
     if not check_numeric_args(review_id):
@@ -179,10 +187,10 @@ def review_page(review_id):
 
     if not review:
         flash('Review does not exists', category='error')
-        return redirect(url_for('home_page'))
+        return redirect(url_for('main.home_page'))
     elif review.is_published() is False or review.is_hidden:
         flash('Review is not publshed', category='warning')
-        return redirect(url_for('home_page'))
+        return redirect(url_for('main.home_page'))
 
     creator = review.rel_creator
 
@@ -230,7 +238,7 @@ def review_page(review_id):
 
     data = {
         'paper_url':
-            url_for('article',
+            url_for('paper.article',
                     id=review.rel_related_paper_version.parent_paper,
                     version=review.rel_related_paper_version.version),
         'creator_id':  creator.id,
@@ -247,6 +255,9 @@ def review_page(review_id):
                            user_disliked_comments=user_disliked_comments)
 
 
+@bp.route('/review/increase_confidence_level/<revision_id>')
+@login_required
+@researcher_user_required
 def increase_needed_reviews(revision_id):
     if not check_numeric_args(revision_id):
         abort(404)
@@ -257,15 +268,23 @@ def increase_needed_reviews(revision_id):
         creators_ids = [creator.id for creator in revision.rel_creators]
         if current_user.id not in creators_ids:
             flash('You are not authorized', category='error')
-            return redirect(url_for('profile_page', user_id=current_user.id))
+            return redirect(url_for('user.profile_page', user_id=current_user.id))
 
         if revision.confidence_level >= app.config['MAX_CONFIDECNE_LEVEL']:
             flash('You cannot request more reviews', category='warning')
-            return redirect(url_for('profile_page', user_id=current_user.id))
+            return redirect(url_for('user.profile_page', user_id=current_user.id))
         else:
             revision.confidence_level += 1
             db.session.commit()
             flash('The number of expected reviews has been increased',
                   category='success')
 
-    return redirect(url_for('profile_page', user_id=current_user.id))
+    return redirect(url_for('user.profile_page', user_id=current_user.id))
+
+
+# TODO check if this is needed
+# @app.route('/review/hide/<review_id>', methods=['GET', 'POST'])
+# @login_required
+# #@rd.researcher_user_required
+# def hide_review(review_id):
+#     return review_rd.hide_review(review_id)

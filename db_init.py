@@ -23,11 +23,15 @@ db.session.commit()
 
 create_essential_data()
 
-dictionary = sm.create_dictionary()
-sm.save_dictionary(dictionary)
-tfidf_matrix = sm.create_tfidf_matrix()
-sm.save_tfidf_matrix(tfidf_matrix)
-similarities_matrix = sm.create_similarities_matrix()
-sm.save_similarities_matrix(similarities_matrix)
-create_save_users_plot()
+try:
+    dictionary = sm.create_dictionary()
+    sm.save_dictionary(dictionary)
+    tfidf_matrix = sm.create_tfidf_matrix()
+    sm.save_tfidf_matrix(tfidf_matrix)
+    similarities_matrix = sm.create_similarities_matrix()
+    sm.save_similarities_matrix(similarities_matrix)
+    create_save_users_plot()
+except Exception as e:
+    print(e)
+
 print("db_init ended successfully")

@@ -1,10 +1,11 @@
 from open_science.models import ReviewRequest, Review
-from open_science import app, db
+from open_science import db
+from flask import current_app as app
 from open_science.enums import UserTypeEnum, EmailTypeEnum,\
      NotificationTypeEnum
 import open_science.email as em
 import datetime as dt
-from open_science.notification.helpers import create_notification
+from open_science.blueprints.notification.helpers import create_notification
 from flask.helpers import url_for
 
 
@@ -27,7 +28,7 @@ def create_review_request(reviewer, paper_revision):
     create_notification(NotificationTypeEnum.REVIEW_REQUEST.value,
                         'You have new review request',
                         reviewer,
-                        url_for('review_request_page',
+                        url_for('review.review_request_page',
                                 request_id=review_request.id))
 
 
@@ -179,7 +180,7 @@ def transfer_old_reviews(paper):
                                     'The review has been transferred \
                                         to new paper\'s revision',
                                     review.creator,
-                                    url_for('article',
+                                    url_for('paper.article',
                                             id=paper.id,
                                             version=revision.version))
 

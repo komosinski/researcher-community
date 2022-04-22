@@ -3,9 +3,13 @@ from open_science.models import Notification
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request
 from flask import abort
-from open_science.routes_def import check_numeric_args
+from open_science.utils import check_numeric_args
+from flask_login import login_required
+from open_science.blueprints.notification import bp
 
 
+@bp.route('/user/notifications/<page>/<unread>')
+@login_required
 def notifications_page(page, unread):
     if not check_numeric_args(page):
         abort(404)
@@ -25,12 +29,14 @@ def notifications_page(page, unread):
 
     if not notifications:
         flash('You don\'t have any notifications', category='success')
-        return redirect(url_for('profile_page', user_id=current_user.id))
+        return redirect(url_for('user.profile_page', user_id=current_user.id))
 
     return render_template('notification/notifications_page.html',
                            page=page, unread=unread, results=notifications)
 
 
+@bp.route('/user/notifications/update')
+@login_required
 def update_notification_and_redirect():
     notification_id = int(request.args.get('notification_id'))
     url = request.args.get('url')

@@ -139,7 +139,7 @@ $(document).ready(function(){
                      
                       {% for prev_review in previous_reviews%}
                         <th>
-                          <a href="{{url_for('review_page',review_id=prev_review.id)}}">Revision {{loop.index}}</a>
+                          <a href="{{url_for('review.review_page',review_id=prev_review.id)}}">Revision {{loop.index}}</a>
                         </th>
                        {% endfor %}
 

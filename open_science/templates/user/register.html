@@ -2,16 +2,7 @@
 
 {% extends 'base.html' %}
 
-{% block scripts%}
-<script>
-function showReviewWarning(value) {
-    var mails_limit = document.querySelector('#review_mails_limit').value;
-    if (mails_limit==0){
-        alert("With this choice, you will never be asked by researcher.community to peer review papers, and the option to ask peers to review your papers will be disabled.");
-    }
-}
-</script>
-{% endblock %}
+
 
 {% block content %}
 
@@ -24,7 +15,7 @@ function showReviewWarning(value) {
         
         <div class="double-input-wrapper">
             {{render_register_field(form.first_name,"First name")}}
-            {{render_register_field(form.second_name,"Second name")}}
+            {{render_register_field(form.second_name,"Last name")}}
         </div>
        
   
@@ -34,20 +25,7 @@ function showReviewWarning(value) {
             {{render_register_field(form.password,"Password","(Must contain at least: 8 characters, one lowarcase character, one uppercase character, one digit and one special character)")}}
             {{render_register_field(form.password_confirm,"Confirm password")}}
  
-        <br>
-        <p><strong>Optional fields:</strong></p>
-
-        <div class="double-input-wrapper">
-            {{render_register_field(form.affiliation,"Affiliation")}}
-            {{render_register_field(form.orcid,"ORCID")}}
-        </div>
-
-        <div class="double-input-wrapper">
-            {{render_register_field(form.google_scholar,"Google scholar")}}
-            {{render_register_field(form.personal_website,"Personal website url")}} 
-        </div>
-
-        {{render_register_field(form.about_me,"About me","(Will be displayed on your profile page. You may write any information you wish to be publicly visible)")}}
+    
 
       
             <div class="profile-edit-input-wrapper">
@@ -61,7 +39,7 @@ function showReviewWarning(value) {
                 </div>
                 <div class="input-wrapper">{{ form.review_mails_limit(id='review_mails_limit',oninput="showReviewWarning(value)")}} </div>
             </div>   
-            <br>
+            
             <div class="profile-edit-input-wrapper">
                 <div class="label-wrapper">{{ form.notifications_frequency.label() }}</div>
                 <div class="label-wrapper">
@@ -72,26 +50,9 @@ function showReviewWarning(value) {
                     (Note: you will always be notified immediately when your paper is reviewed)
                 </div>
             </div> 
-     
+    
+
         <br>
-
-        <div class="label-wrapper">{{ form.profile_image.label()}}</div>
-        <div class="label-wrapper">(Please use a photo of your face if you decide to set a photo)</div>
-        {{ form.profile_image()}}
-        {% for error in form.profile_image.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-
-        <div class="label-wrapper">{{ form.calibration_files.label()}}</div>
-                <div class="label-wrapper">
-                    These papers will not be published here, so you can even upload papers for which you have transferred copyright. These articles are only used to extract raw text in order to identify your area of expertise.
-                </div>
-        {{ form.calibration_files()}}
-        {% for error in form.calibration_files.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-
-        <br><br>
         {{ form.recaptcha }}
         <br>
 
@@ -101,7 +62,7 @@ function showReviewWarning(value) {
 
     </form>
     <br>
-    Already have an account? <a href="{{url_for('login_page')}}">Sign&nbsp;in</a>
+    Already have an account? <a href="{{url_for('auth.login_page')}}">Sign&nbsp;in</a>
 </div>
 
 {% endblock %}

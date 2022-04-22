@@ -2,11 +2,11 @@ from operator import and_
 
 from sqlalchemy import func
 
-from open_science.db_helper import get_hidden_filter, get_search_by_text_filter
+from open_science.blueprints.database.db_helper import get_hidden_filter, get_search_by_text_filter
 from open_science.models import User, Tag, PaperRevision
 from open_science import db
 
-pv_hidden_filter = get_hidden_filter(PaperRevision)
+
 
 subq_max_versions = (db.session.query(PaperRevision.parent_paper,
                                       func.max(PaperRevision.version).label("max_version"))
@@ -26,6 +26,7 @@ def get_paper_order(order_by):
 
 def get_papers_basic_search(search_like, search_option, order, page_num, rows_per_page):
     paper_revisions = []
+    pv_hidden_filter = get_hidden_filter(PaperRevision)
 
     paper_revisions = PaperRevision.query \
         .options(db.defer('preprocessed_text')) \
@@ -75,7 +76,8 @@ def get_tag_order(order_by):
 
 def get_papers_advanced_search(page, search_data, order):
     paper_revisions = []
-
+    pv_hidden_filter = get_hidden_filter(PaperRevision)
+    
     paper_revisions = PaperRevision.query \
         .options(db.defer('preprocessed_text')) \
         .filter(pv_hidden_filter)

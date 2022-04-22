@@ -1,16 +1,31 @@
-from open_science.tag.forms import EditTagForm
+from open_science.blueprints.tag.forms import EditTagForm
 from open_science import db
 from open_science.models import Tag
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request, abort
-from open_science.routes_def import check_numeric_args
+from open_science.utils import check_numeric_args, researcher_user_required
 import datetime as dt
+from flask_login import login_required
+from open_science.blueprints.tag import bp
 
+
+def check_numeric_args(*argv):
+    try:
+        for arg in argv:
+            arg = int(arg)
+    except:
+        return False
+    return True
+    
+
+@bp.route('/create', methods=['GET', 'POST'])
+@bp.route('/tag/create', methods=['GET', 'POST'])
+@login_required
 def create_tag_page():
 
     if current_user.can_create_tag() is False:
         flash('You cannot create a tag', category='error')
-        return redirect(url_for('profile_page', user_id=current_user.id))
+        return redirect(url_for('user.profile_page', user_id=current_user.id))
 
     form = EditTagForm()
 
@@ -27,11 +42,13 @@ def create_tag_page():
         db.session.commit()
 
         flash('Tag created successfully', category='success')
-        return redirect(url_for('profile_page', user_id=current_user.id))
+        return redirect(url_for('user.profile_page', user_id=current_user.id))
 
     return render_template('tag/create_tag.html', form=form)
 
 
+@bp.route('/edit/<tag_id>', methods=['GET', 'POST'])
+@login_required
 def edit_tag_page(tag_id):
 
     if not check_numeric_args(tag_id):
@@ -51,7 +68,7 @@ def edit_tag_page(tag_id):
         db.session.commit()
 
         flash('Tag edited successfully', category='success')
-        return redirect(url_for('profile_page', user_id=current_user.id))
+        return redirect(url_for('user.profile_page', user_id=current_user.id))
 
     elif request.method == 'GET':
         form.name.data = tag.name
@@ -60,14 +77,14 @@ def edit_tag_page(tag_id):
 
     return render_template('tag/edit_tag.html', form=form, tag_name=tag.name)
 
-
+@bp.route('/<tag_name>')
 def tag_page(tag_name):
 
     tag = Tag.query.filter(Tag.name == tag_name).first()
     if not tag:
         flash('Tag with that name does not exist', category='error')
         return redirect(
-            url_for('advanced_search_tags_page',
+            url_for('search.advanced_search_tags_page',
                     page=1,
                     search_data={'name': ''},
                     order_by='newest'))

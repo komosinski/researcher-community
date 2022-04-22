@@ -1,6 +1,35 @@
 {% from "helpers/form_helper.html" import render_edit_profile_field %}
 
 {% extends 'base.html' %}
+
+
+{% if current_user.is_researcher() %}
+    {% set user_type = 'researcher'%}
+{% else %}
+    {% set user_type = 'standard_user'%}
+{% endif %}
+
+{% block scripts%}
+<script>
+function showReviewWarning(value) {
+    var mails_limit = document.querySelector('#review_mails_limit').value;
+    if (mails_limit==0){
+        alert("With this choice, you will never be asked by researcher.community to peer review papers, and the option to ask peers to review your papers will be disabled.");
+    }
+}
+
+
+$(document).ready(function() {
+    if ('{{user_type}}' == 'standard_user')
+    {
+        $("#researcher_options :input").prop('disabled', true);
+        document.getElementById('researcher_options').style.color='#A9A9A9';
+    }
+});
+</script>
+
+{% endblock %}
+
 {% block content %}
 
 <div class="profile-edit-wrapper">
@@ -13,6 +42,7 @@
             <img src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="edit-profile-picture" />
             <div class="profile-edit-input-wrapper">
                 <div clas="label-wrapper">{{ form.profile_image.label()}}</div>
+                <div class="label-wrapper">(Please use a photo of your face if you decide to set a photo)</div>
                 <div class="input-wrapper">{{ form.profile_image()}}</div>
                 {% for error in form.profile_image.errors %}
                 <span style="color: red;">[{{ error }}]</span>
@@ -21,19 +51,13 @@
         </div>
         
         <br>
-        <div class="label-wrapper">{{ form.calibration_files.label()}}</div>
-        {{ form.calibration_files()}}
-        {% for error in form.calibration_files.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-        <br>
-
+       
         <div class="double-input-wrapper">
             {{ render_edit_profile_field(form.first_name,"First name") }}
-            {{ render_edit_profile_field(form.second_name,"Second name") }}
+            {{ render_edit_profile_field(form.second_name,"Last name") }}
         </div>
 
-        {{ render_edit_profile_field(form.about_me,"About me") }}
+        {{ render_edit_profile_field(form.about_me,"About me","(Will be displayed on your profile page. You may write any information you wish to be publicly visible)") }}
  
         <div class="double-input-wrapper">
             {{ render_edit_profile_field(form.email,"Email address") }}
@@ -47,23 +71,54 @@
    
         {{ render_edit_profile_field(form.personal_website,"Personal website url") }}
 
-        <div class="profile-edit-input-wrapper">
-            <div class="label-wrapper">{{ form.review_mails_limit.label() }}</div>
-            <div class="input-wrapper">{{ form.review_mails_limit()}} </div>
-        </div>     
-
+        
         <div class="profile-edit-input-wrapper">
             <div class="label-wrapper">{{ form.notifications_frequency.label() }}</div>
+            <div class="label-wrapper">
+                When others post messages under my papers, I want to be notified every:
+            </div>
             <div class="input-wrapper">{{ form.notifications_frequency()}} </div>  
+            <div class="label-wrapper">
+                (Note: you will always be notified immediately when your paper is reviewed)
+            </div>
         </div> 
 
 
+        <div id="researcher_options">
+
+            <div class="profile-edit-input-wrapper">
+                <div class="label-wrapper">{{ form.review_mails_limit.label() }}</div>
+                <div class="label-wrapper">
+                    Scientific community relies on peer review.
+                    <br>
+                    We will periodically send you emails with new papers similar to your scientific profile of interest (based on your papers you provided).
+                    <br>
+                    Authors of some of these new papers may ask for an opinion or a review.<br>How many emails per month do you wish to receive at most?<br>(This is the maximal number, applicable only if you are selected as a reviewer for your peers).
+                </div>
+                <div class="input-wrapper">{{ form.review_mails_limit(id='review_mails_limit',oninput="showReviewWarning(value)")}} </div>
+            </div>   
+
+            
+            <div class="label-wrapper">{{ form.calibration_files.label()}}</div>
+            <div class="label-wrapper">
+                These papers will not be published here, so you can even upload papers for which you have transferred copyright. These articles are only used to extract raw text in order to identify your area of expertise.
+            </div>
+            {{ form.calibration_files()}}
+            {% for error in form.calibration_files.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+    
+            <br><br>
+    
+
+        </div>
+
         <div class="buttons-wrapper">
             {{ form.submit(class="large-button main-button")}}
-            <a href="{{url_for('change_password_page')}}">
+            <a href="{{url_for('auth.change_password_page')}}">
                 <button type="button" class="large-button secondary-button" style="background-color: grey;">Change password</button>
             </a>
-            <a href="{{url_for('delete_profile_page')}}">
+            <a href="{{url_for('auth.delete_profile_page')}}">
                 <button type="button" class="large-button secondary-button" style="background-color: grey;">Delete profile</button>
             </a>
         </div>

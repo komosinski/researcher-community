@@ -2,7 +2,7 @@
 
 <div class="main-header">
     <div class="header-logo-wrapper">
-        <a class="header-text" href="{{url_for('home_page')}}">
+        <a class="header-text" href="{{url_for('main.home_page')}}">
 
 
 <img src="{{url_for('static',filename='res/logo.png')}}" class="header-logo-image" alt="Researcher.community main page" /></a>
@@ -13,13 +13,13 @@
         {% with search_text=""%}
         {% include 'utils/basic_search_form.html' %}
         {% endwith %}
-        <a href="{{ url_for('advanced_search_page')}}">Advanced search</a>
+        <a href="{{ url_for('search.advanced_search_page')}}">Advanced search</a>
     </div>
   
     {% if current_user.is_authenticated %}  
         <div class="header-user-control">
             <div class="author-wrapper">
-                {% set notifications_url = url_for('notifications_page',page=1,unread='False') %}
+                {% set notifications_url = url_for('notification.notifications_page',page=1,unread='False') %}
                 <div class="notifications-wrapper" onclick="location.href='{{notifications_url}}';" style="cursor: pointer;">
                     <i class="fas fa-bell"></i>
                     <!-- {% set notifications_count=current_user.get_new_notifications_count() %} -->
@@ -31,15 +31,15 @@
                     {% endif %}
                 </div>
                 <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" />
-                <a class="author-name header-username" href="{{url_for('profile_page', user_id=current_user.get_id()|int)}}">{{current_user.first_name + " " + current_user.second_name}}</a>
-                <a href="{{ url_for('logout_page') }}"><i class="fas fa-sign-out-alt fa-center logout-icon" ></i></a>
+                <a class="author-name header-username" href="{{url_for('user.profile_page', user_id=current_user.get_id()|int)}}">{{current_user.first_name + " " + current_user.second_name}}</a>
+                <a href="{{ url_for('auth.logout_page') }}"><i class="fas fa-sign-out-alt fa-center logout-icon" ></i></a>
             </div>
         </div>
     {% else %}
         <div class="header-user-control">        
-            <a class="" href="{{ url_for('login_page') }}">Sign&nbsp;in</a>
+            <a class="" href="{{ url_for('auth.login_page') }}">Sign&nbsp;in</a>
             <span class="header-login-span">|</span>
-            <a class="" href="{{ url_for('register_page') }}">Sign&nbsp;up</a>
+            <a class="" href="{{ url_for('auth.register_page') }}">Sign&nbsp;up</a>
         </div>
     {% endif %}
 

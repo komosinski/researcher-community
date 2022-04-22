@@ -1,6 +1,7 @@
 from operator import and_, or_
 from sqlalchemy import func, true, false
-from open_science import db, app
+from open_science import db
+from flask import current_app
 from open_science.models import PaperRevision, Review, CalibrationPaper
 from text_processing.search_engine import search_articles_by_text
 
@@ -41,14 +42,15 @@ def can_show_object(item):
     elif item.force_hide:
         return False
     else:
-        return item.red_flags_count < app.config['RED_FLAGS_THRESHOLD']
+        return item.red_flags_count < current_app.config['RED_FLAGS_THRESHOLD']
 
 
 # returns filter for hidden items based on red flags, force hide and force 
 # show for given class
 def get_hidden_filter(item_class):
+    
     return and_(or_(item_class.force_show == true(),
-                    item_class.red_flags_count < app.config['RED_FLAGS_THRESHOLD']),
+                    item_class.red_flags_count < current_app.config['RED_FLAGS_THRESHOLD']),
                 item_class.force_hide == false())
 
 

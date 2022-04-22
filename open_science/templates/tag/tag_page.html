@@ -9,7 +9,7 @@
 
     <div>
         Creator: 
-        <a href="{{url_for('profile_page',user_id=creator.id)}}"> {{creator.first_name}} {{creator.second_name}} </a>
+        <a href="{{url_for('user.profile_page',user_id=creator.id)}}"> {{creator.first_name}} {{creator.second_name}} </a>
     </div>
 
     <br>
@@ -33,7 +33,7 @@
         <ul>
             {% for paper in related_papers  %}
                 <li>
-                    <a href="{{url_for('article',id=paper.id)}}">{{ paper.title}} </a>
+                    <a href="{{url_for('paper.article',id=paper.id)}}">{{ paper.title}} </a>
                 </li>
             {% endfor %}
         </ul>
@@ -48,7 +48,7 @@
         <ul>
             {% for user in related_users  %}
                 <li>
-                    <a href="{{url_for('profile_page',user_id=user.id)}}">{{ user.first_name}} {{ user.second_name}} </a>
+                    <a href="{{url_for('user.profile_page',user_id=user.id)}}">{{ user.first_name}} {{ user.second_name}} </a>
                 </li>
             {% endfor %}
         </ul>

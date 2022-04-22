@@ -1,5 +1,5 @@
 
-{% set url = url_for('update_notification_and_redirect', url=item.action_url, notification_id=item.id) %}
+{% set url = url_for('notification.update_notification_and_redirect', url=item.action_url, notification_id=item.id) %}
 
 <div class="notif_item {{'notif_was_seen' if item.was_seen else 'notif_not_seen'}}" onclick="location.href='{{url}}';"style="cursor: pointer;">
     <p><strong>{{item.title}}</strong></p>

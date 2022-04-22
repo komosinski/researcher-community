@@ -5,13 +5,13 @@ from open_science.extensions import db, login_manager, \
     bcrypt, mail, limiter, admin, migrate, scheduler, moment
 from config.config import Config
 import atexit
-
+from open_science.admin import MyModelView, UserView, MessageToStaffView
 
 def register_extensions(app):
     db.init_app(app)
     db.app = app
     login_manager.init_app(app)
-    login_manager.login_view = "login_page"
+    login_manager.login_view = "auth.login_page"
     login_manager.login_message_category = "info"
     bcrypt.init_app(app)
     mail.init_app(app)
@@ -24,6 +24,15 @@ def register_extensions(app):
     scheduler.init_app(app)
     moment.init_app(app)
 
+    from open_science.models import MessageToStaff, User, PaperRevision, Tag, Review, ReviewRequest, Comment
+    admin.add_view(MessageToStaffView(MessageToStaff, db.session))
+    admin.add_view(UserView(User, db.session, endpoint='user_'))
+    admin.add_view(MyModelView(PaperRevision, db.session))
+    admin.add_view(MyModelView(Tag, db.session, endpoint='tag_'))
+    admin.add_view(MyModelView(Review, db.session, endpoint='review_'))
+    admin.add_view(MyModelView(ReviewRequest, db.session))
+    admin.add_view(MyModelView(Comment, db.session))
+
 def create_app(config_class=Config):
 
     app = Flask(__name__)
@@ -31,21 +40,53 @@ def create_app(config_class=Config):
 
     register_extensions(app)
 
+    # BLUEPRINTS
+    from open_science.blueprints.tag import bp as tag_bp
+    app.register_blueprint(tag_bp, url_prefix='/tag')
+
+    from open_science.blueprints.database import bp as db_bp
+    app.register_blueprint(db_bp)
+
+    from open_science.blueprints.notification import bp as notif_bp
+    app.register_blueprint(notif_bp)
+
+    from open_science.blueprints.review import bp as rev_bp
+    app.register_blueprint(rev_bp)
+
+    from open_science.blueprints.main import bp as main_bp
+    app.register_blueprint(main_bp)
+
+    from open_science.blueprints.search import bp as search_bp
+    app.register_blueprint(search_bp)
+
+    from open_science.blueprints.auth import bp as auth_bp
+    app.register_blueprint(auth_bp)
+
+    from open_science.blueprints.user import bp as user_bp
+    app.register_blueprint(user_bp)
+
+    from open_science.blueprints.action import bp as action_bp
+    app.register_blueprint(action_bp)
+
+    from open_science.blueprints.paper import bp as paper_bp
+    app.register_blueprint(paper_bp)
+
+    from open_science.blueprints.api import bp as api_bp
+    app.register_blueprint(api_bp)
+
     return app
 
 
 app = create_app()
+app.app_context().push()
 
-# routes.pt is needed in this file but
-# routes.py depends on __init__.py so to avoid circular imports
-# we need to import routes at the bottom of the file.
-# (we can also refactor the code to use blueprints to get rid of this import)
-from open_science import routes, models
 
-# also importing add_scheduler_jobs earlier causes circular imports
+# importing add_scheduler_jobs earlier causes circular imports
 from open_science.schedule.schedule import add_scheduler_jobs
 if app.config['START_SCHEDULER'] is True and scheduler.running is False:
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown())
     add_scheduler_jobs()
     print("Scheduler is running")
+
+from open_science import models

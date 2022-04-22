@@ -5,7 +5,7 @@
     <form method="POST">
         {{ form.hidden_tag() }}
         <div>
-        The user <a href="{{url_for('profile_page',user_id=user.id)}}">{{user.first_name}} {{user.second_name}}</a> with the email address {{user.email}} asks you to endorse their researcher status. Please have a look at their email address, profile, affiliation, and website to verify their identity so they can become a registered researcher in our community.
+        The user <a href="{{url_for('user.profile_page',user_id=user.id)}}">{{user.first_name}} {{user.second_name}}</a> with the email address {{user.email}} asks you to endorse their researcher status. Please have a look at their email address, profile, affiliation, and website to verify their identity so they can become a registered researcher in our community.
         </div>
         <br>
         {{form.submit_accept()}}

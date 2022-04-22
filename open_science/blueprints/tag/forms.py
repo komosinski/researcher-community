@@ -1,12 +1,11 @@
 from wtforms.fields.simple import TextAreaField
-from open_science.models import Tag
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import Length, DataRequired, Optional, ValidationError
 import config.models_config as mc
 from wtforms.fields.html5 import DateTimeLocalField
 import string
-
+from open_science.models import Tag
 
 class EditTagForm(FlaskForm):
 
