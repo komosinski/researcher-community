@@ -11,7 +11,7 @@
     <a class="link-button  {% if order_by == 'oldest' %}pressed{% endif %}"
     href="{{ url_for('search.advanced_search_papers_page', page=1, search_data=search_data, order_by='oldest') }}">OLDEST</a>
     
-    {% with route_name="advanced_search_papers_page" , results=papers, page=page, search_data=search_data, order_by=order_by %}
+    {% with route_name="search.advanced_search_papers_page" , results=papers, page=page, search_data=search_data, order_by=order_by %}
     {% include 'search/advanced_search_result_list.html' %}
     {% endwith %}
 {% else %}

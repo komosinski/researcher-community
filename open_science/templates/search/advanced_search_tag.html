@@ -4,7 +4,7 @@
 <h2>Results for {{search_data['seach_text']}}</h2>
     
 {% if tags.items %}
-    {% with route_name="advanced_search_tags_page" , results=tags, page=page, search_data=search_data, order_by=order_by %}
+    {% with route_name="search.advanced_search_tags_page" , results=tags, page=page, search_data=search_data, order_by=order_by %}
     {% include 'search/advanced_search_result_list.html' %}
     {% endwith %}
 {% else %}
