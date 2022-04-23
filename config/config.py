@@ -120,9 +120,7 @@ class Config(object):
     PROFILE_IMAGE_URL = 'open_science/static/res/profileImages'
 
     # only for tests
-    # test data PDFS_FOLDER_URL
-    # '/' is needed bcs changes in test_data.py are hard to do..
+    # using ./open_science/static/articles/1.pdf causes bad request: GET /paper/1/open_science/static/articles/1.pdf
+    # using /static/articles/1.pdf causes correct request: GET /static/articles/1.pdf
+    # it is working the same way as for styles and resources
     TEST_PDFS_URL = '/static/articles/'
-
-    # test data PDFS_FOLDER_FULL_URL
-    TEST_PDFS_FULL_URL = 'open_science/static/articles/'
