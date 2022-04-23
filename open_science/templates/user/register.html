@@ -26,19 +26,6 @@
             {{render_register_field(form.password_confirm,"Confirm password")}}
  
     
-
-      
-            <div class="profile-edit-input-wrapper">
-                <div class="label-wrapper">{{ form.review_mails_limit.label() }}</div>
-                <div class="label-wrapper">
-                    Scientific community relies on peer review.
-                    <br>
-                    We will periodically send you emails with new papers similar to your scientific profile of interest (based on your papers you provided).
-                    <br>
-                    Authors of some of these new papers may ask for an opinion or a review.<br>How many emails per month do you wish to receive at most?<br>(This is the maximal number, applicable only if you are selected as a reviewer for your peers).
-                </div>
-                <div class="input-wrapper">{{ form.review_mails_limit(id='review_mails_limit',oninput="showReviewWarning(value)")}} </div>
-            </div>   
             
             <div class="profile-edit-input-wrapper">
                 <div class="label-wrapper">{{ form.notifications_frequency.label() }}</div>

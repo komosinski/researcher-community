@@ -12,7 +12,7 @@
             reviews
         </h2>
 
-        {% with route_name="reviews_list_page" , results=reviews, page=page, search_data=search_data, order_by=order_by %}
+        {% with route_name="search.reviews_list_page" , results=reviews, page=page, search_data=search_data, order_by=order_by %}
             {% include 'search/advanced_search_result_list.html' %}
         {% endwith %}
 
