@@ -100,14 +100,14 @@ class Config(object):
     ROOTDIR = "./"
 
     # Url to processing text dictionary
-    DICTIONARY_URL = 'server_files/generated_files/dictionary'
+    DICTIONARY_URL = 'generated/dictionary'
 
     # Url to processing text tfidf matrix
-    TFIDF_MATRIX_URL = 'server_files/generated_files/tfidf_matrix'
+    TFIDF_MATRIX_URL = 'generated/tfidf_matrix'
 
     # Url to processing text similarities matrix
-    SIMILARITIES_MATRIX_URL = \
-        'server_files/generated_files/similarities_matrix.npy'
+    SIMILARITIES_MATRIX_URL = 'generated/similarities_matrix.npy'
+
     # Url to processing text users plot
     USERS_PLOT_URL = 'open_science/static/res/users_plot'
 
