@@ -1,7 +1,8 @@
 import numpy as np
 
 from text_processing.prepocess_text import preprocess_text
-from text_processing.similarity_matrix import get_similarities_matrix, get_tfidf_matrix, get_dictionary
+from text_processing.similarity_matrix import get_similarities_matrix, get_tfidf_matrix, get_dictionary, \
+    get_tfidf_matrix_mapping_array, get_similarities_matrix_mapping_array
 
 
 # In: User ID and dictionary of users and array of his articles ID
@@ -32,28 +33,32 @@ def get_similar_users_to_user(user_id, users_dict_id):
 
 # In: Article ID and list of articles ID's in the system
 # Out: Array as ranking of the most similar articles
-def get_similar_articles_to_articles(article_id, articles_id_list):
+def get_similar_articles_to_articles(article_id):
     similar_ranking = []
     matrix = get_similarities_matrix()
-    article_index = articles_id_list.index(article_id)
-    if len(articles_id_list) > 0 and len(matrix) > 0 and article_index < len(matrix):
-        similar_ranking = [b[0] for b in
-                           sorted(enumerate(matrix[int(article_index)]), key=lambda i: i[1], reverse=True)]
+    matrix_mapping = get_similarities_matrix_mapping_array()
+    article_index = 0
+    if len(matrix_mapping) > 0:
+        article_index = int(np.where(matrix_mapping == article_id)[0])
+    if len(matrix) > 0 and article_index < len(matrix):
+        similar_ranking = [b[0] for b in sorted(enumerate(matrix[int(article_index)]),
+                                                key=lambda i: i[1], reverse=True)]
         if len(similar_ranking) > 1:
             similar_ranking = similar_ranking[1:]
     return similar_ranking
 
 
 # In: Searched text by the user and list of articles ID's in the system
-# Out: Array as ranking of most similar articles
-def search_articles_by_text(search_text, articles_id_list):
+# Out: Array as ranking of most similar articles ids
+def search_articles_by_text(search_text):
     matrix = get_tfidf_matrix()
+    matrix_mapping = get_tfidf_matrix_mapping_array()
     dictionary = get_dictionary()
     query = preprocess_text(search_text).split()
     query = dictionary.doc2bow(query)
     similarites_array = matrix[query]
     similar_ranking = [b[0] for b in sorted(enumerate(similarites_array), key=lambda i: i[1], reverse=True)]
-    similar_articles = [articles_id_list[i] for i in similar_ranking]
+    similar_articles = [matrix_mapping[i] for i in similar_ranking]
     return similar_articles
 
 
@@ -62,11 +67,15 @@ def search_articles_by_text(search_text, articles_id_list):
 def get_similar_users_to_article(article_id, users_dict_id):
     ranking = []
     matrix = get_similarities_matrix()
+    matrix_mapping = get_similarities_matrix_mapping_array()
+    article_index = 0
+    if len(matrix_mapping) > 0:
+        article_index = int(np.where(matrix_mapping == article_id)[0])
     key_list = list(users_dict_id.keys())
     val_list = list(users_dict_id.values())
     if int(article_id) < len(matrix):
         ranking = [b[0] for b in
-                   sorted(enumerate(matrix[int(article_id)]), key=lambda i: i[1], reverse=True)]
+                   sorted(enumerate(matrix[int(article_index)]), key=lambda i: i[1], reverse=True)]
     ranking_users = []
     if len(ranking) > 1:
         ranking = ranking[1:]

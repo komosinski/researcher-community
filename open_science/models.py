@@ -630,12 +630,8 @@ class PaperRevision(db.Model):
     def get_similar_revisions_ids(self):
         similar_revisions_ids = []
 
+        similar_ids = se.get_similar_articles_to_articles(self.id)
         all_revisions_ids = [revision.id for revision in PaperRevision.query.all()]
-        all_calibration_ids = [calibration.id for calibration in CalibrationPaper.query.all()]
-        articles_id_list = sorted(all_revisions_ids + all_calibration_ids)
-
-        similar_ids = se.get_similar_articles_to_articles(self.id, articles_id_list)
-
         similar_revisions_ids = [id for id in similar_ids if id in all_revisions_ids]
 
         return similar_revisions_ids

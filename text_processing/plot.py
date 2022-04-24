@@ -56,5 +56,5 @@ def create_save_users_plot_3d():
         standarlized_pca = pca.fit_transform(users_with_articles)
         df = pd.DataFrame(standarlized_pca, columns=['x', 'y', 'z'])
         fig = px.scatter_3d(df, x='x', y='y', z='z')
-        users_plot_url_3d = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_URL_3D'])
+        users_plot_url_3d = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_3D_URL'])
         fig.write_html(users_plot_url_3d)

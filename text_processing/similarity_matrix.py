@@ -7,6 +7,7 @@ import os
 # from open_science import app
 from flask import current_app as app
 
+
 # returns list with all calibration papers and paper revisions preprocessed texts
 def get_all_papers_texts():
     all_paper_texts = []
@@ -17,6 +18,19 @@ def get_all_papers_texts():
     all_paper_texts = [paper.preprocessed_text for paper in all_papers]
 
     return all_paper_texts
+
+
+# We have to create it each time matrix is created to know
+# which row in matrix corresponds to which paper
+def create_matrix_mapping_array():
+    similarities_matrix_mapping = []
+
+    all_paper_revisions = db_models.PaperRevision.query.all()
+    all_calibration_papers = db_models.CalibrationPaper.query.all()
+    all_papers = sorted(all_paper_revisions + all_calibration_papers, key=lambda paper: paper.id)
+    similarities_matrix_mapping = [paper.id for paper in all_papers]
+
+    return similarities_matrix_mapping
 
 
 # Creates new dictionary from text in database
@@ -59,11 +73,30 @@ def update_dictionary(new_article):
     return dictionary
 
 
+def save_tfidf_matrix_mapping_array(tfidf_matrix_mapping_array):
+    tfidf_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
+                                                  app.config['TFIDF_MATRIX_MAPPING_ARRAY_URL'])
+    np.save(tfidf_matrix_mapping_array_url, tfidf_matrix_mapping_array)
+
+
+def get_tfidf_matrix_mapping_array():
+    tfidf_matrix_mapping_array = []
+
+    tfidf_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
+                                                  app.config['TFIDF_MATRIX_MAPPING_ARRAY_URL'])
+    tfidf_matrix_mapping_array = np.load(tfidf_matrix_mapping_array_url, tfidf_matrix_mapping_array)
+
+    return tfidf_matrix_mapping_array
+
+
 # returns tfidf matrix created from preprocessed texts
 def create_tfidf_matrix():
     tfidf_matrix = []
 
     all_paper_texts = get_all_papers_texts()
+    tfidf_matrix_mapping_array = create_matrix_mapping_array()
+    save_tfidf_matrix_mapping_array(tfidf_matrix_mapping_array)
+
     dictionary = get_dictionary()
     tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
     corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
@@ -96,6 +129,9 @@ def update_tfidf_matrix():
     tfidf_matrix = []
 
     all_paper_texts = get_all_papers_texts()
+    tfidf_matrix_mapping_array = create_matrix_mapping_array()
+    save_tfidf_matrix_mapping_array(tfidf_matrix_mapping_array)
+
     dictionary = get_dictionary()
     tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
     corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
@@ -106,11 +142,31 @@ def update_tfidf_matrix():
     return tfidf_matrix
 
 
+def save_similarities_matrix_mapping_array(similarities_matrix_mapping_array):
+    similarities_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
+                                                         app.config['SIMILARITIES_MATRIX_MAPPING_ARRAY_URL'])
+    np.save(similarities_matrix_mapping_array_url, similarities_matrix_mapping_array)
+
+
+def get_similarities_matrix_mapping_array():
+    similarities_matrix_mapping_array = []
+
+    similarities_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
+                                                         app.config['SIMILARITIES_MATRIX_MAPPING_ARRAY_URL'])
+    similarities_matrix_mapping_array = np.load(similarities_matrix_mapping_array_url,
+                                                similarities_matrix_mapping_array)
+
+    return similarities_matrix_mapping_array
+
+
 # returns similarities matrix created from preprocessed texts
 def create_similarities_matrix():
     similarities_matrix = []
 
     all_paper_texts = get_all_papers_texts()
+    similarities_matrix_mapping_array = create_matrix_mapping_array()
+    save_similarities_matrix_mapping_array(similarities_matrix_mapping_array)
+
     dictionary = get_dictionary()
     tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
     corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]

@@ -102,8 +102,14 @@ class Config(object):
     # Url to processing text dictionary
     DICTIONARY_URL = 'generated/dictionary'
 
+    # Url to processing text tfidf matrix mapping array
+    TFIDF_MATRIX_MAPPING_ARRAY_URL = 'generated/tfidf_matrix_mapping.npy'
+
     # Url to processing text tfidf matrix
     TFIDF_MATRIX_URL = 'generated/tfidf_matrix'
+
+    # Url to processing text similarities matrix mapping array
+    SIMILARITIES_MATRIX_MAPPING_ARRAY_URL = 'generated/similarities_matrix_mapping.npy'
 
     # Url to processing text similarities matrix
     SIMILARITIES_MATRIX_URL = 'generated/similarities_matrix.npy'

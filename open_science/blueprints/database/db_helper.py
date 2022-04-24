@@ -48,7 +48,6 @@ def can_show_object(item):
 # returns filter for hidden items based on red flags, force hide and force 
 # show for given class
 def get_hidden_filter(item_class):
-    
     return and_(or_(item_class.force_show == true(),
                     item_class.red_flags_count < current_app.config['RED_FLAGS_THRESHOLD']),
                 item_class.force_hide == false())
@@ -57,12 +56,5 @@ def get_hidden_filter(item_class):
 # returns filter for matching paper revisions by search_text
 # paper_revisions_query -> current query
 def get_search_by_text_filter(search_text):
-
-    all_paper_revisions = PaperRevision.query.all()
-    all_calibration_papers = CalibrationPaper.query.all()
-    all_papers = sorted(all_paper_revisions + all_calibration_papers, key=lambda paper: paper.id)
-    all_paper_ids = [paper.id for paper in all_papers]
-
-    matched_papers_ids = search_articles_by_text(search_text, all_paper_ids)
-
+    matched_papers_ids = [int(id) for id in search_articles_by_text(search_text)]
     return PaperRevision.id.in_(matched_papers_ids)
