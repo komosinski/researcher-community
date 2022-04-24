@@ -16,19 +16,23 @@ def create_save_users_plot():
         users_dict_id[user.id] = [revision.id for revision in user.rel_created_paper_revisions]
     fig, ax = plt.subplots(1, 1, figsize=(10, 10), dpi=100)
     user_matrix = []
+    user_ids = []
     users = list(users_dict_id.keys())
     for user in users:
         _, array = get_similar_users_to_user(user, users_dict_id)
         user_matrix.append(array)
-    for array in user_matrix:
+    for i, array in enumerate(user_matrix):
         if array != []:
             users_with_articles.append(array)
+            user_ids.append(users[i])
     if len(users_with_articles) > 1:
         pca = PCA(n_components=2, whiten=False, random_state=42)
         standardized_pca = pca.fit_transform(users_with_articles)
         plt.scatter(standardized_pca[:, 0], standardized_pca[:, 1])
         ax.axes.xaxis.set_visible(False)
         ax.axes.yaxis.set_visible(False)
+        for i, id in enumerate(user_ids):
+            ax.annotate(id, (standardized_pca[:, 0][i], standardized_pca[:, 1][i]))
         users_plot_url = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_URL'])
         plt.savefig(users_plot_url, dpi=200)
     plt.close(fig)
