@@ -3218,7 +3218,7 @@ def create_test_data(app):
         # paper revisions
         pve1_1 = PaperRevision(
             version=1,
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("1.pdf")),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("1.pdf")),
             title="Assistance of an expert in the participatory planning model in the area included in the revitalisation "
                   "programme in view of the desired changes. Based on the example of the district of Śródka in Poznań",
             abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3230,7 +3230,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("1.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("1.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=3
         )
@@ -3240,7 +3240,7 @@ def create_test_data(app):
         db.session.add(pve1_1)
 
         pve1_2 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}1.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}1.pdf",
             title="Assistance of an expert in the participatory planning model in the area included in the revitalisation "
                   "programme in view of the desired changes. Based on the example of the district of Śródka in Poznań",
             version=2,
@@ -3253,7 +3253,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("1.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("1.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=3
         )
@@ -3263,7 +3263,7 @@ def create_test_data(app):
         db.session.add(pve1_2)
 
         pve1_3 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}1.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}1.pdf",
             title="Assistance of an expert in the participatory planning model in the area included in the revitalisation "
                   "programme in view of the desired changes. Based on the example of the district of Śródka in Poznań",
             version=3,
@@ -3276,7 +3276,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("1.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("1.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=3
         )
@@ -3286,7 +3286,7 @@ def create_test_data(app):
         db.session.add(pve1_3)
 
         pve2_1 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}2.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}2.pdf",
             title="Climate Change and Building Energy Consumption: AReview of the Impact of Weather Parameters Influenced "
                   "by Climate Change on Household Heating and Cooling Demands of Buildings",
             version=1,
@@ -3299,7 +3299,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("2.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("2.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3309,7 +3309,7 @@ def create_test_data(app):
         db.session.add(pve2_1)
 
         pve2_2 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}2.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}2.pdf",
             title="Climate Change and Building Energy Consumption: AReview of the Impact of Weather Parameters Influenced "
                   "by Climate Change on Household Heating and Cooling Demands of Buildings",
             version=2,
@@ -3322,7 +3322,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("2.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("2.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=3
         )
@@ -3330,7 +3330,7 @@ def create_test_data(app):
         db.session.add(pve2_2)
 
         pve3 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}3.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}3.pdf",
             title="Drawing Skills of Candidates for Architectural Studies vs.Learning Outcomes of Graduates. Comparative "
                   "Research Basedon the Example of The Faculty of Architecture, PoznanUniversity of Technology",
             version=1,
@@ -3343,7 +3343,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("3.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("3.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3353,7 +3353,7 @@ def create_test_data(app):
         db.session.add(pve3)
 
         pve4 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}4.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}4.pdf",
             title="Housing Expectations of Future Seniors Based on an Example ofthe Inhabitants of Poland",
             version=1,
             abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3365,7 +3365,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("4.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("4.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3375,7 +3375,7 @@ def create_test_data(app):
         db.session.add(pve4)
 
         pve5 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}5.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}5.pdf",
             title="How to combine descriptive and normative approaches in participatory urban planning: an experimental "
                   "mixed-method implemented in the downtown district of Poznań, Poland",
             version=1,
@@ -3388,7 +3388,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("5.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("5.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3398,7 +3398,7 @@ def create_test_data(app):
         db.session.add(pve5)
 
         pve6 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}6.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}6.pdf",
             title="Inclusiveness of Urban Space and Tools for the Assessment ofthe Quality of Urban Life—A Critical "
                   "Approach",
             version=1,
@@ -3411,7 +3411,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("6.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("6.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3421,7 +3421,7 @@ def create_test_data(app):
         db.session.add(pve6)
 
         pve7 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}7.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}7.pdf",
             title="Teaching acoustics to students of architecture",
             version=1,
             abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3433,7 +3433,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("7.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("7.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3443,7 +3443,7 @@ def create_test_data(app):
         db.session.add(pve7)
 
         pve8 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}8.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}8.pdf",
             title="The Impact Assessment of Climate Change on Building Energy Consumption in Poland",
             version=1,
             abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3455,7 +3455,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("8.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("8.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3465,7 +3465,7 @@ def create_test_data(app):
         db.session.add(pve8)
 
         pve9 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}9.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}9.pdf",
             title="THE IMPORTANCE OF FLEXIBILITY IN ADAPTIVE REUSE OF INDUSTRIAL HERITAGE: LEARNING FROM IRANIAN CASES",
             version=1,
             abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3477,7 +3477,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("9.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("9.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3487,7 +3487,7 @@ def create_test_data(app):
         db.session.add(pve9)
 
         pve10 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}10.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}10.pdf",
             title="The Importance of Water and Climate-Related Aspects in theQuality of Urban Life Assessment",
             version=1,
             abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3499,7 +3499,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("10.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("10.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3509,7 +3509,7 @@ def create_test_data(app):
         db.session.add(pve10)
 
         pve11 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}11.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}11.pdf",
             title="BANK CORPORATE FINANCING: WORLD EXPERIENCE AND UKRAINIAN REALITIES",
             version=1,
             abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3521,7 +3521,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("11.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("11.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3531,7 +3531,7 @@ def create_test_data(app):
         db.session.add(pve11)
 
         pve12 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}12.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}12.pdf",
             title="economic activity and social determinants versus entrepreneurship in smes – selected aspects",
             version=1,
             abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3543,7 +3543,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("12.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("12.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3553,7 +3553,7 @@ def create_test_data(app):
         db.session.add(pve12)
 
         pve13 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}13.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}13.pdf",
             title="Application of Grey Systems Theory in the Analysis of Data Obtained from Family Businesses",
             version=1,
             abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in felis metus. Integer commodo "
@@ -3565,7 +3565,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("13.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("13.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3575,7 +3575,7 @@ def create_test_data(app):
         db.session.add(pve13)
 
         pve14 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}14.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}14.pdf",
             title="Attitudes of Polish entrepreneurs towards knowledge workers aged 65 plus in the context of their good "
                   "employment practices",
             version=1,
@@ -3588,7 +3588,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("14.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("14.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3598,7 +3598,7 @@ def create_test_data(app):
         db.session.add(pve14)
 
         pve15_1 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}15.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}15.pdf",
             title="Decision Making in Health Management during Crisis: A Case Study Based on Epidemiological Curves of "
                   "China and Italy against COVID-19",
             version=1,
@@ -3611,7 +3611,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("15.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("15.pdf"))),
             publication_date=dt.datetime(2020, 8, 1, 2, 2, 2, 2),
             confidence_level=2
         )
@@ -3621,7 +3621,7 @@ def create_test_data(app):
         db.session.add(pve15_1)
 
         pve15_2 = PaperRevision(
-            pdf_url=f"{app.config['TEST_PDFS_URL']}15.pdf",
+            pdf_url=f"{app.config['TEST_PDFS_DIR_PATH']}15.pdf",
             title="Decision Making in Health Management during Crisis: A Case Study Based on Epidemiological Curves of "
                   "China and Italy against COVID-19",
             version=2,
@@ -3634,7 +3634,7 @@ def create_test_data(app):
                      "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel augue "
                      "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet sit amet quam. "
                      "Suspendisse auctor id orci quis placerat.",
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("15.pdf"))),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("15.pdf"))),
             confidence_level=2,
             publication_date=dt.datetime(2020, 8, 10, 2, 2, 2, 2),
         )
@@ -10236,806 +10236,806 @@ def create_test_data(app):
 
         # calibration papers
         cp1 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("16.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("1.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("16.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("1.pdf"))),
         )
         cp1.rel_author = u1
         db.session.add(cp1)
 
         cp2 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("17.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("17.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("17.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("17.pdf"))),
         )
         cp2.rel_author = u1
         db.session.add(cp2)
 
         cp3 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("18.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("18.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("18.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("18.pdf"))),
         )
         cp3.rel_author = u1
         db.session.add(cp3)
 
         cp4 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("19.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("19.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("19.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("19.pdf"))),
         )
         cp4.rel_author = u1
         db.session.add(cp4)
 
         cp5 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("20.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("20.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("20.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("20.pdf"))),
         )
         cp5.rel_author = u1
         db.session.add(cp5)
 
         cp6 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("21.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("21.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("21.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("21.pdf"))),
         )
         cp6.rel_author = u1
         db.session.add(cp6)
 
         cp7 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("22.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("22.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("22.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("22.pdf"))),
         )
         cp7.rel_author = u1
         db.session.add(cp7)
 
         cp8 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("23.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("23.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("23.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("23.pdf"))),
         )
         cp8.rel_author = u1
         db.session.add(cp8)
 
         cp9 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("24.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("24.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("24.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("24.pdf"))),
         )
         cp9.rel_author = u1
         db.session.add(cp9)
 
         cp10 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("25.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("25.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("25.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("25.pdf"))),
         )
         cp10.rel_author = u1
         db.session.add(cp10)
 
         cp11 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("26.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("26.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("26.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("26.pdf"))),
         )
         cp11.rel_author = u1
         db.session.add(cp11)
 
         cp12 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("27.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("27.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("27.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("27.pdf"))),
         )
         cp12.rel_author = u1
         db.session.add(cp12)
 
         cp13 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("28.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("28.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("28.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("28.pdf"))),
         )
         cp13.rel_author = u1
         db.session.add(cp13)
 
         cp14 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("29.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("29.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("29.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("29.pdf"))),
         )
         cp14.rel_author = u1
         db.session.add(cp14)
 
         cp15 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("30.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("30.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("30.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("30.pdf"))),
         )
         cp15.rel_author = u1
         db.session.add(cp15)
 
         cp16 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("31.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("31.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("31.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("31.pdf"))),
         )
         cp16.rel_author = u1
         db.session.add(cp16)
 
         cp17 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("32.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("32.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("32.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("32.pdf"))),
         )
         cp17.rel_author = u1
         db.session.add(cp17)
 
         cp18 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("33.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("33.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("33.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("33.pdf"))),
         )
         cp18.rel_author = u1
         db.session.add(cp18)
 
         cp19 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("34.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("34.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("34.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("34.pdf"))),
         )
         cp19.rel_author = u1
         db.session.add(cp19)
 
         cp20 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("35.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("35.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("35.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("35.pdf"))),
         )
         cp20.rel_author = u1
         db.session.add(cp20)
 
         cp21 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("36.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("36.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("36.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("36.pdf"))),
         )
         cp21.rel_author = u1
         db.session.add(cp21)
 
         cp22 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("37.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("37.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("37.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("37.pdf"))),
         )
         cp22.rel_author = u1
         db.session.add(cp22)
 
         cp23 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("38.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("38.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("38.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("38.pdf"))),
         )
         cp23.rel_author = u1
         db.session.add(cp23)
 
         cp24 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("39.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("39.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("39.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("39.pdf"))),
         )
         cp24.rel_author = u2
         db.session.add(cp24)
 
         cp25 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("40.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("40.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("40.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("40.pdf"))),
         )
         cp25.rel_author = u2
         db.session.add(cp25)
 
         cp26 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("41.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("41.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("41.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("41.pdf"))),
         )
         cp26.rel_author = u2
         db.session.add(cp26)
 
         cp27 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("42.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("42.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("42.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("42.pdf"))),
         )
         cp27.rel_author = u2
         db.session.add(cp27)
 
         cp28 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("43.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("43.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("43.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("43.pdf"))),
         )
         cp28.rel_author = u2
         db.session.add(cp28)
 
         cp29 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("44.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("44.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("44.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("44.pdf"))),
         )
         cp29.rel_author = u2
         db.session.add(cp29)
 
         cp30 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("45.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("45.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("45.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("45.pdf"))),
         )
         cp30.rel_author = u2
         db.session.add(cp30)
 
         cp31 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("46.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("46.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("46.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("46.pdf"))),
         )
         cp31.rel_author = u2
         db.session.add(cp31)
 
         cp32 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("47.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("47.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("47.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("47.pdf"))),
         )
         cp32.rel_author = u2
         db.session.add(cp32)
 
         cp33 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("48.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("48.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("48.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("48.pdf"))),
         )
         cp33.rel_author = u2
         db.session.add(cp33)
 
         cp34 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("49.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("49.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("49.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("49.pdf"))),
         )
         cp34.rel_author = u2
         db.session.add(cp34)
 
         cp35 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("50.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("50.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("50.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("50.pdf"))),
         )
         cp35.rel_author = u2
         db.session.add(cp35)
 
         cp36 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("51.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("51.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("51.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("51.pdf"))),
         )
         cp36.rel_author = u2
         db.session.add(cp36)
 
         cp37 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("52.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("52.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("52.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("52.pdf"))),
         )
         cp37.rel_author = u2
         db.session.add(cp37)
 
         cp38 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("53.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("53.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("53.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("53.pdf"))),
         )
         cp38.rel_author = u2
         db.session.add(cp38)
 
         cp39 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("54.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("54.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("54.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("54.pdf"))),
         )
         cp39.rel_author = u2
         db.session.add(cp39)
 
         cp40 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("55.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("55.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("55.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("55.pdf"))),
         )
         cp40.rel_author = u2
         db.session.add(cp40)
 
         cp41 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("56.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("56.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("56.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("56.pdf"))),
         )
         cp41.rel_author = u2
         db.session.add(cp41)
 
         cp42 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("57.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("57.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("57.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("57.pdf"))),
         )
         cp42.rel_author = u2
         db.session.add(cp42)
 
         cp43 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("58.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("58.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("58.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("58.pdf"))),
         )
         cp43.rel_author = u2
         db.session.add(cp43)
 
         cp44 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("59.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("59.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("59.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("59.pdf"))),
         )
         cp44.rel_author = u2
         db.session.add(cp44)
 
         cp45 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("60.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("60.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("60.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("60.pdf"))),
         )
         cp45.rel_author = u2
         db.session.add(cp45)
 
         cp46 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("61.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("61.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("61.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("61.pdf"))),
         )
         cp46.rel_author = u2
         db.session.add(cp46)
 
         cp47 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("62.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("62.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("62.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("62.pdf"))),
         )
         cp47.rel_author = u3
         db.session.add(cp47)
 
         cp48 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("63.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("63.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("63.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("63.pdf"))),
         )
         cp48.rel_author = u3
         db.session.add(cp48)
 
         cp49 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("64.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("64.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("64.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("64.pdf"))),
         )
         cp49.rel_author = u3
         db.session.add(cp49)
 
         cp50 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("65.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("65.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("65.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("65.pdf"))),
         )
         cp50.rel_author = u3
         db.session.add(cp50)
 
         cp51 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("66.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("66.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("66.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("66.pdf"))),
         )
         cp51.rel_author = u3
         db.session.add(cp51)
 
         cp52 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("67.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("67.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("67.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("67.pdf"))),
         )
         cp52.rel_author = u3
         db.session.add(cp52)
 
         cp53 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("68.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("68.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("68.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("68.pdf"))),
         )
         cp53.rel_author = u3
         db.session.add(cp53)
 
         cp54 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("69.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("69.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("69.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("69.pdf"))),
         )
         cp54.rel_author = u3
         db.session.add(cp54)
 
         cp55 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("70.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("70.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("70.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("70.pdf"))),
         )
         cp55.rel_author = u3
         db.session.add(cp55)
 
         cp56 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("71.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("71.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("71.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("71.pdf"))),
         )
         cp56.rel_author = u3
         db.session.add(cp56)
 
         cp57 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("72.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("72.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("72.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("72.pdf"))),
         )
         cp57.rel_author = u3
         db.session.add(cp57)
 
         cp58 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("73.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("73.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("73.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("73.pdf"))),
         )
         cp58.rel_author = u3
         db.session.add(cp58)
 
         cp59 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("74.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("74.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("74.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("74.pdf"))),
         )
         cp59.rel_author = u3
         db.session.add(cp59)
 
         cp60 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("75.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("75.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("75.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("75.pdf"))),
         )
         cp60.rel_author = u3
         db.session.add(cp60)
 
         cp61 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("76.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("76.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("76.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("76.pdf"))),
         )
         cp61.rel_author = u3
         db.session.add(cp61)
 
         cp62 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("77.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("77.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("77.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("77.pdf"))),
         )
         cp62.rel_author = u3
         db.session.add(cp62)
 
         cp63 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("78.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("78.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("78.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("78.pdf"))),
         )
         cp63.rel_author = u3
         db.session.add(cp63)
 
         cp64 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("79.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("79.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("79.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("79.pdf"))),
         )
         cp64.rel_author = u3
         db.session.add(cp64)
 
         cp65 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("80.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("80.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("80.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("80.pdf"))),
         )
         cp65.rel_author = u3
         db.session.add(cp65)
 
         cp66 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("81.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("81.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("81.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("81.pdf"))),
         )
         cp66.rel_author = u3
         db.session.add(cp66)
 
         cp67 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("82.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("82.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("82.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("82.pdf"))),
         )
         cp67.rel_author = u3
         db.session.add(cp67)
 
         cp68 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("83.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("83.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("83.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("83.pdf"))),
         )
         cp68.rel_author = u3
         db.session.add(cp68)
 
         cp69 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("84.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("84.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("84.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("84.pdf"))),
         )
         cp69.rel_author = u3
         db.session.add(cp69)
 
         cp70 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("85.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("85.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("85.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("85.pdf"))),
         )
         cp70.rel_author = u4
         db.session.add(cp70)
 
         cp71 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("86.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("86.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("86.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("86.pdf"))),
         )
         cp71.rel_author = u4
         db.session.add(cp71)
 
         cp72 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("87.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("87.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("87.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("87.pdf"))),
         )
         cp72.rel_author = u4
         db.session.add(cp72)
 
         cp73 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("88.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("88.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("88.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("88.pdf"))),
         )
         cp73.rel_author = u4
         db.session.add(cp73)
 
         cp74 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("89.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("89.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("89.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("89.pdf"))),
         )
         cp74.rel_author = u4
         db.session.add(cp74)
 
         cp75 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("90.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("90.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("90.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("90.pdf"))),
         )
         cp75.rel_author = u4
         db.session.add(cp75)
 
         cp76 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("91.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("91.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("91.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("91.pdf"))),
         )
         cp76.rel_author = u4
         db.session.add(cp76)
 
         cp77 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("92.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("92.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("92.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("92.pdf"))),
         )
         cp77.rel_author = u4
         db.session.add(cp77)
 
         cp78 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("93.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("93.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("93.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("93.pdf"))),
         )
         cp78.rel_author = u4
         db.session.add(cp78)
 
         cp79 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("94.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("94.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("94.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("94.pdf"))),
         )
         cp79.rel_author = u4
         db.session.add(cp79)
 
         cp80 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("95.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("95.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("95.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("95.pdf"))),
         )
         cp80.rel_author = u4
         db.session.add(cp80)
 
         cp81 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("96.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("96.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("96.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("96.pdf"))),
         )
         cp81.rel_author = u4
         db.session.add(cp81)
 
         cp82 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("97.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("97.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("97.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("97.pdf"))),
         )
         cp82.rel_author = u4
         db.session.add(cp82)
 
         cp83 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("98.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("98.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("98.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("98.pdf"))),
         )
         cp83.rel_author = u4
         db.session.add(cp83)
 
         cp84 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("99.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("99.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("99.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("99.pdf"))),
         )
         cp84.rel_author = u4
         db.session.add(cp84)
 
         cp85 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("100.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("100.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("100.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("100.pdf"))),
         )
         cp85.rel_author = u4
         db.session.add(cp85)
 
         cp86 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("101.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("101.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("101.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("101.pdf"))),
         )
         cp86.rel_author = u4
         db.session.add(cp86)
 
         cp87 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("102.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("102.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("102.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("102.pdf"))),
         )
         cp87.rel_author = u4
         db.session.add(cp87)
 
         cp88 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("103.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("103.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("103.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("103.pdf"))),
         )
         cp88.rel_author = u4
         db.session.add(cp88)
 
         cp89 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("104.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("104.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("104.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("104.pdf"))),
         )
         cp89.rel_author = u4
         db.session.add(cp89)
 
         cp90 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("105.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("105.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("105.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("105.pdf"))),
         )
         cp90.rel_author = u4
         db.session.add(cp90)
 
         cp91 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("106.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("106.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("106.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("106.pdf"))),
         )
         cp91.rel_author = u4
         db.session.add(cp91)
 
         cp92 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("107.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("107.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("107.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("107.pdf"))),
         )
         cp92.rel_author = u4
         db.session.add(cp92)
 
         cp93 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("108.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("108.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("108.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("108.pdf"))),
         )
         cp93.rel_author = u5
         db.session.add(cp93)
 
         cp94 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("109.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("109.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("109.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("109.pdf"))),
         )
         cp94.rel_author = u5
         db.session.add(cp94)
 
         cp95 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("110.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("110.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("110.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("110.pdf"))),
         )
         cp95.rel_author = u5
         db.session.add(cp95)
 
         cp96 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("111.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("111.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("111.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("111.pdf"))),
         )
         cp96.rel_author = u5
         db.session.add(cp96)
 
         cp97 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("112.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("112.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("112.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("112.pdf"))),
         )
         cp97.rel_author = u5
         db.session.add(cp97)
 
         cp98 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("113.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("113.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("113.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("113.pdf"))),
         )
         cp98.rel_author = u5
         db.session.add(cp98)
 
         cp99 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("114.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("114.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("114.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("114.pdf"))),
         )
         cp99.rel_author = u5
         db.session.add(cp99)
 
         cp100 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("115.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("115.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("115.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("115.pdf"))),
         )
         cp100.rel_author = u5
         db.session.add(cp100)
 
         cp101 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("116.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("116.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("116.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("116.pdf"))),
         )
         cp101.rel_author = u5
         db.session.add(cp101)
 
         cp102 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("117.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("117.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("117.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("117.pdf"))),
         )
         cp102.rel_author = u5
         db.session.add(cp102)
 
         cp103 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("118.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("118.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("118.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("118.pdf"))),
         )
         cp103.rel_author = u5
         db.session.add(cp103)
 
         cp104 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("119.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("119.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("119.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("119.pdf"))),
         )
         cp104.rel_author = u5
         db.session.add(cp104)
 
         cp105 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("120.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("120.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("120.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("120.pdf"))),
         )
         cp105.rel_author = u5
         db.session.add(cp105)
 
         cp106 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("121.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("121.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("121.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("121.pdf"))),
         )
         cp106.rel_author = u5
         db.session.add(cp106)
 
         cp107 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("122.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("122.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("122.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("122.pdf"))),
         )
         cp107.rel_author = u5
         db.session.add(cp107)
 
         cp108 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("123.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("123.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("123.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("123.pdf"))),
         )
         cp108.rel_author = u5
         db.session.add(cp108)
 
         cp109 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("124.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("124.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("124.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("124.pdf"))),
         )
         cp109.rel_author = u5
         db.session.add(cp109)
 
         cp110 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("125.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("125.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("125.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("125.pdf"))),
         )
         cp110.rel_author = u5
         db.session.add(cp110)
 
         cp111 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("126.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("126.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("126.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("126.pdf"))),
         )
         cp111.rel_author = u5
         db.session.add(cp111)
 
         cp112 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("127.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("127.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("127.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("127.pdf"))),
         )
         cp112.rel_author = u5
         db.session.add(cp112)
 
         cp113 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("128.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("128.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("128.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("128.pdf"))),
         )
         cp113.rel_author = u5
         db.session.add(cp113)
 
         cp114 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("129.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("129.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("129.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("129.pdf"))),
         )
         cp114.rel_author = u5
         db.session.add(cp114)
 
         cp115 = CalibrationPaper(
-            pdf_url=os.path.join(Config.TEST_PDFS_URL, secure_filename("130.pdf")),
-            preprocessed_text=get_text(os.path.join(Config.PDFS_FOLDER_URL, secure_filename("130.pdf"))),
+            pdf_url=os.path.join(Config.TEST_PDFS_DIR_PATH, secure_filename("130.pdf")),
+            preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename("130.pdf"))),
         )
         cp115.rel_author = u5
         db.session.add(cp115)

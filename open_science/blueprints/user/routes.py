@@ -65,7 +65,7 @@ def profile_page(user_id):
 def edit_profile_page():
     form = EditProfileForm(review_mails_limit=current_user.review_mails_limit,
                            notifications_frequency=current_user.notifications_frequency)
- 
+
     email_change = False
 
     if form.validate_on_submit():
@@ -91,44 +91,48 @@ def edit_profile_page():
         current_user.google_scholar = form.google_scholar.data
         current_user.about_me = form.about_me.data
         current_user.personal_website = form.personal_website.data
-        current_user.review_mails_limit = form.review_mails_limit.data
         current_user.notifications_frequency = form.notifications_frequency.data
 
-        # get the calibration files
-        for file in form.calibration_files.data:
-            if not file.filename: 
-                continue
+
+        if current_user.is_researcher():
+
+            current_user.review_mails_limit = form.review_mails_limit.data
             
-            calibration_paper = CalibrationPaper(
-                pdf_url=""
-            )
+            # get the calibration files
+            for file in form.calibration_files.data:
+                if not file.filename: 
+                    continue
+                
+                calibration_paper = CalibrationPaper(
+                    pdf_url=""
+                )
 
-            db.session.add(calibration_paper)
-            db.session.flush()
+                db.session.add(calibration_paper)
+                db.session.flush()
 
-            id = calibration_paper.id
+                id = calibration_paper.id
 
-            filename = secure_filename(f"{id}.pdf")
-           
-            path = os.path.join(Config.ROOTDIR, Config.PDFS_FOLDER_URL, filename)
-            url = url_for('static', filename=f"articles/{filename}")
+                filename = secure_filename(f"{id}.pdf")
+            
+                path = os.path.join(Config.ROOTDIR, Config.PDFS_DIR_PATH, filename)
+                url = url_for('static', filename=f"articles/{filename}")
 
-            file.save(path)
+                file.save(path)
 
-            calibration_paper.pdf_url = url
-            calibration_paper.preprocessed_text = get_text(path)
+                calibration_paper.pdf_url = url
+                calibration_paper.preprocessed_text = get_text(path)
 
-            current_user.rel_calibration_papers.append(calibration_paper)
+                current_user.rel_calibration_papers.append(calibration_paper)
 
-            sm.update_dictionary(calibration_paper.preprocessed_text)
-            sm.update_tfidf_matrix()
-            sm.update_similarity_matrix(calibration_paper.preprocessed_text)
+                sm.update_dictionary(calibration_paper.preprocessed_text)
+                sm.update_tfidf_matrix()
+                sm.update_similarity_matrix(calibration_paper.preprocessed_text)
 
 
         f = form.profile_image.data
         if f:
             filename = secure_filename(f'{current_user.id}.jpg')
-            path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGE_URL, filename)
+            path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGES_DIR_PATH, filename)
             if current_user.has_photo:
                 os.remove(path)
 

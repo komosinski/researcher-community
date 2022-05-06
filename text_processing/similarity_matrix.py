@@ -47,7 +47,7 @@ def create_dictionary():
 # Save dictionary to the file
 def save_dictionary(dictionary):
     dictionary_url = os.path.join(app.config['ROOTDIR'],
-                                  app.config['DICTIONARY_URL'])
+                                  app.config['DICTIONARY_FILE_PATH'])
     dictionary.save(dictionary_url)
 
 
@@ -56,7 +56,7 @@ def get_dictionary():
     dictionary = []
 
     dictionary_url = os.path.join(app.config['ROOTDIR'],
-                                  app.config['DICTIONARY_URL'])
+                                  app.config['DICTIONARY_FILE_PATH'])
     dictionary = corpora.Dictionary.load(dictionary_url)
 
     return dictionary
@@ -75,7 +75,7 @@ def update_dictionary(new_article):
 
 def save_tfidf_matrix_mapping_array(tfidf_matrix_mapping_array):
     tfidf_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
-                                                  app.config['TFIDF_MATRIX_MAPPING_ARRAY_URL'])
+                                                  app.config['TFIDF_MATRIX_MAPPING_ARRAY_FILE_PATH'])
     np.save(tfidf_matrix_mapping_array_url, tfidf_matrix_mapping_array)
 
 
@@ -83,7 +83,7 @@ def get_tfidf_matrix_mapping_array():
     tfidf_matrix_mapping_array = []
 
     tfidf_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
-                                                  app.config['TFIDF_MATRIX_MAPPING_ARRAY_URL'])
+                                                  app.config['TFIDF_MATRIX_MAPPING_ARRAY_FILE_PATH'])
     tfidf_matrix_mapping_array = np.load(tfidf_matrix_mapping_array_url, tfidf_matrix_mapping_array)
 
     return tfidf_matrix_mapping_array
@@ -109,7 +109,7 @@ def create_tfidf_matrix():
 # saves given matrix as tfidf matrix in matrices table in database
 def save_tfidf_matrix(tfidf_matrix):
     tfidf_matrix_url = os.path.join(app.config['ROOTDIR'],
-                                    app.config['TFIDF_MATRIX_URL'])
+                                    app.config['TFIDF_MATRIX_FILE_PATH'])
     tfidf_matrix.save(tfidf_matrix_url)
 
 
@@ -118,7 +118,7 @@ def get_tfidf_matrix():
     tfidf_matrix = []
 
     tfidf_matrix_url = os.path.join(app.config['ROOTDIR'],
-                                    app.config['TFIDF_MATRIX_URL'])
+                                    app.config['TFIDF_MATRIX_FILE_PATH'])
     tfidf_matrix = corpora.Dictionary.load(tfidf_matrix_url)
 
     return tfidf_matrix
@@ -144,7 +144,7 @@ def update_tfidf_matrix():
 
 def save_similarities_matrix_mapping_array(similarities_matrix_mapping_array):
     similarities_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
-                                                         app.config['SIMILARITIES_MATRIX_MAPPING_ARRAY_URL'])
+                                                         app.config['SIMILARITIES_MATRIX_MAPPING_ARRAY_FILE_PATH'])
     np.save(similarities_matrix_mapping_array_url, similarities_matrix_mapping_array)
 
 
@@ -152,7 +152,7 @@ def get_similarities_matrix_mapping_array():
     similarities_matrix_mapping_array = []
 
     similarities_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
-                                                         app.config['SIMILARITIES_MATRIX_MAPPING_ARRAY_URL'])
+                                                         app.config['SIMILARITIES_MATRIX_MAPPING_ARRAY_FILE_PATH'])
     similarities_matrix_mapping_array = np.load(similarities_matrix_mapping_array_url,
                                                 similarities_matrix_mapping_array)
 
@@ -182,7 +182,7 @@ def create_similarities_matrix():
 # saves given matrix as similarities matrix in matrices table in database
 def save_similarities_matrix(similarities_matrix):
     similarities_matrix_url = os.path.join(app.config['ROOTDIR'],
-                                           app.config['SIMILARITIES_MATRIX_URL'])
+                                           app.config['SIMILARITIES_MATRIX_FILE_PATH'])
     np.save(similarities_matrix_url, similarities_matrix)
 
 
@@ -191,7 +191,7 @@ def get_similarities_matrix():
     similarities_matrix = []
 
     similarities_matrix_url = os.path.join(app.config['ROOTDIR'],
-                                           app.config['SIMILARITIES_MATRIX_URL'])
+                                           app.config['SIMILARITIES_MATRIX_FILE_PATH'])
     similarities_matrix = np.load(similarities_matrix_url, similarities_matrix)
 
     return similarities_matrix

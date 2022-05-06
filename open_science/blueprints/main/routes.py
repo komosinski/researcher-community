@@ -25,7 +25,7 @@ def before_req():
 
 @bp.route("/")
 def home_page():
-    users_plot_url = app.config['USERS_PLOT_URL']
+    users_plot_url = app.config['USERS_PLOT_2D_FILE_PATH']
     flash(STR.FLASH_TEST_VERISON, category='warning')
     return render_template("home_page.html",
                            users_plot_url=users_plot_url)

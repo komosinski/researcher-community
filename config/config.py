@@ -60,7 +60,7 @@ class Config(object):
     COMMENT_L = int(os.environ.get('COMMENT_L') or 500)
 
     # Upload papers per day
-    PAPER_L = int(os.environ.get('PAPER_L') or 100)
+    PAPER_L = int(os.environ.get('PAPER_L') or 10)
 
     # Create tags per day
     TAGS_L = int(os.environ.get('TAGS_L') or 100)
@@ -99,34 +99,34 @@ class Config(object):
     # project directory path
     ROOTDIR = "./"
 
-    # Url to processing text dictionary
-    DICTIONARY_URL = 'generated/dictionary'
+    #  to processing text dictionary
+    DICTIONARY_FILE_PATH = 'generated/dictionary'
 
-    # Url to processing text tfidf matrix mapping array
-    TFIDF_MATRIX_MAPPING_ARRAY_URL = 'generated/tfidf_matrix_mapping.npy'
+    # Path to processing text tfidf matrix mapping array
+    TFIDF_MATRIX_MAPPING_ARRAY_FILE_PATH = 'generated/tfidf_matrix_mapping.npy'
 
-    # Url to processing text tfidf matrix
-    TFIDF_MATRIX_URL = 'generated/tfidf_matrix'
+    # Path to processing text tfidf matrix
+    TFIDF_MATRIX_FILE_PATH = 'generated/tfidf_matrix'
 
-    # Url to processing text similarities matrix mapping array
-    SIMILARITIES_MATRIX_MAPPING_ARRAY_URL = 'generated/similarities_matrix_mapping.npy'
+    # Path to processing text similarities matrix mapping array
+    SIMILARITIES_MATRIX_MAPPING_ARRAY_FILE_PATH = 'generated/similarities_matrix_mapping.npy'
 
-    # Url to processing text similarities matrix
-    SIMILARITIES_MATRIX_URL = 'generated/similarities_matrix.npy'
+    # Path to processing text similarities matrix
+    SIMILARITIES_MATRIX_FILE_PATH = 'generated/similarities_matrix.npy'
 
-    # Url to processing text users plot
-    USERS_PLOT_URL = 'open_science/static/res/users_plot'
+    # Path to processing text users plot
+    USERS_PLOT_2D_FILE_PATH = 'open_science/static/res/users_plot'
 
-    USERS_PLOT_3D_URL = 'open_science/static/res/users_plot_3D.html'
+    USERS_PLOT_3D_FILE_PATH = 'open_science/static/res/users_plot_3D.html'
 
-    # url to pdfs folder
-    PDFS_FOLDER_URL = 'open_science/static/articles'
+    # Path to pdfs folder
+    PDFS_DIR_PATH = 'open_science/static/articles'
 
-    # url of profile pics directory
-    PROFILE_IMAGE_URL = 'open_science/static/res/profileImages'
+    # Path of profile pics directory
+    PROFILE_IMAGES_DIR_PATH = 'open_science/static/res/profileImages'
 
     # only for tests
     # using ./open_science/static/articles/1.pdf causes bad request: GET /paper/1/open_science/static/articles/1.pdf
     # using /static/articles/1.pdf causes correct request: GET /static/articles/1.pdf
     # it is working the same way as for styles and resources
-    TEST_PDFS_URL = '/static/articles/'
+    TEST_PDFS_DIR_PATH = '/static/articles/'
