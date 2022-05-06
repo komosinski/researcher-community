@@ -106,7 +106,7 @@ class User(db.Model, UserMixin):
     google_scholar = db.Column(db.String(length=mc.USER_GOOGLE_SCHOLAR_L))
     about_me = db.Column(db.String(length=mc.USER_ABOUT_ME_L))
     personal_website = db.Column(db.String(length=mc.USER_PERSONAL_WEBSITE_L))
-    review_mails_limit = db.Column(db.Integer(), nullable=False, default=1)
+    review_mails_limit = db.Column(db.Integer(), nullable=False, default=0)
     notifications_frequency = db.Column(db.Integer(), nullable=False)
 
     # Holds a new email address before being validated or information

@@ -82,11 +82,6 @@ class RegisterForm(FlaskForm):
     password_confirm = PasswordField(label='Confirm password', validators=[
                                      EqualTo('password'), DataRequired()])
 
-    review_mails_limit = SelectField(label='Limit on the number of review requests', choices=[(1, '1'),
-                                              (2, '2'),
-                                              (3, '3'),
-                                              (4, '4'),
-                                              (0, 'I don\'t want to participate in peer review')])
 
     notifications_frequency = SelectField(label='Frequency of notifications', choices=[(
         1, '1 day'), (3, '3 days'), (7, '1 week'),

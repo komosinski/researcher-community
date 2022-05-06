@@ -28,7 +28,7 @@ def register_page():
         ps_standard_user = PrivilegeSet.query.filter(
             PrivilegeSet.id == User.user_types_enum.STANDARD_USER.value)\
                 .first()
-        print(form.password.data)
+   
 
         user_to_create = User.query.filter(User.email == form.email.data,
                                            User.registered_on
@@ -48,8 +48,7 @@ def register_page():
                                   second_name=form.second_name.data,
                                   email=form.email.data,
                                   plain_text_password=form.password.data,
-                                  review_mails_limit=form
-                                  .review_mails_limit.data,
+                                  review_mails_limit=0,
                                   notifications_frequency=form.
                                   notifications_frequency.data,
                                   registered_on=dt.datetime.utcnow())
@@ -63,7 +62,7 @@ def register_page():
         flash(STR.EMAIL_CONFIRM_LINK_SENT+user_to_create.email, category='success')
         return redirect(url_for('auth.unconfirmed_email_page'))
 
-    return render_template('user/register.html', form=form)
+    return render_template('auth/register.html', form=form)
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -99,7 +98,7 @@ def login_page():
             flash(STR.EMAIL_PASSWORD_NOT_MATCH,
                   category='error')
 
-    return render_template('user/login.html', form=form)
+    return render_template('auth/login.html', form=form)
 
 
 @bp.route('/logout')
@@ -155,7 +154,7 @@ def unconfirmed_email_page():
             flash(
                 STR.ACC_CONFIRM_DAILY_LIMIT_EXC,
                 'error')
-    return render_template('user/unconfirmed.html', form=form)
+    return render_template('auth/unconfirmed.html', form=form)
 
 
 @bp.route('/user/account-recovery', methods=['GET', 'POST'])
@@ -174,7 +173,7 @@ def account_recovery_page():
         for err_msg in form.errors.values():
             flash(f'{err_msg}', category='error')
 
-    return render_template('user/account_recovery.html', form=form)
+    return render_template('auth/account_recovery.html', form=form)
 
 
 @bp.route('/user/set-password/<token>', methods=['GET', 'POST'])
@@ -200,7 +199,7 @@ def set_password_page(token):
             flash(STR.STH_WENT_WRONG, category='error')
             return redirect(url_for('main.home_page'))
 
-    return render_template('user/set_password.html', form=form)
+    return render_template('auth/set_password.html', form=form)
 
 @bp.route('/user/change_password', methods=['GET', 'POST'])
 @fresh_login_required
@@ -219,7 +218,7 @@ def change_password_page():
             flash('Something went wrong.', category='error')
             return redirect(url_for('main.home_page'))
 
-    return render_template('user/set_password.html', form=form)
+    return render_template('auth/set_password.html', form=form)
 
 
 @bp.route('/email_change_confirmation/<token>', methods=['GET', 'POST'])
@@ -260,7 +259,7 @@ def delete_profile_page():
         flash(STR.EMAIL_DELETE_ACCOUNT_SENT, category='success')
         return redirect(url_for('user.profile_page', user_id=current_user.id))
 
-    return render_template('user/delete_profile.html', form=form)
+    return render_template('auth/delete_profile.html', form=form)
 
 
 @bp.route('/user/delete_profile/confirm/<token>')
