@@ -4,8 +4,11 @@
     <!--h1>HOME PAGE</h1-->
 <center>
 	<h3>This is the map of researchers in our community. Join us to be included!</h3>
-	<img src="{{url_for('static', filename='res/users_plot.png')}}" alt="Users" width="70%" />
+	<a href="{{url_for('main.users_plot_3d')}}" target="_blank">
+		<img src="{{url_for('static', filename='res/users_plot.png')}}" alt="Users" width="70%" />
+	</a>
 	<p>(refreshed daily)</p>
 </center>
+
 
 {% endblock %}

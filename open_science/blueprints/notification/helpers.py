@@ -2,7 +2,7 @@ from open_science.models import Notification, NotificationType
 from open_science.enums import NotificationTypeEnum
 from open_science import db
 from flask.helpers import url_for
-import open_science.email as em
+import open_science.myemail as em
 import datetime as dt
 
 

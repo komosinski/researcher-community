@@ -5,7 +5,7 @@ from open_science.blueprints.user.forms import InviteUserForm, EditProfileForm, 
 from open_science import db
 from open_science.models import CalibrationPaper, Notification,\
      User, EndorsementRequestLog, NotificationType
-import open_science.email as em
+import open_science.myemail as em
 from flask_login import logout_user, current_user
 from flask import render_template, redirect, url_for, flash, request
 from flask import abort

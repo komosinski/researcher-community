@@ -8,7 +8,7 @@ from open_science.tokens import confirm_password_token, \
     confirm_profile_delete_token
 from open_science.models import PrivilegeSet,\
      User
-import open_science.email as em
+import open_science.myemail as em
 from flask_login import login_user, logout_user, current_user
 from flask import render_template, redirect, url_for, flash, request
 import datetime as dt

@@ -25,7 +25,7 @@ def register_extensions(app):
     moment.init_app(app)
 
     from open_science.models import MessageToStaff, User, PaperRevision, Tag, Review, ReviewRequest, Comment
-    admin.add_view(MessageToStaffView(MessageToStaff, db.session))
+    admin.add_view(MessageToStaffView(MessageToStaff, db.session, endpoint='messagetostaff_'))
     admin.add_view(UserView(User, db.session, endpoint='user_'))
     admin.add_view(MyModelView(PaperRevision, db.session))
     admin.add_view(MyModelView(Tag, db.session, endpoint='tag_'))

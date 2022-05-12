@@ -4,7 +4,7 @@ import os
 from flask import url_for
 from werkzeug.utils import secure_filename
 
-from open_science import db
+from open_science import db, app
 from open_science.models import create_essential_data, PaperRevision, Comment, Review, Paper, Tag, User, PrivilegeSet, \
     ReviewRequest, VoteComment, MessageToStaff, MessageTopic, NotificationType, Notification, Suggestion, \
     CalibrationPaper, RedFlagComment, RedFlagPaperRevision, RedFlagReview, RedFlagTag, RedFlagUser, \
@@ -12,9 +12,23 @@ from open_science.models import create_essential_data, PaperRevision, Comment, R
 from open_science.enums import UserTypeEnum, NotificationTypeEnum
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
-from text_processing.plot import create_save_users_plot
+from text_processing.plot import create_save_users_plot, create_save_users_plot_3d
 from config.config import Config
 
+
+def create_text_processing_data(app):
+    with app.app_context():
+        print('creating similarity matrix...')
+        dictionary = sm.create_dictionary()
+        sm.save_dictionary(dictionary)
+        tfidf_matrix = sm.create_tfidf_matrix()
+        sm.save_tfidf_matrix(tfidf_matrix)
+        similarities_matrix = sm.create_similarities_matrix()
+        sm.save_similarities_matrix(similarities_matrix)
+        print('creating 2D plot...')
+        create_save_users_plot()
+        print('creating 3D plot...')
+        create_save_users_plot_3d()
 
 def create_test_data(app):
     with app.app_context():
@@ -11257,16 +11271,10 @@ def create_test_data(app):
         db.session.commit()
 
         print('creating test data 80%...')
-        print('creating similarity matrix...')
-
-        dictionary = sm.create_dictionary()
-        sm.save_dictionary(dictionary)
-        tfidf_matrix = sm.create_tfidf_matrix()
-        sm.save_tfidf_matrix(tfidf_matrix)
-        similarities_matrix = sm.create_similarities_matrix()
-        sm.save_similarities_matrix(similarities_matrix)
-        create_save_users_plot()
-
+        create_text_processing_data(app)
         print('Test data has been created 100%')
 
         return True
+
+
+create_test_data(app)

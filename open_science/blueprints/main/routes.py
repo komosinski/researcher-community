@@ -79,6 +79,7 @@ def auto_page(name=None):
 def contribute_page():
     return render_template('help/contribute.html')
 
+
 @bp.route('/help')
 def help_page():
     return render_template('help/help.html')
@@ -102,6 +103,11 @@ def contact_staff_page():
             flash(f'{err_msg}', category='error')
 
     return render_template('help/contact_staff.html', form=form)
+
+
+@bp.route("/users-plot-3D")
+def users_plot_3d():
+    return render_template("users_plot.html")
 
 
 # TODO fix circular import schedule

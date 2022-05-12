@@ -9,7 +9,7 @@ from wtforms.validators import Length, EqualTo, Email,\
     DataRequired, Optional, ValidationError
 import re
 import config.models_config as mc
-import open_science.email as em
+import open_science.myemail as em
 from config.config import Config
 from flask_login import current_user
 from open_science.enums import EmailTypeEnum

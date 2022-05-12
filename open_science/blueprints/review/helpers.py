@@ -3,7 +3,7 @@ from open_science import db
 from flask import current_app as app
 from open_science.enums import UserTypeEnum, EmailTypeEnum,\
      NotificationTypeEnum
-import open_science.email as em
+import open_science.myemail as em
 import datetime as dt
 from open_science.blueprints.notification.helpers import create_notification
 from flask.helpers import url_for
