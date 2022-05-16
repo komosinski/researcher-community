@@ -105,7 +105,7 @@ def contact_staff_page():
     return render_template('help/contact_staff.html', form=form)
 
 
-@bp.route("/users-plot-3D")
+@bp.route("/plot3D")
 def users_plot_3d():
     return render_template("users_plot.html")
 

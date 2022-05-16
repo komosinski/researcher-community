@@ -2,9 +2,17 @@
 {% block content %}
 
     <!--h1>HOME PAGE</h1-->
+{% if  current_user.is_authenticated %}
+{% set user_id = current_user.get_id() %}
+{% else %}
+{% set user_id = '0' %}
+{% endif %}
+
+
+
 <center>
 	<h3>This is the map of researchers in our community. Join us to be included!</h3>
-	<a href="{{url_for('main.users_plot_3d')}}" target="_blank">
+	<a href="{{url_for('main.users_plot_3d', id=user_id)}}" target="_blank">
 		<img src="{{url_for('static', filename='res/users_plot.png')}}" alt="Users" width="70%" />
 	</a>
 	<p>(refreshed daily)</p>

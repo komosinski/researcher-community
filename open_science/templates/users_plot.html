@@ -1,5 +1,4 @@
-{% extends 'base.html' %}
-{% block content %}
-<h2>Users</h2>
+user's id from request: {{ request.args.get('id') }} 
+
 {% include 'users_plot_3D.html' %}
-{% endblock %}
+
