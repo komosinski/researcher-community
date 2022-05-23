@@ -166,6 +166,12 @@ This project is using poppler library whose installation on windows is problemat
 6. Go through the steps in described earlier installation for Linux starting with step 2.
  
 
+
+Initialize database
+---
+In your virtual environment, type:
+
+        python3 db_init.py
   
 Run
 ---
@@ -177,19 +183,27 @@ If running the flask server, on Linux in your virtual environment type:
 On Windows you can do the same, but remember to use WSL.
 
 
-Initializing test data
-----------------------
-
-If you want to initiate test data, you must ensure that there are pdf files in the folder open_science/static/articles named from 1.pdf to 130.pdf.
-
-If articles folder contains pdf files, go to http://127.0.0.1:5000/t to initiate test records in the database.
-
-
 Reset database
 --------------
+
 In your virtual environment, type:
 
         python3 db_init.py
+
+Note: All data in DB will be deleted! 
+
+Initializing test data
+----------------------
+
+Test data contains users, articles, reviews, comments, tags etc.
+
+If you want to initiate test data, you must reset database and ensure that there are pdf files in the folder open_science/static/articles named from 1.pdf to 130.pdf.
+
+In your virtual environment, type:
+
+         python3 test_data.py
+
+Note: It will take a few minutes to create test data.
 
 
 Production mode
