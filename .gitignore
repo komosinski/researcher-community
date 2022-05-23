@@ -138,3 +138,6 @@ config_db.py
 open_science/static/res/profileImages
 open_science/static/articles/
 config/config_db.py
+
+open_science/static/res/users_plot.png
+open_science/templates/users_plot_3D.html

@@ -13,7 +13,7 @@ from open_science import db
 from flask import request
 # TODO fix circular import schedule
 #import open_science.schedule.schedule as schedule
-
+from os.path import exists
 
 @bp.before_request
 def before_req():
@@ -107,7 +107,10 @@ def contact_staff_page():
 
 @bp.route("/plot3D")
 def users_plot_3d():
-    return render_template("users_plot.html")
+    if exists(app.config['USERS_PLOT_3D_FILE_PATH']):
+        return render_template("users_plot.html")
+    else:
+        return redirect(url_for('main.home_page'))
 
 
 # TODO fix circular import schedule
