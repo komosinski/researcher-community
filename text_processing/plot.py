@@ -34,7 +34,7 @@ def create_save_users_plot():
         for i, id in enumerate(user_ids):
             ax.annotate(id, (standardized_pca[:, 0][i], standardized_pca[:, 1][i]))
         users_plot_url = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_2D_FILE_PATH'])
-        plt.savefig(users_plot_url, dpi=200)
+        plt.savefig(users_plot_url, dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 

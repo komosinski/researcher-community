@@ -128,16 +128,14 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Openscience 
-#open_science/articles
-#open_science/static/articles
-#articles
+# Openscience
 migrations
-temporary_config.py
-config_db.py
-open_science/static/res/profileImages
 open_science/static/articles/
-config/config_db.py
+open_science/static/res/profileImages
 
+# generated files
 open_science/static/res/users_plot.png
 open_science/templates/users_plot_3D.html
+generated/dictionary
+generated/tfidf_matrix
+generated/similarities_matrix.npy

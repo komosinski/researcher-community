@@ -19,7 +19,7 @@ from os.path import exists
 def before_req():
     if app.config['MAINTENANCE_MODE'] is True \
         and request.endpoint != 'admin.index' \
-            and request.endpoint != 'disable_maintenance_mode':
+            and request.endpoint != 'main.disable_maintenance_mode':
         return render_template("maintenance.html")
 
 
@@ -120,11 +120,11 @@ def users_plot_3d():
 # def force_daily_jobs():
 #     schedule.daily_jobs()
 #     flash('Daily jobs have been performed', category='success')
-#     return redirect(url_for('home_page'))
+#     return redirect(url_for('main.home_page'))
 
 # TODO fix circular import schedule
 # @bp.route('/admin/start_scheduler')
 # def start_scheduler():
 #     schedule.run_scheduler()
-#     return redirect(url_for('home_page'))
+#     return redirect(url_for('main.home_page'))
 

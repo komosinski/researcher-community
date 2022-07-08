@@ -3,23 +3,21 @@
 {% block body%}
 
 
-
-
-
 {% if current_user.is_authenticated and current_user.is_admin()%}
     <h2>Open science administration panel</h2>
     <br><br>
     <h4>Scheduler</h4>
     <br>
-    <a href="{{url_for('main.start_scheduler')}}">
+
+    <!-- TODO: fix scheduler import error in main.routes.py -->
+    <!-- "TODO^" in code below because Jinja also interprets comments -->
+    <!-- <a href= TODO^ url_for('main.start_scheduler')}}">
         <button type="button" class="btn">Start scheduler</button>
     </a>
-
     <br><br>
-
-    <a href="{{url_for('main.force_daily_jobs')}}">
+    <a href= TODO^ url_for('main.force_daily_jobs')}}">
     <button type="button" class="btn">Force daily jobs</button>
-    </a>
+    </a> -->
 
     <br><br>
     <h4>Maintenance mode</h4>
