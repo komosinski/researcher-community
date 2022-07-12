@@ -318,6 +318,11 @@ main {
     border: 3px solid #caa800;
 }
 
+.message-info {
+    background-color: #9dd2f3;
+    border: 3px solid #190280;
+}
+
 .message-button {
     border: none;
     background-color: transparent;

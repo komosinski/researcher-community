@@ -23,6 +23,11 @@ from open_science.blueprints.auth import bp
 @bp.route('/register', methods=['GET', 'POST'])
 @limiter.limit("3 per second")
 def register_page():
+
+    if app.config['READONLY_MODE'] is True:
+        flash(STR.READOLNY_SIGNUP_DISABLED, category='warning')
+        return redirect(url_for('main.home_page'))
+
     form = RegisterForm()
     if form.validate_on_submit():
         ps_standard_user = PrivilegeSet.query.filter(
@@ -71,6 +76,11 @@ def login_page():
     if current_user.is_authenticated:
         flash(STR.ALREADY_LOGGED, category='warning')
         return redirect(url_for('main.home_page'))
+    
+    if app.config['READONLY_MODE'] is True:
+        flash(STR.READOLNY_SIGNIN_DISABLED, category='warning')
+        return redirect(url_for('main.home_page'))
+
     form = LoginForm()
     if form.validate_on_submit():
         attempted_user = User.query.filter_by(email=form.email.data).first()
@@ -211,7 +221,7 @@ def change_password_page():
                 id=current_user.get_id()).first_or_404()
             user.password = form.password.data
             db.session.commit()
-            flash(STR.PASSWORD_CHANGED,
+            flash(STR.PASSWORD_CHANGED_SUCCESSFULLY,
                   category='success')
             return redirect(url_for('user.edit_profile_page'))
         except Exception:

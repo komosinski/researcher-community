@@ -23,7 +23,7 @@ from open_science import strings as STR
 from config.config import Config
 from flask_login import login_required, fresh_login_required
 from open_science.blueprints.user import bp
-
+from config import models_config as mc
 
 @bp.route('/user/<user_id>', methods=['GET', 'POST'])
 def profile_page(user_id):
@@ -121,6 +121,7 @@ def edit_profile_page():
 
                 calibration_paper.pdf_url = url
                 calibration_paper.preprocessed_text = get_text(path)
+                calibration_paper.description = file.filename[:mc.CP_DESCRIPTION_L]
 
                 current_user.rel_calibration_papers.append(calibration_paper)
 
@@ -163,8 +164,32 @@ def edit_profile_page():
         form.about_me.data = current_user.about_me
         form.personal_website.data = current_user.personal_website
 
-    return render_template('user/edit_profile.html', form=form)
+        calibration_papers = CalibrationPaper.query.filter(CalibrationPaper.author==current_user.id).all()
 
+    return render_template('user/edit_profile.html', form=form, calibration_papers=calibration_papers)
+
+
+@bp.route('/user/delete_calibration_paper/<paper_id>', methods=['GET', 'POST'])
+@login_required
+def delete_calibration_paper(paper_id):
+    if not check_numeric_args(paper_id):
+        abort(404)
+    calibration_paper = CalibrationPaper.query.filter(CalibrationPaper.author==current_user.id, CalibrationPaper.id==int(paper_id)).first()
+    if calibration_paper is None:
+        flash(STR.CP_NOT_EXISTS, category='error')
+    else:
+        # TODO: check if calibration paper can be deleted
+        try:
+            path = os.path.join(Config.ROOTDIR, Config.PDFS_DIR_PATH, calibration_paper.pdf_url.split('/')[-1])
+            os.remove(path)
+            db.session.delete(calibration_paper)
+            db.session.commit()
+            flash(STR.CP_DELETE_SUCCESS, category='success')
+        except Exception as err:
+            print(f'Error during calibration paper deletion: {err}')
+            flash(STR.CP_DELETE_FAILED, category='error')
+  
+    return redirect(url_for('user.edit_profile_page'))
 
 @bp.route('/user/invite', methods=['GET', 'POST'])
 @login_required

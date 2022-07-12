@@ -83,7 +83,7 @@ def article(id):
 
 
 
-        return redirect(url_for("article", id=id, version=pv.version))
+        return redirect(url_for("paper.article", id=id, version=pv.version))
 
     # similar papers
     similar_papers = pv.get_similar_revisions()
@@ -113,7 +113,7 @@ def anonymous_article_page(id):
                                              PaperRevision.version == version,
                                              PaperRevision.anonymized_pdf_url!=None)).first()
     if not pv:
-        return redirect(url_for("article", id=id, version=version))
+        return redirect(url_for("paper.article", id=id, version=version))
 
     return render_template("article/anonymous_view.html", article=pv)
 

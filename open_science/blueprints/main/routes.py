@@ -5,8 +5,8 @@ from flask import current_app as app
 from open_science import strings as STR
 from open_science.utils import admin_required
 from open_science.blueprints.main.forms import ContactStaffForm
-from open_science.models import MessageToStaff
-from flask_login import current_user
+from open_science.models import MessageToStaff, User
+from flask_login import current_user, logout_user
 from flask import render_template, redirect, url_for, flash
 import datetime as dt
 from open_science import db
@@ -15,12 +15,20 @@ from flask import request
 #import open_science.schedule.schedule as schedule
 from os.path import exists
 
-@bp.before_request
+@bp.before_app_request
 def before_req():
+    # MAINTENANCE_MODE
     if app.config['MAINTENANCE_MODE'] is True \
         and request.endpoint != 'admin.index' \
             and request.endpoint != 'main.disable_maintenance_mode':
         return render_template("maintenance.html")
+    # READOLNY MODE
+    if app.config['READONLY_MODE'] is True \
+        and current_user.is_authenticated is True\
+            and current_user.privileges_set < User.user_types_enum.ADMIN.value:
+        logout_user()
+        flash(STR.READOLNY_LOGOUT_INFO, category='warning')
+        return redirect(url_for("main.home_page"))
 
 
 @bp.route("/")
@@ -59,6 +67,22 @@ def enable_maintenance_mode():
 @admin_required
 def disable_maintenance_mode():
     app.config.update(MAINTENANCE_MODE=False)
+    return redirect(url_for('main.home_page'))
+
+
+@bp.route('/enable_readonly')
+@login_required
+@admin_required
+def enable_readonly_mode():
+    app.config.update(READONLY_MODE=True)
+    return redirect(url_for('main.home_page'))
+
+
+@bp.route('/disable_readonly')
+@login_required
+@admin_required
+def disable_readonly_mode():
+    app.config.update(READONLY_MODE=False)
     return redirect(url_for('main.home_page'))
 
 

@@ -30,6 +30,19 @@
             <button type="button" class="btn">Enable Maintenance Mode</button>
         </a>
     {% endif %}    
+
+    <br><br>
+    <h4>Readonly mode</h4>
+    {% if config['READONLY_MODE'] %}
+        <a href="{{url_for('main.disable_readonly_mode')}}">
+            <button type="button" class="btn">Disable Readonly Mode</button>
+        </a>
+    {% else %}
+        <a href="{{url_for('main.enable_readonly_mode')}}">
+            <button type="button" class="btn">Enable Readonly Mode</button>
+        </a>
+    {% endif %}  
+
 {% else %}
     <h3>You must be an administrator to access this page</h3>
 {%endif%}

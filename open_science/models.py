@@ -515,6 +515,7 @@ class CalibrationPaper(db.Model):
     # columns
     pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=False)
     preprocessed_text = db.Column(db.Text(), nullable=True)
+    description = db.Column(db.String(length=mc.CP_DESCRIPTION_L), nullable=True)
 
     # foreign keys
     author = db.Column(db.Integer, db.ForeignKey('users.id'))

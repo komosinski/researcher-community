@@ -107,7 +107,19 @@ $(document).ready(function() {
             {% for error in form.calibration_files.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-    
+            <br><br>
+            Uploaded calibration files:
+            <br>
+            {% for calibration_paper in calibration_papers %}
+                {{calibration_paper.description}}
+
+                <a href="{{url_for('user.delete_calibration_paper', paper_id=calibration_paper.id)}}">
+                    <img src="{{url_for('static', filename='res/del.png')}}"/>
+                </a>
+
+                <br>
+            {% endfor %}
+            
             <br><br>
     
 

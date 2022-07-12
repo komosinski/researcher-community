@@ -20,7 +20,38 @@ EVALUATION_WELLPRESENTED = 'Well organized, well presented, readable'
 EVALUATION_ACCEPT = 'Accept (the paper may not be perfect, \
             but is free from any serious problems)'
 
-# USER routest_def.py
+# User blueprint routes.py
+USER_NOT_EXISTS = 'User does not exist.'
+
+REMARKS_SAVED = 'Remarks have been saved.'
+
+EDIT_PROFILE_CHANGES_SAVED = 'Your changes have been saved.'
+
+EMAIL_INVITATION_SENT = 'An invitation email has been sent.'
+
+INVITATION_EMAIL_ALREADY_SENT = 'An invitation email to this person has already been sent.'
+
+USER_ALREADY_EXISTS = 'A user with this e-mail already exists.'
+
+INVITATION_DAILY_LIMIT_EXC = 'Daily limit for invitations has been exceeded.'
+
+ENDORSEMENT_REQUEST_SENT = 'The endorsement request was successfully sent.'
+
+CANT_REQUEST_ENDORSEMENT = 'You cannot send your endorsement request.'
+
+ENDORSEMENT_REQUEST_NOT_EXISTS = 'The endorsement request does not exist.'
+
+ENDORSEMENT_REQUEST_ALREADY_CONSIDERED = 'The endorsement request has already been considered.'
+
+FLASH_TEST_VERISON = 'This is a test version.'
+
+CP_NOT_EXISTS = 'Calibration paper does not exist.'
+
+CP_DELETE_FAILED = 'Calibration paper removal failed'
+
+CP_DELETE_SUCCESS = 'Calibration paper removed successfully'
+
+# Auth blueprint routes.py
 EMAIL_CONFIRM_LINK_SENT = ' A confirmation link has been sent to your email address: '
 
 ACC_CONFIRM_DAILY_LIMIT_EXC = 'Daily limit for account confirmation emails has been exceeded. \
@@ -42,35 +73,15 @@ ACCOUNT_CONFIRMED = 'You have confirmed your account.'
 
 STH_WENT_WRONG = 'Something went wrong.'
 
-USER_NOT_EXISTS = 'User does not exist.'
-
-REMARKS_SAVED = 'Remarks have been saved.'
-
-EDIT_PROFILE_CHANGES_SAVED = 'Your changes have been saved.'
-
-PASSWORD_CHANGED = 'Your password has been successfully changed.'
-
-EMAIL_CHANGED = 'You have changed your email address.'
-
-EMAIL_INVITATION_SENT = 'An invitation email has been sent.'
-
-INVITATION_EMAIL_ALREADY_SENT = 'An invitation email to this person has already been sent.'
-
-USER_ALREADY_EXISTS = 'A user with this e-mail already exists.'
-
-INVITATION_DAILY_LIMIT_EXC = 'Daily limit for invitations has been exceeded.'
-
-ENDORSEMENT_REQUEST_SENT = 'The endorsement request was successfully sent.'
-
-CANT_REQUEST_ENDORSEMENT = 'You cannot send your endorsement request.'
-
-ENDORSEMENT_REQUEST_NOT_EXISTS = 'The endorsement request does not exist.'
-
-ENDORSEMENT_REQUEST_ALREADY_CONSIDERED = 'The endorsement request has already been considered.'
-
 EMAIL_DELETE_ACCOUNT_SENT = 'The profile deletion email was sent.'
 
 ACCOUNT_DELETED_SUCCESSFULLY = 'You have deleted your profile.'
+
+EMAIL_CHANGED = 'You have changed your email address.'
+
+READOLNY_SIGNIN_DISABLED = "Website is currently in readonly mode and SignIn is disabled"
+
+READOLNY_SIGNUP_DISABLED = "Website is currently in readonly mode and SignUp is disabled"
 
 # (completed by researcher)
 ENDORSEMENT_REQUEST_FORM_COMPLETED = 'The form has been completed.'
@@ -91,7 +102,6 @@ PROFILE_IS_DELETED = 'The profile is deleted.'
 CHECK_READ_BEFORE_PROFILE_DELETE = "I have read the information stated above and understand the implications of having my profile deleted."
 
 # forms.py
-
 DECLARATION_RIGHTS = "I certify that this is original and not published anywhere else \
             (except from venues not restricting publication on this site such as preprint servers, \
                  private websites, conferences and journals with permissive agreements, etc.)"
@@ -104,11 +114,10 @@ DECLARATION_ANONYMITY = "I certify that this version is anonymized"
 
 DECLARATION_REVIEW = "I would like this paper reviewed"
 
-# routes_def.py
-
+# utils.py
 ADMIN_ROLE_REQUIRED = 'You must be an admin to access this page.'
 
 RESEARCHER_ROLE_REQUIRED = 'You must be a researcher user to access this page.'
 
-FLASH_TEST_VERISON = 'This is a test version.'
-
+# Main blueprint routes.py
+READOLNY_LOGOUT_INFO = "You have been logged out, because website is currently in readonly mode."

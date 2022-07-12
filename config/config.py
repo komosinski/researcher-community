@@ -41,6 +41,7 @@ class Config(object):
     START_SCHEDULER = True
 
     MAINTENANCE_MODE = False
+    READONLY_MODE = False
 
     # Mail Limit = ML
     # per day

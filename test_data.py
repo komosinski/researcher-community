@@ -11054,6 +11054,11 @@ def create_test_data(app):
         cp115.rel_author = u5
         db.session.add(cp115)
 
+        db.session.flush()
+        calibration_papers = CalibrationPaper.query.all()
+        for calibration_paper in calibration_papers:
+            calibration_paper.description = 'filename_' + calibration_paper.pdf_url.split('/')[3]
+
         # revision changes components
         rcc1 = RevisionChangesComponent(
             change_description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum imperdiet dapibus "

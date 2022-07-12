@@ -34,6 +34,9 @@ PV_ABSTRACT_L = 1024
 PV_TITLE_L = 256
 PV_CHANGES_L = 8192
 
+# calibration_paper
+CP_DESCRIPTION_L = 256
+
 # comment
 COMMENT_TEXT_L = 4096
 
