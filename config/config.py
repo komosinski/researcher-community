@@ -31,8 +31,10 @@ class Config(object):
     MAIL_USE_SSL = True
     MAIL_DEFAULT_SENDER = os.environ.get(
         'MAIL_DEFAULT_SENDER') or 'kappa.science.mail@gmail.com'
+    MAX_CONTENT_LENGTH_MB = int(os.environ.get(
+        'MAX_CONTENT_LENGTH_MB') or 100)
     MAX_CONTENT_LENGTH = int(os.environ.get(
-        'MAX_CONTENT_LENGTH') or 100 * 1000 * 1000)  # 100 MB
+        'MAX_CONTENT_LENGTH') or MAX_CONTENT_LENGTH_MB * 1000 * 1000)  # 100 MB
     RECAPTCHA_PUBLIC_KEY = os.environ.get(
         'RECAPTCHA_PUBLIC_KEY') or '6Ldr23IdAAAAAAdwsCoT1r6NIpdmpyzxOaafY8fP'
     RECAPTCHA_PRIVATE_KEY = os.environ.get(
@@ -131,3 +133,6 @@ class Config(object):
     # using /static/articles/1.pdf causes correct request: GET /static/articles/1.pdf
     # it is working the same way as for styles and resources
     TEST_PDFS_DIR_PATH = '/static/articles/'
+
+    DROPZONE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js'
+    DROPZONE_CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css'

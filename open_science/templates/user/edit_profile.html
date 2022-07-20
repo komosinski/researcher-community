@@ -18,7 +18,6 @@ function showReviewWarning(value) {
     }
 }
 
-
 $(document).ready(function() {
     if ('{{user_type}}' == 'standard_user')
     {
@@ -27,17 +26,21 @@ $(document).ready(function() {
     }
 });
 </script>
-
 {% endblock %}
+
 
 {% block content %}
 
 <div class="profile-edit-wrapper">
+
     <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
-        <h1>
-           Edit account
-        </h1>
+  
+        {% with pressed='data' %}
+            {% include 'user/edit_profile_tab.html' %}
+        {% endwith %}
+        <br><br>
+
         <div class="profile-pic-selection-wrapper">
             <img src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="edit-profile-picture" />
             <div class="profile-edit-input-wrapper">
@@ -97,43 +100,14 @@ $(document).ready(function() {
                 </div>
                 <div class="input-wrapper">{{ form.review_mails_limit(id='review_mails_limit',oninput="showReviewWarning(value)")}} </div>
             </div>   
-
-            
-            <div class="label-wrapper">{{ form.calibration_files.label()}}</div>
-            <div class="label-wrapper">
-                These papers will not be published here, so you can even upload papers for which you have transferred copyright. These articles are only used to extract raw text in order to identify your area of expertise.
-            </div>
-            {{ form.calibration_files()}}
-            {% for error in form.calibration_files.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            <br><br>
-            Uploaded calibration files:
-            <br>
-            {% for calibration_paper in calibration_papers %}
-                {{calibration_paper.description}}
-
-                <a href="{{url_for('user.delete_calibration_paper', paper_id=calibration_paper.id)}}">
-                    <img src="{{url_for('static', filename='res/del.png')}}"/>
-                </a>
-
-                <br>
-            {% endfor %}
-            
-            <br><br>
     
-
+            <br>
+            <div class="buttons-wrapper">
+                {{ form.submit(class="large-button main-button")}}
+            </div>
         </div>
 
-        <div class="buttons-wrapper">
-            {{ form.submit(class="large-button main-button")}}
-            <a href="{{url_for('auth.change_password_page')}}">
-                <button type="button" class="large-button secondary-button" style="background-color: grey;">Change password</button>
-            </a>
-            <a href="{{url_for('auth.delete_profile_page')}}">
-                <button type="button" class="large-button secondary-button" style="background-color: grey;">Delete profile</button>
-            </a>
-        </div>
+       
     </form>
 </div>
 

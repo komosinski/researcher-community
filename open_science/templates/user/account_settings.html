@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% with pressed='account_settings' %}
+    {% include 'user/edit_profile_tab.html' %}
+{% endwith %}
+<br><br>
+
+<div class="buttons-wrapper">
+    <a href="{{url_for('auth.delete_profile_page')}}">
+        <button type="button" class="large-button secondary-button" style="background-color: grey;">Delete profile</button>
+    </a>
+</div>
+
+{% endblock %}

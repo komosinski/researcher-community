@@ -1,0 +1,19 @@
+<h1>
+Edit account
+</h1>
+
+<a class="link-button {% if pressed=='data' %}pressed{% endif %}" 
+href="{{ url_for('user.edit_profile_page') }}">Data and preferences
+</a>
+
+{% if current_user.is_researcher() %}
+    <a class="link-button {% if pressed=='calibration_files' %}pressed{% endif %}" 
+    href="{{ url_for('user.edit_calibration_files') }}">Calibration files</a>
+{% endif %}
+
+<a class="link-button  {% if pressed=='password_change' %}pressed{% endif %}"
+href="{{url_for('auth.change_password_page')}}">Password</a>
+
+
+<a class="link-button  {% if pressed=='account_settings' %}pressed{% endif %}"
+href="{{url_for('user.account_settings')}}">Settings</a>

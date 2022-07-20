@@ -14,7 +14,7 @@ from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
 from text_processing.plot import create_save_users_plot, create_save_users_plot_3d
 from config.config import Config
-
+import config.models_config as mc
 
 def create_text_processing_data(app):
     with app.app_context():
@@ -11057,7 +11057,8 @@ def create_test_data(app):
         db.session.flush()
         calibration_papers = CalibrationPaper.query.all()
         for calibration_paper in calibration_papers:
-            calibration_paper.description = 'filename_' + calibration_paper.pdf_url.split('/')[3]
+            calibration_paper.description = f'filename_{calibration_paper.pdf_url.split("/")[-1]} | {calibration_paper.preprocessed_text[:200]}'[:mc.CP_DESCRIPTION_L]
+
 
         # revision changes components
         rcc1 = RevisionChangesComponent(

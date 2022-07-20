@@ -53,4 +53,6 @@ def get_text(file):
         pdf = pdftotext.PDF(f)
     text = "\n\n".join(pdf)
     text = preprocess_text(text)
+    if len(text.split())<10:
+        raise Exception('The extracted text is less than 10 words')
     return text

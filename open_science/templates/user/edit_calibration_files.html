@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% set MAX_FILE_SIZE = config['MAX_CONTENT_LENGTH_MB'] %}
+{% set DROPZONE_JS_URL = config['DROPZONE_JS_URL'] %}
+{% set DROPZONE_CSS_URL = config['DROPZONE_CSS_URL'] %}
+
+
+{% block scripts %}
+<script src="{{ DROPZONE_JS_URL }}"></script>
+<script>
+Dropzone.options.uploadCalibartionPDFs = {
+    dictDefaultMessage: "Drop calibration files here to upload",
+    acceptedFiles: '.pdf',
+    maxFiles: 25,
+    init: function () {
+        this.on('queuecomplete', function () {
+            if (this.getFilesWithStatus(Dropzone.ERROR).length == 0) {
+                location.reload();
+            }
+        });
+    },
+    maxFilesize: {{MAX_FILE_SIZE}}  
+};
+
+</script>
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ DROPZONE_CSS_URL }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-edit-wrapper">
+   
+
+            {% with pressed='calibration_files' %}
+                {% include 'user/edit_profile_tab.html' %}
+            {% endwith %}
+
+            <br><br>
+
+            <div class="label-wrapper">
+                <label>
+                    Upload papers (PDF files) representative to your area of expertise (Optional)
+                </label>
+            </div>
+            
+            <div class="label-wrapper">
+                These papers will not be published here, so you can even upload papers for which you have transferred copyright. These articles are only used to extract raw text in order to identify your area of expertise.
+            </div>
+
+            <br>
+            <form id="uploadCalibartionPDFs" action="{{ url_for('user.upload_calibration_file') }}" class="dropzone">
+            </form>
+            <br>
+
+            <h2>Uploaded calibration files</h2>
+         
+            <br>
+            {% for calibration_paper in calibration_papers %}
+                {{calibration_paper.description}}
+                <a href="{{url_for('user.delete_calibration_paper', paper_id=calibration_paper.id)}}">
+                    <img src="{{url_for('static', filename='res/del.png')}}"/>
+                </a>
+                <br>
+            {% endfor %}
+</div>
+
+
+{% endblock %}

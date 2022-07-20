@@ -95,41 +95,8 @@ def edit_profile_page():
 
 
         if current_user.is_researcher():
-
             current_user.review_mails_limit = form.review_mails_limit.data
             
-            # get the calibration files
-            for file in form.calibration_files.data:
-                if not file.filename: 
-                    continue
-                
-                calibration_paper = CalibrationPaper(
-                    pdf_url=""
-                )
-
-                db.session.add(calibration_paper)
-                db.session.flush()
-
-                id = calibration_paper.id
-
-                filename = secure_filename(f"{id}.pdf")
-            
-                path = os.path.join(Config.ROOTDIR, Config.PDFS_DIR_PATH, filename)
-                url = url_for('static', filename=f"articles/{filename}")
-
-                file.save(path)
-
-                calibration_paper.pdf_url = url
-                calibration_paper.preprocessed_text = get_text(path)
-                calibration_paper.description = file.filename[:mc.CP_DESCRIPTION_L]
-
-                current_user.rel_calibration_papers.append(calibration_paper)
-
-                sm.update_dictionary(calibration_paper.preprocessed_text)
-                sm.update_tfidf_matrix()
-                sm.update_similarity_matrix(calibration_paper.preprocessed_text)
-
-
         f = form.profile_image.data
         if f:
             filename = secure_filename(f'{current_user.id}.jpg')
@@ -164,10 +131,56 @@ def edit_profile_page():
         form.about_me.data = current_user.about_me
         form.personal_website.data = current_user.personal_website
 
-        calibration_papers = CalibrationPaper.query.filter(CalibrationPaper.author==current_user.id).all()
+    return render_template('user/edit_profile.html', form=form)
 
-    return render_template('user/edit_profile.html', form=form, calibration_papers=calibration_papers)
 
+@bp.route('/user/edit_calibration_files', methods=['GET', 'POST'])
+@login_required
+@researcher_user_required
+def edit_calibration_files():
+        calibration_papers = CalibrationPaper.query.filter(CalibrationPaper.author==current_user.id).order_by(CalibrationPaper.id.desc()).all()
+        return render_template('user/edit_calibration_files.html', calibration_papers=calibration_papers)
+
+
+@bp.errorhandler(413)
+def too_large(e):
+    return "File is too large", 413
+
+
+@bp.route('/user/upload_calibration_file', methods=['POST'])
+@login_required
+@researcher_user_required
+def upload_calibration_file():
+    uploaded_file = request.files['file']
+    base_filename = secure_filename(uploaded_file.filename)
+    if base_filename != '':
+        file_ext = os.path.splitext(base_filename)[1]
+        if file_ext != '.pdf':
+            return "Invalid file format", 400
+        try:
+            calibration_paper = CalibrationPaper(
+            pdf_url=""
+            )
+            db.session.add(calibration_paper)
+            db.session.flush()
+            id = calibration_paper.id
+            new_filename = secure_filename(f"{id}.pdf")
+            path = os.path.join(Config.ROOTDIR, Config.PDFS_DIR_PATH, new_filename)
+            url = url_for('static', filename=f"articles/{new_filename}")
+            uploaded_file.save(path)
+            calibration_paper.pdf_url = url
+            calibration_paper.preprocessed_text = get_text(path)
+            calibration_paper.description = f'{base_filename} | {calibration_paper.preprocessed_text[:200]}'[:mc.CP_DESCRIPTION_L]
+            current_user.rel_calibration_papers.append(calibration_paper)
+            sm.update_dictionary(calibration_paper.preprocessed_text)
+            sm.update_tfidf_matrix()
+            sm.update_similarity_matrix(calibration_paper.preprocessed_text)
+            db.session.commit()
+        except Exception as err:
+            print(err)
+            return "Error", 400
+    return '', 204
+ 
 
 @bp.route('/user/delete_calibration_paper/<paper_id>', methods=['GET', 'POST'])
 @login_required
@@ -189,7 +202,7 @@ def delete_calibration_paper(paper_id):
             print(f'Error during calibration paper deletion: {err}')
             flash(STR.CP_DELETE_FAILED, category='error')
   
-    return redirect(url_for('user.edit_profile_page'))
+    return redirect(url_for('user.edit_calibration_files'))
 
 @bp.route('/user/invite', methods=['GET', 'POST'])
 @login_required
@@ -325,3 +338,8 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
 
     return render_template('user/endorsement_request.html', form=form, user=user)
 
+
+@bp.route('/user/account_settings')
+@login_required
+def account_settings():
+    return render_template('user/account_settings.html')

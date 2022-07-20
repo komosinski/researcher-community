@@ -37,7 +37,7 @@ INVITATION_DAILY_LIMIT_EXC = 'Daily limit for invitations has been exceeded.'
 
 ENDORSEMENT_REQUEST_SENT = 'The endorsement request was successfully sent.'
 
-CANT_REQUEST_ENDORSEMENT = 'You cannot send your endorsement request.'
+CANT_REQUEST_ENDORSEMENT = 'You cannot send your endorsement request (limit exceeded).'
 
 ENDORSEMENT_REQUEST_NOT_EXISTS = 'The endorsement request does not exist.'
 
