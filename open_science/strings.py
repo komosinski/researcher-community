@@ -79,9 +79,9 @@ ACCOUNT_DELETED_SUCCESSFULLY = 'You have deleted your profile.'
 
 EMAIL_CHANGED = 'You have changed your email address.'
 
-READOLNY_SIGNIN_DISABLED = "Website is currently in readonly mode and SignIn is disabled"
+READOLNY_SIGNIN_DISABLED = "This website is currently in the read-only mode and Sign-in is disabled"
 
-READOLNY_SIGNUP_DISABLED = "Website is currently in readonly mode and SignUp is disabled"
+READOLNY_SIGNUP_DISABLED = "This website is currently in the read-only mode and Sign-up is disabled"
 
 # (completed by researcher)
 ENDORSEMENT_REQUEST_FORM_COMPLETED = 'The form has been completed.'
@@ -120,4 +120,4 @@ ADMIN_ROLE_REQUIRED = 'You must be an admin to access this page.'
 RESEARCHER_ROLE_REQUIRED = 'You must be a researcher user to access this page.'
 
 # Main blueprint routes.py
-READOLNY_LOGOUT_INFO = "You have been logged out, because website is currently in readonly mode."
+READOLNY_LOGOUT_INFO = "You have been logged out because the website is currently in the read-only mode."
