@@ -13,7 +13,7 @@ import text_processing.search_engine as se
 
 from flask import current_app as app
 # ImportError, use current_app instead
-#from open_science import app
+# from open_science import app
 
 from open_science.enums import UserTypeEnum, EmailTypeEnum, \
     NotificationTypeEnum, MessageTopicEnum, LicenseEnum
@@ -34,7 +34,7 @@ association_paper_version_user = Table('association_paper_version_user', db.meta
                                        db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_revisions.id'),
                                                  primary_key=True),
                                        db.Column('user_id', db.Integer, db.ForeignKey(
-                                           'users.id'), primary_key=True),    
+                                           'users.id'), primary_key=True),
                                        )
 
 association_comment_paper_version = Table('association_comment_paper_version', db.metadata,
@@ -240,7 +240,7 @@ class User(db.Model, UserMixin):
     def obtained_required_endorsement(self):
 
         if EndorsementRequestLog.get_endorsement_request_count(self.id, 365) \
-           >= app.config['ENDORSEMENT_THRESHOLD']:
+                >= app.config['ENDORSEMENT_THRESHOLD']:
             return True
         return False
 
@@ -255,12 +255,12 @@ class User(db.Model, UserMixin):
     def get_reviews_count(self):
         return Review.query.filter(Review.creator == self.id,
                                    and_(or_(Review.force_show.is_(True),
-                                        Review.red_flags_count
-                                        < app.config['RED_FLAGS_THRESHOLD']),
+                                            Review.red_flags_count
+                                            < app.config['RED_FLAGS_THRESHOLD']),
                                         Review.force_hide.is_(False)),
                                    Review.is_anonymous.is_(False),
                                    Review.publication_datetime != None) \
-                                   .count()
+            .count()
 
     def can_create_tag(self):
         count = Tag.query.filter(Tag.creator == self.id,
@@ -294,8 +294,8 @@ class User(db.Model, UserMixin):
     def endorse(self):
         if self.privileges_set < UserTypeEnum.RESEARCHER_USER.value:
             self.rel_privileges_set = PrivilegeSet.query.filter(
-                PrivilegeSet.id == User.user_types_enum.RESEARCHER_USER.value)\
-                    .first()
+                PrivilegeSet.id == User.user_types_enum.RESEARCHER_USER.value) \
+                .first()
             db.session.commit()
 
     def try_endorse_with_email(self):
@@ -323,7 +323,7 @@ class User(db.Model, UserMixin):
         similar_users = []
 
         similar_users_ids = self.get_similar_users_ids()
-        similar_users = User.query.filter(User.id.in_(similar_users_ids))\
+        similar_users = User.query.filter(User.id.in_(similar_users_ids)) \
             .paginate().items
 
         return similar_users
@@ -396,7 +396,7 @@ class User(db.Model, UserMixin):
 
         for review in self.rel_created_reviews:
             if (review.publication_datetime
-                and review.publication_datetime >= date_after)\
+                and review.publication_datetime >= date_after) \
                     or review.deadline_date >= date_after.date():
 
                 for author in review.rel_related_paper_version.rel_creators:
@@ -417,10 +417,11 @@ class PrivilegeSet(db.Model):
 
     # relationships
     rel_users = db.relationship("User", back_populates="rel_privileges_set")
+    rel_related_comments_ps = db.relationship("Comment", back_populates="rel_creator_role")
 
     def insert_types():
         for t in UserTypeEnum:
-            if not PrivilegeSet.query.filter(PrivilegeSet.name == t.name)\
+            if not PrivilegeSet.query.filter(PrivilegeSet.name == t.name) \
                     .first():
                 privilege_set = PrivilegeSet(id=t.value, name=t.name)
                 db.session.add(privilege_set)
@@ -527,7 +528,7 @@ class CalibrationPaper(db.Model):
 
 class UserPaperContribution(db.Model):
     __tablename__ = "user_paper_contribution"
-    
+
     # primary keys
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
 
@@ -614,8 +615,8 @@ class PaperRevision(db.Model):
         for review_request in self.rel_related_review_requests:
             if review_request.decision is True:
                 count += 1
-            elif review_request.decision is None and\
-                    review_request.deadline_date\
+            elif review_request.decision is None and \
+                    review_request.deadline_date \
                     >= dt.datetime.utcnow().date():
                 count += 1
         return count
@@ -714,7 +715,7 @@ class Review(db.Model):
 
     # relationships
     rel_comments_to_this_review = db.relationship("Comment", secondary=association_comment_review,
-                                                  back_populates="rel_related_review")
+                                                  back_populates="rel_related_review_c")
     rel_creator = db.relationship("User", back_populates="rel_created_reviews")
     rel_related_paper_version = db.relationship(
         "PaperRevision", back_populates="rel_related_reviews")
@@ -775,7 +776,7 @@ class Review(db.Model):
         return previous_reviews
 
     def can_be_edited(self):
-        newest_revision_id = self.rel_related_paper_version\
+        newest_revision_id = self.rel_related_paper_version \
             .rel_parent_paper.get_latest_revision().id
         if self.rel_related_paper_version.id == newest_revision_id:
             return True
@@ -855,6 +856,7 @@ class ReviewRequest(db.Model):
             return False
         return False
 
+
 class Comment(db.Model):
     __tablename__ = "comments"
 
@@ -878,8 +880,8 @@ class Comment(db.Model):
     # relationships
     rel_related_paper_version = db.relationship("PaperRevision", secondary=association_comment_paper_version,
                                                 back_populates="rel_related_comments", uselist=False)
-    rel_related_review = db.relationship("Review", secondary=association_comment_review,
-                                         back_populates="rel_comments_to_this_review", uselist=False)
+    rel_related_review_c = db.relationship("Review", secondary=association_comment_review,
+                                           back_populates="rel_comments_to_this_review", uselist=False)
     rel_related_comment = db.relationship("Comment",
                                           secondary=association_comment_comment,
                                           primaryjoin=association_comment_comment.c.comment_parent_id == id,
@@ -890,12 +892,11 @@ class Comment(db.Model):
                                                    primaryjoin=association_comment_comment.c.comment_child_id == id,
                                                    secondaryjoin=association_comment_comment.c.comment_parent_id == id,
                                                    back_populates="rel_related_comment")
-    rel_creator = db.relationship(
-        "User", back_populates="rel_created_comments")
-    rel_comment_votes_received = db.relationship(
-        "VoteComment", back_populates="rel_to_comment")
+    rel_creator = db.relationship("User", back_populates="rel_created_comments")
+    rel_comment_votes_received = db.relationship("VoteComment", back_populates="rel_to_comment")
     rel_red_flags_received = db.relationship("RedFlagComment", back_populates="rel_to_comment",
                                              foreign_keys="RedFlagComment.to_comment")
+    rel_creator_role = db.relationship("PrivilegeSet", back_populates="rel_related_comments_ps")
 
     def to_dict(self):
         refers_to = ''
@@ -908,7 +909,7 @@ class Comment(db.Model):
                                version=paper_verison.version) \
                 + f'#c{self.id}'
 
-        review = self.rel_related_review
+        review = self.rel_related_review_c
         if review:
             refers_to = 'Review'
             show_url = url_for('review.review_page', review_id=review.id) \
@@ -1127,7 +1128,7 @@ class Suggestion(db.Model):
     # relationships
     rel_review = db.relationship("Review", back_populates="rel_suggestions")
     rel_revision_change_component = db.relationship("RevisionChangesComponent",
-     back_populates='rel_review_suggestion', uselist=False)
+                                                    back_populates='rel_review_suggestion', uselist=False)
 
     def to_dict(self):
         return {
@@ -1439,34 +1440,3 @@ event.listen(
     'after_create',
     db_trig_update_revision_averages.execute_if(dialect='postgresql')
 )
-
-
-def create_essential_data():
-    PrivilegeSet.insert_types()
-    DeclinedReason.insert_reasons()
-    MessageTopic.insert_topics()
-    EmailType.insert_types()
-    NotificationType.insert_types()
-    License.insert_licenses()
-
-    # site as user to log emails send from site and use ForeignKey in EmailLog model
-    # confirmed=False hides user
-    if not User.query.filter(User.id == 0).first():
-        user_0 = User(
-            first_name="site",
-            second_name="site",
-            email="open.science.mail@gmail.com",
-            plain_text_password="QWerty12#$%^&*()jumbo",
-            confirmed=False,
-            review_mails_limit=0,
-            notifications_frequency=0,
-        )
-        user_0.rel_privileges_set = PrivilegeSet.query.filter(
-            PrivilegeSet.id == UserTypeEnum.STANDARD_USER.value).first()
-        user_0.id = 0
-        db.session.add(user_0)
-
-    db.session.commit()
-    print("The essential data has been created")
-
-    return True

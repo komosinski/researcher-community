@@ -247,7 +247,7 @@
     <div class="comments-wrapper">
         {% for comment in review.rel_comments_to_this_review %}
         {% with author=comment.rel_creator %}
-            {%if author in review.rel_creators %}
+            {%if author == review.rel_creator %}
             <div class="comment comment-by-author" id="c{{comment.id}}">
             {%else%}
             <div class="comment comment-{{comment.creator_role}}" id="c{{comment.id}}">

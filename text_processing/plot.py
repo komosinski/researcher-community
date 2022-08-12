@@ -12,7 +12,7 @@ def get_user_id_ranking_dict():
     user_id_ranking_dict = {}
 
     user_id_revisions_ids_dict = {user.id: [revision.id for revision in user.rel_created_paper_revisions]
-                                  for user in User.query.all()}
+                                  for user in User.query.filter(User.id != 0).all()}
 
     for user_id, revisions_ids in user_id_revisions_ids_dict.items():
         if revisions_ids:
