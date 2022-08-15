@@ -130,8 +130,6 @@ def user_reviews_data():
     }
 
 
-
-
 @bp.route('/api/user_tags')
 @login_required
 @researcher_user_required

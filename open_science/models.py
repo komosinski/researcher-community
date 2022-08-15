@@ -69,7 +69,9 @@ association_tag_user = Table('association_tag_user', db.metadata,
                              db.Column('tag_id', db.Integer, db.ForeignKey(
                                  'tags.id'), primary_key=True),
                              db.Column('user_id', db.Integer, db.ForeignKey(
-                                 'users.id'), primary_key=True)
+                                 'users.id'), primary_key=True),
+                            db.Column('can_share', db.Boolean, default=False),
+                            db.Column('can_edit', db.Boolean, default=False)
                              )
 
 association_paper_version_license = Table('association_paper_version_license', db.metadata,
@@ -473,7 +475,8 @@ class Tag(db.Model):
             'description': Markup.escape(f'{self.description[:29]}...'),
             'deadline': self.deadline,
             'edit_url': url_for('tag.edit_tag_page', tag_id=self.id),
-            'show_url': url_for('tag.tag_page', tag_name=Markup.escape(self.name))
+            'show_url': url_for('tag.tag_page', tag_name=Markup.escape(self.name)),
+            'edit_members_url': url_for('tag.edit_tag_members_page', tag_id=self.id)
         }
 
 

@@ -36,7 +36,9 @@ def create_tag_page():
             description=form.description.data,
             deadline=form.deadline.data,
             creator=current_user.id,
-            creation_date=dt.datetime.utcnow().date()
+            creation_date=dt.datetime.utcnow().date(),
+            can_share = True,
+            can_edit = True
         )
         db.session.add(tag)
         db.session.commit()
@@ -90,3 +92,20 @@ def tag_page(tag_name):
                     order_by='newest'))
 
     return render_template('tag/tag_page.html', tag=tag)
+
+
+@bp.route('/edit/<tag_id>/members')
+@login_required
+def edit_tag_members_page(tag_id):
+    tag = Tag.query.filter(Tag.id == tag_id).first()
+    if not tag:
+        flash('Tag does not exist', category='error')
+        return redirect(url_for('main.home_page'))
+    for x in tag.rel_users_with_this_tag:
+        print(x)
+
+    return render_template('tag/edit_members.html', tag=tag)
+
+
+
+

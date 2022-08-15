@@ -87,6 +87,9 @@ class RegisterForm(FlaskForm):
         1, '1 day'), (3, '3 days'), (7, '1 week'),
         (14, '2 weeks'), (30, '1 month'), (0, 'Never')])
 
+    privacy_policy = BooleanField('I Agree to ',
+                                       validators=[DataRequired()])
+
     recaptcha = RecaptchaField()
 
     submit = SubmitField(label='Create account')

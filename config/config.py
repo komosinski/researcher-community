@@ -136,3 +136,6 @@ class Config(object):
 
     DROPZONE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js'
     DROPZONE_CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css'
+
+    PAPER_MIN_WORDS_COUNT = 10
+    

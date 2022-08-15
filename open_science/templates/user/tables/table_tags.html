@@ -6,6 +6,7 @@
         <th>Description</th>        
         <th>Deadline</th> 
         <th>Edit</th>
+        <th>Edit members</th> 
       </tr>
     </thead>
     <tbody>
@@ -33,12 +34,19 @@
           {data: 'description'},
           {data: 'deadline'},
           {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false },
+          {"defaultContent": "<button class='dt-edit-members-btn'>Edit Members</button>", orderable: false },
         ],
       });
 
       $('#data_tags').on('click', '.dt-edit-btn', function (e) {
         e.stopPropagation();
         const url = table.row($(this).closest('tr')).data().edit_url;
+        window.location.assign(url);
+      });
+
+      $('#data_tags').on('click', '.dt-edit-members-btn', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().edit_members_url;
         window.location.assign(url);
       });
 
