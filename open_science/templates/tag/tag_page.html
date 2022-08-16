@@ -40,7 +40,7 @@
     {% endif %}
 
 
-    {% set related_users = tag.rel_users_with_this_tag %}
+    {% set related_users = tag.get_users_with_this_tag() %}
 
     {% if related_users is defined  %}
         

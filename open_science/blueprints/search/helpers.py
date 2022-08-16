@@ -154,6 +154,7 @@ def get_users_advanced_search(page, search_data, order):
     if 'orcid' in search_data and search_data['orcid'] != '':
         users = users \
             .filter(User.orcid.ilike("%{}%".format(search_data['orcid'])))
+    #TODO: change User.rel_tags_to_user to assoc_tags_to_user
     if 'tag' in search_data and search_data['tag'] != '':
         users = users \
             .join(Tag, User.rel_tags_to_user) \

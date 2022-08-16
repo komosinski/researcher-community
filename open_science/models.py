@@ -22,7 +22,7 @@ from open_science.db_queries import q_update_comment_score, q_update_user_red_fl
     q_update_comment_red_flags_count, q_update_revision_averages, qt_update_comment_score, qt_update_user_reputation, \
     qt_update_user_red_flags_count, qt_update_tag_red_flags_count, qt_update_review_red_flags_count, \
     qt_update_revision_red_flags_count, qt_update_comment_red_flags_count, qt_update_revision_averages
-from open_science.extensions import db, login_manager, bcrypt, admin
+from open_science.extensions import db, login_manager, bcrypt
 
 
 @login_manager.user_loader
@@ -65,21 +65,24 @@ association_tag_paper_version = Table('association_tag_paper_version', db.metada
                                                 primary_key=True)
                                       )
 
-association_tag_user = Table('association_tag_user', db.metadata,
-                             db.Column('tag_id', db.Integer, db.ForeignKey(
-                                 'tags.id'), primary_key=True),
-                             db.Column('user_id', db.Integer, db.ForeignKey(
-                                 'users.id'), primary_key=True),
-                            db.Column('can_share', db.Boolean, default=False),
-                            db.Column('can_edit', db.Boolean, default=False)
-                             )
-
 association_paper_version_license = Table('association_paper_version_license', db.metadata,
                                           db.Column('paper_version_id', db.Integer, db.ForeignKey('paper_revisions.id'),
                                                     primary_key=True),
                                           db.Column('license_id', db.Integer, db.ForeignKey('licenses.id'),
                                                     primary_key=True)
                                           )
+
+# Association with extra data pattern: https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#association-object
+class AssociationTagUser(db.Model):
+    __tablename__ = "association_tag_user"
+    tag_id = db.Column(db.ForeignKey("tags.id"), primary_key=True)
+    user_id = db.Column(db.ForeignKey("users.id"), primary_key=True)
+
+    can_share = db.Column(db.Boolean, default=False)
+    can_edit = db.Column(db.Boolean, default=False)
+
+    user = db.relationship("User", back_populates="assoc_tags_to_user")
+    tag = db.relationship("Tag", back_populates="assoc_users_with_this_tag")
 
 
 class User(db.Model, UserMixin):
@@ -134,8 +137,6 @@ class User(db.Model, UserMixin):
     # relationships
     rel_created_paper_revisions = db.relationship("PaperRevision", secondary=association_paper_version_user,
                                                   back_populates="rel_creators")
-    rel_tags_to_user = db.relationship(
-        "Tag", secondary=association_tag_user, back_populates="rel_users_with_this_tag")
     rel_privileges_set = db.relationship(
         "PrivilegeSet", back_populates="rel_users")
     rel_created_tags = db.relationship("Tag", back_populates="rel_creator")
@@ -165,6 +166,8 @@ class User(db.Model, UserMixin):
         "CalibrationPaper", back_populates="rel_author")
     rel_notifications = db.relationship(
         "Notification", back_populates="rel_user", lazy='dynamic')
+
+    assoc_tags_to_user = db.relationship("AssociationTagUser", back_populates="user")
 
     # A 'static' variable to avoid importing the Enum class in files and use it in jinja
     user_types_enum = UserTypeEnum
@@ -405,6 +408,9 @@ class User(db.Model, UserMixin):
                     users_ids.add(author.id)
         return users_ids
 
+    def get_tags_to_user(self):
+        return [association.tag for association in self.assoc_tags_to_user]
+
 
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
@@ -457,8 +463,10 @@ class Tag(db.Model):
     # relationships
     rel_related_paper_revisions = db.relationship("PaperRevision", secondary=association_tag_paper_version,
                                                   back_populates="rel_related_tags")
-    rel_users_with_this_tag = db.relationship(
-        "User", secondary=association_tag_user, back_populates="rel_tags_to_user")
+
+    assoc_users_with_this_tag = db.relationship(
+        "AssociationTagUser", back_populates="tag")
+
     rel_creator = db.relationship("User", back_populates="rel_created_tags")
     rel_red_flags_received = db.relationship(
         "RedFlagTag", back_populates="rel_to_tag")
@@ -478,6 +486,9 @@ class Tag(db.Model):
             'show_url': url_for('tag.tag_page', tag_name=Markup.escape(self.name)),
             'edit_members_url': url_for('tag.edit_tag_members_page', tag_id=self.id)
         }
+
+    def get_users_with_this_tag(self):
+        return [association.user for association in self.assoc_users_with_this_tag]
 
 
 class Paper(db.Model):

@@ -12,7 +12,7 @@ from open_science.enums import UserTypeEnum
 from open_science.models import PrivilegeSet, DeclinedReason, MessageTopic, EmailType, NotificationType, License, User, \
     PaperRevision, Comment, Paper, Review, Tag, ReviewRequest, VoteComment, MessageToStaff, Notification, Suggestion, \
     CalibrationPaper, RevisionChangesComponent, RedFlagComment, RedFlagPaperRevision, RedFlagReview, RedFlagTag, \
-    RedFlagUser
+    RedFlagUser, AssociationTagUser
 import datetime as dt
 import text_processing.similarity_matrix as sm
 
@@ -331,12 +331,24 @@ class DataGenerator:
             tag.creation_date = self.start_datetime  # tmp - overwritten later in this method
             tag.rel_creator = random.choice(User.query.filter(User.id != 0).all())
             tag.rel_related_paper_revisions = random.sample(PaperRevision.query.all(), random.choice([1, 2, 3, 4, 5]))
-            tag.rel_users_with_this_tag = random.sample(User.query.filter(User.id != 0).all(),
+
+            # create association with tag's creatorsky
+            association_tag_user = AssociationTagUser(can_share=True, can_edit=True)
+            association_tag_user.user = tag.rel_creator
+            association_tag_user.tag = tag
+      
+            # create association with other users
+            users_to_this_tag = random.sample(User.query.filter(User.id != 0, User.id!=tag.rel_creator.id).all(),
                                                         random.choice([1, 2, 3, 4, 5]))
+            for user in users_to_this_tag:
+                association_tag_user = AssociationTagUser(can_share=False, can_edit=False)
+                association_tag_user.user = user
+                association_tag_user.tag = tag
+              
             tag.creation_date = max(
                 tag.rel_creator.confirmed_on,
                 max([revision.publication_date for revision in tag.rel_related_paper_revisions]),
-                max([user.confirmed_on for user in tag.rel_users_with_this_tag])
+                max([association.user.confirmed_on for association in tag.assoc_users_with_this_tag])
             ) + dt.timedelta(days=random.choice([1, 2, 3]))
             tag.deadline = tag.creation_date + dt.timedelta(days=1095)
             db.session.add(tag)

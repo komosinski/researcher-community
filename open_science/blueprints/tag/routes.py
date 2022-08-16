@@ -1,6 +1,6 @@
 from open_science.blueprints.tag.forms import EditTagForm
 from open_science import db
-from open_science.models import Tag
+from open_science.models import Tag, AssociationTagUser
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request, abort
 from open_science.utils import check_numeric_args, researcher_user_required
@@ -30,16 +30,18 @@ def create_tag_page():
     form = EditTagForm()
 
     if form.validate_on_submit():
-
         tag = Tag(
             name=form.name.data,
             description=form.description.data,
             deadline=form.deadline.data,
             creator=current_user.id,
-            creation_date=dt.datetime.utcnow().date(),
-            can_share = True,
-            can_edit = True
+            creation_date=dt.datetime.utcnow().date()
         )
+        # create association with tag's creator
+        association_tag_user = AssociationTagUser(can_share=True, can_edit=True)
+        association_tag_user.user = current_user
+        association_tag_user.tag = tag
+
         db.session.add(tag)
         db.session.commit()
 
@@ -83,6 +85,7 @@ def edit_tag_page(tag_id):
 def tag_page(tag_name):
 
     tag = Tag.query.filter(Tag.name == tag_name).first()
+    print(f'AA {tag.assoc_users_with_this_tag}')
     if not tag:
         flash('Tag with that name does not exist', category='error')
         return redirect(
@@ -101,7 +104,10 @@ def edit_tag_members_page(tag_id):
     if not tag:
         flash('Tag does not exist', category='error')
         return redirect(url_for('main.home_page'))
-    for x in tag.rel_users_with_this_tag:
+    for x in tag.assoc_users_with_this_tag:
+        print(x)
+
+    for x in db.metadata:
         print(x)
 
     return render_template('tag/edit_members.html', tag=tag)
