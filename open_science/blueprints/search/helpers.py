@@ -3,7 +3,7 @@ from operator import and_
 from sqlalchemy import func
 
 from open_science.blueprints.database.db_helper import get_hidden_filter, get_search_by_text_filter
-from open_science.models import User, Tag, PaperRevision
+from open_science.models import User, Tag, PaperRevision, AssociationTagUser
 from open_science import db
 
 
@@ -154,10 +154,10 @@ def get_users_advanced_search(page, search_data, order):
     if 'orcid' in search_data and search_data['orcid'] != '':
         users = users \
             .filter(User.orcid.ilike("%{}%".format(search_data['orcid'])))
-    #TODO: change User.rel_tags_to_user to assoc_tags_to_user
     if 'tag' in search_data and search_data['tag'] != '':
         users = users \
-            .join(Tag, User.rel_tags_to_user) \
+            .join(AssociationTagUser, User.assoc_tags_to_user) \
+            .join(Tag, AssociationTagUser.tag) \
             .filter(Tag.name.ilike("%{}%".format(search_data['tag']))) \
             .group_by(User.id)
 
