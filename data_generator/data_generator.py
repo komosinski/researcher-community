@@ -64,10 +64,14 @@ class DataGenerator:
 
     start_datetime = dt.datetime(2020, 1, 1, 1, 1, 1, 1)
 
-    def __init__(self, app, objects_count_overwrite_dict=None):
+    def __init__(self, app, objects_count_overwrite_dict=None, seed=None):
         if objects_count_overwrite_dict is None:
             objects_count_overwrite_dict = {}
+
         self.app = app
+        self.seed = seed
+        if self.seed is not None:
+            random.seed(self.seed)
 
         default_objects_count_dict = {
             self.str_users_count: self.default_users_count,
