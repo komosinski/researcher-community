@@ -36,10 +36,10 @@ def db_generate():
         DataGenerator.str_users_flags_count: 10
     }
 
-    # seed to allow deterministic data generation
-    seed = 10
+    # random seed to allow for a deterministic data generation
+    rnd_seed = 42  # set None for non-deterministic
 
-    data_generator = DataGenerator(app, counts_overwrite_dict, seed)
+    data_generator = DataGenerator(app, counts_overwrite_dict, rnd_seed)
     data_generator.generate_data()
     data_generator.create_text_processing_data()
 
