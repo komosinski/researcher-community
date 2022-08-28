@@ -34,9 +34,9 @@ def create_save_users_plot():
         ax.axes.yaxis.set_visible(False)
         for i, id in enumerate(user_id_ranking_dict.keys()):
             ax.annotate(id, (standardized_pca[:, 0][i], standardized_pca[:, 1][i]))
-        users_plot_url = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_2D_FILE_PATH'])
-        plt.savefig(users_plot_url, dpi=200, bbox_inches="tight")
 
+    users_plot_url = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_2D_FILE_PATH'])
+    plt.savefig(users_plot_url, dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -50,5 +50,8 @@ def create_save_users_plot_3d():
         standarlized_pca = pca.fit_transform(ranking_list)
         df = pd.DataFrame(standarlized_pca, columns=['x', 'y', 'z'])
         fig = px.scatter_3d(df, x='x', y='y', z='z')
-        users_plot_url_3d = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_3D_URL'])
-        fig.write_html(users_plot_url_3d)
+    else:
+        fig = px.scatter_3d()
+
+    users_plot_url_3d = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_3D_FILE_PATH'])
+    fig.write_html(users_plot_url_3d)

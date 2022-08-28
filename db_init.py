@@ -15,6 +15,7 @@ def db_init():
 
     data_generator = DataGenerator(app)
     data_generator.create_essential_data()
+    data_generator.create_text_processing_data()
 
     print("db_init ended successfully")
 
