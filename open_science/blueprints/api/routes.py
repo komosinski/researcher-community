@@ -6,6 +6,7 @@ from flask import request
 from open_science import db
 from flask_login import current_user
 from open_science.utils import researcher_user_required
+from open_science.enums import UserTypeEnum
 
 
 @bp.route('/api/tags')
@@ -223,4 +224,30 @@ def user_comments_data():
         'recordsFiltered': total_filtered,
         'recordsTotal': total_results,
         'draw': request.args.get('draw', type=int),
+    }
+
+
+
+@bp.route('/api/users')
+def get_users():
+
+    args = request.args
+    query = '%' + args.get('q') + '%'
+  
+    page = args.get('page')
+    if page.isdigit():
+        page = int(page)
+    else:
+        page = 1 
+
+    users = User.query.filter((User.privileges_set == UserTypeEnum.RESEARCHER_USER.value) &
+                              ((User.first_name.ilike(query)) |
+                              (User.second_name.ilike(query)) |
+                              (User.affiliation.ilike(query)))).order_by(User.first_name).paginate(page, app.config['AJAX_SELECT_SEARCH_RESULTS'] , False)
+
+    return {
+        'results': [user.to_dict() for user in users.items],
+         'pagination': {
+            'more': True if app.config['AJAX_SELECT_SEARCH_RESULTS']*page < users.total else False
+         }
     }

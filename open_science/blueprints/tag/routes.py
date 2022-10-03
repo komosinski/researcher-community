@@ -107,11 +107,5 @@ def edit_tag_members_page(tag_id):
     for x in tag.assoc_users_with_this_tag:
         print(x)
 
-    for x in db.metadata:
-        print(x)
-
     return render_template('tag/edit_members.html', tag=tag)
-
-
-
 

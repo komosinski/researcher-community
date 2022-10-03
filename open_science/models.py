@@ -412,6 +412,17 @@ class User(db.Model, UserMixin):
         return [association.tag for association in self.assoc_tags_to_user]
 
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'first_name': Markup.escape(self.first_name),
+            'second_name': Markup.escape(self.second_name),
+            'affiliation': Markup.escape(self.affiliation),
+            'profile_url': url_for('user.profile_page', user_id=self.id),
+            'profile_img_url': url_for('static', filename=f'res/profileImages/{self.id}.jpg') if self.has_photo else url_for('static',filename='res/profileImages/img.jpg')
+        }
+
+
 class PrivilegeSet(db.Model):
     __tablename__ = "privileges_sets"
 

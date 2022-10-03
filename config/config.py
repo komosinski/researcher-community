@@ -139,3 +139,4 @@ class Config(object):
 
     PAPER_MIN_WORDS_COUNT = 10
     
+    AJAX_SELECT_SEARCH_RESULTS = 10
