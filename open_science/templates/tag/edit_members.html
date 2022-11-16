@@ -20,16 +20,32 @@
     <h3>Edit {{tag.name}} tag members</h3>
 </div>
 
-<select class="js-data-example-ajax" id="selectUsers" style="width: 50%;"></select>
+
+<div class="">
+  <form method="POST">
+      {{ form.hidden_tag() }}
+      {{ form.members }}
+
+      <select class="js-data-example-ajax" id="selectUsers" style="width: 50%;"></select>
+      <div id="added_users">
+      </div>
+      
+      <div class="buttons-wrapper">
+
+        {{ form.save(class="large-button main-button") }}
+    
+      </div>  
 
 
-<div id="added_users">
+    </form>
 
 </div>
 
+
+
+
 <br>
 
-<button id="save" class="large-button main-button">Save</button>
 
 
 
@@ -86,62 +102,92 @@
 
   };
 
-  function createNewUserRow(user, row_id){
+  function createNewUserRow(user, row_id, formEditor, tagCreatorId){
+
     return `<div id="${row_id}">`+
-           `<input type="hidden" value='${user.id}'>`+
+           `<input id="user-input-${row_id}" type="hidden" value='${user.id}'>`+
            `<img src='${user.profile_img_url}' style='height: 3vw;'/>`+
-            `<a href='${user.profile_url}' target="_blank">${user.text}</a>`+
+            `<a href='${user.profile_url}' target="_blank">${user.first_name} ${user.second_name}</a>`+
              " "+
             `${user.affiliation}`+
-            `<a href="javascript:void(0);" class="remove-input" title="Remove input"><img src={{url_for('static', filename='res/del.png')}}/></a></div>`;
+             " "+
+            `<input id="can-appoint-checkbox-${row_id}" type="checkbox" ${(user.can_appoint) ? 'checked':''} ${((!formEditor.canAppoint) || (user.id==formEditor.id) || (user.appointer_id!=formEditor.id))&&(tagCreatorId!=formEditor.id) ? 'disabled':''}></input><label>Can appoint</label>`+
+            " "+
+            `<input id="can-edit-checkbox-${row_id}" type="checkbox" ${(user.can_edit) ? 'checked':''} ${((!formEditor.canEdit) || (user.id==formEditor.id) || (user.appointer_id!=formEditor.id))&&(tagCreatorId!=formEditor.id) ? 'disabled':''}></input><label>Can edit</label>`+
+              `${ tagCreatorId==formEditor.id ? `<a href="javascript:void(0);" class="remove-input" title="Remove input"><img src={{url_for('static', filename='res/del.png')}}/></a></div>`: ''}`;
   }
 
   $(document).ready(function(){
   
-    let startId = 0;
- 
-    var max_input_fields = 10;
-    var input_wrapper = $('#added_users');
-    var add_input_count = 0; 
+    let idCounter = 0;
+    var membersWrapper = $('#added_users');
+    var addInputCount = 0; 
   
     var users_ids = new Set();
 
-    $(input_wrapper).on('click', '.remove-input', function(e){
-        e.preventDefault();
-        console.log( $(this).find('input').val() );
-       
-        $(this).parent('div').remove();
+    const tag_members = {{tag_members|tojson}};
 
-        add_input_count--;
-        users_ids.delete(1);
+    const formEditor = {
+      canAppoint : {{form.can_appoint|int}},
+      canEdit : {{form.can_edit|int}},
+      id : {{current_user.get_id()}}
+    };
+
+    const tagCreatorId=  {{tag.creator}};
+
+    const addMember = (user) => {
+      users_ids.add(user.id);
+      $("#added_users").append(createNewUserRow(user, idCounter, formEditor, tagCreatorId));
+      addInputCount+=1;
+      idCounter+=1;
+    }
+
+    tag_members.map((m) => addMember(m));
+
+    $(membersWrapper).on('click', '.remove-input', function(e){
+        e.preventDefault();
+        const userId = $(this).siblings('input').first().val();
+        $(this).parent('div').remove();
+        addInputCount--;
+        users_ids.delete(parseInt(userId, 10));
     });
 
     $('#selectUsers').on('select2:select', function (e) {
-      var data = e.params.data;
-      if( users_ids.has(data.id)){
+      var user = e.params.data;
+      if( users_ids.has(user.id)){
           alert("User is already added");
       }
       else{
-        add_input_count+=1;
-        users_ids.add(data.id);
-        $("#added_users").append(createNewUserRow(data, add_input_count));
+          user.appointer_id = formEditor.id;
+          addMember(user);
       }
 
-   
       $('#selectUsers').val(null).trigger('change');
     });
 
-
-
-    });
-
-
-
-
     $( "#save" ).on('click', function(e) {
-      
+      e.stopPropagation();
+      const membersArray = [];
+      for(i = 0; i < idCounter; i++){
+        const userId = $(`#user-input-${i}`).val();
+        const canAppoint = $(`#can-appoint-checkbox-${i}`).is(":checked");
+        const canEdit = $(`#can-edit-checkbox-${i}`).is(":checked");
+        
+        if(userId){
+          membersArray.push({user_id: parseInt(userId,10),
+                             can_appoint: canAppoint,
+                             can_edit: canEdit});
+        }
+      }
+      $("#members").val(JSON.stringify(membersArray));
+    });
+
 
     });
+
+
+
+
 
 
 </script>

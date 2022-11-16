@@ -161,7 +161,7 @@
 
  
         <div>
-            <h3>My Tags</h3>
+            <h3>Created Tags</h3>
             {% if current_user.can_create_tag() %}
             <form class="user-action" action="{{url_for('tag.create_tag_page')}}" method="GET">    
                 <button type="submit">Create Tag</button>
@@ -175,6 +175,11 @@
     {% endif %}
 
     {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) %}
+
+        <div>
+            <h3>Assigned Tags</h3>
+            {% include 'user/tables/table_assigned_tags.html' %}
+        </div>
 
         <div>
             <h3>My Posts</h3>

@@ -26,7 +26,7 @@ def admin_required(func):
         elif current_user.privileges_set < User.user_types_enum.ADMIN.value:
             flash(STR.ADMIN_ROLE_REQUIRED,
                   category='error')
-            return redirect(url_for('home_page'))
+            return redirect(url_for('main.home_page'))
         return func(*args, **kwargs)
 
     return decorated_view
@@ -42,7 +42,7 @@ def researcher_user_required(func):
         elif current_user.privileges_set < User.user_types_enum.RESEARCHER_USER.value:
             flash(STR.RESEARCHER_ROLE_REQUIRED,
                   category='warning')
-            return redirect(url_for('home_page'))
+            return redirect(url_for('main.home_page'))
         return func(*args, **kwargs)
 
     return decorated_view

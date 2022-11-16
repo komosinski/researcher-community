@@ -1,0 +1,68 @@
+<table id="data_assigned_tags" class="table table-striped">
+
+    <thead>
+      <tr>
+        <th>Name</th>    
+        <th>Description</th>        
+        <th>Deadline</th> 
+        <th>Creator</th>
+        <th>Edit</th>
+        <th>Edit members</th> 
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+
+{% set api_user_appointed_tags_url = url_for('api.user_appointed_tags_data')%}
+
+
+{%block scripts%}
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+<script>
+    $(document).ready(function () {
+      const table = $('#data_assigned_tags').DataTable({
+        lengthChange: false,
+        ajax: '{{api_user_appointed_tags_url}}',
+        serverSide: true,
+        rowId: 'id',
+        columns: [
+          {data: 'name'},
+          {data: 'description'},
+          {data: 'deadline'},
+          {data: 'creator'},
+          {"defaultContent": "<button class='dt-edit-btn'>Edit</button>", orderable: false },
+          {"defaultContent": "<button class='dt-edit-members-btn'>Edit Members</button>", orderable: false },
+        ],
+      });
+
+      $('#data_assigned_tags').on('click', '.dt-edit-btn', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().edit_url;
+        window.location.assign(url);
+      });
+
+      $('#data_assigned_tags').on('click', '.dt-edit-members-btn', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().edit_members_url;
+        window.location.assign(url);
+      });
+
+      $('#data_assigned_tags').on('click', 'tr', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().show_url;
+        window.location.assign(url);
+      });
+
+
+    });
+</script>
+
+{%endblock%}
+
+
+

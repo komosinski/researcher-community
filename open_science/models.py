@@ -77,12 +77,14 @@ class AssociationTagUser(db.Model):
     __tablename__ = "association_tag_user"
     tag_id = db.Column(db.ForeignKey("tags.id"), primary_key=True)
     user_id = db.Column(db.ForeignKey("users.id"), primary_key=True)
+    # parent user who appointed tag with user
+    appointer_id = db.Column(db.Integer, nullable=False)
 
-    can_share = db.Column(db.Boolean, default=False)
+    can_appoint = db.Column(db.Boolean, default=False)
     can_edit = db.Column(db.Boolean, default=False)
 
-    user = db.relationship("User", back_populates="assoc_tags_to_user")
-    tag = db.relationship("Tag", back_populates="assoc_users_with_this_tag")
+    rel_user = db.relationship("User", back_populates="assoc_tags_to_user")
+    rel_tag = db.relationship("Tag", back_populates="assoc_users_with_this_tag")
 
 
 class User(db.Model, UserMixin):
@@ -167,7 +169,7 @@ class User(db.Model, UserMixin):
     rel_notifications = db.relationship(
         "Notification", back_populates="rel_user", lazy='dynamic')
 
-    assoc_tags_to_user = db.relationship("AssociationTagUser", back_populates="user")
+    assoc_tags_to_user = db.relationship("AssociationTagUser", back_populates="rel_user")
 
     # A 'static' variable to avoid importing the Enum class in files and use it in jinja
     user_types_enum = UserTypeEnum
@@ -476,7 +478,7 @@ class Tag(db.Model):
                                                   back_populates="rel_related_tags")
 
     assoc_users_with_this_tag = db.relationship(
-        "AssociationTagUser", back_populates="tag")
+        "AssociationTagUser", back_populates="rel_tag")
 
     rel_creator = db.relationship("User", back_populates="rel_created_tags")
     rel_red_flags_received = db.relationship(
@@ -488,6 +490,7 @@ class Tag(db.Model):
 
     # used in table with user's tag in user private profile
     def to_dict(self):
+        creator = self.rel_creator
         return {
             'id': self.id,
             'name': Markup.escape(self.name),
@@ -495,11 +498,12 @@ class Tag(db.Model):
             'deadline': self.deadline,
             'edit_url': url_for('tag.edit_tag_page', tag_id=self.id),
             'show_url': url_for('tag.tag_page', tag_name=Markup.escape(self.name)),
-            'edit_members_url': url_for('tag.edit_tag_members_page', tag_id=self.id)
+            'edit_members_url': url_for('tag.edit_tag_members_page', tag_id=self.id),
+            'creator': Markup.escape(f'{creator.first_name} {creator.second_name}')
         }
 
     def get_users_with_this_tag(self):
-        return [association.user for association in self.assoc_users_with_this_tag]
+        return [association.rel_user for association in self.assoc_users_with_this_tag]
 
 
 class Paper(db.Model):

@@ -4,6 +4,7 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import Length, DataRequired, Optional, ValidationError
 import config.models_config as mc
 from wtforms.fields.html5 import DateTimeLocalField
+from wtforms.fields.simple import HiddenField
 import string
 from open_science.models import Tag
 
@@ -34,3 +35,11 @@ class EditTagForm(FlaskForm):
     previous_name = StringField()
 
     submit = SubmitField(label='Create tag')
+
+
+class EditTagMembersForm(FlaskForm):
+    members = HiddenField()
+    save = SubmitField(label='Save')
+    # user's capabilities
+    can_appoint = False
+    can_edit = False

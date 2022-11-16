@@ -121,3 +121,7 @@ RESEARCHER_ROLE_REQUIRED = 'You must be a researcher user to access this page.'
 
 # Main blueprint routes.py
 READOLNY_LOGOUT_INFO = "You have been logged out because the website is currently in the read-only mode."
+
+
+# Tag blueprint routes.py
+CANT_EDIT_TAG = "You can't edit this tag"

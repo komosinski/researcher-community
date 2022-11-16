@@ -157,7 +157,7 @@ def get_users_advanced_search(page, search_data, order):
     if 'tag' in search_data and search_data['tag'] != '':
         users = users \
             .join(AssociationTagUser, User.assoc_tags_to_user) \
-            .join(Tag, AssociationTagUser.tag) \
+            .join(Tag, AssociationTagUser.rel_tag) \
             .filter(Tag.name.ilike("%{}%".format(search_data['tag']))) \
             .group_by(User.id)
 

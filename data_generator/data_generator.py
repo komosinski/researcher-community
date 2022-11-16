@@ -336,23 +336,25 @@ class DataGenerator:
             tag.rel_creator = random.choice(User.query.filter(User.id != 0).all())
             tag.rel_related_paper_revisions = random.sample(PaperRevision.query.all(), random.choice([1, 2, 3, 4, 5]))
 
-            # create association with tag's creatorsky
-            association_tag_user = AssociationTagUser(can_share=True, can_edit=True)
-            association_tag_user.user = tag.rel_creator
-            association_tag_user.tag = tag
+            # create association with tag's creator
+            association_tag_user = AssociationTagUser(can_appoint=True, can_edit=True)
+            association_tag_user.appointer_id = tag.creator
+            association_tag_user.rel_user = tag.rel_creator
+            association_tag_user.rel_tag = tag
       
             # create association with other users
             users_to_this_tag = random.sample(User.query.filter(User.id != 0, User.id!=tag.rel_creator.id).all(),
                                                         random.choice([1, 2, 3, 4, 5]))
             for user in users_to_this_tag:
-                association_tag_user = AssociationTagUser(can_share=False, can_edit=False)
-                association_tag_user.user = user
-                association_tag_user.tag = tag
+                association_tag_user = AssociationTagUser(can_appoint=False, can_edit=False)
+                association_tag_user.rel_user = user
+                association_tag_user.rel_tag = tag
+                association_tag_user.appointer_id = tag.creator
               
             tag.creation_date = max(
                 tag.rel_creator.confirmed_on,
                 max([revision.publication_date for revision in tag.rel_related_paper_revisions]),
-                max([association.user.confirmed_on for association in tag.assoc_users_with_this_tag])
+                max([association.rel_user.confirmed_on for association in tag.assoc_users_with_this_tag])
             ) + dt.timedelta(days=random.choice([1, 2, 3]))
             tag.deadline = tag.creation_date + dt.timedelta(days=1095)
             db.session.add(tag)

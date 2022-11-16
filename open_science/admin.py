@@ -13,7 +13,7 @@ class MyAdminIndexView(admin.AdminIndexView):
             return redirect(url_for('auth.login_page'))
         elif current_user.privileges_set != \
                 current_user.user_types_enum.ADMIN.value:
-            return redirect(url_for('home_page'))
+            return redirect(url_for('main.home_page'))
         return super(MyAdminIndexView, self).index()
 
 

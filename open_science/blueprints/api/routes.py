@@ -1,7 +1,7 @@
 from open_science.blueprints.api import bp
 from flask import current_app as app
 from flask_login import login_required
-from open_science.models import Tag, Review, Comment, PaperRevision, User
+from open_science.models import Tag, Review, Comment, PaperRevision, User, AssociationTagUser
 from flask import request
 from open_science import db
 from flask_login import current_user
@@ -250,4 +250,52 @@ def get_users():
          'pagination': {
             'more': True if app.config['AJAX_SELECT_SEARCH_RESULTS']*page < users.total else False
          }
+    }
+
+
+@bp.route('/api/user_appointed_tags')
+@login_required
+def user_appointed_tags_data():
+  
+    query = AssociationTagUser.query.filter(AssociationTagUser.user_id == current_user.id).join(Tag,AssociationTagUser.tag_id == Tag.id).filter(Tag.creator!=current_user.id)
+    total_results = query.count()
+
+    # search filters
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(db.or_(
+            Tag.name.like(f'%{search.upper()}%'),
+            Tag.description.like(f'%{search}%')
+        ))
+    total_filtered = query.count()
+
+    # sorting by one or more attributes
+    order = []
+    i = 0
+    while True:
+        col_index = request.args.get(f'order[{i}][column]')
+        if col_index is None:
+            break
+        col_name = request.args.get(f'columns[{col_index}][data]')
+        if col_name not in ['deadline', 'name', 'description']:
+            col_name = 'name'
+        descending = request.args.get(f'order[{i}][dir]') == 'desc'
+        col = getattr(Tag, col_name)
+        if descending:
+            col = col.desc()
+        order.append(col)
+        i += 1
+    if order:
+        query = query.order_by(*order)
+
+    # pagination
+    start = request.args.get('start', type=int)
+    length = request.args.get('length', type=int)
+    query = query.offset(start).limit(length)
+
+    return {
+        'data': [dict(res.rel_tag.to_dict(), can_appoint=res.can_appoint, can_edit=res.can_edit) for res in query],
+        'recordsFiltered': total_filtered,
+        'recordsTotal': total_results,
+        'draw': request.args.get('draw', type=int),
     }
