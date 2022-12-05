@@ -127,6 +127,6 @@ READOLNY_LOGOUT_INFO = "You have been logged out because the website is currentl
 CANT_EDIT_TAG = "You can't edit this tag"
 
 # Review bleprint routes.py
-CANT_EDIT_REVIEWERS = "You can't edit paper's reviewers"
+CANT_EDIT_REVIEWERS = "You can't edit the reviewers of this paper"
 
-REVIEWERS_ADDED = "Reviewers has been added"
+REVIEWERS_ADDED = "Reviewers have been added"
