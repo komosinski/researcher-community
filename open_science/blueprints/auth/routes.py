@@ -30,40 +30,45 @@ def register_page():
 
     form = RegisterForm()
     if form.validate_on_submit():
-        ps_standard_user = PrivilegeSet.query.filter(
-            PrivilegeSet.id == User.user_types_enum.STANDARD_USER.value)\
-                .first()
-   
+        try:
+            ps_standard_user = PrivilegeSet.query.filter(
+                PrivilegeSet.id == User.user_types_enum.STANDARD_USER.value)\
+                    .first()
+    
+            user_to_create = User.query.filter(User.email == form.email.data,
+                                            User.registered_on
+                                                .is_(None)).first()
 
-        user_to_create = User.query.filter(User.email == form.email.data,
-                                           User.registered_on
-                                               .is_(None)).first()
-
-        # check if user exists because is co-author of someone's paper
-        if user_to_create:
-            user_to_create.first_name = form.first_name.data
-            user_to_create.second_name = form.second_name.data
-            user_to_create.password = form.password.data
-            user_to_create.review_mails_limit = form.review_mails_limit.data
-            user_to_create.notifications_frequency = \
-                form.notifications_frequency.data
-            user_to_create.registered_on = dt.datetime.utcnow()
-        else:
-            user_to_create = User(first_name=form.first_name.data,
-                                  second_name=form.second_name.data,
-                                  email=form.email.data,
-                                  plain_text_password=form.password.data,
-                                  review_mails_limit=0,
-                                  notifications_frequency=form.
-                                  notifications_frequency.data,
-                                  registered_on=dt.datetime.utcnow())
-            
-        user_to_create.rel_privileges_set = ps_standard_user
-        db.session.add(user_to_create)
-        db.session.commit()
-        em.insert_email_log(0, None, user_to_create.email,
+            # check if user exists because is co-author of someone's paper
+            if user_to_create:
+                user_to_create.first_name = form.first_name.data
+                user_to_create.second_name = form.second_name.data
+                user_to_create.password = form.password.data
+                user_to_create.review_mails_limit = form.review_mails_limit.data
+                user_to_create.notifications_frequency = \
+                    form.notifications_frequency.data
+                user_to_create.registered_on = dt.datetime.utcnow()
+            else:
+                user_to_create = User(first_name=form.first_name.data,
+                                    second_name=form.second_name.data,
+                                    email=form.email.data,
+                                    plain_text_password=form.password.data,
+                                    review_mails_limit=0,
+                                    notifications_frequency=form.
+                                    notifications_frequency.data,
+                                    registered_on=dt.datetime.utcnow())
+                
+            user_to_create.rel_privileges_set = ps_standard_user
+            db.session.add(user_to_create)
+            db.session.commit()
+            em.insert_email_log(0, None, user_to_create.email,
                             EmailTypeEnum.REGISTRATION_CONFIRM.value)
-        em.send_email_confirmation(user_to_create.email)
+            em.send_email_confirmation(user_to_create.email)
+        except Exception as e:
+            print(e)
+            flash(STR.STH_WENT_WRONG, category='error')
+            return redirect(url_for('main.home_page'))
+            
         flash(STR.EMAIL_CONFIRM_LINK_SENT+user_to_create.email, category='success')
         return redirect(url_for('auth.unconfirmed_email_page'))
 
@@ -134,12 +139,16 @@ def confirm_email(token):
         flash(STR.ACCOUNT_ALREADY_CONFIRMED, category='success')
         return redirect(url_for('auth.login_page'))
     else:
-        user.confirmed = True
-        user.confirmed_on = dt.datetime.now()
-        user.try_endorse_with_email()
-        db.session.add(user)
-        db.session.commit()
-        flash(STR.ACCOUNT_CONFIRMED, category='success')
+        try:
+            user.confirmed = True
+            user.confirmed_on = dt.datetime.now()
+            user.try_endorse_with_email()
+            db.session.add(user)
+            db.session.commit()
+            flash(STR.ACCOUNT_CONFIRMED, category='success')
+        except Exception as e:
+            print(e)
+            flash(STR.STH_WENT_WRONG, category='error')
     return redirect(url_for('main.home_page'))
 
 
@@ -205,7 +214,8 @@ def set_password_page(token):
             flash(STR.PASSWORD_CHANGED_SUCCESSFULLY,
                   category='success')
             return redirect(url_for('auth.login_page'))
-        except Exception:
+        except Exception as e:
+            print(e)
             flash(STR.STH_WENT_WRONG, category='error')
             return redirect(url_for('main.home_page'))
 
@@ -224,8 +234,9 @@ def change_password_page():
             flash(STR.PASSWORD_CHANGED_SUCCESSFULLY,
                   category='success')
             return redirect(url_for('user.edit_profile_page'))
-        except Exception:
-            flash('Something went wrong.', category='error')
+        except Exception as e:
+            print(e)
+            flash(STR.STH_WENT_WRONG, category='error')
             return redirect(url_for('main.home_page'))
 
     return render_template('auth/set_password.html', form=form)
@@ -235,23 +246,27 @@ def change_password_page():
 def confirm_email_change(token):
     try:
         new_email = confirm_email_change_token(token)
-    except Exception:
+    except Exception as e:
+        print(e) 
         flash(STR.INVALID_CONFIRM_LINK, category='error')
         return redirect(url_for('main.home_page'))
     user = User.query.filter_by(new_email=new_email).first_or_404()
     if user.email == user.new_email:
         return redirect(url_for('auth.login_page'))
     else:
-        logout_user()
-        user.email = user.new_email
-        user.new_email = None
-        user.try_endorse_with_email()
-        db.session.add(user)
-        db.session.commit()
-        flash(STR.EMAIL_CHANGED, category='success')
-
+        try:
+            logout_user()
+            user.email = user.new_email
+            user.new_email = None
+            user.try_endorse_with_email()
+            db.session.add(user)
+            db.session.commit()
+            flash(STR.EMAIL_CHANGED, category='success')
+        except Exception as e:
+            print(e) 
+            flash(STR.STH_WENT_WRONG, category='error')
+            return redirect(url_for('main.home_page'))
     return redirect(url_for('auth.login_page'))
-
 
 
 @bp.route('/user/delete_profile', methods=['GET', 'POST'])
@@ -261,12 +276,16 @@ def delete_profile_page():
     form = DeleteProfileForm()
 
     if form.validate_on_submit():
+        try:
+            current_user.new_email = 'DELETE_PROFILE_ATTEMPT'
+            db.session.commit()
+            em.send_profile_delete(current_user.email)
 
-        current_user.new_email = 'DELETE_PROFILE_ATTEMPT'
-        db.session.commit()
-        em.send_profile_delete(current_user.email)
-
-        flash(STR.EMAIL_DELETE_ACCOUNT_SENT, category='success')
+            flash(STR.EMAIL_DELETE_ACCOUNT_SENT, category='success')
+        except Exception as e:
+            print(e) 
+            flash(STR.STH_WENT_WRONG, category='error')
+            return redirect(url_for('main.home_page'))
         return redirect(url_for('user.profile_page', user_id=current_user.id))
 
     return render_template('auth/delete_profile.html', form=form)

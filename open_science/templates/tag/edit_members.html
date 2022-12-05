@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
 
-{% set api_users_url = url_for('api.get_users', _external=True)%}
-
 {% block styles %}
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -40,68 +38,12 @@
     </form>
 
 </div>
-
-
-
-
 <br>
 
-
-
+{% include 'utils/search_for_user_select2.html' %}
 
 <script>
-  $(".js-data-example-ajax").select2({
-    ajax: {
-      url: "{{api_users_url}}",
-   
-      dataType: 'json',
-      delay: 250,
-      data: function(params) {
-        return {
-          q: params.term, // search term
-          page: params.page || 1
-        };
-      },
-      processResults: function(data, params) {
-        params.page = params.page || 1;
-
-        var data_formated = $.map(data.results, function (obj) {
-          obj.text = obj.first_name +' '+ obj.second_name; // replace name with the property used for the text
-          return obj;
-        });
-        return {
-          results: data_formated,
-          pagination: {
-            more: data.pagination.more
-          }
-        };
-      },
-      cache: false
-    },
-    placeholder: 'Search for a users',
-    minimumInputLength: 2,
-    templateResult: formatResult
-  });
   
-  function formatResult(result) {
-
-    var $container = $(
-    "<div class='select2-result-repository clearfix'>" +
-      "<div class='select2-result-repository__avatar'><img src='" + result.profile_img_url + "' style='height: 3vw;'/></div>" +
-      "<div class='select2-result-repository__meta'>" +
-        "<div class='select2-result-repository__title'></div>" +
-        "<div class='select2-result-repository__description'></div>" +
-      "</div>" +
-    "</div>"
-  );
-
-  $container.find(".select2-result-repository__title").text(result.text);
-  $container.find(".select2-result-repository__description").text(result.affiliation);
-
-  return $container;
-
-  };
-
   function createNewUserRow(user, row_id, formEditor, tagCreatorId){
 
     return `<div id="${row_id}">`+
@@ -185,14 +127,7 @@
 
     });
 
-
-
-
-
-
 </script>
-
-
 
 
 {% endblock %}

@@ -125,3 +125,8 @@ READOLNY_LOGOUT_INFO = "You have been logged out because the website is currentl
 
 # Tag blueprint routes.py
 CANT_EDIT_TAG = "You can't edit this tag"
+
+# Review bleprint routes.py
+CANT_EDIT_REVIEWERS = "You can't edit paper's reviewers"
+
+REVIEWERS_ADDED = "Reviewers has been added"

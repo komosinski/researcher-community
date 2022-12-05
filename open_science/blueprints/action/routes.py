@@ -33,7 +33,8 @@ def article_flag(id):
 
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
     
-    except Exception:
+    except Exception as e:
+        print(e)
         abort(400)
 
 
@@ -58,7 +59,8 @@ def comment_flag(id):
 
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
     
-    except Exception:
+    except Exception as e:
+        print(e)
         abort(400)
 
 
@@ -86,7 +88,8 @@ def user_flag(id):
 
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
     
-    except Exception:
+    except Exception as e:
+        print(e)
         abort(400)
 
 

@@ -6,6 +6,7 @@ from flask import abort
 from open_science.utils import check_numeric_args
 from flask_login import login_required
 from open_science.blueprints.notification import bp
+from open_science import strings as STR
 
 
 @bp.route('/user/notifications/<page>/<unread>')
@@ -41,13 +42,18 @@ def update_notification_and_redirect():
     notification_id = int(request.args.get('notification_id'))
     url = request.args.get('url')
 
-    notification = Notification.query.filter(
-        Notification.id == notification_id).first()
+    try:
+        notification = Notification.query.filter(
+            Notification.id == notification_id).first()
 
-    if current_user.id != notification.user:
-        abort(404)
+        if current_user.id != notification.user:
+            abort(404)
 
-    notification.was_seen = True
-    db.session.commit()
-
+        notification.was_seen = True
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        flash(STR.STH_WENT_WRONG, category='error')
+        return redirect(url_for('main.home_page'))
+        
     return redirect(url)

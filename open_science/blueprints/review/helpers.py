@@ -11,27 +11,31 @@ from flask.helpers import url_for
 
 def create_review_request(reviewer, paper_revision):
 
-    review_request = ReviewRequest(
-        creation_datetime=dt.datetime.utcnow(),
-        deadline_date=dt.datetime.utcnow().date() + dt.timedelta(days=30)
-    )
-    review_request.rel_requested_user = reviewer
-    review_request.rel_related_paper_version = paper_revision
-    db.session.add(review_request)
-    db.session.commit()
+    try:
+        review_request = ReviewRequest(
+            creation_datetime=dt.datetime.utcnow(),
+            deadline_date=dt.datetime.utcnow().date() + dt.timedelta(days=30)
+        )
+        review_request.rel_requested_user = reviewer
+        review_request.rel_related_paper_version = paper_revision
+        db.session.add(review_request)
+        db.session.commit()
 
-    em.send_review_request(reviewer.email, paper_revision.abstract,
-                           review_request.id)
-    em.insert_email_log(0, reviewer.id, reviewer.email,
-                        EmailTypeEnum.REVIEW_REQUEST.value)
+        em.send_review_request(reviewer.email, paper_revision.abstract,
+                            review_request.id)
+        em.insert_email_log(0, reviewer.id, reviewer.email,
+                            EmailTypeEnum.REVIEW_REQUEST.value)
 
-    create_notification(NotificationTypeEnum.REVIEW_REQUEST.value,
-                        'You have new review request',
-                        reviewer,
-                        url_for('review.review_request_page',
-                                request_id=review_request.id))
-
-
+        create_notification(NotificationTypeEnum.REVIEW_REQUEST.value,
+                            'You have new review request',
+                            reviewer,
+                            url_for('review.review_request_page',
+                                    request_id=review_request.id))
+        return True
+    except Exception as e:
+        print(e)
+        return False
+        
 def select_reviewers(paper_revision):
 
     users = paper_revision.get_similar_users()

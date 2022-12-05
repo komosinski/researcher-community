@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+
+{% block styles %}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<div>
+    <h3>Edit <a href="{{data['paper_url']}}" target="blank">{{data['paper_title']}}</a> reviewers</h3>
+</div>
+
+
+<div class="">
+  <form method="POST">
+      {{ form.hidden_tag() }}
+      {{ form.users }}
+
+      <select class="js-data-example-ajax" id="selectUsers" style="width: 50%;"></select>
+      <div id="added_users">
+      </div>
+      
+      <div class="buttons-wrapper">
+
+        {{ form.save(class="large-button main-button") }}
+    
+      </div>  
+
+
+    </form>
+
+</div>
+<br>
+
+{% include 'utils/search_for_user_select2.html' %}
+
+<script>
+  
+  function createNewUserRow(user, row_id, showRemove){
+    var row = `<div id="${row_id}">`+
+      `<input id="user-input-${row_id}" type="hidden" value='${user.id}'>`+
+      `<img src='${user.profile_img_url}' style='height: 3vw;'/>`+
+       `<a href='${user.profile_url}' target="_blank">${user.first_name} ${user.second_name}</a>`+
+        " "+
+       `${user.affiliation}`+
+        ` | Review request decision: ${user.request_decision} `;
+    if(showRemove){
+      row += `<a href="javascript:void(0);" class="remove-input" title="Remove input"><img src={{url_for('static', filename='res/del.png')}}/></a></div>`;
+    }
+    return row;
+  }
+
+  $(document).ready(function(){
+  
+    let idCounter = 0;
+    var usersWrapper = $('#added_users');
+    var addInputCount = 0; 
+  
+    var users_ids = new Set();
+
+    const users = {{users|tojson}};
+
+
+    const addUser = (user,showRemove) => {
+      users_ids.add(user.id);
+      $("#added_users").append(createNewUserRow(user, idCounter,showRemove));
+      addInputCount+=1;
+      idCounter+=1;
+    }
+
+    users.map((m) => addUser(m, showRemove=false));
+
+    $(usersWrapper).on('click', '.remove-input', function(e){
+        e.preventDefault();
+        const userId = $(this).siblings('input').first().val();
+        $(this).parent('div').remove();
+        addInputCount--;
+        users_ids.delete(parseInt(userId, 10));
+    });
+
+    $('#selectUsers').on('select2:select', function (e) {
+      var user = e.params.data;
+      if( users_ids.has(user.id)){
+          alert("User is already added");
+      }
+      else{
+          user.request_decision = 'Not requested'
+          addUser(user, showRemove=true);
+      }
+
+      $('#selectUsers').val(null).trigger('change');
+    });
+
+    $( "#save" ).on('click', function(e) {
+      e.stopPropagation();
+      const usersArray = [];
+      for(i = 0; i < idCounter; i++){
+        const userId = $(`#user-input-${i}`).val();
+        if(userId){
+          usersArray.push({user_id: parseInt(userId,10)});
+        }
+      }
+      $("#users").val(JSON.stringify(usersArray));
+    });
+
+
+    });
+
+</script>
+
+
+{% endblock %}
+

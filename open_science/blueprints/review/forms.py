@@ -98,3 +98,7 @@ class CommentForm(FlaskForm):
     refObjectID = HiddenField()
     comment_ref = HiddenField()
     submit_comment = SubmitField("Publish comment")
+
+class EditTaggedPaperReviewersForm(FlaskForm):
+    users = HiddenField()
+    save = SubmitField(label='Save')

@@ -1,7 +1,7 @@
 from flask import current_app as app
 from flask_login import login_required
 from flask import render_template
-from flask import request
+from flask import request, Markup
 import os
 from sqlalchemy.sql.elements import and_
 from config.config import Config
@@ -53,35 +53,37 @@ def article(id):
     user_disliked_comments = [vote.rel_to_comment for vote in current_user.rel_comment_votes_created if not vote.is_up] if current_user.is_authenticated else []
 
     if commentForm.validate_on_submit():
-        comment = Comment(
-            text=commentForm.content.data,
-            votes_score = 0,
-            red_flags_count = 0,
-            level = 1,
-            date = dt.datetime.utcnow(),
-            creator_role = current_user.privileges_set
-        )
+        try:
+            comment = Comment(
+                text=Markup.escape(commentForm.content.data),
+                votes_score = 0,
+                red_flags_count = 0,
+                level = 1,
+                date = dt.datetime.utcnow(),
+                creator_role = current_user.privileges_set
+            )
 
-        if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
-            print(commentForm.comment_ref.data)
-            comment.comment_ref = ref_comment.id
+            if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
+                print(commentForm.comment_ref.data)
+                comment.comment_ref = ref_comment.id
 
-        print(current_user.privileges_set)
-        print(current_user.rel_privileges_set)
+            print(current_user.privileges_set)
+            print(current_user.rel_privileges_set)
 
-        if current_user.rel_created_comments:
-            current_user.rel_created_comments.append(comment)
-        else: current_user.rel_created_comments = [comment]
+            if current_user.rel_created_comments:
+                current_user.rel_created_comments.append(comment)
+            else: current_user.rel_created_comments = [comment]
 
-        if pv.rel_related_comments:
-            pv.rel_related_comments.append(comment)
-        else:
-            pv.rel_related_comments = [comment]
+            if pv.rel_related_comments:
+                pv.rel_related_comments.append(comment)
+            else:
+                pv.rel_related_comments = [comment]
 
-        db.session.commit()
-        create_paper_comment_notifications(pv, comment, current_user.id)
-
-
+            db.session.commit()
+            create_paper_comment_notifications(pv, comment, current_user.id)
+        except Exception as e:
+            print(e)
+            flash(STR.STH_WENT_WRONG, category='error')
 
         return redirect(url_for("paper.article", id=id, version=pv.version))
 
@@ -258,85 +260,89 @@ def upload_new_revision(id):
 
 
     if form.validate_on_submit():
-        print(form.data)
-        f = form.file.data
-        af = form.anonymousFile.data
+        try:
+            f = form.file.data
+            af = form.anonymousFile.data
 
-        if not validatePDF(f.read(16)):
-            abort(415)
+            if not validatePDF(f.read(16)):
+                abort(415)
 
-        f.seek(0, 0)
-        title = previous_version.title
-        description = previous_version.abstract
-        authors = previous_version.rel_creators
-        tags = previous_version.rel_related_tags
+            f.seek(0, 0)
+            title = previous_version.title
+            description = previous_version.abstract
+            authors = previous_version.rel_creators
+            tags = previous_version.rel_related_tags
 
-        
-        if form.review_declaration.data is True:
-            chosen_confidence_level = form.confidence_level.data
-        else:
-            chosen_confidence_level = 0
+            
+            if form.review_declaration.data is True:
+                chosen_confidence_level = form.confidence_level.data
+            else:
+                chosen_confidence_level = 0
 
 
-        new_version = PaperRevision(
-            pdf_url="",
-            title=title,
-            abstract=description,
-            publication_date=dt.datetime.utcnow(),
-            rel_creators=authors,
-            rel_related_tags=tags,
-            preprocessed_text="",
-            version=int(previous_version.version) + 1,
-            confidence_level=chosen_confidence_level
-        )
+            new_version = PaperRevision(
+                pdf_url="",
+                title=title,
+                abstract=description,
+                publication_date=dt.datetime.utcnow(),
+                rel_creators=authors,
+                rel_related_tags=tags,
+                preprocessed_text="",
+                version=int(previous_version.version) + 1,
+                confidence_level=chosen_confidence_level
+            )
 
-        db.session.flush()
+            db.session.flush()
 
-        vid = new_version.id
+            vid = new_version.id
 
-        filename = f"paper_{vid}.pdf"
-        path = os.path.join(Config.ROOTDIR, app.config['PDFS_DIR_PATH'], filename)
-        url = url_for('static', filename=f"articles/{filename}")
+            filename = f"paper_{vid}.pdf"
+            path = os.path.join(Config.ROOTDIR, app.config['PDFS_DIR_PATH'], filename)
+            url = url_for('static', filename=f"articles/{filename}")
 
-        f.save(path)
+            f.save(path)
 
-        if af is not None and validatePDF(af.read(16)):
-            af.seek(0, 0)
+            if af is not None and validatePDF(af.read(16)):
+                af.seek(0, 0)
 
-            anonymous_filename = f"anonymous_paper_{id}.pdf"
-            anon_path = os.path.join(Config.ROOTDIR, app.config['PDFS_DIR_PATH'], anonymous_filename)
-            anon_url = url_for('static', filename=f"articles/{anonymous_filename}")
+                anonymous_filename = f"anonymous_paper_{id}.pdf"
+                anon_path = os.path.join(Config.ROOTDIR, app.config['PDFS_DIR_PATH'], anonymous_filename)
+                anon_url = url_for('static', filename=f"articles/{anonymous_filename}")
 
-            af.save(anon_path)
+                af.save(anon_path)
 
-            new_version.anonymized_pdf_url = anon_url
+                new_version.anonymized_pdf_url = anon_url
 
-        new_version.pdf_url = url
-        new_version.preprocessed_text = get_text(path)
+            new_version.pdf_url = url
+            new_version.preprocessed_text = get_text(path)
 
-        changes = [RevisionChangesComponent(
-            change_description=change['suggestion'],
-            location=change['location']
-        ) for change in json.loads(form.changes.data)]
+            changes = [RevisionChangesComponent(
+                change_description=change['suggestion'],
+                location=change['location']
+            ) for change in json.loads(form.changes.data)]
 
-        # add answers to review suggestions
-        for i, suggestion in enumerate(suggestions):
-            if form.suggestion_answers[i].answer.data:
-                review_answer = RevisionChangesComponent(
-                    change_description=form.suggestion_answers[i].answer.data,
-                    rel_review_suggestion=suggestion
-                )
-                changes.append(review_answer)
+            # add answers to review suggestions
+            for i, suggestion in enumerate(suggestions):
+                if form.suggestion_answers[i].answer.data:
+                    review_answer = RevisionChangesComponent(
+                        change_description=form.suggestion_answers[i].answer.data,
+                        rel_review_suggestion=suggestion
+                    )
+                    changes.append(review_answer)
 
-        new_version.rel_changes = changes
+            new_version.rel_changes = changes
 
-        if parent_paper.rel_related_versions:
-            parent_paper.rel_related_versions.append(new_version)
-        else:
-            # should never fire, but miracles do sometimes happen, soo...
-            parent_paper.rel_related_versions = [new_version]
-        
-        db.session.commit()
+            if parent_paper.rel_related_versions:
+                parent_paper.rel_related_versions.append(new_version)
+            else:
+                # should never fire, but miracles do sometimes happen, soo...
+                parent_paper.rel_related_versions = [new_version]
+            
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            flash(STR.STH_WENT_WRONG, category='error')
+            return redirect(url_for('main.home_page'))
 
         # return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
         return redirect(url_for('paper.article', id=new_version.parent_paper))

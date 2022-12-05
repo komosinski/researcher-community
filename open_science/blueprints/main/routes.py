@@ -115,10 +115,16 @@ def contact_staff_page():
     form = ContactStaffForm()
 
     if form.validate_on_submit():
-        mssg = MessageToStaff(sender=current_user.id, topic=form.topic.data, text=form.text.data,
-                              date=dt.datetime.utcnow())
-        db.session.add(mssg)
-        db.session.commit()
+        try:
+            mssg = MessageToStaff(sender=current_user.id, topic=form.topic.data, text=form.text.data,
+                                date=dt.datetime.utcnow())
+            db.session.add(mssg)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            flash(STR.STH_WENT_WRONG, category='error')
+            return redirect(url_for('main.home_page'))
+
         flash('Message has been sent', category='success')
         return redirect(url_for('main.help_page'))
 

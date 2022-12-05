@@ -413,6 +413,12 @@ class User(db.Model, UserMixin):
     def get_tags_to_user(self):
         return [association.tag for association in self.assoc_tags_to_user]
 
+    # check if user can manage tag
+    def can_edit_tagged_paper_reviewers(self, tag_id):
+        if any(assoc.tag_id == tag_id for assoc in self.assoc_tags_to_user):
+            return True
+        else:
+            return False
 
     def to_dict(self):
         return {
@@ -884,6 +890,14 @@ class ReviewRequest(db.Model):
                     return False
             return False
         return False
+
+    def get_decision_string(self):
+        if self.decision is True:
+            return 'Accepted'
+        elif self.decision is False:
+            return 'Declined'
+        else:
+            return 'Pending'
 
 
 class Comment(db.Model):

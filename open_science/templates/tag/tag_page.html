@@ -25,15 +25,18 @@
         {{tag.description}}
     </div>
 
-    {% set related_papers = tag.rel_related_paper_revisions %}
+    {% set related_paper_revisions = tag.rel_related_paper_revisions %}
 
-    {% if related_papers is defined  %}
+    {% if related_paper_revisions is defined  %}
         
         <h3>Related papers:</h3>
         <ul>
-            {% for paper in related_papers  %}
+            {% for paper_revision in related_paper_revisions  %}
                 <li>
-                    <a href="{{url_for('paper.article',id=paper.id)}}">{{ paper.title}} </a>
+                    <a href="{{url_for('paper.article',id=paper_revision.parent_paper, version=paper_revision.version)}}">{{ paper_revision.title}} </a>
+                    {% if current_user.is_authenticated and current_user.can_edit_tagged_paper_reviewers(tag.id) %}
+                    | <a href="{{url_for('review.edit_tagged_paper_reviewers',id=paper_revision.parent_paper, version=paper_revision.version)}}">Edit reviewers </a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>

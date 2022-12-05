@@ -9,6 +9,7 @@ import open_science.myemail as em
 from flask_login import logout_user, current_user
 from flask import render_template, redirect, url_for, flash, request
 from flask import abort
+from flask import Markup
 import datetime as dt
 from werkzeug.utils import secure_filename
 import os
@@ -59,7 +60,6 @@ def profile_page(user_id):
                            user=user, data=data, remarks_form=remarks_form)
 
 
-
 @bp.route('/user/edit_profile', methods=['GET', 'POST'])
 @fresh_login_required
 def edit_profile_page():
@@ -70,48 +70,54 @@ def edit_profile_page():
 
     if form.validate_on_submit():
         flash_message = STR.EDIT_PROFILE_CHANGES_SAVED
-        current_user.first_name = form.first_name.data
-        current_user.second_name = form.second_name.data
+        try:
 
-        if current_user.email != form.email.data:
-            current_user.new_email = form.email.data
-            # check if any other account wanted to set this email
-            other_accounts = User.query.filter(User.id != current_user.get_id(),
-                                               User.new_email == form.email.data).all()
-            for account in other_accounts:
-                account.new_email = None
-                db.session.add(account)
-
-            email_change = True
-            em.send_email_change_confirmation(form.email.data)
-            flash_message += STR.EMAIL_CONFIRM_LINK_SENT + form.email.data
-
-        current_user.affiliation = form.affiliation.data
-        current_user.orcid = form.orcid.data
-        current_user.google_scholar = form.google_scholar.data
-        current_user.about_me = form.about_me.data
-        current_user.personal_website = form.personal_website.data
-        current_user.notifications_frequency = form.notifications_frequency.data
-
-
-        if current_user.is_researcher():
-            current_user.review_mails_limit = form.review_mails_limit.data
+            current_user.first_name = Markup.escape(form.first_name.data)
+            current_user.second_name = Markup.escape(form.second_name.data)
             
-        f = form.profile_image.data
-        if f:
-            filename = secure_filename(f'{current_user.id}.jpg')
-            path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGES_DIR_PATH, filename)
-            if current_user.has_photo:
-                os.remove(path)
+            if current_user.email != form.email.data:
+                current_user.new_email = form.email.data
+                # check if any other account wanted to set this email
+                other_accounts = User.query.filter(User.id != current_user.get_id(),
+                                                User.new_email == form.email.data).all()
+                for account in other_accounts:
+                    account.new_email = None
+                    db.session.add(account)
 
-            img = Image.open(f)
-            img = img.convert('RGB')
-            img = img.resize((256, 256))
-            img.save(path, format="JPEG", quality=90)
+                email_change = True
+                em.send_email_change_confirmation(form.email.data)
+                flash_message += STR.EMAIL_CONFIRM_LINK_SENT + form.email.data
 
-            current_user.has_photo = True
+            current_user.affiliation = form.affiliation.data
+            current_user.orcid = form.orcid.data
+            current_user.google_scholar = form.google_scholar.data
+            current_user.about_me = form.about_me.data
+            current_user.personal_website = form.personal_website.data
+            current_user.notifications_frequency = form.notifications_frequency.data
 
-        db.session.commit()
+
+            if current_user.is_researcher():
+                current_user.review_mails_limit = form.review_mails_limit.data
+                
+            f = form.profile_image.data
+            if f:
+                filename = secure_filename(f'{current_user.id}.jpg')
+                path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGES_DIR_PATH, filename)
+                if current_user.has_photo:
+                    os.remove(path)
+
+                img = Image.open(f)
+                img = img.convert('RGB')
+                img = img.resize((256, 256))
+                img.save(path, format="JPEG", quality=90)
+
+                current_user.has_photo = True
+
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            flash(STR.STH_WENT_WRONG, category='error')
+            redirect(url_for('main.home_page'))
 
         flash(flash_message, category='success')
 
@@ -259,31 +265,35 @@ def request_endorsement(endorser_id):
 
         type_endorsment_request = NotificationType.query.get(
             NotificationTypeEnum.ENDORSEMENT_REQUEST.value)
+        try:
+            notification = Notification(
+                datetime=dt.datetime.utcnow(),
+                title=Notification.prepare_title(type_endorsment_request),
+                text='Endorsement request'
+            )
+            notification.rel_user = User.query.get(endorser_id)
+            notification.rel_notification_type = type_endorsment_request
+            db.session.add(notification)
+            db.session.flush()
+            db.session.refresh(notification)
+            notification.action_url = url_for('user.confirm_endorsement_page',
+                                            notification_id=notification.id,
+                                            user_id=current_user.id,
+                                            endorser_id=endorser_id)
 
-        notification = Notification(
-            datetime=dt.datetime.utcnow(),
-            title=Notification.prepare_title(type_endorsment_request),
-            text='Endorsement request'
-        )
-        notification.rel_user = User.query.get(endorser_id)
-        notification.rel_notification_type = type_endorsment_request
-        db.session.add(notification)
-        db.session.flush()
-        db.session.refresh(notification)
-        notification.action_url = url_for('user.confirm_endorsement_page',
-                                          notification_id=notification.id,
-                                          user_id=current_user.id,
-                                          endorser_id=endorser_id)
+            db.session.add(endorsement_log)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            flash(STR.STH_WENT_WRONG, category='error')
+            return redirect(url_for('main.home_page'))
 
-        db.session.add(endorsement_log)
-        db.session.commit()
         flash(STR.ENDORSEMENT_REQUEST_SENT,
               category='success')
         return redirect(url_for('user.profile_page', user_id=endorser_id))
     else:
         flash(STR.CANT_REQUEST_ENDORSEMENT, category='error')
         return redirect(url_for('user.profile_page', user_id=endorser_id))
-
 
 
 @bp.route('/endorsement/confirm/<notification_id>/<user_id>/<endorser_id>',
@@ -318,21 +328,26 @@ def confirm_endorsement_page(notification_id, user_id, endorser_id):
         return redirect(url_for('notification.notifications_page', page=1, unread='False'))
 
     if form.validate_on_submit():
-        if form.submit_accept.data:
-            endorsement_log.decision = True
-            endorsement_log.considered = True
+        try:
+            if form.submit_accept.data:
+                endorsement_log.decision = True
+                endorsement_log.considered = True
+                db.session.commit()
+                if user.obtained_required_endorsement():
+                    user.endorse()
+
+            elif form.submit_decline.data:
+                endorsement_log.decision = False
+                endorsement_log.considered = True
+                db.session.add(endorsement_log)
+
+            db.session.delete(notification)
             db.session.commit()
-            if user.obtained_required_endorsement():
-                user.endorse()
-
-        elif form.submit_decline.data:
-            endorsement_log.decision = False
-            endorsement_log.considered = True
-            db.session.add(endorsement_log)
-
-        db.session.delete(notification)
-        db.session.commit()
-
+        except Exception as e:
+            print(e)
+            flash(STR.STH_WENT_WRONG, category='error')
+            return redirect(url_for('main.home_page'))
+            
         flash(STR.ENDORSEMENT_REQUEST_FORM_COMPLETED, category='success')
         return redirect(url_for('notification.notifications_page', page=1, unread='False'))
 
