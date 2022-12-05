@@ -118,7 +118,7 @@
 
 
     <div>
-        <h3>About me:</h3>
+        <h3>About me</h3>
         {{user.about_me}}
     </div>
 
@@ -143,7 +143,7 @@
         
 
         <div>
-            <h3>My Papers</h3>
+            <h3>My papers</h3>
             {% if current_user.can_upload_paper() %}
             <form class="user-action" action="{{url_for('paper.upload_file_page')}}" method="GET">    
                 <button type="submit">Upload paper</button>
@@ -154,14 +154,14 @@
       
         <br><br>
         <div>
-            <h3>My Reviews</h3>
+            <h3>My reviews</h3>
             {% include 'user/tables/table_reviews.html' %}
         </div>
         <br><br>
 
  
         <div>
-            <h3>Created Tags</h3>
+            <h3>Tags created by me</h3>
             {% if current_user.can_create_tag() %}
             <form class="user-action" action="{{url_for('tag.create_tag_page')}}" method="GET">    
                 <button type="submit">Create Tag</button>
@@ -177,12 +177,12 @@
     {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) %}
 
         <div>
-            <h3>Assigned Tags</h3>
+            <h3>Tags assigned to me</h3>
             {% include 'user/tables/table_assigned_tags.html' %}
         </div>
 
         <div>
-            <h3>My Posts</h3>
+            <h3>My posts</h3>
             {% include 'user/tables/table_comments.html' %}
         </div>
 
