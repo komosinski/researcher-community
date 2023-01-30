@@ -1,1 +1,5 @@
-TODO describe tests
+- If you want paper revisions to be generated with random words change the use_random_words_for_revisions flag in DataGenerator class
+- Change counts_overwrite_dict in db_generate.py to test performance for different users counts. 
+- Generate data with data_generator and find out the similarities matrix creation time in the console.
+- Check how much space database takes up. You can find this in any database management tool.
+- After running the application go to advanced search and try to find users by typing any user name. The searching time will be displayed in the console after users are found.

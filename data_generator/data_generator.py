@@ -1,6 +1,8 @@
 import math
 import os
 import random
+import time
+import requests
 
 from flask import url_for
 from werkzeug.utils import secure_filename
@@ -17,7 +19,7 @@ import datetime as dt
 import text_processing.similarity_matrix as sm
 
 from text_processing.plot import create_save_users_plot, create_save_users_plot_3d
-from text_processing.prepocess_text import get_text
+from text_processing.prepocess_text import get_text, preprocess_text
 
 
 class DataGenerator:
@@ -116,7 +118,12 @@ class DataGenerator:
                 sm.save_dictionary(dictionary)
                 tfidf_matrix = sm.create_tfidf_matrix()
                 sm.save_tfidf_matrix(tfidf_matrix)
+
+                start = time.time()
                 similarities_matrix = sm.create_similarities_matrix()
+                end = time.time()
+                print(f"creating similarities matrix: {end - start}")
+
                 sm.save_similarities_matrix(similarities_matrix)
                 print('creating 2D plot...')
                 create_save_users_plot()
@@ -240,6 +247,10 @@ class DataGenerator:
         print("Papers created")
 
     def generate_paper_revisions(self):
+        word_site = "https://www.mit.edu/~ecprice/wordlist.10000"
+        response = requests.get(word_site)
+        WORDS = response.content.splitlines()
+
         versions_count_per_paper_list = self.get_versions_count_per_paper_list()
         revision_number = 1
         for paper_number, versions_count in enumerate(versions_count_per_paper_list):
@@ -260,10 +271,15 @@ class DataGenerator:
                              "nisl. Aliquam aliquet felis dictum elit molestie, quis iaculis nisl vulputate. Morbi vel"
                              "luctus arcu tempus interdum. Mauris in diam eu sapien bibendum auctor laoreet. "
                              "Suspendisse auctor id orci quis placerat.",
-                    preprocessed_text=get_text(os.path.join(Config.PDFS_DIR_PATH,
-                                                            secure_filename(f"{paper_id}.pdf"))),
+                    preprocessed_text=preprocess_text(" ".join([w.decode("utf-8") for w in random.choices(WORDS, k=1000)])),
                     confidence_level=3
                 )
+
+                if self.use_random_words_for_revisions:
+                    revision.preprocessed_text = preprocess_text(" ".join([w.decode("utf-8") for w in random.choices(WORDS, k=1000)]))
+                else:
+                    revision.preprocessed_text = get_text(os.path.join(Config.PDFS_DIR_PATH, secure_filename(f"{paper_id}.pdf")))
+
                 revision.rel_related_licenses = random.sample(License.query.all(), random.choice([1, 2, 3]))
                 revision.rel_parent_paper = parent_paper
                 revision.rel_creators = random.sample(User.query.filter(User.id != 0).all(),

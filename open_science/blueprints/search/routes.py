@@ -1,3 +1,5 @@
+import time
+
 from flask import render_template, redirect, url_for, flash, abort, request
 from open_science.blueprints.search import bp
 from open_science.blueprints.search.forms import AdvancedSearchPaperForm, \
@@ -80,8 +82,11 @@ def advanced_search_users_page(page, search_data, order_by):
     page = int(page)
 
     users = []
+    start = time.time()
     order = search_helper.get_user_order(order_by)
     users = search_helper.get_users_advanced_search(page, search_data, order)
+    end = time.time()
+    print(f"time: {end - start}")
 
     return render_template('search/advanced_search_user.html', page=page, users=users, search_data=search_data,
                            order_by=order_by)
