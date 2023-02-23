@@ -1,5 +1,7 @@
 wheel
-MarkupSafe>=2.0.0
+Werkzeug~=2.0.0
+Jinja2~=3.0.3
+markupsafe==2.0.1
 Flask~=2.0.2
 alembic~=1.7.5
 SQLAlchemy~=1.4.27
@@ -21,6 +23,7 @@ Pillow>=9.0.0
 sqlalchemy-utils >= 0.38.2
 pytest~=6.2.5
 Flask-Moment~=1.0.2
+requests~=2.28.2
 
 # text_processing module
 pdftotext>=2.2.2

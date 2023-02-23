@@ -70,6 +70,8 @@ class DataGenerator:
         if objects_count_overwrite_dict is None:
             objects_count_overwrite_dict = {}
 
+        self.use_random_words_for_revisions = False
+        
         self.app = app
         self.seed = seed
         if self.seed is not None:

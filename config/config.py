@@ -23,12 +23,12 @@ class Config(object):
         'SECURITY_CHANGE_EMAIL_SALT') or '10d7ce9ce5be51a09e678dc08ec55827'
     SECURITY_PROFILE_DELETE_SALT = os.environ.get(
         'SECURITY_PROFILE_DELETE_SALT') or '5381ce88896f17316c40d7dcb8d6acbc'
-    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.gmail.com'
-    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 465)
-    MAIL_USERNAME = 'kappa.science.mail@gmail.com'
-    MAIL_PASSWORD = 'mkocde.jek83fP62.JKL'
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
+    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'sandbox.smtp.mailtrap.io'
+    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 2525)
+    MAIL_USERNAME = 'b9bcb6f6a948d0'
+    MAIL_PASSWORD = '25d15ab33b0f5e'
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
     MAIL_DEFAULT_SENDER = os.environ.get(
         'MAIL_DEFAULT_SENDER') or 'kappa.science.mail@gmail.com'
     MAX_CONTENT_LENGTH_MB = int(os.environ.get(
