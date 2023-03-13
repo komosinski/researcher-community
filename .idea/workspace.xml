@@ -5,14 +5,97 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="requirements.txt merge fixes">
-      <change afterPath="$PROJECT_DIR$/locustfile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S1978301917300359-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S221267161200090X-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2212682115300093-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2213879X13000229-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2215001318300404-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2215039021000047-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2352179117302065-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2352873717300616-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2369969821000839-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2405844017309337-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2405844020301584-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2405883116300272-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S244434091630005X-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2451994421000031-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2590183422000102-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2590207522000247-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2666016421000396-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2667345223000160-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2772501421000026-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2772656822000318-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2773139122000131-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2773139123000010-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2773183922000088-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2949720522000030-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2949834123000028-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_1/dendrogram.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S1571066108002144-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S1576596217300415-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2210832717300960-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2212137418302768-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2212609015300601-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2213956715000936-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2214514118301326-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2352853217300767-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2352853223000019-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2405631617300064-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2405844022024562-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2405844022038841-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2588930318300033-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2590134620300025-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2666522020300046-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2666603022000173-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2666629420300012-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2666935822000258-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2667134421000031-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2667318523000089-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S266732582200293X-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2772369023000105-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2772485921000119-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S2773183923000034-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/1-s2.0-S294971322200009X-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_2/dendrogram.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S0186602816000128-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S0189896515000475-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S0210277314000067-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S1077291X22002338-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S1201971216311201-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S1616865815000680-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S1877042815033145-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2214845021000995-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2405673120300155-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S245223172100004X-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2590051X21000010-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2590054423000015-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2590229620300150-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2666248521000317-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2666657X21000227-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2666675822000054-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S266672072200056X-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2666822X22000089-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S266693312200003X-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2667011920300025-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S266701192200024X-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2667319322000076-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2667325821002594-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2772582023000049-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2772801323000052-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/1-s2.0-S2773045X2200005X-main.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/raw/dendrogram_3/dendrogram.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/data/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/data/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/data/download_articles.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/data/make_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/data/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/data/utils/random_articles_downloader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/data/utils/undedected_chrome_driver_with_perfs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_init.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_init.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/open_science/extensions.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/extensions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/open_science/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_science/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit_tests/test_openscience.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit_tests/test_openscience.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,16 +121,16 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/open_science/test_data.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/open_science/routes_def.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/text_processing/plot.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/.gitignore" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/text_processing/search_engine.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/text_processing/prepocess_text.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/text_processing/mocks.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/open_science/db_helper.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/open_science.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/open_science/models.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/text_processing/plot.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/text_processing/mocks.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/text_processing/prepocess_text.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/text_processing/search_engine.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/open_science.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="23VKsq4iwvI62lqgsgPZmTVclfj" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -64,7 +147,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/similarity" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -88,6 +172,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/open_science.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -106,6 +191,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1641814024042</updated>
+      <workItem from="1678206595293" duration="41000" />
+      <workItem from="1678724478263" duration="505000" />
     </task>
     <task id="LOCAL-00001" summary="dates in test_date update">
       <created>1642533031528</created>
@@ -208,6 +295,9 @@
     <option name="localTasksCounter" value="15" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -218,7 +308,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

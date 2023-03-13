@@ -1,0 +1,77 @@
+{
+	"left": {
+		"left": {
+			"left": {
+				"left": {
+					"left": "1-s2.0-S2590054423000015-main.pdf",
+					"right": "1-s2.0-S2666657X21000227-main.pdf"
+				},
+				"right": "1-s2.0-S1616865815000680-main.pdf"
+			},
+			"right":
+			    {
+			        "left":"1-s2.0-S2666822X22000089-main.pdf",
+			        "right":
+			            {
+			                "left":"1-s2.0-S266672072200056X-main.pdf",
+			                "right":"1-s2.0-S2214845021000995-main.pdf"
+
+			        }
+
+			    }
+		},
+		"right": {
+			"left": {
+				"left": {
+					"left": "1-s2.0-S266693312200003X-main.pdf",
+					"right": "1-s2.0-S2667319322000076-main.pdf"
+				},
+				"right":
+				    {   "left":"1-s2.0-S1877042815033145-main.pdf",
+				        "right":"1-s2.0-S1077291X22002338-main.pdf"
+				    }
+			},
+			"right": "1-s2.0-S0210277314000067-main.pdf"
+		}
+	},
+	"right": {
+		"left": {
+			"left": {
+				"left": {
+					"left": {
+						"left": "1-s2.0-S245223172100004X-main.pdf",
+						"right":
+    						{"left":{
+    						    "left":{
+        							"left": "1-s2.0-S1201971216311201-main.pdf",
+        							"right": "1-s2.0-S2590229620300150-main.pdf"
+    						},
+    						    "right":"1-s2.0-S2405673120300155-main.pdf"
+    						},
+    						    "right":"1-s2.0-S2590051X21000010-main.pdf"
+    						}
+					},
+					"right": {
+						"left": "1-s2.0-S266701192200024X-main.pdf",
+						"right": "1-s2.0-S2667011920300025-main.pdf"
+					}
+				},
+				"right": "1-s2.0-S2666675822000054-main.pdf"
+			},
+			"right": "1-s2.0-S2773045X2200005X-main.pdf"
+		},
+		"right": {
+			"left": {
+				"left": {
+					"left": "1-s2.0-S0189896515000475-main.pdf",
+					"right": "1-s2.0-S2666248521000317-main.pdf"
+				},
+				"right": {
+				    "left":"1-s2.0-S2667325821002594-main.pdf",
+				    "right":"1-s2.0-S2772582023000049-main.pdf"
+				}
+			},
+			"right": "1-s2.0-S2772801323000052-main.pdf"
+		}
+	}
+}
