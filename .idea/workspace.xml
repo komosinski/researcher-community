@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="dendrograms and download_script">
-      <change afterPath="$PROJECT_DIR$/tests/similarity/src/models/utils/pdf_to_text_transformer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/similarity_measure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/tfidf_similarity_measure.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/openscience-priv.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/openscience-priv.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/src/models/utils/pdf_to_text_transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/src/utils/pdf_to_text_transformer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,14 +68,14 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests/similarity/src" />
       <recent name="C:\Users\piotr\PycharmProjects\openscience-priv" />
       <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\tests" />
       <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\open_science\static" />
       <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\server_files" />
-      <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\text_processing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.pdf_to_text_transformer">
+  <component name="RunManager" selected="Python.tfidf_similarity_measure">
     <configuration name="openscience" type="PythonConfigurationType" factoryName="Python">
       <module name="openscience-priv" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -118,12 +120,36 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="tfidf_similarity_measure" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="openscience-priv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/tfidf_similarity_measure.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.openscience" />
       <item itemvalue="Python.pdf_to_text_transformer" />
+      <item itemvalue="Python.tfidf_similarity_measure" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.tfidf_similarity_measure" />
         <item itemvalue="Python.pdf_to_text_transformer" />
       </list>
     </recent_temporary>
@@ -140,6 +166,10 @@
       <workItem from="1678724478263" duration="1161000" />
       <workItem from="1678726233392" duration="87000" />
       <workItem from="1678873093014" duration="1371000" />
+      <workItem from="1678874741099" duration="1803000" />
+      <workItem from="1679945092228" duration="19000" />
+      <workItem from="1680449300834" duration="498000" />
+      <workItem from="1680449812136" duration="3784000" />
     </task>
     <task id="LOCAL-00001" summary="dates in test_date update">
       <created>1642533031528</created>
@@ -283,6 +313,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/openscience_priv$openscience.coverage" NAME="openscience Coverage Results" MODIFIED="1678874238241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/openscience_priv$pdf_to_text_transformer.coverage" NAME="pdf_to_text_transformer Coverage Results" MODIFIED="1678874254597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/similarity/src/models/utils" />
+    <SUITE FILE_PATH="coverage/openscience_priv$pdf_to_text_transformer.coverage" NAME="pdf_to_text_transformer Coverage Results" MODIFIED="1678875502053" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/similarity/src/models/utils" />
+    <SUITE FILE_PATH="coverage/openscience_priv$tfidf_similarity_measure.coverage" NAME="tfidf_similarity_measure Coverage Results" MODIFIED="1680453521681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
   </component>
 </project>
