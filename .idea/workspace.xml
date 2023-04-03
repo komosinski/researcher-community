@@ -4,11 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="tfidf_measure">
-      <change afterPath="$PROJECT_DIR$/tests/similarity/src/utils/spell_corrector.py" afterDir="false" />
+    <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="added spell_checker">
+      <change afterPath="$PROJECT_DIR$/tests/similarity/data/embeddings/glove.6B.50d.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/glove_cosine_similarity_measure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/measures/cosine_measure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/measures/measure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers/count_vectorizer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers/glove_vectorizer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers/vectorizer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/similarity/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/tfidf_similarity_measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/tfidf_similarity_measure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/similarity_measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/similarity_measure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/tfidf_similarity_measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/original_tfidf_similarity_measure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_processing/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_processing/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text_processing/similarity_matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_processing/similarity_matrix.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +82,51 @@
       <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\server_files" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.tfidf_similarity_measure">
+  <component name="RunManager" selected="Python.glove_cosine_similarity_measure">
+    <configuration name="glove_cosine_similarity_measure" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="openscience-priv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/glove_cosine_similarity_measure.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="glove_vectorizer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="openscience-priv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers/glove_vectorizer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="openscience" type="PythonConfigurationType" factoryName="Python">
       <module name="openscience-priv" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -88,6 +141,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/open_science.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="original_tfidf_similarity_measure" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="openscience-priv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/original_tfidf_similarity_measure.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -118,36 +193,18 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tfidf_similarity_measure" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="openscience-priv" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/tfidf_similarity_measure.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Python.openscience" />
       <item itemvalue="Python.pdf_to_text_transformer" />
-      <item itemvalue="Python.tfidf_similarity_measure" />
+      <item itemvalue="Python.original_tfidf_similarity_measure" />
+      <item itemvalue="Python.glove_vectorizer" />
+      <item itemvalue="Python.glove_cosine_similarity_measure" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.tfidf_similarity_measure" />
+        <item itemvalue="Python.glove_cosine_similarity_measure" />
+        <item itemvalue="Python.glove_vectorizer" />
+        <item itemvalue="Python.original_tfidf_similarity_measure" />
         <item itemvalue="Python.pdf_to_text_transformer" />
       </list>
     </recent_temporary>
@@ -167,7 +224,7 @@
       <workItem from="1678874741099" duration="1803000" />
       <workItem from="1679945092228" duration="19000" />
       <workItem from="1680449300834" duration="498000" />
-      <workItem from="1680449812136" duration="6192000" />
+      <workItem from="1680449812136" duration="14143000" />
     </task>
     <task id="LOCAL-00001" summary="dates in test_date update">
       <created>1642533031528</created>
@@ -281,7 +338,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680453615036</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="added spell_checker">
+      <created>1680456756113</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1680456756113</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,11 +379,14 @@
     <MESSAGE value="requirements.txt merge fixes" />
     <MESSAGE value="dendrograms and download_script" />
     <MESSAGE value="tfidf_measure" />
-    <option name="LAST_COMMIT_MESSAGE" value="tfidf_measure" />
+    <MESSAGE value="added spell_checker" />
+    <option name="LAST_COMMIT_MESSAGE" value="added spell_checker" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/openscience_priv$glove_cosine_similarity_measure.coverage" NAME="glove_cosine_similarity_measure Coverage Results" MODIFIED="1680506428511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
     <SUITE FILE_PATH="coverage/openscience_priv$openscience.coverage" NAME="openscience Coverage Results" MODIFIED="1678874238241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/openscience_priv$pdf_to_text_transformer.coverage" NAME="pdf_to_text_transformer Coverage Results" MODIFIED="1678875502053" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/similarity/src/models/utils" />
-    <SUITE FILE_PATH="coverage/openscience_priv$tfidf_similarity_measure.coverage" NAME="tfidf_similarity_measure Coverage Results" MODIFIED="1680456645580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
+    <SUITE FILE_PATH="coverage/openscience_priv$glove_vectorizer.coverage" NAME="glove_vectorizer Coverage Results" MODIFIED="1680505508263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers" />
+    <SUITE FILE_PATH="coverage/openscience_priv$tfidf_similarity_measure.coverage" NAME="original_tfidf_similarity_measure Coverage Results" MODIFIED="1680466744041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
   </component>
 </project>

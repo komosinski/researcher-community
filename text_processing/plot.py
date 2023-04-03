@@ -40,7 +40,7 @@ def create_save_users_plot():
     plt.close(fig)
 
 
-# This function create plot for the main page. Plot shows similarities of users in the system as interactive 3D plot
+# This function create plot for the main page. Plot shows measures of users in the system as interactive 3D plot
 # It uses get_similar_users_to_user function for creating matrix of similarity of all users in system.
 def create_save_users_plot_3d():
     user_id_ranking_dict = get_user_id_ranking_dict()

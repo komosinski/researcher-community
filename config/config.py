@@ -111,10 +111,10 @@ class Config(object):
     # Path to processing text tfidf matrix
     TFIDF_MATRIX_FILE_PATH = 'generated/tfidf_matrix'
 
-    # Path to processing text similarities matrix mapping array
+    # Path to processing text measures matrix mapping array
     SIMILARITIES_MATRIX_MAPPING_ARRAY_FILE_PATH = 'generated/similarities_matrix_mapping.npy'
 
-    # Path to processing text similarities matrix
+    # Path to processing text measures matrix
     SIMILARITIES_MATRIX_FILE_PATH = 'generated/similarities_matrix.npy'
 
     # Path to processing text users plot

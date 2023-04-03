@@ -1,24 +1,15 @@
 from similarity_measure import SimilarityMeasure
 from pathlib import Path
-from tests.similarity.src.utils.pdf_to_text_transformer import PdfToTextTransformer
 from gensim.models import TfidfModel
 from gensim.utils import simple_preprocess
 from gensim.corpora import Dictionary
 from gensim import similarities
-from tests.similarity.src.utils.spell_corrector import SpellCorrector
 import numpy as np
 import gensim.downloader as api
-
+from tests.similarity.src.similarity_measures.vectorizers.count_vectorizer import CountVectorizer
 
 class TfidfSimilarityMeasure(SimilarityMeasure):
-    def __init__(self, use_spell_corrector=False):
-        self.dictionary = None
-        self.model = None
-        self.text_extractor = PdfToTextTransformer()
-        if use_spell_corrector:
-            self.spell_corrector = SpellCorrector()
-        else:
-            self.spell_corrector = None
+
 
     #list of all articles to build corpus from
     def build_dictionary(self, article_list: list) -> None:
@@ -39,11 +30,7 @@ class TfidfSimilarityMeasure(SimilarityMeasure):
         tfidf_matrix = tfidf_matrix.get_similarities(corpus_tfidf)
         return tfidf_matrix[0][1]
 
-#example usage
-if __name__ == '__main__':
-    p = Path("../../data/raw/dendrogram_1/1-s2.0-S2405844020301584-main.pdf")
-    p1 = Path("../../data/raw/dendrogram_1/1-s2.0-S2773139123000010-main.pdf")
-    sim = TfidfSimilarityMeasure(use_spell_corrector=True)
-    sim.build_dictionary([p, p1])
-    print(sim.get_similarity(p, p1))
+
+
+
 

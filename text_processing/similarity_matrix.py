@@ -159,7 +159,7 @@ def get_similarities_matrix_mapping_array():
     return similarities_matrix_mapping_array
 
 
-# returns similarities matrix created from preprocessed texts
+# returns measures matrix created from preprocessed texts
 def create_similarities_matrix():
     similarities_matrix = []
 
@@ -179,7 +179,7 @@ def create_similarities_matrix():
     return similarities_matrix
 
 
-# saves given matrix as similarities matrix in matrices table in database
+# saves given matrix as measures matrix in matrices table in database
 def save_similarities_matrix(similarities_matrix):
     similarities_matrix_url = os.path.join(app.config['ROOTDIR'],
                                            app.config['SIMILARITIES_MATRIX_FILE_PATH'])
