@@ -10,6 +10,8 @@ from tests.similarity.src.similarity_measures.vectorizers.count_vectorizer impor
 
 class TfidfSimilarityMeasure(SimilarityMeasure):
 
+    def __init__(self):
+        super(TfidfSimilarityMeasure, self).__init__()
 
     #list of all articles to build corpus from
     def build_dictionary(self, article_list: list) -> None:
@@ -32,5 +34,11 @@ class TfidfSimilarityMeasure(SimilarityMeasure):
 
 
 
-
+if __name__ == '__main__':
+    p = Path("/home/arabica/Downloads/openscience-priv/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2212682115300093-main.pdf")
+    p1 = Path("/home/arabica/Downloads/openscience-priv/tests/similarity/data/raw/dendrogram_1/1-s2.0-S221267161200090X-main.pdf")
+    sim = TfidfSimilarityMeasure()
+    sim.build_dictionary([p, p1, p])
+    #print(sim.get_similarity(p, p1))
+    print(sim.get_similarity(p, p1))
 

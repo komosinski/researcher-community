@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Callable
 from typing import Any
 
@@ -24,7 +26,7 @@ def gentree(documents: list[str], comparison: Callable[[str, str], float]) -> di
     i = 0
     for e, x in enumerate(documents):
         for y in documents[e + 1:]:
-            dense_mat[i] = comparison(x, y)
+            dense_mat[i] = comparison.get_similarity(x, y)
             i += 1
 
     linkage_matrix = linkage(dense_mat, 'single')
