@@ -2,30 +2,36 @@ from clusim.clustering import Clustering, print_clustering
 import clusim.sim as sim
 import json
 import os
+import networkx as nx
 
 
-def _dict_to_cluster(dendrogram, result=None, cluster=0, clusters=[]):
-    clusters.append(cluster)
+def _add_leafs(dendrogram, cluster = 0, elm2clu_dict={}):
+    result = nx.DiGraph()
+    for direction in ['left', 'right']:
+        if type(dendrogram[direction]) is str:
+            elm2clu_dict[dendrogram[direction]] = [cluster]
+            result.add_node(cluster)
+            cluster += 1
+    for direction in ['left', 'right']:
+        if dendrogram[direction] and type(dendrogram[direction]) is not str:
+            result, elm2clu_dict, cluster = _add_leafs(dendrogram[direction],  cluster, elm2clu_dict)
+    return result, elm2clu_dict, cluster
+
+def _dict_to_cluster(dendrogram, result=None, cluster=0, clusters=[], elm2clu_dict={}):
     if result is None:
-        result = {}
-    if dendrogram['left']:
-        if type(dendrogram['left']) is str:
-            result[dendrogram['left']] = clusters.copy()
-    if dendrogram['right']:
-        if type(dendrogram['right']) is str:
-            result[dendrogram['right']] = clusters.copy()
-    if dendrogram['left']:
-        if type(dendrogram['left']) is not str:
-            r, cluster = _dict_to_cluster(dendrogram['left'], result, cluster + 1, clusters.copy())
-            result.update(r)
-    if dendrogram['right']:
-        if type(dendrogram['right']) is not str:
-            r, cluster = _dict_to_cluster(dendrogram['right'], result, cluster + 1, clusters.copy())
-            result.update(r)
-    if cluster == 0:
-        for key, val in result.items():
-            result[key] = list(set(val))
-    return result, cluster
+        result, elm2clu_dict, cluster = _add_leafs(dendrogram, cluster=0, elm2clu_dict={})
+    c = list()
+    for direction in ['left', 'right']:
+        if dendrogram[direction] and type(dendrogram[direction]) is not str:
+            result, cluster, elm2clu_dict = _dict_to_cluster(dendrogram[direction], result, cluster, clusters, elm2clu_dict)
+            c.append(int(cluster))
+    for direction in ['left', 'right']:
+        if type(dendrogram[direction]) is str:
+            result.add_edge(cluster, elm2clu_dict[dendrogram[direction]][0])
+    for _c in c:
+        result.add_edge(cluster, _c - 1)
+    cluster += 1
+    return result, cluster, elm2clu_dict
 
 def tree_similarity(tree1, tree2, similarity_measure='jaccard_index'):
     """
@@ -44,10 +50,8 @@ def tree_similarity(tree1, tree2, similarity_measure='jaccard_index'):
     -------
     Measured similarity
     """
-    d1_cluster = _dict_to_cluster(tree1)[0]
-    clu1 = Clustering()
-    clu1.from_elm2clu_dict(d1_cluster)
-    d2_cluster = _dict_to_cluster(tree2)[0]
-    clu2 = Clustering()
-    clu2.from_elm2clu_dict(d2_cluster)
+    d1_cluster, _, elm2clu_dict1 = _dict_to_cluster(tree1)
+    clu1 = Clustering(hier_graph=d1_cluster, elm2clu_dict=elm2clu_dict1)
+    d2_cluster, _, elm2clu_dict2 = _dict_to_cluster(tree2)
+    clu2 = Clustering(hier_graph=d2_cluster, elm2clu_dict=elm2clu_dict2)
     return eval('sim.' + similarity_measure + '(clu1, clu2)')

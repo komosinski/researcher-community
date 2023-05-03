@@ -30,7 +30,7 @@ def gentree(documents: list[str], comparison: Callable[[str, str], float]) -> di
             i += 1
 
     linkage_matrix = linkage(dense_mat, 'single')
-    nodes: list[Any] = list(documents)
+    nodes: list[Any] = [d.split(r'/')[-1] for d in documents]
 
     for left, right, _, _ in linkage_matrix:
         nodes.append({'left': nodes[int(left)], 'right': nodes[int(right)]})
