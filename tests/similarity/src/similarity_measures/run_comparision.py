@@ -7,6 +7,7 @@ from tests.similarity.src.similarity_measures.original_tfidf_similarity_measure 
 from tests.similarity.src.similarity_measures.glove_cosine_similarity_measure import GloveCosineSimilarityMeasure
 from tests.similarity.src.utils.tree_similarity import tree_similarity
 
+
 def run_tfidf_comparison():
     data_dir = [Path('../../data/raw/dendrogram_1'), Path('../../data/raw/dendrogram_2'),
                 Path('../../data/raw/dendrogram_3')]
@@ -19,6 +20,9 @@ def run_tfidf_comparison():
         json_built = gentree(file_paths, tfidf)
         json_read = json.load(open(Path(str(dendrogram) + '/dendrogram.json')))
         print(tree_similarity(json_built, json_read))
+        print(json_built)
+        print(json_read)
+
 
 def run_glove_comparison():
     data_dir = [Path('../../data/raw/dendrogram_1'), Path('../../data/raw/dendrogram_2'),
@@ -31,6 +35,10 @@ def run_glove_comparison():
         json_built = gentree(file_paths, glove)
         json_read = json.load(open(Path(str(dendrogram) + '/dendrogram.json')))
         print(tree_similarity(json_built, json_read))
+        print(json_built)
+        print(json_read)
+
 
 if __name__ == '__main__':
-    run_tfidf_comparison()
+    #run_tfidf_comparison()
+    run_glove_comparison()

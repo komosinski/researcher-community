@@ -3,44 +3,42 @@ import random
 import shutil
 import time
 from pathlib import Path
-
+import os.path as path
 import numpy as np
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+import pandas as pd
 
 from tests.similarity.src.data.utils.undedected_chrome_driver_with_perfs import ChromeWithPrefs
 
 
-class RandomArticleDownloader:
+class CategoryDatasetLinkDownloader:
     def __init__(self, dir_name):
         self.driver = None  # webdriver.Firefox()
+        self.df = None
         self.delay = 3
         self.categories_list = []
         self.base_url = "https://www.sciencedirect.com"
+        self.dir_name = dir_name
         self.download_dir = self.check_for_download_dir_and_create(dir_name)
 
     def open_website(self):
         self.driver = webdriver.Firefox()
         self.driver.get("https://www.sciencedirect.com/browse/journals-and-books")
 
-    @staticmethod
-    def check_for_download_dir_and_create(dir_name):
+    def check_for_download_dir_and_create(self, dir_name):
         Path("../../data/raw/" + dir_name).mkdir(parents=True, exist_ok=True)
+        if path.exists("../../data/raw/" + dir_name + '/categories.csv'):
+            self.df = pd.read_csv("../../data/raw/" + dir_name + '/categories.csv')
+        else:
+            self.df = pd.DataFrame(columns = ["Name", "Category", "URL"])
         return Path("../../data/raw/" + dir_name)
 
-    def move_pdf_files(self):
-        for root, dirs, files in os.walk("./"):
-            for f in files:
-                if f.endswith('.pdf'):
-                    try:
-                        print(f)
-                        shutil.move(os.path.join(root, f), self.download_dir)
-                    except shutil.Error:
-                        continue
-            break
+    def save_df(self):
+        self.df.to_csv("../../data/raw/" + self.dir_name + '/categories.csv')
 
     def wait_for_element_to_load(self, type_, feature, driver=None):
         if driver is None:
@@ -114,30 +112,15 @@ class RandomArticleDownloader:
 
             url = url
 
-
         except ValueError:
             return False
 
-        options = webdriver.ChromeOptions()
-        options.add_experimental_option('prefs', {
-            "download.default_directory": f"{self.download_dir}",
-            'savefile.default_directory': f"{self.download_dir}",
-            "download.prompt_for_download": False,  # To auto download the file
-            "download.directory_upgrade": True,
-            "plugins.always_open_pdf_externally": True,  # It will not show PDF directly in chrome
-            "extensions_to_open": ""
-        })
-        options.add_argument("--headless")
-        options.add_argument('--no-sandbox')  # Bypass OS security model
-        options.add_argument("--user-data-dir=/home/arabica/Downloads/ScienceArticlesSimilarityMeasure")
-
-        options.add_argument(f"download.default_directory={self.download_dir}")
-        driver1 = ChromeWithPrefs(options=options, use_subprocess=True)
-        driver1.get(url)
-        self.wait_for_element_to_load(By.ID, "outerContainer")
-        # time.sleep(3)
-        driver1.close()
+        print(url)
+        indx = [i for i in range(len(url)) if url.startswith('=', i)][-1]
+        row = [url[indx+1:], self.curr_category_name, url]
+        self.df.loc[self.df.index.max() + 1] = row
         return True
+
 
     def go_to_journal_and_take_article(self, li):
         self.wait_for_element_to_load(By.XPATH,
@@ -170,6 +153,7 @@ class RandomArticleDownloader:
             return True
 
     def sample_from_category(self, category_name, sample_size):
+        self.curr_category_name = category_name
         self.open_website()
         self.open_acces_and_journals()
         categories = self.driver.find_elements(
@@ -209,4 +193,4 @@ class RandomArticleDownloader:
 
         self.draw_journals_numbers(number_of_articles, sample_size)
         self.driver.close()
-        self.move_pdf_files()
+        self.save_df()
