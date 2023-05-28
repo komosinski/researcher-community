@@ -14,7 +14,7 @@ def run_tfidf_comparison():
     for dendrogram in data_dir:
         file_paths = [os.path.join(dirpath,f) for (dirpath, dirnames, filenames) in os.walk(dendrogram) for f in filenames]
         file_paths = [os.path.abspath(i) for i in file_paths]
-        file_paths= [i for i in file_paths if i.endswith('.pdf')]
+        file_paths = [i for i in file_paths if i.endswith('.pdf')]
         tfidf = TfidfSimilarityMeasure()
         tfidf.build_dictionary(file_paths)
         json_built = gentree(file_paths, tfidf)

@@ -1,4 +1,4 @@
-from similarity_measure import SimilarityMeasure
+from tests.similarity.src.similarity_measures.similarity_measure import SimilarityMeasure
 from pathlib import Path
 from gensim.models import TfidfModel
 from gensim.utils import simple_preprocess
@@ -31,6 +31,18 @@ class TfidfSimilarityMeasure(SimilarityMeasure):
         tfidf_matrix = similarities.MatrixSimilarity(corpus_tfidf, num_features=len(self.dictionary))
         tfidf_matrix = tfidf_matrix.get_similarities(corpus_tfidf)
         return tfidf_matrix[0][1]
+
+    def get_vector(self, file: Path):
+        corpus = [simple_preprocess(self.text_extractor.get_text(i)) for i in [file]]
+        if self.spell_corrector:
+            corpus = [[self.spell_corrector.correct(i) for i in j] for j in corpus]
+        corpus = [self.dictionary.doc2bow(line) for line in corpus]
+        corpus_tfidf = self.model[corpus]
+        vec = np.zeros(len(self.dictionary))
+        for i in corpus_tfidf[0]:
+            ind = int(i[0])
+            vec[ind] = i[1]
+        return vec
 
 
 

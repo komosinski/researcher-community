@@ -38,6 +38,7 @@ class CategoryDatasetLinkDownloader:
         return Path("../../data/raw/" + dir_name)
 
     def save_df(self):
+        print(self.df)
         self.df.to_csv("../../data/raw/" + self.dir_name + '/categories.csv')
 
     def wait_for_element_to_load(self, type_, feature, driver=None):
@@ -117,8 +118,11 @@ class CategoryDatasetLinkDownloader:
 
         print(url)
         indx = [i for i in range(len(url)) if url.startswith('=', i)][-1]
-        row = [url[indx+1:], self.curr_category_name, url]
-        self.df.loc[self.df.index.max() + 1] = row
+        row = {"Name": url[indx+1:],
+               "Category":self.curr_category_name,
+               "URL": url}
+        self.df = pd.concat([self.df, pd.DataFrame([row])])
+        print(self.df)
         return True
 
 

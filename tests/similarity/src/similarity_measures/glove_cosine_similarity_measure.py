@@ -1,4 +1,4 @@
-from similarity_measure import SimilarityMeasure
+from tests.similarity.src.similarity_measures.similarity_measure import SimilarityMeasure
 from pathlib import Path
 from gensim.models import TfidfModel
 from gensim.utils import simple_preprocess

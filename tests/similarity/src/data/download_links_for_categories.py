@@ -16,6 +16,6 @@ if __name__ == "__main__":
     # Toxicology and Pharmaceutical Science', 'Veterinary Science and Veterinary Medicine',
     # 'Arts and Humanities', 'Business, Management and Accounting', 'Decision Sciences',
     # 'Economics, Econometrics and Finance', 'Psychology', 'Social Sciences']
-    for i in ['Mathematics', 'Mathematics', 'Economics, Econometrics and Finance', 'Social Sciences',
-              'Immunology and Microbiology']:  # scraper.categories_list[0:2]:  # catergories to be sampled
-        scraper.sample_from_category(i, 4)  # numbers of articles to be downloaded
+    for i in [ 'Mathematics', 'Economics, Econometrics and Finance', 'Social Sciences']:
+             # 'Immunology and Microbiology']:  # scraper.categories_list[0:2]:  # catergories to be sampled
+        scraper.sample_from_category(i, 2)  # numbers of articles to be downloaded
