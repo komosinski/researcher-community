@@ -5,7 +5,7 @@ from tests.similarity.src.data.utils.category_dataset_link_downloader import Cat
 
 if __name__ == "__main__":
     # folder name - data is stored in data/raw
-    scraper = CategoryDatasetLinkDownloader('categories')
+    scraper = CategoryDatasetLinkDownloader('categories_dataset')
     scraper.get_categories()
     print(scraper.categories_list)
     # currently, articles categories are: ['Chemical Engineering', 'Chemistry', 'Computer Science',
@@ -16,6 +16,6 @@ if __name__ == "__main__":
     # Toxicology and Pharmaceutical Science', 'Veterinary Science and Veterinary Medicine',
     # 'Arts and Humanities', 'Business, Management and Accounting', 'Decision Sciences',
     # 'Economics, Econometrics and Finance', 'Psychology', 'Social Sciences']
-    for i in [ 'Mathematics', 'Economics, Econometrics and Finance', 'Social Sciences']:
+    for i in ['Social Sciences', 'Physics and Astronomy','Chemistry','Pharmacology', 'Medicine and Dentistry']:
              # 'Immunology and Microbiology']:  # scraper.categories_list[0:2]:  # catergories to be sampled
-        scraper.sample_from_category(i, 2)  # numbers of articles to be downloaded
+        scraper.sample_from_category(i, 10)  # numbers of articles to be downloaded

@@ -4,13 +4,14 @@ from gensim.models import TfidfModel
 from gensim.utils import simple_preprocess
 from gensim.corpora import Dictionary
 from gensim import similarities
-from tests.similarity.src.similarity_measures.measures.cosine_measure import CosineMeasure
+from tests.similarity.src.similarity_measures.measures.euclidean_measure import EuclideanMeasure
 from tests.similarity.src.similarity_measures.vectorizers.glove_vectorizer import GloveVectorizer
 
-class GloveCosineSimilarityMeasure(SimilarityMeasure):
+
+class GloveCosineEuclideanMeasure(SimilarityMeasure):
     def __init__(self):
         super().__init__()
-        self.similarity = CosineMeasure()
+        self.similarity = EuclideanMeasure()
         self.vectorizer = GloveVectorizer()
 
     def get_similarity(self, file_1: Path, file_2: Path) -> float:

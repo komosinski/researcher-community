@@ -74,7 +74,7 @@ class CategoryDatasetLinkDownloader:
         indexes = range(0, journals_numbers - 1)
         number_of_downloaded_articles = 0
         while number_of_downloaded_articles < sample_size:
-            li = list(np.random.randint(journals_numbers - 1, size=1))
+            li = list(np.random.randint(min(journals_numbers - 1, 199), size=1))
             li.sort()
             if self.go_to_journal_and_take_article(li):
                 number_of_downloaded_articles += 1
@@ -139,7 +139,7 @@ class CategoryDatasetLinkDownloader:
         else:
             next_button = None
         for i in li:
-            if i >= len(journals):
+            while i >= len(journals):
                 self.driver.execute_script("arguments[0].click();", next_button)
                 self.wait_for_element_to_load(By.XPATH,
                                               "//a[@class='anchor js-publication-title "
@@ -147,7 +147,7 @@ class CategoryDatasetLinkDownloader:
                 journals += self.driver.find_elements(By.XPATH,
                                                       "//a[@class='anchor js-publication-title "
                                                       "anchor-default']")
-
+            print(len(journals), i)
             url = journals[i].get_attribute("href")
             driver = webdriver.Firefox()
             driver.get(url + "/issues")
