@@ -6,11 +6,11 @@ import torch
 import gc
 
 
-class BigBirdVectorizer(Vectorizer):
+class TinyBertVectorizer(Vectorizer):
 
     def __init__(self):
-        self.tokenizer = AutoTokenizer.from_pretrained("google/bigbird-roberta-base")
-        self.model = AutoModel.from_pretrained("google/bigbird-roberta-base").to("cuda")
+        self.tokenizer = AutoTokenizer.from_pretrained("prajjwal1/bert-tiny")
+        self.model = AutoModel.from_pretrained("prajjwal1/bert-tiny").to("cuda")
         self.model.eval()
 
         gc.collect()
@@ -23,7 +23,7 @@ class BigBirdVectorizer(Vectorizer):
             encoding = self.tokenizer(
                 doc,
                 add_special_tokens=True,
-                max_length=1500,
+                max_length=512,
                 return_token_type_ids=False,
                 padding="max_length",
                 truncation=True,

@@ -4,8 +4,12 @@ import nltk.corpus
 from nltk.stem import WordNetLemmatizer
 from nltk import PorterStemmer
 
-
+import nltk
 class PdfToTextTransformer:
+    def __init__(self):
+        nltk.download('punkt')
+        nltk.download('stopwords')
+        nltk.download('wordnet')
 
     @staticmethod
     def lower_text(text):
