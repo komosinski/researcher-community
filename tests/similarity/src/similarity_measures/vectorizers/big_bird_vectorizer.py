@@ -8,10 +8,11 @@ import gc
 
 class BigBirdVectorizer(Vectorizer):
 
-    def __init__(self):
+    def __init__(self, context_len=512):
         self.tokenizer = AutoTokenizer.from_pretrained("google/bigbird-roberta-base")
         self.model = AutoModel.from_pretrained("google/bigbird-roberta-base").to("cuda")
         self.model.eval()
+        self.context_len = context_len
 
         gc.collect()
 
@@ -23,7 +24,7 @@ class BigBirdVectorizer(Vectorizer):
             encoding = self.tokenizer(
                 doc,
                 add_special_tokens=True,
-                max_length=1500,
+                max_length=self.context_len,
                 return_token_type_ids=False,
                 padding="max_length",
                 truncation=True,

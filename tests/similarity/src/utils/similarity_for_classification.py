@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 
 class SimilarityForClassification:
-    def __init__(self, dirpath: str, measure: SimilarityMeasure, ):
+    def __init__(self, dirpath: str, measure: SimilarityMeasure, title):
         self.df = pd.read_csv(Path(dirpath + 'categories.csv'))
         self.X = []
         self.y = []
@@ -29,12 +29,15 @@ class SimilarityForClassification:
         measure.build_dictionary(files)
         self.process_texts(files)
         self.get_labels(files)
-        self.train_svm()
+        self.train_svm(title)
 
 
 
     def get_names(self):
         return self.df['Name'].values.tolist()
+
+    def get_accuracy(self):
+        return self.accuracy
 
     def process_texts(self, files):
         for f in files:
@@ -43,7 +46,7 @@ class SimilarityForClassification:
     def get_labels(self, files):
         self.y = self.df['Category'].values.tolist()
 
-    def train_svm(self):
+    def train_svm(self, title):
         train, test, train_labels, test_labels = train_test_split(self.X,
                                                                   self.y,
                                                                   test_size=0.2,
@@ -59,9 +62,16 @@ class SimilarityForClassification:
         cm = confusion_matrix(le.transform(test_labels), pred)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels = le.classes_)
         disp.plot(xticks_rotation=45)
-        plt.rcParams["figure.figsize"] = (25, 15)
+        plt.rcParams["figure.figsize"] = (5, 4)
+        plt.title(title)
         plt.tight_layout()
-        plt.show()
+        #plt.show()
+        plt.savefig(Path('../../plots/' + title + '.png'))
+        self.accuracy = accuracy_score(le.transform(test_labels), pred)
+
+
+
+
 
 
 

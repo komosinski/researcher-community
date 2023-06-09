@@ -10,10 +10,10 @@ from tests.similarity.src.similarity_measures.vectorizers.tiny_bert_vectorizer i
 
 
 class TinyBertCosineSimilarityMeasure(SimilarityMeasure):
-    def __init__(self):
+    def __init__(self, len):
         super().__init__()
         self.similarity = CosineMeasure()
-        self.vectorizer = TinyBertVectorizer()
+        self.vectorizer = TinyBertVectorizer(len)
 
     def get_text(self, file: Path):
         corpus = simple_preprocess(self.text_extractor.get_text(file))

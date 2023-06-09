@@ -8,10 +8,11 @@ import gc
 
 class TinyBertVectorizer(Vectorizer):
 
-    def __init__(self):
+    def __init__(self, len):
         self.tokenizer = AutoTokenizer.from_pretrained("prajjwal1/bert-tiny")
         self.model = AutoModel.from_pretrained("prajjwal1/bert-tiny").to("cuda")
         self.model.eval()
+        self.len = len
 
         gc.collect()
 
@@ -23,7 +24,7 @@ class TinyBertVectorizer(Vectorizer):
             encoding = self.tokenizer(
                 doc,
                 add_special_tokens=True,
-                max_length=512,
+                max_length=self.len,
                 return_token_type_ids=False,
                 padding="max_length",
                 truncation=True,

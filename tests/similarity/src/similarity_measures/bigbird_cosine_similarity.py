@@ -9,10 +9,10 @@ from tests.similarity.src.similarity_measures.measures.cosine_measure import Cos
 from tests.similarity.src.similarity_measures.vectorizers.big_bird_vectorizer import BigBirdVectorizer
 
 class BigBirdCosineSimilarityMeasure(SimilarityMeasure):
-    def __init__(self):
+    def __init__(self, context_len=512):
         super().__init__()
         self.similarity = CosineMeasure()
-        self.vectorizer = BigBirdVectorizer()
+        self.vectorizer = BigBirdVectorizer(context_len)
 
 
     def get_text(self, file: Path):
