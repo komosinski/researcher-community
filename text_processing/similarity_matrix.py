@@ -25,10 +25,9 @@ def get_all_papers_texts():
 def create_matrix_mapping_array():
     similarities_matrix_mapping = []
 
-    all_paper_revisions = db_models.PaperRevision.query.all()
-    all_calibration_papers = db_models.CalibrationPaper.query.all()
-    all_papers = sorted(all_paper_revisions + all_calibration_papers, key=lambda paper: paper.id)
-    similarities_matrix_mapping = [paper.id for paper in all_papers]
+    all_paper_revisions = db_models.PaperRevision.query.with_entities(db_models.PaperRevision.id).all()
+    all_calibration_papers = db_models.CalibrationPaper.query.with_entities(db_models.CalibrationPaper.id).all()
+    similarities_matrix_mapping = sorted([row[0] for row in all_paper_revisions] + [row[0] for row in all_calibration_papers])
 
     return similarities_matrix_mapping
 
