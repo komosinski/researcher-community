@@ -2,8 +2,8 @@ from tests.similarity.src.utils.similarity_for_classification import SimilarityF
 from tests.similarity.src.similarity_measures.original_tfidf_similarity_measure import TfidfSimilarityMeasure
 from tests.similarity.src.similarity_measures.glove_cosine_similarity_measure import GloveCosineSimilarityMeasure
 from tests.similarity.src.similarity_measures.glove_euclidean_similarity_measure import GloveCosineEuclideanMeasure
-from tests.similarity.src.similarity_measures.bigbird_cosine_similarity import BigBirdCosineSimilarityMeasure
-from tests.similarity.src.similarity_measures.tinybert_cosine_similarity import TinyBertCosineSimilarityMeasure
+#from tests.similarity.src.similarity_measures.bigbird_cosine_similarity import BigBirdCosineSimilarityMeasure
+#from tests.similarity.src.similarity_measures.tinybert_cosine_similarity import TinyBertCosineSimilarityMeasure
 
 if __name__ == '__main__':
     results = {}
