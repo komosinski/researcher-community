@@ -23,6 +23,13 @@ class Config(object):
         'SECURITY_CHANGE_EMAIL_SALT') or '10d7ce9ce5be51a09e678dc08ec55827'
     SECURITY_PROFILE_DELETE_SALT = os.environ.get(
         'SECURITY_PROFILE_DELETE_SALT') or '5381ce88896f17316c40d7dcb8d6acbc'
+
+    # To test emails:
+    # 1) You can use this mailtrap account:
+    # email: kappa.science.mail@gmail.com (MAIL_USERNAME = 'b9bcb6f6a948d0')
+    # password: mkocde.jek83fP62.JKL (MAIL_PASSWORD = '25d15ab33b0f5e')
+    # Sent mails are available to read at https://mailtrap.io/inboxes (they are not send to reciever's)
+    # 2) You can provide credentials to other mail server
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'sandbox.smtp.mailtrap.io'
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 2525)
     MAIL_USERNAME = 'b9bcb6f6a948d0'
@@ -31,6 +38,7 @@ class Config(object):
     MAIL_USE_SSL = False
     MAIL_DEFAULT_SENDER = os.environ.get(
         'MAIL_DEFAULT_SENDER') or 'kappa.science.mail@gmail.com'
+    
     MAX_CONTENT_LENGTH_MB = int(os.environ.get(
         'MAX_CONTENT_LENGTH_MB') or 100)
     MAX_CONTENT_LENGTH = int(os.environ.get(
