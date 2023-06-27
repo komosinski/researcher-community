@@ -5,13 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a38ecf93-6b67-4b27-9dc5-44b21535e510" name="Changes" comment="added vectorization based on glove">
-      <change afterPath="$PROJECT_DIR$/tests/similarity/data/embeddings/glove.6B.50d.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/similarity/data/embeddings/model.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/run_comparision.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers/word2vec_vectorizer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/bigbird_cosine_similarity.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/glove_cosine_similarity_measure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/glove_euclidean_similarity_measure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/measures/cosine_measure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/measures/euclidean_measure.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/measures/measure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/openscience-priv.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/openscience-priv.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/original_tfidf_similarity_measure.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/original_tfidf_similarity_measure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/similarity/src/utils/gentree.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/src/utils/gentree.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024 linear .pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024 linear .pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024_log_reg.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024_log_reg.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 128 linear .pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 128 linear .pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 128.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 128.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 128_log_reg.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 128_log_reg.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 256 linear .pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 256 linear .pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 256.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 256.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 256_log_reg.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 256_log_reg.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 512 linear .pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 512 linear .pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 512.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 512.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 512_log_reg.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 512_log_reg.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/Glove based similarity linear .pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/Glove based similarity linear .pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/Glove based similarity.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/Glove based similarity.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/Glove based similarity_log_reg.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/Glove based similarity_log_reg.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/Tfidf based similarity linear .pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/Tfidf based similarity linear .pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/Tfidf based similarity.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/Tfidf based similarity.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/Tfidf based similarity_log_reg.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/Tfidf based similarity_log_reg.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 256 linear .pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 256 linear .pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 256.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 256.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 256_log_reg.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 256_log_reg.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 512 linear .pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 512 linear .pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 512.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 512.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 512_log_reg.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/TinyBert - context_len: 512_log_reg.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/src/utils/similarity_for_classification.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/src/utils/similarity_for_classification.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/similarity/src/utils/testing_methods_for_cassification.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/src/utils/testing_methods_for_cassification.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,16 +84,14 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/similarity" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/arabica/Downloads/openscience-priv&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/tests/similarity/src" />
@@ -76,43 +101,21 @@
       <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\server_files" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_comparision">
-    <configuration name="glove_cosine_similarity_measure" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.testing_methods_for_cassification">
+    <configuration name="bigbird_cosine_similarity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="openscience-priv" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="SDK_NAME" value="Python 3.8 (openscience-priv)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/glove_cosine_similarity_measure.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="glove_vectorizer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="openscience-priv" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers/glove_vectorizer.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/bigbird_cosine_similarity.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -143,28 +146,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="original_tfidf_similarity_measure" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="openscience-priv" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/original_tfidf_similarity_measure.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="run_comparision" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="openscience-priv" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -177,7 +158,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/run_comparision.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -187,7 +167,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="word2vec_vectorizer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="similarity_for_classification" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="openscience-priv" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -195,12 +175,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/utils" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures/vectorizers/word2vec_vectorizer.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/utils/similarity_for_classification.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -209,21 +188,56 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="testing_methods_for_cassification" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="openscience-priv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/similarity/src/utils/testing_methods_for_cassification.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in testing_methods_for_cassification.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="openscience-priv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/similarity/src/utils/testing_methods_for_cassification.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.openscience" />
-      <item itemvalue="Python.original_tfidf_similarity_measure" />
-      <item itemvalue="Python.glove_vectorizer" />
-      <item itemvalue="Python.glove_cosine_similarity_measure" />
-      <item itemvalue="Python.word2vec_vectorizer" />
+      <item itemvalue="Python.bigbird_cosine_similarity" />
       <item itemvalue="Python.run_comparision" />
+      <item itemvalue="Python.similarity_for_classification" />
+      <item itemvalue="Python.testing_methods_for_cassification" />
+      <item itemvalue="Python tests.Python tests in testing_methods_for_cassification.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.testing_methods_for_cassification" />
         <item itemvalue="Python.run_comparision" />
-        <item itemvalue="Python.original_tfidf_similarity_measure" />
-        <item itemvalue="Python.word2vec_vectorizer" />
-        <item itemvalue="Python.glove_cosine_similarity_measure" />
-        <item itemvalue="Python.glove_vectorizer" />
+        <item itemvalue="Python tests.Python tests in testing_methods_for_cassification.py" />
+        <item itemvalue="Python.similarity_for_classification" />
+        <item itemvalue="Python.bigbird_cosine_similarity" />
       </list>
     </recent_temporary>
   </component>
@@ -372,7 +386,56 @@
       <option name="project" value="LOCAL" />
       <updated>1680506616511</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="transformers similarity">
+      <created>1686227084771</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1686227084771</updated>
+    </task>
+    <task id="LOCAL-00020" summary="added vectorization based on glove">
+      <created>1686296310798</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1686296310798</updated>
+    </task>
+    <task id="LOCAL-00021" summary="plot fix">
+      <created>1686307990560</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1686307990560</updated>
+    </task>
+    <task id="LOCAL-00022" summary="added vectorization based on glove">
+      <created>1686309022037</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1686309022037</updated>
+    </task>
+    <task id="LOCAL-00023" summary="new vectorizers">
+      <created>1686310636951</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1686310636951</updated>
+    </task>
+    <task id="LOCAL-00024" summary="plots with log reg">
+      <created>1687195500918</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1687195500918</updated>
+    </task>
+    <task id="LOCAL-00025" summary="added vectorization based on glove">
+      <created>1687871533279</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1687871533279</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -407,6 +470,10 @@
     <MESSAGE value="dendrograms and download_script" />
     <MESSAGE value="tfidf_measure" />
     <MESSAGE value="added spell_checker" />
+    <MESSAGE value="transformers similarity" />
+    <MESSAGE value="plot fix" />
+    <MESSAGE value="new vectorizers" />
+    <MESSAGE value="plots with log reg" />
     <MESSAGE value="added vectorization based on glove" />
     <option name="LAST_COMMIT_MESSAGE" value="added vectorization based on glove" />
   </component>

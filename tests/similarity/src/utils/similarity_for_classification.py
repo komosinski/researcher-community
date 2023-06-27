@@ -30,6 +30,10 @@ class SimilarityForClassification:
         self.process_texts(files)
         self.get_labels(files)
         self.train_svm(title)
+        self.train_log_regr(title)
+        self.train_svm_linear(title)
+        self.labels = ['Chem' 'Med & Dent' 'Pharm'
+ 'Phys & Astr' 'Soc Sciences']
 
 
 
@@ -47,6 +51,7 @@ class SimilarityForClassification:
         self.y = self.df['Category'].values.tolist()
 
     def train_svm(self, title):
+        print("SVM" + '  ' + title + '--------------------------------')
         train, test, train_labels, test_labels = train_test_split(self.X,
                                                                   self.y,
                                                                   test_size=0.2,
@@ -60,16 +65,47 @@ class SimilarityForClassification:
         print("Accuracy", accuracy_score(le.transform(test_labels), pred))
         print("F1", f1_score(le.transform(test_labels), pred, average='micro'))
         cm = confusion_matrix(le.transform(test_labels), pred)
-        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels = le.classes_)
+        print(le.classes_)
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels = ['Chem', 'Med & Dent', 'Pharm',
+ 'Phys & Astr', 'Soc Sci'])
         disp.plot(xticks_rotation=45)
         plt.rcParams["figure.figsize"] = (5, 4)
-        plt.title(title)
+        plt.title(title + " SVM")
         plt.tight_layout()
         #plt.show()
-        plt.savefig(Path('../../plots/' + title + '.png'))
+        plt.savefig(Path('../../plots/' + title + '.pdf'))
         self.accuracy = accuracy_score(le.transform(test_labels), pred)
+        print("------------------------------------------------------")
+
+    def train_svm_linear(self, title):
+        print("SVM" + '  ' + title + '--------------------------------')
+        train, test, train_labels, test_labels = train_test_split(self.X,
+                                                                  self.y,
+                                                                  test_size=0.2,
+                                                                  random_state=42)
+        clf = make_pipeline(StandardScaler(), SVC(gamma='auto', kernel='linear'))
+        le = preprocessing.LabelEncoder()
+        le.fit(list(set(self.y)))
+        clf.fit(train, le.transform(train_labels))
+        pred = clf.predict(test)
+        print(classification_report(le.transform(test_labels), pred, target_names=le.classes_))
+        print("Accuracy", accuracy_score(le.transform(test_labels), pred))
+        print("F1", f1_score(le.transform(test_labels), pred, average='micro'))
+        cm = confusion_matrix(le.transform(test_labels), pred)
+        print(le.classes_)
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['Chem', 'Med & Dent', 'Pharm',
+                                                                           'Phys & Astr', 'Soc Sci'])
+        disp.plot(xticks_rotation=45)
+        plt.rcParams["figure.figsize"] = (5, 4)
+        plt.title(title + " SVM")
+        plt.tight_layout()
+        # plt.show()
+        plt.savefig(Path('../../plots/' + title + ' linear ' + '.pdf'))
+        self.accuracy = accuracy_score(le.transform(test_labels), pred)
+        print("------------------------------------------------------")
 
     def train_log_regr(self, title):
+        print("Regression" + '  ' + title + '--------------------------------')
         train, test, train_labels, test_labels = train_test_split(self.X,
                                                                   self.y,
                                                                   test_size=0.2,
@@ -83,14 +119,16 @@ class SimilarityForClassification:
         print("Accuracy", accuracy_score(le.transform(test_labels), pred))
         print("F1", f1_score(le.transform(test_labels), pred, average='micro'))
         cm = confusion_matrix(le.transform(test_labels), pred)
-        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=le.classes_)
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['Chem', 'Med & Dent', 'Pharm',
+ 'Phys & Astr', 'Soc Sci'])
         disp.plot(xticks_rotation=45)
         plt.rcParams["figure.figsize"] = (5, 4)
-        plt.title(title + '_log_reg')
+        plt.title(title + ' log_reg')
         plt.tight_layout()
         # plt.show()
-        plt.savefig(Path('../../plots/' + title + '_log_reg' + '.png'))
+        plt.savefig(Path('../../plots/' + title + '_log_reg' + '.pdf'))
         self.accuracy = accuracy_score(le.transform(test_labels), pred)
+        print("------------------------------------------------------")
 
 
 
