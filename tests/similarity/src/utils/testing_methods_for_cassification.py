@@ -7,6 +7,7 @@ from tests.similarity.src.similarity_measures.tinybert_cosine_similarity import 
 
 if __name__ == '__main__':
     results = {}
+    results_std = {}
     measure = GloveCosineSimilarityMeasure()
     sim = SimilarityForClassification('../../data/raw/categories_dataset/', measure,
                                       'Glove based similarity')
@@ -16,6 +17,7 @@ if __name__ == '__main__':
     sim = SimilarityForClassification('../../data/raw/categories_dataset/', measure,
                                       'Tfidf based similarity')
     results['Tfidf based similarity'] = sim.get_accuracy()
+    results_std['Tfidf based similarity'] = sim.get_std()
 
 
 

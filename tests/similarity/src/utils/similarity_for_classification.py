@@ -17,21 +17,23 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import ShuffleSplit
 
 class SimilarityForClassification:
     def __init__(self, dirpath: str, measure: SimilarityMeasure, title):
         self.df = pd.read_csv(Path(dirpath + 'categories.csv'))
         self.X = []
         self.y = []
+        self.splits = 5
         self.measure = measure
         names = self.get_names()
         files = [Path(dirpath+i) for i in names]
         measure.build_dictionary(files)
         self.process_texts(files)
         self.get_labels(files)
-        self.train_svm(title)
+        #self.train_svm(title)
         self.train_log_regr(title)
-        self.train_svm_linear(title)
+        #self.train_svm_linear(title)
         self.labels = ['Chem' 'Med & Dent' 'Pharm'
  'Phys & Astr' 'Soc Sciences']
 
@@ -42,6 +44,9 @@ class SimilarityForClassification:
 
     def get_accuracy(self):
         return self.accuracy
+
+    def get_std(self):
+        return self.std
 
     def process_texts(self, files):
         for f in files:
@@ -106,19 +111,36 @@ class SimilarityForClassification:
 
     def train_log_regr(self, title):
         print("Regression" + '  ' + title + '--------------------------------')
-        train, test, train_labels, test_labels = train_test_split(self.X,
-                                                                  self.y,
-                                                                  test_size=0.2,
-                                                                  random_state=42)
-        clf = LogisticRegression()
-        le = preprocessing.LabelEncoder()
-        le.fit(list(set(self.y)))
-        clf.fit(train, le.transform(train_labels))
-        pred = clf.predict(test)
-        print(classification_report(le.transform(test_labels), pred, target_names=le.classes_))
-        print("Accuracy", accuracy_score(le.transform(test_labels), pred))
-        print("F1", f1_score(le.transform(test_labels), pred, average='micro'))
-        cm = confusion_matrix(le.transform(test_labels), pred)
+        ss = ShuffleSplit(n_splits=self.splits, test_size=0.2, random_state=42)
+        cm = None
+        accuracy = None
+        accuracy_list = []
+        for train_index, test_index in ss.split(self.X):
+            train = self.X[train_index]
+            train_labels = self.y[train_index]
+            test = self.X[test_index]
+            test_labels = self.y[test_index]
+            clf = LogisticRegression()
+            le = preprocessing.LabelEncoder()
+            le.fit(list(set(self.y)))
+            clf.fit(train, le.transform(train_labels))
+            pred = clf.predict(test)
+            print(classification_report(le.transform(test_labels), pred, target_names=le.classes_))
+            print("Accuracy", accuracy_score(le.transform(test_labels), pred))
+            print("F1", f1_score(le.transform(test_labels), pred, average='micro'))
+            if cm is None:
+                cm = confusion_matrix(le.transform(test_labels), pred)
+            else:
+                cm += cm
+            accuracy_list.append(accuracy)
+            if accuracy is None:
+                accuracy = accuracy_score(le.transform(test_labels), pred)
+            else:
+                accuracy += accuracy
+        cm = cm/self.splits
+        accuracy = accuracy/self.splits
+        self.accuracy = accuracy
+        self.std - np.std(accuracy_list)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['Chem', 'Med & Dent', 'Pharm',
  'Phys & Astr', 'Soc Sci'])
         disp.plot(xticks_rotation=45)
@@ -127,7 +149,6 @@ class SimilarityForClassification:
         plt.tight_layout()
         # plt.show()
         plt.savefig(Path('../../plots/' + title + '_log_reg' + '.pdf'))
-        self.accuracy = accuracy_score(le.transform(test_labels), pred)
         print("------------------------------------------------------")
 
 
