@@ -3,8 +3,6 @@
 Overview of the sources
 -----------------------
 
-TODO high-level description of what is where, what purpose, directories, modules, dependencies within sources
-
 `config/config.py` - flask server and logic config parameters
 
 `config/models_config.py` - DB models' strings lengths
