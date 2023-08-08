@@ -76,7 +76,7 @@ In this matrix, for the test papers, there were 720 non-zero values.
 This amount depends on the particular articles in the system. 
 If the function gensim `similarities.SparseMatrixSimilarity` that creates the sparse matrix finds more or less important values, the sparsity ratio can be higher or lower.
 
-Scripts for a more thorough experiment comparing the performance of multiple similarity measures (including embeddings more complex than TFIDF, such as TinyBert and Glove) are in [in this directory](tests/similarity/).
+Scripts for a more thorough experiment comparing the performance of multiple similarity measures (including embeddings more complex than TFIDF such as Glove, TinyBert and BigBird) are in [in this directory](tests/similarity/).
 
 
 
