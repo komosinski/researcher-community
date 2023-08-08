@@ -71,10 +71,13 @@ When we add a new article, we don't calculate the entire new object every time. 
 ## Similarity matrix
 
 For a small set of test articles (120 papers), the sparsity of the similarity matrix is around 5%. 
-Matrix size is 120^2=14400 values.
+The matrix size is 120^2=14400 values.
 In this matrix, for the test papers, there were 720 non-zero values. 
 This amount depends on the particular articles in the system. 
 If the function gensim `similarities.SparseMatrixSimilarity` that creates the sparse matrix finds more or less important values, the sparsity ratio can be higher or lower.
+
+Scripts for a more thorough experiment comparing the performance of multiple similarity measures (including embeddings more complex than TFIDF, such as TinyBert and Glove) are in [in this directory](tests/similarity/README.md).
+
 
 
 ## Triggers and scheduled events: when and what is recalculated
