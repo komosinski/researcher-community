@@ -109,7 +109,7 @@ Linux setup
   
 8. Install nltk packages
   
-    Run Python interptreter 
+    Run Python interpreter 
      
         python3
      
@@ -118,9 +118,9 @@ Linux setup
         import nltk
         [nltk.download(pkg) for pkg in ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]
      
-9. Setup configuration file   config/config.py (mainly ROOTDIR and DATABASE_URI)
+9. Setup configuration file   config/config.py (mainly ROOTDIR, SQLALCHEMY_DATABASE_URI and MAIL_SERVER)
       
-10. Create tables in the database
+10. Create tables in the database (if this service and a server – e.g., apache – is running, stop it for this step)
 
         python3 db_init.py
 
