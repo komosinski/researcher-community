@@ -8,7 +8,7 @@ href="{{ url_for('user.edit_profile_page') }}">Data and preferences
 
 {% if current_user.is_researcher() %}
     <a class="link-button {% if pressed=='calibration_files' %}pressed{% endif %}" 
-    href="{{ url_for('user.edit_calibration_files') }}">Calibration files</a>
+    href="{{ url_for('user.edit_calibration_files') }}">Calibration papers</a>
 {% endif %}
 
 <a class="link-button  {% if pressed=='password_change' %}pressed{% endif %}"
