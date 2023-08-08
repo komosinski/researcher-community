@@ -9,7 +9,7 @@
 <script src="{{ DROPZONE_JS_URL }}"></script>
 <script>
 Dropzone.options.uploadCalibartionPDFs = {
-    dictDefaultMessage: "Drop calibration files here to upload",
+    dictDefaultMessage: "Drop calibration papers here to upload",
     acceptedFiles: '.pdf',
     maxFiles: 25,
     init: function () {
@@ -55,7 +55,7 @@ Dropzone.options.uploadCalibartionPDFs = {
             </form>
             <br>
 
-            <h2>Uploaded calibration files</h2>
+            <h2>Uploaded calibration papers</h2>
          
             <br>
             {% for calibration_paper in calibration_papers %}
