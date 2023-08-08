@@ -165,12 +165,17 @@ This project is using poppler library whose installation on windows is problemat
  
 
 
-Initialize database
----
+Initialize (or reset) the database
+----------------------------------
+If this service and a server – e.g., apache – is running, stop it for this operation.
+
 In your virtual environment, type:
 
         python3 db_init.py
-  
+
+Note: All data in the database will be deleted! 
+
+
 Run
 ---
 
@@ -180,15 +185,6 @@ If running the flask server, on Linux in your virtual environment type:
  
 On Windows you can do the same, but remember to use WSL.
 
-
-Reset database
---------------
-
-In your virtual environment, type:
-
-        python3 db_init.py
-
-Note: All data in DB will be deleted! 
 
 Initializing test data
 ----------------------
