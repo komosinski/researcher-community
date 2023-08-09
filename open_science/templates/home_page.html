@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <!--h1>HOME PAGE</h1-->
+
 {% if  current_user.is_authenticated %}
 {% set user_id = current_user.get_id() %}
 {% else %}
@@ -11,9 +11,15 @@
 
 
 <center>
+
+{% if  current_user.is_authenticated %}
+	<h3>This is the map of researchers in our community.</h3>
+{% else %}
 	<h3>This is the map of researchers in our community. Join us to be included!</h3>
+{% endif %}
+	
 	<a href="{{url_for('main.users_plot_3d', id=user_id)}}" target="_blank">
-		<img src="{{url_for('static', filename='res/users_plot.png')}}" alt="Users" style="width:90vw; max-height:90vh; max-width:90vh;" />
+		<img src="{{url_for('static', filename='res/users_plot.png')}}" alt="Researchers, based on submitted/calibration papers" style="width:90vw; max-height:90vh; max-width:90vh;" />
 	</a>
 	<p>(refreshed daily)</p>
 </center>
