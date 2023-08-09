@@ -108,15 +108,15 @@
             inputCount--;
         }
 
-        const createNewCreatorInput = (id) => 
+        const createNewAuthorInput = (id) => 
             {
                 // coauthorInputCount++;
                 return `<div id="${id}">
                     <input type="text" placeholder="First name" value="" id="name-input-${id}"/>
                     <input type="text" placeholder="Last name" value="" id="sname-input-${id}"/>
                     <input type="text" placeholder="E-mail" value="" id="email-input-${id}"/>
-                    <div class="hidden" style="color: red;">E-mail niepoprawny!</div>
-                    <a href="javascript:void(0);" class="remove-input" title="Remove input">
+                    <div class="hidden" style="color: red;">Invalid e-mail!</div>
+                    <a href="javascript:void(0);" class="remove-input-author" title="Remove author">
                         <img src={{url_for('static', filename='res/del.png')}}/>
                     </a>
                 </div>`;
@@ -129,27 +129,27 @@
                     <select placeholder="Select tag" id="tag-select-${id}">
                         ${tags}
                     </select>
-                    <a href="javascript:void(0);" class="remove-input" title="Remove input">
+                    <a href="javascript:void(0);" class="remove-input-tag" title="Remove tag">
                         <img src={{url_for('static', filename='res/del.png')}}/>
                     </a>
                 </div>`
         };
 
-        $('.add-input').on('click', function () {
-            addInput('coauthors-wrapper',createNewCreatorInput, ++coauthorStartId);
+        $('.add-input-author').on('click', function () {
+            addInput('coauthors-wrapper',createNewAuthorInput, ++coauthorStartId);
         })
 
         $('.add-input-tag').on('click', function () {
             addInput('tags-wrapper',createNewTagInput, ++tagStartId);
         })
 
-        $('#coauthors-wrapper').on('click', '.remove-input', function(e) {
+        $('#coauthors-wrapper').on('click', '.remove-input-author', function(e) {
             e.preventDefault();
             $(this).parent("div").remove();
             coauthorInputCount--;
         })
 
-        $('#tags-wrapper').on('click', '.remove-input', function(e) {
+        $('#tags-wrapper').on('click', '.remove-input-tag', function(e) {
             e.preventDefault();
             $(this).parent("div").remove();
             tagInputCount--;
@@ -186,8 +186,8 @@
         <input type="text" placeholder="First name" value="" id="name-input-0"/>
         <input type="text" placeholder="Last name" value="" id="sname-input-0"/>
         <input type="text" placeholder="E-mail" value="" id="email-input-0"/>
-        <div class="hidden" style="color: red;">E-mail niepoprawny!</div>
-        <a href="javascript:void(0);" class="add-input" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
+        <div class="hidden" style="color: red;">Invalid e-mail!</div>
+        <a href="javascript:void(0);" class="add-input-author" title="Add author"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
         </div>
     </div>
 
@@ -195,7 +195,7 @@
     <div id="tags-wrapper">
         <div id="0">
             <select placeholder="Select tag" id="tag-select-0"></select>
-        <a href="javascript:void(0);" class="add-input-tag" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
+        <a href="javascript:void(0);" class="add-input-tag" title="Add tag"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
         </div>
     </div>
 
