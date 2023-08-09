@@ -269,14 +269,14 @@ main {
 
 
 /*
-
 Submitting new paper: perhaps it would be better to have a class of this <img> so that we don't have
 to identify the image by specifyig that we mean the image "inside <a> of class <...>".
 
 https://stackoverflow.com/questions/15940338/is-there-a-way-via-css-to-set-the-image-height-to-the-line-height
 */
 
-.add-input-author img, .add-input-tag img, .remove-input-author img, .remove-input-tag img {
+.add-input-author img, .add-input-tag img, .remove-input-author img, .remove-input-tag img
+{
 	height: 2em;
 }
 
