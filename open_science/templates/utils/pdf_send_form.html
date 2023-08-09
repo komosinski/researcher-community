@@ -178,9 +178,10 @@
     {{render_register_field(form.title, "Title")}}
     {{render_register_field(form.description, "Abstract")}}
     {{render_register_field(form.license, "License")}}
-    Add co-authors
+
+    Add co-authors.
     <div id="coauthors-wrapper">
-        <p style="margin: 0;">Note: you will not be able to change the list of authors in the future</p>
+        <p style="margin: 0;">Note: you will not be able to change the list of authors in the future.</p>
         <div>
         <input type="text" placeholder="First name" value="" id="name-input-0"/>
         <input type="text" placeholder="Last name" value="" id="sname-input-0"/>
@@ -189,12 +190,15 @@
         <a href="javascript:void(0);" class="add-input" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
         </div>
     </div>
+
+    Optionally, assign tags.
     <div id="tags-wrapper">
         <div id="0">
             <select placeholder="Select tag" id="tag-select-0"></select>
         <a href="javascript:void(0);" class="add-input-tag" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
         </div>
     </div>
+
     <input id="companyName" list="companyList" />
     <datalist id="companyList"></datalist>
     {{render_boolean_field(form.interest_conflict_declaration)}}
@@ -212,6 +216,5 @@
     <input id="coauthor-email" type="text"/>
     <button id="add-coauthor" type="button">Add</button> -->
 </form>
-
 
 {% endblock %}
