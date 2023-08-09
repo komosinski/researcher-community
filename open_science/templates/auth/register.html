@@ -17,10 +17,10 @@
         </div>
        
   
-        {{render_register_field(form.email,"Email address","(preferrably institutional email address - this may help with endorsement if you are a researcher.\nWill not be displayed publicly except from \"Verified email at [yourdomain]\" unless you are indicated as the corresponding author of some paper.)")}}
+        {{render_register_field(form.email,"Email address","(Preferably institutional email address - this may help with endorsement if you are a researcher.\nWill not be displayed publicly except from \"Verified email at [yourdomain]\" unless you are indicated as the corresponding author of some paper.)")}}
     
   
-            {{render_register_field(form.password,"Password","(Must contain at least: 8 characters, one lowercase character, one uppercase character, one digit and one special character)")}}
+            {{render_register_field(form.password,"Password","(Must contain at least: 8 characters, one lowercase character, one uppercase character, one digit and one special character.)")}}
             {{render_register_field(form.password_confirm,"Confirm password")}}
  
     
@@ -32,7 +32,7 @@
                 </div>
                 <div class="input-wrapper">{{ form.notifications_frequency()}} </div>  
                 <div class="label-wrapper">
-                    (Note: you will always be notified immediately when your paper is reviewed)
+                    (Note: you will always be notified immediately when your paper is reviewed.)
                 </div>
 
                 <div> {{ form.privacy_policy }} {{ form.privacy_policy.label}} <a href="{{ url_for('main.privacy_page') }}">Privacy Policy</a> </div>
