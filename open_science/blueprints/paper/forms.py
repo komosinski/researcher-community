@@ -35,7 +35,7 @@ class PaperRevisionUploadForm(FlaskForm):
     review_declaration = BooleanField("I would like this paper reviewed")
 
     confidence_level = \
-        SelectField("Choose review confidence level:",
+        SelectField("Choose the number of reviews (evaluation confidence level):",
                     choices=[(2, 'low'), (3, 'medium'), (4, 'high')],
                     validators=[validate_review, Optional()])
 
@@ -78,7 +78,7 @@ class FileUploadForm(FlaskForm):
     anonymity_declaration = BooleanField(STR.DECLARATION_ANONYMITY)
     review_declaration = BooleanField(STR.DECLARATION_REVIEW)
 
-    confidence_level = SelectField("Choose review confidence level:", choices=[(2, 'low'), (3, 'medium'), (4, 'high')], validators=[validate_review, Optional()])
+    confidence_level = SelectField("Choose the number of reviews (evaluation confidence level):", choices=[(2, 'low'), (3, 'medium'), (4, 'high')], validators=[validate_review, Optional()]) # TODO duplicate, see the other function above
 
     coauthors = HiddenField(id="coauthors-input-field")
     tags = HiddenField(id="tags-input-field")
