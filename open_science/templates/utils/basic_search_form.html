@@ -6,7 +6,7 @@
         <select name="search_option" class="header-selector">
             <option value="title" {% if request.args.get('search_option')=='title' %}selected{% endif %}>Title</option>
             <option value="description" {% if request.args.get('search_option')=='description' %}selected{% endif %}>Abstract</option>
-            <option value="author" {% if request.args.get('search_option')=='author' %}selected{% endif %}>By Author</option>
+            <option value="author" {% if request.args.get('search_option')=='author' %}selected{% endif %}>Author</option>
             <option value="text"  {% if request.args.get('search_option')=='text' %}selected{% endif %}>Full text</option>
             <option value="all" {% if request.args.get('search_option')=='all' %}selected{% endif %}>All fields</option>
           </select>
