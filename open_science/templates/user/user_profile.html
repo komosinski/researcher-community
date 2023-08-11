@@ -58,7 +58,7 @@
 
             <div class="stats-wrapper">
                 {% if user.is_researcher() %}
-                <div class="stats-element-wraper">
+                <div class="stats-element-wraper" title="Papers">
                     <i class="fas fa-file-alt fa-center"></i>
                     <a class="stat-value" href="{{url_for('search.advanced_search_papers_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['articles_num']}}</a>
                 </div>
@@ -68,11 +68,11 @@
                 </div>
                 {% endif %}
 
-                <div class="stats-element-wraper">
+                <div class="stats-element-wraper" title="Comments">
                     <i class="fas fa-comment-alt fa-center"></i>
                     <p class="stat-value">{{data['comments_num']}}</p>
                 </div>
-                <div class="stats-element-wraper">
+                <div class="stats-element-wraper" title="Reputation">
                     <i class="fas fa-heart fa-center"></i>
                     <p class="stat-value">{{data['reputation']}}</p>
                 </div>
