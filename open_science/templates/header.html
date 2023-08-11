@@ -20,7 +20,7 @@
         <div class="header-user-control">
             <div class="author-wrapper">
                 {% set notifications_url = url_for('notification.notifications_page',page=1,unread='False') %}
-                <div class="notifications-wrapper" onclick="location.href='{{notifications_url}}';" style="cursor: pointer;">
+                <div class="notifications-wrapper" onclick="location.href='{{notifications_url}}';" style="cursor: pointer;" title="Notifications">
                     <i class="fas fa-bell"></i>
                     <!-- {% set notifications_count=current_user.get_new_notifications_count() %} -->
                     {% set notifications_count=current_user.get_new_notifications_count() %}
@@ -30,9 +30,12 @@
                     <span class="notif-counter">99+</span>
                     {% endif %}
                 </div>
-                <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" />
-                <a class="author-name header-username" href="{{url_for('user.profile_page', user_id=current_user.get_id()|int)}}">{{current_user.first_name + " " + current_user.second_name}}</a>
-                <a href="{{ url_for('auth.logout_page') }}"><i class="fas fa-sign-out-alt fa-center logout-icon" ></i></a>
+
+                <a href="{{url_for('user.profile_page', user_id=current_user.get_id()|int)}}">
+                  <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" /><span
+                  class="author-name header-username">{{current_user.first_name + " " + current_user.second_name}}</span>
+                </a>
+                <a href="{{ url_for('auth.logout_page') }}" title="Logout"><i class="fas fa-sign-out-alt fa-center logout-icon" ></i></a>
             </div>
         </div>
     {% else %}
