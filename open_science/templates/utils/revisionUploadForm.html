@@ -17,7 +17,7 @@
 {% block scripts %}
 <script>
     $(document).ready(function(){
-        const createNewInput = (id) => `<div id="${id}"><textarea name="field[]" placeholder="Change" value="" id="suggestion-input-${id}"></textarea><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src={{url_for('static', filename='res/del.png')}}/></a></div>`;
+        const createNewInput = (id) => `<div id="${id}"><textarea name="field[]" placeholder="Change" value="" id="suggestion-input-${id}"></textarea><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input-change" title="Remove change"><img src={{url_for('static', filename='res/del.png')}}/></a></div>`;
         let startId = 0;
         console.log(suggestions);
       
@@ -26,7 +26,7 @@
         // console.log(suggestions);
       
         var max_input_fields = 10;
-        var add_input = $('.add-input');
+        var add_input = $('.add-input-change');
         var input_wrapper = $('#suggestions');
         var add_input_count = 1; 
       
@@ -49,7 +49,7 @@
             }
         });
       
-        $(input_wrapper).on('click', '.remove-input', function(e){
+        $(input_wrapper).on('click', '.remove-input-change', function(e){
             e.preventDefault();
             $(this).parent('div').remove();
             add_input_count--;
@@ -86,7 +86,7 @@
     {{render_register_field(form.anonymousFile, "form.anonymousFile.label")}}
     {{render_boolean_field(form.anonymity_declaration)}}
     <br>
-    <h4>Changes since last version to reviews' suggestions:</h4>
+    <h4>Changes since the previous version that address specific reviewers' suggestions (if the reviewers had any):</h4>
     <br>
     {% for review_answer in form.suggestion_answers %}
       <div class="comment-20 comment" >
@@ -96,14 +96,14 @@
       <br>
     {% endfor %}
 
-    <h4>Add other changes since last version:</h4>
+    <h4>Summarize other changes since the previous version, optionally provide location in the article:</h4>
     <div id="suggestions">
-        <div>Suggestions with optional location in the article: 
-
-        <a href="javascript:void(0);" class="add-input" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
+        <div>
+        <a href="javascript:void(0);" class="add-input-change" title="Add change"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
         </div>
     </div>
 
+    <h4>Optionally, assign affiliation(s):</h4>
     <input id="companyName" list="companyList" />
     <datalist id="companyList"></datalist>
     
