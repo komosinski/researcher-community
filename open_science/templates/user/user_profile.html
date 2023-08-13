@@ -59,21 +59,21 @@
             <div class="stats-wrapper">
                 {% if user.is_researcher() %}
                 <div class="stats-element-wraper" title="Papers">
-                    <i class="fas fa-file-alt fa-center"></i>
+                    <i class="fas fa-file-alt fa-center"></i> <!-- or just emoji 🗎 -->
                     <a class="stat-value" href="{{url_for('search.advanced_search_papers_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['articles_num']}}</a>
                 </div>
-                <div class="stats-element-wraper">
-                    <i class="fas  fa-center">Reviews:</i>
+                <div class="stats-element-wraper" title="Reviews">
+                    &#x1F50E;&#xFE0E; <!-- used 🔎 emoji with the "text" Variant Selector to make it monochrome. The Awesome Font kit we generated long time ago and we include in each page was not set up to contain "fa-magnifying-glass". -->   <!--i class="fas fa-magnifying-glass fa-center"></i-->
                     <a class="stat-value" href="{{url_for('search.reviews_list_page',page=1,search_data={'user_id':user.id},order_by='newest')}}">{{data['reviews_num']}}</a>
                 </div>
                 {% endif %}
 
                 <div class="stats-element-wraper" title="Comments">
-                    <i class="fas fa-comment-alt fa-center"></i>
+                    <i class="fas fa-comment-alt fa-center"></i> <!-- or just emoji 💬 -->
                     <p class="stat-value">{{data['comments_num']}}</p>
                 </div>
                 <div class="stats-element-wraper" title="Reputation">
-                    <i class="fas fa-medal fa-center"></i>
+                    <i class="fas fa-medal fa-center"></i> <!-- or just emoji 🏅 -->
                     <p class="stat-value">{{data['reputation']}}</p>
                 </div>
             </div>
