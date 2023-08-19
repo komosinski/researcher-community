@@ -208,3 +208,24 @@ Set environment variable in .flaskenv file:
         FLASK_ENV=production
         FLASK_DEBUG=0
 
+Administration panel
+---------------
+
+Users with privilege *ADMIN* (id/value = 30) can visit manually page: 
+
+    /admin
+
+On main page of administration panel they can:
+
+- Enable/Disable *Maintenance mode* by using button
+
+  In maintenance mode all requests (except to */admin* path) are intercepted and site is displaying maintenance.html view
+
+- Enable/Disable *Read Only mode* by using button
+
+  Readonly mode is not implemented 
+
+- Have access to some database tables using the top bar panel and view (or edit) them.
+  
+  The example tables are: *Messages to staff* sent by users in */help/contact* section or *Users*. Administrators can easily change user's privileges (to standard/researcher/admin) by editing row in the *Users* table.
+
