@@ -25,11 +25,11 @@ class Config(object):
         'SECURITY_PROFILE_DELETE_SALT') or '5381ce88896f17316c40d7dcb8d6acbc'
 
     # To test emails:
-    # 1) You can use this mailtrap account:
-    # email: kappa.science.mail@gmail.com (MAIL_USERNAME = 'b9bcb6f6a948d0')
-    # password: mkocde.jek83fP62.JKL (MAIL_PASSWORD = '25d15ab33b0f5e')
-    # Sent mails are available to read at https://mailtrap.io/inboxes (they are not send to reciever's)
-    # 2) You can provide credentials to other mail server
+    # 1) You can create free mailtrap account and set:
+    # MAIL_USERNAME 
+    # MAIL_PASSWORD
+    # If you are using mailtrap, sent mails are available to read at https://mailtrap.io/inboxes (they are not send to reciever's)
+    # 2) You can provide credentials to other mail server. Remember to check other MAIL_ settings below
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'sandbox.smtp.mailtrap.io'
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 2525)
     MAIL_USERNAME = 'b9bcb6f6a948d0'
@@ -136,6 +136,9 @@ class Config(object):
     # Path of profile pics directory
     PROFILE_IMAGES_DIR_PATH = 'open_science/static/res/profileImages'
 
+    # Whether to update textprocessing files during upload calibration file or first revision of the paper
+    TEXT_PROCESSING_UPDATE_FILES_ON_UPLOAD = False
+
     # only for tests
     # using ./open_science/static/articles/1.pdf causes bad request: GET /paper/1/open_science/static/articles/1.pdf
     # using /static/articles/1.pdf causes correct request: GET /static/articles/1.pdf
@@ -148,3 +151,4 @@ class Config(object):
     PAPER_MIN_WORDS_COUNT = 10
     
     AJAX_SELECT_SEARCH_RESULTS = 10
+

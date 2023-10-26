@@ -129,11 +129,15 @@ class DataGenerator:
                 sm.save_similarities_matrix(similarities_matrix)
                 print('creating 2D plot...')
                 create_save_users_plot()
+                print('2D plot has been created')
                 print('creating 3D plot...')
                 create_save_users_plot_3d()
+                print('3D plot has been created')
+                return True
             except Exception as e:
                 print(e)
-
+                return False
+            
     def generate_data(self):
         with self.app.app_context():
             if PaperRevision.query.all():

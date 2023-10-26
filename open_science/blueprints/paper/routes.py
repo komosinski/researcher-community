@@ -87,10 +87,14 @@ def article(id):
 
         return redirect(url_for("paper.article", id=id, version=pv.version))
 
-    # similar papers
-    similar_papers = pv.get_similar_revisions()
-    similar_papers = list(filter(lambda p: type(p) != CalibrationPaper and p.parent_paper != pv.parent_paper, similar_papers))
-            
+    # similar papers  
+    try:
+        similar_papers = pv.get_similar_revisions()
+        similar_papers = list(filter(lambda p: type(p) != CalibrationPaper and p.parent_paper != pv.parent_paper, similar_papers))
+    except Exception as ex:
+        similar_papers = []
+        print(ex)
+    
     return render_template("article/view.html",
                            article=pv, similar=similar_papers[:3],
                            form=commentForm,
@@ -196,15 +200,6 @@ def upload_file_page():
         paper_version.pdf_url = url
         paper_version.preprocessed_text = get_text(path)
 
-        # paper = Paper(
-        #     url=url,
-        #     title=title,
-        #     text="Lorem ipsum tralala",
-        #     description=description,
-        #     publication_date=dt.datetime.utcnow(),
-        #     license="CC-BY-ND 4.0",
-        #     rel_creators = [current_user] + users
-        # )
         paper = Paper()
         
         paper.rel_related_versions.append(paper_version)
@@ -212,20 +207,12 @@ def upload_file_page():
         db.session.add(paper)
         db.session.commit()
   
-        # update matrixes
-        sm.update_dictionary(paper_version.preprocessed_text)
-        sm.update_tfidf_matrix()
-        sm.update_similarity_matrix(paper_version.preprocessed_text)
-
-        # bin   d old unpublished reviews and unanswered review reqests
-        # to nthe ewest paper's revision
-        transfer_old_reviews(paper)
-        print(paper_version.confidence_level)
-        enough_reviews = prepare_review_requests(paper_version)
-        if enough_reviews is False:
-            flash(STR.NOT_ENOUGH_RESEARCHERS, category='warning')
-
-        # return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
+        if app.config['TEXT_PROCESSING_UPDATE_FILES_ON_UPLOAD'] is True:
+            # update matrixes
+            sm.update_dictionary(paper_version.preprocessed_text)
+            sm.update_tfidf_matrix()
+            sm.update_similarity_matrix(paper_version.preprocessed_text)
+    
         return redirect(url_for('paper.article', id=paper.id))
 
     return render_template("utils/pdf_send_form.html", form=form, tags=tags)
@@ -339,6 +326,11 @@ def upload_new_revision(id):
                 parent_paper.rel_related_versions = [new_version]
             
             db.session.commit()
+
+            # bind old unpublished reviews and unanswered review reqests
+            # to nthe ewest paper's revision
+            transfer_old_reviews(parent_paper)
+
         except Exception as e:
             print(e)
             flash(STR.STH_WENT_WRONG, category='error')

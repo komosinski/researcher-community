@@ -178,10 +178,11 @@ def upload_calibration_file():
             calibration_paper.preprocessed_text = get_text(path)
             calibration_paper.description = f'{base_filename} | {calibration_paper.preprocessed_text[:200]}'[:mc.CP_DESCRIPTION_L]
             current_user.rel_calibration_papers.append(calibration_paper)
-            sm.update_dictionary(calibration_paper.preprocessed_text)
-            sm.update_tfidf_matrix()
-            sm.update_similarity_matrix(calibration_paper.preprocessed_text)
             db.session.commit()
+            if app.config['TEXT_PROCESSING_UPDATE_FILES_ON_UPLOAD'] is True:
+                sm.update_dictionary(calibration_paper.preprocessed_text)
+                sm.update_tfidf_matrix()
+                sm.update_similarity_matrix(calibration_paper.preprocessed_text)
         except Exception as err:
             print(err)
             return "Error", 400

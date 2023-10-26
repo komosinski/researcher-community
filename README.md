@@ -195,9 +195,17 @@ If you want to initiate test data, you must reset database and ensure that there
 
 In your virtual environment, type:
 
-         python3 test_data.py
+    python3 test_data.py
 
 Note: It will take a few minutes to create test data.
+
+
+Updating text processing files manually
+----------------------
+
+Run `update_files.py`
+
+    python3 update_files.py
 
 
 Production mode
@@ -208,10 +216,30 @@ Set environment variable in .flaskenv file:
         FLASK_ENV=production
         FLASK_DEBUG=0
 
+
+
+Users' privileges
+---------------
+
+Types of users can be found in enum *UserTypeEnum* in `enums.py`
+Type consists of id and name that are used in database, e.g. *id=30 name=ADMIN*
+
+| **Privilege**                  | **unregistered (guest)** | **STANDARD_USER**  | **RESEARCHER_USER** | **ADMIN**          |
+|:------------------------------:|:------------------------:|:------------------:|:-------------------:|:------------------:|
+| search and display for papers  | :white_check_mark:       | :white_check_mark: | :white_check_mark:  | :white_check_mark: |
+| search and display for reviews | :white_check_mark:       | :white_check_mark: | :white_check_mark:  | :white_check_mark: |
+| comment papers/reviews         |                          | :white_check_mark: | :white_check_mark:  | :white_check_mark: |
+| upload papers                  |                          |                    | :white_check_mark:  | :white_check_mark: |
+| create tags                    |                          |                    | :white_check_mark:  | :white_check_mark: |
+| wirte reviews                  |                          |                    | :white_check_mark:  | :white_check_mark: |
+| access administration panel    |                          |                    |                     | :white_check_mark: |
+| write notes to users' profiles |                          |                    |                     | :white_check_mark: |
+
+
 Administration panel
 ---------------
 
-Users with privilege *ADMIN* (id/value = 30) can visit manually page: 
+Users with privilege *ADMIN* can visit manually page: 
 
     /admin
 
@@ -228,4 +256,18 @@ On main page of administration panel they can:
 - Have access to some database tables using the top bar panel and view (or edit) them.
   
   The example tables are: *Messages to staff* sent by users in */help/contact* section or *Users*. Administrators can easily change user's privileges (to standard/researcher/admin) by editing row in the *Users* table.
+
+Manually endorsing users (changing privilege level)
+---------------
+Run `db_set_user_level.py` with arguments:
+
+`user_id` - id of chosen user (numeric)
+`privilege_level` - id (numeric) or name (alphabetic) of privilege set 
+
+    python3 db_set_user_level.py <user_id> <privilege_level>
+
+example:
+
+    python3 db_set_user_level.py 21 ADMIN
+
 
