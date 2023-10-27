@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_DEBUG=true
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@db:5432/open_science
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:13
+    user: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=open_science
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      
+volumes:
+  postgres_data:
