@@ -65,7 +65,7 @@ Overview of the sources
 
 ------------------
 
-`text_processing` - text processing module, [see SIMILARITY.md](SIMILARITY.md)
+`text_processing` - text processing module, see [SIMILARITY.md](SIMILARITY.md)
 
  <br />
  
@@ -145,7 +145,7 @@ Linux setup
 Windows setup
 -------------
 
-This project is using poppler library whose installation on windows is problematic. You can try using Build tools for Visual Studio and Anaconda but we recommend using WSL (Windows Subsystem for Linux) for the whole environment.
+This project is using the `poppler` library whose installation on windows is problematic. You can try using Build tools for Visual Studio and Anaconda but we recommend using WSL (Windows Subsystem for Linux) for the whole environment.
       
 1. Install and configure PostgreSQL on your local machine
   
@@ -259,7 +259,7 @@ On the main page of the administration panel, they can:
 
 - Enable/Disable the *Read Only mode* by using the button
 
-  The rReadonly mode is not yet implemented
+  The Readonly mode is not yet implemented
 
 - Have access to some database tables using the top bar panel, and view (or edit) them.
   
