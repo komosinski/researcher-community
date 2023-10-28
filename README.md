@@ -73,11 +73,11 @@ Overview of the sources
 
 Dockerized version
 -----------
-Fastest way to run application is to run docker containers for application and database by using command:
+The fastest way to run this service is to run the docker containers for this service and its database by using the command:
 
     docker compose up
 
-Application is accessible on http://127.0.0.1:5000/
+The service is then accessible at http://127.0.0.1:5000/
 
 Linux setup
 -----------
@@ -208,7 +208,7 @@ In your virtual environment, type:
 Note: It will take a few minutes to create test data.
 
 
-Updating text processing files manually
+Updating text processing files and plots manually
 ----------------------
 
 Run `update_files.py`
@@ -229,8 +229,8 @@ Set environment variable in .flaskenv file:
 Users' privileges
 ---------------
 
-Types of users can be found in enum *UserTypeEnum* in `enums.py`
-Type consists of id and name that are used in database, e.g. *id=30 name=ADMIN*
+The types of users can be found in enum *UserTypeEnum* in `enums.py`
+A type consists of an id and a name that are used in the database, e.g. *id=30 name=ADMIN*
 
 | **Privilege**                  | **unregistered (guest)** | **STANDARD_USER**  | **RESEARCHER_USER** | **ADMIN**          |
 |:------------------------------:|:------------------------:|:------------------:|:-------------------:|:------------------:|
@@ -247,34 +247,35 @@ Type consists of id and name that are used in database, e.g. *id=30 name=ADMIN*
 Administration panel
 ---------------
 
-Users with privilege *ADMIN* can visit manually page: 
+Users with the *ADMIN* privilege can visit manually this page:
 
     /admin
 
-On main page of administration panel they can:
+On the main page of the administration panel, they can:
 
-- Enable/Disable *Maintenance mode* by using button
+- Enable/Disable the *Maintenance mode* by using the button
 
-  In maintenance mode all requests (except to */admin* path) are intercepted and site is displaying maintenance.html view
+  In the maintenance mode all requests (except to the */admin* path) are intercepted and the site displays `maintenance.html`
 
-- Enable/Disable *Read Only mode* by using button
+- Enable/Disable the *Read Only mode* by using the button
 
-  Readonly mode is not implemented 
+  The rReadonly mode is not yet implemented
 
-- Have access to some database tables using the top bar panel and view (or edit) them.
+- Have access to some database tables using the top bar panel, and view (or edit) them.
   
-  The example tables are: *Messages to staff* sent by users in */help/contact* section or *Users*. Administrators can easily change user's privileges (to standard/researcher/admin) by editing row in the *Users* table.
+  The example tables are: *Messages to staff* sent by users in the */help/contact* section or *Users*. Administrators can easily change user' privileges (to standard/researcher/admin) by editing the row in the *Users* table.
 
-Manually endorsing users (changing privilege level)
+
+Manually endorsing users (changing the privilege level)
 ---------------
 Run `db_set_user_level.py` with arguments:
 
-`user_id` - id of chosen user (numeric)
-`privilege_level` - id (numeric) or name (alphabetic) of privilege set 
+`user_id` - the id of the selected user (numeric)
+`privilege_level` - the id (numeric) or the name (alphabetic) of the privilege set
 
     python3 db_set_user_level.py <user_id> <privilege_level>
 
-example:
+Example:
 
     python3 db_set_user_level.py 21 ADMIN
 
