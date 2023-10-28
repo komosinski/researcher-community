@@ -82,4 +82,4 @@ Scripts for a more thorough experiment comparing the performance of multiple sim
 
 ## Triggers and scheduled events: when and what is recalculated
 
-The scheduled event is calculating all saved objects in files from scratch and creates new scatter plot(s) for the main page.
+`update_files.py` calculates all saved objects in files from scratch and creates new scatter plot(s) for the main page. See also `TEXT_PROCESSING_UPDATE_FILES_ON_UPLOAD` in `config.py`.
