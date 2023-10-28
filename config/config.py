@@ -25,11 +25,11 @@ class Config(object):
         'SECURITY_PROFILE_DELETE_SALT') or '5381ce88896f17316c40d7dcb8d6acbc'
 
     # To test emails:
-    # 1) You can create free mailtrap account and set:
+    # 1) You can create a free mailtrap account and set:
     # MAIL_USERNAME 
     # MAIL_PASSWORD
-    # If you are using mailtrap, sent mails are available to read at https://mailtrap.io/inboxes (they are not send to reciever's)
-    # 2) You can provide credentials to other mail server. Remember to check other MAIL_ settings below
+    # If you use mailtrap, sent mails are available to read at https://mailtrap.io/inboxes (they are not sent to reciever's)
+    # 2) You can provide credentials to another mail server. Remember to check other MAIL_ settings below.
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'sandbox.smtp.mailtrap.io'
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 2525)
     MAIL_USERNAME = 'b9bcb6f6a948d0'
@@ -110,7 +110,7 @@ class Config(object):
     # project directory path
     ROOTDIR = "./"
 
-    #  to processing text dictionary
+    #  Path to processing text dictionary
     DICTIONARY_FILE_PATH = 'generated/dictionary'
 
     # Path to processing text tfidf matrix mapping array
@@ -136,7 +136,10 @@ class Config(object):
     # Path of profile pics directory
     PROFILE_IMAGES_DIR_PATH = 'open_science/static/res/profileImages'
 
-    # Whether to update textprocessing files during upload calibration file or first revision of the paper
+    # Whether to update textprocessing files during upload calibration file or first revision of the paper.
+    # This update can take a long time and is done synchronously while the client (user's web browser) waits.
+    # If False, the update will be done by update_files.py asynchronously, when scheduled (e.g. once a few hours).
+    # If False, uploaded papers will not be "indexed" immediately, but only after update_files.py is run.
     TEXT_PROCESSING_UPDATE_FILES_ON_UPLOAD = False
 
     # only for tests
