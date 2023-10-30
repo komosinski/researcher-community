@@ -1,14 +1,14 @@
-<h3>Hello from open science!</h3>
+<h3>Hello from Researcher.community!</h3>
 <div>
-You have a new review request for consideration.
+You have been invited to review a manuscript.
 </div>
 <br>
-<h4>Paper's abstract:</h4>
+<h4>Abstract:</h4>
 <div>
     {{data['abstract']}}
 </div>
 <br>
 <div>
-    <h4>Please visit our site for more details:</h4>
+    <h4>Please visit our site to accept or reject the invitation:</h4>
     <a class="btn" href="{{url_for('review.review_request_page', request_id=data['request_id'], _external=True)}}" >Request details</a>
 </div>
