@@ -175,7 +175,14 @@ def upload_calibration_file():
             url = url_for('static', filename=f"articles/{new_filename}")
             uploaded_file.save(path)
             calibration_paper.pdf_url = url
-            calibration_paper.preprocessed_text = get_text(path)
+            
+            try:
+                calibration_paper.preprocessed_text = get_text(path)
+            except Exception as ex:
+                print(ex)
+                flash(STR.PAPER_WORD_COUNT_ERROR, category='error')
+                return redirect(url_for('main.home_page'))
+            
             calibration_paper.description = f'{base_filename} | {calibration_paper.preprocessed_text[:200]}'[:mc.CP_DESCRIPTION_L]
             current_user.rel_calibration_papers.append(calibration_paper)
             db.session.commit()

@@ -20,7 +20,7 @@ import text_processing.similarity_matrix as sm
 
 from text_processing.plot import create_save_users_plot, create_save_users_plot_3d
 from text_processing.prepocess_text import get_text, preprocess_text
-
+from config import models_config as mc
 
 class DataGenerator:
     # default counts of objects to be created in database
@@ -533,6 +533,7 @@ class DataGenerator:
             calibration_paper = CalibrationPaper(
                 pdf_url=pdf_url,
                 preprocessed_text=preprocessed_text,
+                description=preprocessed_text[:mc.CP_DESCRIPTION_L]
             )
             calibration_paper.rel_author = random.choice(User.query.filter(User.id != 0).all())
             db.session.add(calibration_paper)

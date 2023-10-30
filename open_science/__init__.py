@@ -12,7 +12,9 @@ def register_extensions(app):
     db.app = app
     login_manager.init_app(app)
     login_manager.login_view = "auth.login_page"
+    login_manager.refresh_view = "auth.login_page"
     login_manager.login_message_category = "info"
+    login_manager.needs_refresh_message_category = "info"
     bcrypt.init_app(app)
     mail.init_app(app)
     limiter.init_app(app)

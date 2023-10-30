@@ -198,7 +198,12 @@ def upload_file_page():
             paper_version.anonymized_pdf_url = anon_url
 
         paper_version.pdf_url = url
-        paper_version.preprocessed_text = get_text(path)
+        try:
+            paper_version.preprocessed_text = get_text(path)
+        except Exception as ex:
+            print(ex)
+            flash(STR.PAPER_WORD_COUNT_ERROR, category='error')
+            return redirect(url_for('main.home_page'))
 
         paper = Paper()
         
@@ -301,7 +306,12 @@ def upload_new_revision(id):
                 new_version.anonymized_pdf_url = anon_url
 
             new_version.pdf_url = url
-            new_version.preprocessed_text = get_text(path)
+            try:
+                new_version.preprocessed_text = get_text(path)
+            except Exception as ex:
+                print(ex)
+                flash(STR.PAPER_WORD_COUNT_ERROR, category='error')
+                return redirect(url_for('main.home_page'))
 
             changes = [RevisionChangesComponent(
                 change_description=change['suggestion'],

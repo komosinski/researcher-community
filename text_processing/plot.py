@@ -11,7 +11,8 @@ import pandas as pd
 def get_user_id_ranking_dict():
     user_id_ranking_dict = {}
 
-    user_id_revisions_ids_dict = {user.id: [revision.id for revision in user.rel_created_paper_revisions]
+    user_id_revisions_ids_dict = {user.id: [revision.id for revision in user.rel_created_paper_revisions] +\
+                                  [calibration_paper.id for calibration_paper in user.rel_calibration_papers]
                                   for user in User.query.filter(User.id != 0).all()}
 
     for user_id, revisions_ids in user_id_revisions_ids_dict.items():
