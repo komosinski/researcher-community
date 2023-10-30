@@ -28,34 +28,41 @@ def create_save_users_plot():
     ranking_list = [ranking for ranking in user_id_ranking_dict.values()]
     users_ids_with_initals = get_users_ids_with_initials()
     if user_id_ranking_dict:
-        pca = PCA(n_components=2, whiten=False, random_state=42)
+        pca = PCA(n_components=2, random_state=42) #TODO can reuse the calculated 3D PCA and just use the two first dimensions for 2D
         standardized_pca = pca.fit_transform(ranking_list)
         plt.scatter(standardized_pca[:, 0], standardized_pca[:, 1], marker='')
         ax.axes.xaxis.set_visible(False)
         ax.axes.yaxis.set_visible(False)
         for i, id in enumerate(user_id_ranking_dict.keys()):
-            ax.annotate(users_ids_with_initals[id], (standardized_pca[:, 0][i], standardized_pca[:, 1][i]), color='blue')
+            ax.annotate(users_ids_with_initals[id], (standardized_pca[:, 0][i], standardized_pca[:, 1][i]), ha="center", va="center", color='blue')
 
     users_plot_url = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_2D_FILE_PATH'])
     plt.savefig(users_plot_url, dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 
-# This function create plot for the main page. Plot shows measures of users in the system as interactive 3D plot
-# It uses get_similar_users_to_user function for creating matrix of similarity of all users in system.
+# This function creates an interactive 3D plot for the main page.
+# It uses the get_similar_users_to_user() function to create the matrix of dissimilarity of all users in the system.
 def create_save_users_plot_3d():
     user_id_ranking_dict = get_user_id_ranking_dict()
     ranking_list = [ranking for ranking in user_id_ranking_dict.values()]
+    users_ids_with_initals = get_users_ids_with_initials()
     if user_id_ranking_dict:
-        pca = PCA(n_components=3, whiten=False, random_state=42)
-        standarlized_pca = pca.fit_transform(ranking_list)
+        pca = PCA(n_components=3, random_state=42)
+        standarlized_pca = pca.fit_transform(ranking_list) #TODO check input data (expected distances / coordinates?)
         df = pd.DataFrame(standarlized_pca, columns=['x', 'y', 'z'])
-        fig = px.scatter_3d(df, x='x', y='y', z='z')
+        fig = px.scatter_3d(df, x='x', y='y', z='z', title='The map of researcher.community', text = [users_ids_with_initals[id] for id in user_id_ranking_dict.keys()])
+        fig.update_layout(scene=dict(
+           xaxis=dict(backgroundcolor='rgba(200,200,200,0.9)', showbackground=True), # alpha does not seem to be implemented properely, and moreover axis background planes (when show=True) obscure/cover labels
+           yaxis=dict(backgroundcolor='rgba(200,200,200,0.9)', showbackground=True),
+           zaxis=dict(backgroundcolor='rgba(200,200,200,0.9)', showbackground=True)))
+        fig.update_scenes(xaxis_title_text="",yaxis_title_text="",zaxis_title_text="")
+        fig.update_layout(scene=dict(xaxis=dict(showticklabels=False),yaxis=dict(showticklabels=False),zaxis=dict(showticklabels=False)))
     else:
         fig = px.scatter_3d()
 
     users_plot_url_3d = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_3D_FILE_PATH'])
-    fig.write_html(users_plot_url_3d)
+    fig.write_html(users_plot_url_3d) # , title='The map of researcher.community') # setting HTML title not always supported
 
 
 # Returns dict that contains ids of all users paired with names initials in uppercase
