@@ -124,7 +124,7 @@ class DataGenerator:
                 start = time.time()
                 similarities_matrix = sm.create_similarities_matrix()
                 end = time.time()
-                print(f"creating similarities matrix: {end - start}")
+                print(f"creating similarities matrix took {end - start} seconds")
 
                 sm.save_similarities_matrix(similarities_matrix)
                 print('creating 2D plot...')
