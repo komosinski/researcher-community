@@ -141,3 +141,6 @@ generated/tfidf_matrix
 generated/similarities_matrix.npy
 generated/similarities_matrix_mapping.npy
 generated/tfidf_matrix_mapping.npy
+
+# csv
+*.csv
