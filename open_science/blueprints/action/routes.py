@@ -26,13 +26,13 @@ def article_flag(id):
             paper.rel_red_flags_received.append(flag)
         else:
             paper.rel_red_flags_received = [flag]
-        
+
         db.session.commit()
 
         print(f"Paper {id} flagged successfuly")
 
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
-    
+
     except Exception as e:
         print(e)
         abort(400)
@@ -52,13 +52,13 @@ def comment_flag(id):
             comment.rel_red_flags_received.append(flag)
         else:
             comment.rel_red_flags_received = [flag]
-        
+
         db.session.commit()
 
         print(f"Comment {id} flagged successfuly")
 
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
-    
+
     except Exception as e:
         print(e)
         abort(400)
@@ -81,13 +81,13 @@ def user_flag(id):
             user.rel_red_flags_received.append(flag)
         else:
             user.rel_red_flags_received = [flag]
-        
+
         db.session.commit()
 
         print(f"User {id} flagged successfuly")
 
         return json.dumps({'success': True}), 201, {'ContentType': 'application/json'}
-    
+
     except Exception as e:
         print(e)
         abort(400)
@@ -95,50 +95,63 @@ def user_flag(id):
 
 @bp.route('/action/like', methods=['POST'])
 def addLike():
-    # print(request.json)
-    # print(request.content)
-    # print(request.data)
     likeType = request.json.get('type')
     aid = request.json.get('article_id')
     action = request.json.get('action')
-    
+
     print(request.json)
 
     if None in [likeType, aid, action]:
         abort(400)
 
-    if likeType == 'comment':
-        like = VoteComment()
+    comment = db.session.query(Comment).get(aid)
 
-        comment = db.session.query(Comment).get(aid)
-
-        if comment is None:
-            abort(400)
-        else:
-            like.rel_to_comment = comment
-
-    else:
+    if comment is None:
         abort(400)
 
-    if action == 'up':
+    if likeType == 'comment' and action != 'like_clear' and action != 'dislike_clear':
+        like = VoteComment()
+        like.rel_to_comment = comment
+
+    if action == 'like_clear':
+        delete_unnecessary_comment_vote_record(True, comment)
+        new_score = change_comment_vote_score(True, comment)
+        db.session.commit()
+        return json.dumps({'success': True, 'new_value': new_score}), 201, {'ContentType': 'application/json'}
+
+    elif action == 'dislike_clear':
+        delete_unnecessary_comment_vote_record(False, comment)
+        new_score = change_comment_vote_score(False, comment)
+        db.session.commit()
+        return json.dumps({'success': True, 'new_value': new_score}), 201, {'ContentType': 'application/json'}
+
+    elif action == 'up':
         like.is_up = True
-        # removing all dislikes by this user
-        VoteComment.query.filter(and_(VoteComment.creator == current_user.id, VoteComment.is_up == False)).delete()
+
     elif action == 'down':
         like.is_up = False
-        # removing all likes by this user
-        VoteComment.query.filter(and_(VoteComment.creator == current_user.id, VoteComment.is_up == True)).delete()
     else:
         abort(400)
 
     like.rel_creator = current_user
-
     db.session.commit()
-
-    new_score = comment = db.session.query(Comment).get(aid).votes_score
-
+    new_score = db.session.query(Comment).get(aid).votes_score
     return json.dumps({'success': True, 'new_value': new_score}), 201, {'ContentType': 'application/json'}
 
+
+def delete_unnecessary_comment_vote_record(vote_was_up, comment):
+    record_to_delete = db.session.query(VoteComment).filter(
+        and_(VoteComment.creator == current_user.id, VoteComment.is_up == vote_was_up,
+             VoteComment.to_comment == comment.id)).first()
+    db.session.delete(record_to_delete)
+
+
+def change_comment_vote_score(vote_was_up, comment):
+    if vote_was_up is True:
+        comment.votes_score = comment.votes_score - 1
+    if vote_was_up is False:
+        comment.votes_score = comment.votes_score + 1
+    return comment.votes_score
 
 @bp.route('/action/verify_liked', methods=['POST'])
 def verify_like():
@@ -146,7 +159,8 @@ def verify_like():
         user_id = int(request.json.get('userID'))
         comment_id = int(request.json.get('commentID'))
 
-        print(f"user_id = {user_id}\ncurrent_user.id = {current_user.id}\ncomment.rel_creator.id = {Comment.query.get(comment_id).rel_creator.id}")
+        print(
+            f"user_id = {user_id}\ncurrent_user.id = {current_user.id}\ncomment.rel_creator.id = {Comment.query.get(comment_id).rel_creator.id}")
 
         if Comment.query.get(comment_id).rel_creator == current_user:
             print("fired")
@@ -154,8 +168,14 @@ def verify_like():
     except ValueError:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
 
-    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id, VoteComment.is_up == True)).first() is not None:
+    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id,
+                                    VoteComment.is_up == True)).first() is not None:
         return json.dumps({'result': True}), 200, {'ContentType': 'application/json'}
+
+    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id,
+                                    VoteComment.is_up == False)).first() is not None:
+        return json.dumps({'result': 'clear'}), 200, {'ContentType': 'application/json'}
+
     else:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
 
@@ -166,7 +186,8 @@ def verify_dislike():
         user_id = int(request.json.get('userID'))
         comment_id = int(request.json.get('commentID'))
 
-        print(f"user_id = {user_id}\ncurrent_user.id = {current_user.id}\ncomment.rel_creator.id = {Comment.query.get(comment_id).rel_creator.id}")
+        print(
+            f"user_id = {user_id}\ncurrent_user.id = {current_user.id}\ncomment.rel_creator.id = {Comment.query.get(comment_id).rel_creator.id}")
 
         if Comment.query.get(comment_id).rel_creator == current_user:
             print("fired")
@@ -174,8 +195,14 @@ def verify_dislike():
     except ValueError:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
 
-    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id, VoteComment.is_up == False)).first() is not None:
+    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id,
+                                    VoteComment.is_up == False)).first() is not None:
         return json.dumps({'result': True}), 200, {'ContentType': 'application/json'}
+
+    if VoteComment.query.where(and_(VoteComment.creator == user_id, VoteComment.to_comment == comment_id,
+                                    VoteComment.is_up == True)).first() is not None:
+        return json.dumps({'result': 'clear'}), 200, {'ContentType': 'application/json'}
+
     else:
         return json.dumps({'result': False}), 200, {'ContentType': 'application/json'}
 
