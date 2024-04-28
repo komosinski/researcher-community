@@ -76,6 +76,9 @@ def create_app(config_class=Config):
     from open_science.blueprints.api import bp as api_bp
     app.register_blueprint(api_bp)
 
+    from open_science.blueprints.pdfviewer import bp as pdfviewer_bp
+    app.register_blueprint(pdfviewer_bp)
+
     return app
 
 

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+<script>
+    const url = '{{ url_for("static", filename="articles/pdf.pdf") }}';
+</script>
+<style>
+    .overlay {
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .selection-rect {
+        z-index: 100;
+        position: absolute;
+        border: 2px solid red;
+        box-sizing: border-box;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+  .comment-button {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: blue;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+    .tooltip {
+        z-index: 101;
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        opacity: 0;
+    }
+
+    .selection-rect:hover + .tooltip {
+        opacity: 1;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div id="pdf-container"></div>
+<button id="comment-button" class="comment-button">Dodaj komentarz</button>
+
+
+<script src="{{ url_for('static', filename='js/pdfviewer2.js') }}"></script>
+{% endblock %}
