@@ -2,6 +2,7 @@ var isDragging = false;
 var startX, startY, endX, endY;
 var currentPageNumber;
 var currentPageDiv;
+var isAddingRect = false;
 
 function renderPDF(url) {
     const pdfContainer = document.getElementById('my-pdf-container');
@@ -54,6 +55,7 @@ function setupCanvasEventListeners(canvas, pageNumber, pageDiv) {
 }
 
 function startDragging(event) {
+    console.log('Starting drag at', event.offsetX, event.offsetY);
     isDragging = true;
     startX = event.offsetX;
     startY = event.offsetY;
@@ -62,7 +64,7 @@ function startDragging(event) {
 }
 
 function drag(event) {
-    if (isDragging && currentPageDiv.currentRect) {
+    if (isDragging && currentPageDiv && currentPageDiv.currentRect) {
         endX = event.offsetX;
         endY = event.offsetY;
         updateSelectionRect();
@@ -71,7 +73,7 @@ function drag(event) {
 
 function stopDragging() {
     isDragging = false;
-    if (currentPageDiv.currentRect) {
+    if (isAddingRect && currentPageDiv.currentRect) {
         showSelectionRect(true);
         createCommentForm(currentPageDiv.currentRect);
     }
