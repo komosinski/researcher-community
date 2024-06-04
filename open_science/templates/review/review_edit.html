@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 {% from "helpers/form_helper.html" import render_boolean_field %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}"/>
+{% endblock %}
+
 {% block scripts%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+<script>
+    const url = '{{pdf_url}}';
+</script>
 <script>
 function outputUpdateNovel(value) {
     document.querySelector('#selected-evaluation_novel').value = value;
@@ -21,7 +29,7 @@ function outputUpdateConfidence(value) {
 
 
 $(document).ready(function(){
-  const createNewInput = (id) => `<div id="${id}"><textarea name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"></textarea><input type="text"  placeholder="Location" name="field2[]" value="" id="location-input-${id}"/><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src={{url_for('static', filename='res/del.png')}}/></a></div>`;
+  const createNewInput = (id) => `<div id="${id}"><textarea name="field[]" placeholder="Suggestion" value="" id="suggestion-input-${id}"></textarea><a href="javascript:void(0);" class="remove-input" title="Remove input"><img src={{url_for('static', filename='res/del.png')}}/></a></div>`;
   let startId = 0;
   const suggestions = {{suggestions|tojson}};
   console.log(suggestions);
@@ -33,7 +41,7 @@ $(document).ready(function(){
   var max_input_fields = 10;
   var add_input = $('.add-input');
   var input_wrapper = $('#suggestions');
-  var add_input_count = 1; 
+  var add_input_count = 1;
 
   const addInput = (sugContent = "", locContent = "") => {
     console.log("added input");
@@ -47,10 +55,10 @@ $(document).ready(function(){
   }
 
   suggestions.map((s) => addInput(sugContent = s.suggestion, locContent = s.location));
-  
+
   $(add_input).click(function(){
       if(add_input_count < max_input_fields){
-          addInput(); 
+          addInput();
       }
   });
 
@@ -76,7 +84,7 @@ $(document).ready(function(){
     }
 
     $("#suggestionsField").val(JSON.stringify(suggestionsArray));
-   
+
   });
 
 
@@ -96,12 +104,12 @@ $(document).ready(function(){
     }
 
     $("#suggestionsField").val(JSON.stringify(suggestionsArray));
-   
+
   });
 
 
 });
-  
+
 </script>
 {% endblock %}
 
@@ -110,6 +118,21 @@ $(document).ready(function(){
   <div>
     Reviewed paper: <a href="{{data['paper_url']}}">{{data['paper_title']}}</a>
   </div>
+
+                <div id="my-pdf-editor-wrapper">
+                    <div id="my-toolbar">
+                        <button id="addRectBtn">Add remark</button>
+                        <button id="removeRectBtn">Delete remark</button>
+                    </div>
+                    <div class="my-pdf-content-wrapper">
+                        <div id="my-pdf-container"></div>
+                        <div id="my-sidebar">
+                            <h3>Remarks</h3>
+                            <ul id="commentList"></ul>
+                        </div>
+                    </div>
+                </div>
+
   <br>
     <div class="">
         <div class="">
@@ -120,23 +143,22 @@ $(document).ready(function(){
                     I have read the entire paper and
                     {{ render_boolean_field(form.check_no_conflict) }}
                 {% endif %}
-            
-              <br>
-
-              <div id="suggestions">
-                  <div>Suggestions with optional location in the article: 
-
-                  <a href="javascript:void(0);" class="add-input" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
-                  </div>
-              </div>
-       
 
                 <br>
-             
+                  <div id="suggestions">
+                      <div>Remark without location in the article:
+
+                      <a href="javascript:void(0);" class="add-input" title="Add input"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
+                      </div>
+                  </div>
+
+
+                <br>
+
                 <table>
                     <tr>
                       <th>Evaluation criteria</th>
-                     
+
                       {% for prev_review in previous_reviews%}
                         <th>
                           <a href="{{url_for('review.review_page',review_id=prev_review.id)}}">Revision {{loop.index}}</a>
@@ -165,7 +187,7 @@ $(document).ready(function(){
 
                     <tr>
                       <td>  {{ form.evaluation_conclusion.label }} </td>
-                     
+
 
                       {% for prev_review in previous_reviews%}
                         <td>
@@ -181,10 +203,10 @@ $(document).ready(function(){
                     </tr>
 
                     <tr>
-                        <td>  
+                        <td>
                           {{ form.evaluation_error.label }}
                         </td>
-                     
+
                       {% for prev_review in previous_reviews%}
                         <td>
                           {{ (prev_review.evaluation_error*100)|int }}%
@@ -195,14 +217,14 @@ $(document).ready(function(){
                         {{ form.evaluation_error(min=0, max=100,step=1, oninput="outputUpdateError(value)") }}
                         <output for="evaluation_error" id="selected-evaluation_error">{{ form.evaluation_error.data }}</output>%
                       </td>
-                      
+
                     </tr>
 
                     <tr>
-                      <td>  
+                      <td>
                           {{ form.evaluation_organize.label }}
                       </td>
-                     
+
                     {% for prev_review in previous_reviews%}
                       <td>
                         {{ (prev_review.evaluation_organize*100)|int }}%
@@ -219,69 +241,72 @@ $(document).ready(function(){
                       <td>
                         {{ form.confidence.label }}
                       </td>
-                      
+
                     {% for prev_review in previous_reviews%}
                       <td>
                         {{ (prev_review.confidence*100)|int }}%
                       </td>
                     {% endfor %}
 
-                       
+
                       <td>
                         {{ form.confidence(min=0, max=100,step=1, oninput="outputUpdateConfidence(value)") }}
                         <output for="confidence" id="selected-confidence">{{ form.confidence.data }}</output>%
                       </td>
                     </tr>
-                    
+
                     <tr>
                       <td>
                         {{ form.evaluation_accept.label }}
                       </td>
-                      
+
                     {% for prev_review in previous_reviews%}
                       <td>
                         {{ 'Yes' if prev_review.evaluation_accept else 'No' }}
                       </td>
                     {% endfor %}
 
-                       
-                      <td>                      
+
+                      <td>
                         {{ form.evaluation_accept() }} I accept
                       </td>
                     </tr>
 
                   </table>
 
-               
-               
+
+
 
                 <br>
                 {{ render_boolean_field(form.check_anonymous) }}
                 {% if data['is_published'] %}
                 {{ render_boolean_field(form.check_hide) }}
                 {% endif %}
-              
+
 
                 <div class="buttons-wrapper">
-                
+
                     {{ form.save(class="large-button secondary-button") }}
                     {% if not data['is_published'] %}
                     {{ form.submit(class="large-button main-button", onclick="return confirm('Are you sure you want to publish this review? (Remember: your review will be publicly visible)')") }}
                     {% endif %}
 
-                </div>  
-                
-                <div class="">
-                  
                 </div>
-            
+
+                <div class="">
+
+                </div>
+
 
             </form>
 
 
         </div>
     </div>
-
+    <script type="text/javascript">
+        const review_id = "{{review_id}}";
+    </script>
+    <script src="{{ url_for('static', filename='js/pdfviewer2.js') }}"></script>
 
 {% endblock %}
 

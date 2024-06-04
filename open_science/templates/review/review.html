@@ -1,8 +1,12 @@
 {% from "helpers/form_helper.html" import render_register_field %}
 
 {% extends 'base.html' %}
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}"/>
+{% endblock %}
 
 {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -159,6 +163,14 @@
         </a>    
         {% endif %}
     </h4>
+
+    <div class="my-pdf-content-wrapper">
+        <div id="my-pdf-container"></div>
+        <div id="my-sidebar">
+            <h3>Suggestions</h3>
+            <ul id="commentList"></ul>
+        </div>
+    </div>
 
     <br>
 
@@ -335,6 +347,11 @@
     
 </div>
 
-
-
+<script type="text/javascript">
+    const review_id = "{{review.id}}";
+</script>
+<script>
+    const url = '{{review.rel_related_paper_version.pdf_url}}';
+</script>
+<script src="{{ url_for('static', filename='js/pdfviewer2.js') }}"></script>
 {% endblock %}
