@@ -1,11 +1,12 @@
 from re import L
-from flask import Flask
+from flask import Flask, request, flash, abort
 from open_science.admin import MyAdminIndexView
 from open_science.extensions import db, login_manager, \
     bcrypt, mail, limiter, admin, migrate, scheduler, moment
 from config.config import Config
 import atexit
 from open_science.admin import MyModelView, UserView, MessageToStaffView
+
 
 def register_extensions(app):
     db.init_app(app)
@@ -35,8 +36,8 @@ def register_extensions(app):
     admin.add_view(MyModelView(ReviewRequest, db.session))
     admin.add_view(MyModelView(Comment, db.session))
 
-def create_app(config_class=Config):
 
+def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
@@ -83,8 +84,20 @@ app = create_app()
 app.app_context().push()
 
 
+@app.before_request
+def check_read_only():
+    excluded_routes = ['/login']
+    if request.path in excluded_routes:
+        return None
+    if app.config['READONLY_MODE'] and request.method in ['POST', 'PUT', 'DELETE']:
+        flash('The application is in read-only mode. Editing is disabled.')
+        abort(403, description="The application is in read-only mode. Editing is disabled.")
+
+
+
 # importing add_scheduler_jobs earlier causes circular imports
 from open_science.schedule.schedule import add_scheduler_jobs
+
 if app.config['START_SCHEDULER'] is True and scheduler.running is False:
     scheduler.start()
     atexit.register(lambda: scheduler.shutdown())
