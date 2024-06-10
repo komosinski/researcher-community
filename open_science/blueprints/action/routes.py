@@ -148,9 +148,9 @@ def delete_unnecessary_comment_vote_record(vote_was_up, comment):
 
 def change_comment_vote_score(vote_was_up, comment):
     if vote_was_up is True:
-        comment.votes_score = comment.votes_score - 1
+        comment.votes_score -= 1
     if vote_was_up is False:
-        comment.votes_score = comment.votes_score + 1
+        comment.votes_score += 1
     return comment.votes_score
 
 @bp.route('/action/verify_liked', methods=['POST'])

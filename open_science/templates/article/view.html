@@ -71,13 +71,13 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function(data) {
-                    console.log(data)
+                    // console.log(data)
                     if(data.result === true) {
                         console.log('liked');
                         alert('You already liked this comment!')
                     }
                    if(data.result === "clear"){
-                            console.log("you are in clear like")
+                            // console.log("you are in clear like")
                             $.ajax({
                                 url: "/action/like",
                                 type: "POST",
@@ -85,10 +85,10 @@
                                 dataType: 'json',
                                 contentType: 'application/json',
                                 success: function (response) {
-                                    console.log(response);
+                                    // console.log(response);
                                     relatedDisliker.removeClass('dislike-pressed');
                                     const newCount = parseInt(response.new_value);
-                                    console.log(valueField.text());
+                                    // console.log(valueField.text());
                                     valueField.text(newCount);
                                 }
                             })
@@ -102,11 +102,11 @@
                             dataType: 'json',
                             contentType: 'application/json',
                             success: function (response) {
-                                console.log(response);
+                                // console.log(response);
                                 relatedDisliker.removeClass('dislike-pressed');
                                 elem.addClass('like-pressed');
                                 const newCount = parseInt(response.new_value);
-                                console.log(newCount);
+                                // console.log(newCount);
                                 valueField.text(newCount);
                             }
                         })
@@ -120,7 +120,7 @@
                 const id = $(this).parents().closest('.comment').attr('id').substring(1);
                 const relatedLiker = $(this).parents().closest('.stats-element-wraper').children().closest('.like-icon');
                 const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
-                console.log(relatedLiker);
+                // console.log(relatedLiker);
                 const elem = $(this);
                 const uid = {{current_user.id}};
     
@@ -142,7 +142,7 @@
                     success: function(data) {
                         console.log(data)
                         if(data.result === true) {
-                            console.log('liked');
+                            // console.log('liked');
                             alert('You already disliked this comment!')
                         }
                          if(data.result === "clear"){
@@ -153,10 +153,10 @@
                                 dataType: 'json',
                                 contentType: 'application/json',
                                 success: function (response) {
-                                    console.log(response);
+                                    // console.log(response);
                                     relatedLiker.removeClass('like-pressed');
                                     const newCount = parseInt(response.new_value);
-                                    console.log(valueField.text());
+                                    // console.log(valueField.text());
                                     valueField.text(newCount);
                                 }
                             })
@@ -170,11 +170,11 @@
                                 dataType: 'json',
                                 contentType: 'application/json',
                                 success: function (response) {
-                                    console.log(response);
+                                    // console.log(response);
                                     relatedLiker.removeClass('like-pressed');
                                     elem.addClass('dislike-pressed');
                                     const newCount = parseInt(response.new_value);
-                                    console.log(valueField.text());
+                                    // console.log(valueField.text());
                                     valueField.text(newCount);
                                 }
                             })
