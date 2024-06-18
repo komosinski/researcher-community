@@ -1,4 +1,4 @@
-from flask import current_app as app
+from flask import current_app as app, jsonify
 from flask_login import login_required
 from flask import render_template
 from flask import request, Markup
@@ -6,9 +6,9 @@ import os
 from sqlalchemy.sql.elements import and_
 from config.config import Config
 from open_science import db
-from open_science.models import CalibrationPaper, Comment, License,\
+from open_science.models import CalibrationPaper, Comment, License, \
     Paper, PaperRevision, RevisionChangesComponent, Tag, \
-    User
+    User, Suggestion
 from open_science.blueprints.paper.forms import  \
     FileUploadForm, CommentForm, PaperRevisionUploadForm
 from flask_login import current_user
@@ -371,3 +371,48 @@ def revision_changes_page(id, version):
     return render_template('article/revision_changes.html',
                            paper_revision=paper_revision,
                            previous_revision=previous_revision)
+
+
+@bp.route('/review/edit/add-suggestion', methods=['POST'])
+@login_required
+@researcher_user_required
+def add_suggestion():
+    data = request.get_json()
+    new_suggestion = Suggestion(
+        suggestion=data['suggestion'],
+        location=data['location'],
+        review=data.get('review')
+    )
+    db.session.add(new_suggestion)
+    db.session.commit()
+    return jsonify({
+        'message': 'Suggestion added successfully',
+        'id': new_suggestion.id
+    }), 201
+
+@bp.route('/review/get-suggestions/<int:review_id>', methods=['GET'])
+def get_suggestions(review_id):
+    suggestions = Suggestion.query.filter_by(review=review_id).all()
+    results = [
+        {
+            'id': suggestion.id,
+            'suggestion': suggestion.suggestion,
+            'location': suggestion.location,
+            'review': suggestion.review
+        } for suggestion in suggestions
+    ]
+
+    return jsonify(results)
+
+@bp.route('/review/delete-suggestion/<int:id>', methods=['DELETE'])
+@login_required
+@researcher_user_required
+def delete_suggestion(id):
+    suggestion = Suggestion.query.get(id)
+    if not suggestion:
+        return jsonify({'message': 'Suggestion not found'}), 404
+
+    db.session.delete(suggestion)
+    db.session.commit()
+    return jsonify({'message': 'Suggestion deleted successfully'}), 200
+

@@ -1,4 +1,4 @@
-.article-frame-wrapper{
+.article-frame-wrapper {
     width: 100%;
     padding: 20px;
 }
@@ -65,4 +65,105 @@
     display: inline-flex;
     text-decoration: none;
     color: black;
+}
+
+.overlay {
+    position: absolute;
+    pointer-events: none;
+}
+
+.selection-rect {
+    z-index: 100;
+    position: relative;
+    border: 2px solid red;
+    box-sizing: border-box;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.comment-button {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.my-tooltip {
+   width: auto;
+  color: white;
+  font-size: 12px;
+  background-color: #192733;
+  border-radius: 10px;
+  padding: 10px 15px 10px 15px;
+    display: none;
+    z-index: 1000;
+}
+
+input[type="text"] {
+    padding: 5px;
+    margin-right: 5px;
+    width: 150px;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.selection-rect:hover + .tooltip {
+    opacity: 1;
+}
+
+#my-pdf-container {
+    float: left;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    overflow-x: auto;
+}
+
+#my-sidebar {
+     width: 25%;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    border-left: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    float: right;
+}
+
+#my-toolbar {
+     width: 100%;
+    padding: 10px;
+    background-color: #f4f4f4;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    clear: both;
+}
+
+#my-toolbar button {
+    padding: 5px 10px;
+    margin-right: 10px;
+}
+
+#my-toolbar button.active {
+    background-color: #ddd;
+}
+.my-pdf-content-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh;
 }

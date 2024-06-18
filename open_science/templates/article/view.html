@@ -1,59 +1,73 @@
 {% from "helpers/form_helper.html" import render_register_field %}
 
 {% block styles %}
-<link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}" />
+<link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}"/>
 {% endblock %}
 
 {% block scripts %}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+<script>
+    const url = '{{article.pdf_url}}';
+</script>
 <script>
     $(document).ready(function () {
-        $("#flag").click( function(e) {
-            console.log('reee');
+        $("#flag").click(function (e) {
             e.preventDefault();
-            const aid = {{article.parent_paper}};
-            $.post(`/paper/${aid}/flag`, function() {
+            const aid = {
+            {
+                article.parent_paper
+            }
+        }
+            ;
+            $.post(`/paper/${aid}/flag`, function () {
                 alert("Paper has been reported. Thanks for letting us know.")
-            }).fail(function() {
+            }).fail(function () {
                 alert("Error");
             });
         });
 
-        $(".comment").on('click', '.reply-action', function() {
+        $(".comment").on('click', '.reply-action', function () {
             const id = $(this).parents().closest('.comment').attr('id');
             $("#reply-info").html(`Replying to <a href="#${id}">#${id}</a>`)
             $("#reply-info-wrapper").removeClass("disabled");
             $("#comment_ref").val(id);
         })
 
-        $("#cancel-reply-button").on('click', function(e) {
+        $("#cancel-reply-button").on('click', function (e) {
             e.preventDefault();
             $("#reply-info-wrapper").addClass('disabled');
             $("#comment_ref").val('');
         })
 
-        $('#submit_comment').on('click', function(e) {
+        $('#submit_comment').on('click', function (e) {
             //e.preventDefault();
             console.log($("#comment_ref").val());
         })
-        
-        $(".comment").on('click', '.flag-comment', function(e) {
+
+        $(".comment").on('click', '.flag-comment', function (e) {
             e.preventDefault();
             const id = $(this).parents().closest('.comment').attr('id').substring(1);
-            $.post(`/comment/${id}/flag`, function() {
+            $.post(`/comment/${id}/flag`, function () {
                 alert("Comment has been reported. Thanks for letting us know.")
-            }).fail(function() {
+            }).fail(function () {
                 alert("An error occured");
             });
         });
 
-        $(".comment").on('click', '.like-icon', function(e) {
+        $(".comment").on('click', '.like-icon', function (e) {
             e.preventDefault();
             const id = $(this).parents().closest('.comment').attr('id').substring(1);
             const relatedDisliker = $(this).parents().closest('.stats-element-wraper').children().closest('.dislike-icon');//.addClass('dislike-pressed');
             const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
             const elem = $(this);
-            const uid = {{current_user.id}};
+            const uid = {
+            {
+                current_user.id
+            }
+        }
+            ;
 
             /*axios.post("/action/like", {type: 'comment', article_id: id, action: 'up'}).then(function(response) {
                 $(this).addClass('like-pressed');
@@ -70,9 +84,9 @@
                 data: JSON.stringify({userID: uid, commentID: id}),
                 dataType: 'json',
                 contentType: 'application/json',
-                success: function(data) {
-                    // console.log(data)
-                    if(data.result === true) {
+                success: function (data) {
+                    console.log(data)
+                    if (data.result) {
                         console.log('liked');
                         alert('You already liked this comment!')
                     }
@@ -102,11 +116,11 @@
                             dataType: 'json',
                             contentType: 'application/json',
                             success: function (response) {
-                                // console.log(response);
+                                console.log(response);
                                 relatedDisliker.removeClass('dislike-pressed');
                                 elem.addClass('like-pressed');
                                 const newCount = parseInt(response.new_value);
-                                // console.log(newCount);
+                                console.log(newCount);
                                 valueField.text(newCount);
                             }
                         })
@@ -123,7 +137,7 @@
                 // console.log(relatedLiker);
                 const elem = $(this);
                 const uid = {{current_user.id}};
-    
+
                 /*axios.post("/action/like", {type: 'comment', article_id: id, action: 'up'}).then(function(response) {
                     $(this).addClass('like-pressed');
                     const newCount = parseInt($(this).children().closest('.stat-value').val()) + 1;
@@ -132,7 +146,7 @@
                 }).catch((error) => {
                     alert('Unable to like this item\n'+error)
                 })*/
-    
+
                 $.ajax({
                     url: "/action/verify_disliked",
                     type: "POST",
@@ -206,7 +220,8 @@
                 </div>
                 <div class="stats-element-wraper">
                     <i class="fas fa-comment fa-center"></i>
-                    <p class="stat-value">{{article.rel_comments_to_this_paper|length if article.rel_comments_to_this_paper is not none else '0'}}</p>
+                    <p class="stat-value">{{article.rel_comments_to_this_paper|length if
+                        article.rel_comments_to_this_paper is not none else '0'}}</p>
                 </div>
                 <div class="reviews-wrapper">
                     <p class="reviews-header">
@@ -228,7 +243,7 @@
                         {{article.average_accept}}
                     </p>
 
-                    | 
+                    |
 
                     {%for review in article.rel_related_reviews %}
                     <a href="/review/{{review.id}}">
@@ -250,10 +265,12 @@
             </div>
             <div class="article-authors-wrapper">
                 {% for user in article.rel_creators %}
-                    <div class="author-wrapper">
-                        <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~user.id~'.jpg') if user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
-                        <a class="author-name" href="{{url_for('user.profile_page', user_id=user.id)}}">{{user.first_name + " " + user.second_name}}</a>
-                    </div>
+                <div class="author-wrapper">
+                    <img class="author-profile-pic"
+                         src="{{url_for('static',filename='res/profileImages/'~user.id~'.jpg') if user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
+                    <a class="author-name" href="{{url_for('user.profile_page', user_id=user.id)}}">{{user.first_name +
+                        " " + user.second_name}}</a>
+                </div>
                 {% endfor %}
             </div>
             <div class="article-description-wrapper">
@@ -261,31 +278,34 @@
             </div>
             <div class="tags-wrapper">
                 {% for tag in article.rel_related_tags %}
-                    <a href="{{url_for('tag.tag_page',tag_name=tag.name)}}">#{{tag.name}}</a>
+                <a href="{{url_for('tag.tag_page',tag_name=tag.name)}}">#{{tag.name}}</a>
                 {%endfor%}
             </div>
         </div>
-        <div class="article-frame-wrapper">
-            <iframe class="article-view-iframe" src="{{article.pdf_url}}"></iframe>
+
+
+        <div class="my-pdf-content-wrapper">
+            <div id="my-pdf-container"></div>
         </div>
-        <h3 class="comments-header">
-            Comments
-        </h3>
+
         <div class="comments-wrapper">
             {% for comment in article.rel_related_comments %}
             {% with author=comment.rel_creator %}
-                {%if author in article.rel_creators %}
-                <div class="comment comment-by-author" id="c{{comment.id}}">
+            {%if author in article.rel_creators %}
+            <div class="comment comment-by-author" id="c{{comment.id}}">
                 {%else%}
                 <div class="comment comment-{{comment.creator_role}}" id="c{{comment.id}}">
-                {%endif%}
+                    {%endif%}
                     <div class="comment-header-wrapper">
                         <div class="author-wrapper comment-author">
-                            <img class="author-profile-pic" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
+                            <img class="author-profile-pic"
+                                 src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
                             <div class="comment-answer-info">
-                                <a style="font-size: 1.2rem;"class="author-name header-username" href="{{url_for('user.profile_page', user_id=author.get_id()|int)}}">{{author.first_name + " " + author.second_name}}</a>
+                                <a style="font-size: 1.2rem;" class="author-name header-username"
+                                   href="{{url_for('user.profile_page', user_id=author.get_id()|int)}}">{{author.first_name
+                                    + " " + author.second_name}}</a>
                                 {%if comment.comment_ref %}
-                                    answering to <a href="#c{{comment.comment_ref}}">#c{{comment.comment_ref}}</a>
+                                answering to <a href="#c{{comment.comment_ref}}">#c{{comment.comment_ref}}</a>
                                 {%endif%}
                             </div>
                         </div>
@@ -316,7 +336,7 @@
                                 {%endif%}
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="comment-text-wrapper">
                         {{comment.text}}
                     </div>
@@ -328,69 +348,75 @@
                     </div>
                     {%endif%}
                 </div>
-            {%endwith%}
-            {%endfor%}
-            {% if current_user.is_authenticated and current_user.can_comment() %}
-            <div class="create-comment-wrapper" id="add-comment">
-                <form method="POST" action="{{url_for('paper.article', id=article.parent_paper, version=article.version)}}">
-                    {{form.hidden_tag()}}
-                    {{form.comment_ref()}}
-                    <!-- {{render_register_field(form.content, "Type your comment here...")}} -->
-                    <div class="profile-edit-input-wrapper">
-                        <div class="label-wrapper"> {{ form.content.label}}</div>
-                        <div id="reply-info-wrapper" class="disabled">
-                            <p id="reply-info"></p>
-                            <button id="cancel-reply-button">Cancel</button>
-                        </div>
-                        <div class="input-wrapper"> {{ form.content(placeholder="Type your comment here...")|safe }}</div>
-                        {% if form.content.errors %}
+                {%endwith%}
+                {%endfor%}
+                {% if current_user.is_authenticated and current_user.can_comment() %}
+                <div class="create-comment-wrapper" id="add-comment">
+                    <form method="POST"
+                          action="{{url_for('paper.article', id=article.parent_paper, version=article.version)}}">
+                        {{form.hidden_tag()}}
+                        {{form.comment_ref()}}
+                        <!-- {{render_register_field(form.content, "Type your comment here...")}} -->
+                        <div class="profile-edit-input-wrapper">
+                            <div class="label-wrapper"> {{ form.content.label}}</div>
+                            <div id="reply-info-wrapper" class="disabled">
+                                <p id="reply-info"></p>
+                                <button id="cancel-reply-button">Cancel</button>
+                            </div>
+                            <div class="input-wrapper"> {{ form.content(placeholder="Type your comment here...")|safe
+                                }}
+                            </div>
+                            {% if form.content.errors %}
                             {% for error in form.content.errors %}
                             <span style="color: red;">[{{ error }}]</span>
                             {% endfor %}
-                        {% endif %}
-                    </div>
-                    <div class="buttons-wrapper">
-                
-                        {{ form.submit_comment(class="large-button main-button") }}
-                
-                    </div>
-                </form>
+                            {% endif %}
+                        </div>
+                        <div class="buttons-wrapper">
+
+                            {{ form.submit_comment(class="large-button main-button") }}
+
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
-    </div>
-    <div class="similar-articles-column">
-        <h3>Similar articles</h3>
-        <ol>
-            {% for result in similar%}
-        
+        <div class="similar-articles-column">
+            <h3>Similar articles</h3>
+            <ol>
+                {% for result in similar%}
+
                 {% with item=result%}
-                    {% include 'search/article_item.html' %}
+                {% include 'search/article_item.html' %}
                 {% endwith %}
-            {%endfor%}
-         </ol>
-         <h3>Another versions</h3>
-         <ol>
-             {% for version in  article.rel_parent_paper.rel_related_versions %}
+                {%endfor%}
+            </ol>
+            <h3>Another versions</h3>
+            <ol>
+                {% for version in article.rel_parent_paper.rel_related_versions %}
                 <div>
                     {% if version.version == article.version %}
-                        <p style="margin: 0">v{{version.version}}, {{moment(version.publication_date).format('L')}}
-                            {% if version.version >1%}
-                            [<a href="{{url_for('paper.revision_changes_page', id=article.parent_paper, version=version.version)}}">changes</a>]
-                            {%endif%}
-                        </p>
-
-                    {%else%}
-                        <a href="{{url_for('paper.article', id=article.parent_paper, version=version.version)}}">v{{version.version}}, {{moment(version.publication_date).format('L')}}</a>
+                    <p style="margin: 0">v{{version.version}}, {{moment(version.publication_date).format('L')}}
                         {% if version.version >1%}
                         [<a href="{{url_for('paper.revision_changes_page', id=article.parent_paper, version=version.version)}}">changes</a>]
                         {%endif%}
+                    </p>
+
+                    {%else%}
+                    <a href="{{url_for('paper.article', id=article.parent_paper, version=version.version)}}">v{{version.version}},
+                        {{moment(version.publication_date).format('L')}}</a>
+                    {% if version.version >1%}
+                    [<a href="{{url_for('paper.revision_changes_page', id=article.parent_paper, version=version.version)}}">changes</a>]
                     {%endif%}
-               
-                  
+                    {%endif%}
+
+
                 </div>
-             {% endfor %}
-         </ol>
+                {% endfor %}
+            </ol>
+        </div>
     </div>
-</div>
-{% endblock %}
+
+    <script src="{{ url_for('static', filename='js/pdfviewer2.js') }}"></script>
+    {% endblock %}
