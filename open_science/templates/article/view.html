@@ -89,7 +89,25 @@
                     if (data.result) {
                         console.log('liked');
                         alert('You already liked this comment!')
-                    } else {
+                    }
+                   if(data.result === "clear"){
+                            // console.log("you are in clear like")
+                            $.ajax({
+                                url: "/action/like",
+                                type: "POST",
+                                data: JSON.stringify({action: 'dislike_clear', article_id: id, type: 'comment',commentID: id}),
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                success: function (response) {
+                                    // console.log(response);
+                                    relatedDisliker.removeClass('dislike-pressed');
+                                    const newCount = parseInt(response.new_value);
+                                    // console.log(valueField.text());
+                                    valueField.text(newCount);
+                                }
+                            })
+                        }
+                    if(data.result === false) {
                         console.log('not liked');
                         $.ajax({
                             url: "/action/like",
@@ -111,61 +129,73 @@
             });
         });
 
-        $(".comment").on('click', '.dislike-icon', function (e) {
-            e.preventDefault();
-            const id = $(this).parents().closest('.comment').attr('id').substring(1);
-            const relatedLiker = $(this).parents().closest('.stats-element-wraper').children().closest('.like-icon');
-            const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
-            console.log(relatedLiker);
-            const elem = $(this);
-            const uid = {
-            {
-                current_user.id
-            }
-        }
-            ;
+            $(".comment").on('click', '.dislike-icon', function(e) {
+                e.preventDefault();
+                const id = $(this).parents().closest('.comment').attr('id').substring(1);
+                const relatedLiker = $(this).parents().closest('.stats-element-wraper').children().closest('.like-icon');
+                const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
+                // console.log(relatedLiker);
+                const elem = $(this);
+                const uid = {{current_user.id}};
 
-            /*axios.post("/action/like", {type: 'comment', article_id: id, action: 'up'}).then(function(response) {
-                $(this).addClass('like-pressed');
-                const newCount = parseInt($(this).children().closest('.stat-value').val()) + 1;
-                $(this).children().closest('.stat-value').val(newCount);
-                console.log(response);
-            }).catch((error) => {
-                alert('Unable to like this item\n'+error)
-            })*/
+                /*axios.post("/action/like", {type: 'comment', article_id: id, action: 'up'}).then(function(response) {
+                    $(this).addClass('like-pressed');
+                    const newCount = parseInt($(this).children().closest('.stat-value').val()) + 1;
+                    $(this).children().closest('.stat-value').val(newCount);
+                    console.log(response);
+                }).catch((error) => {
+                    alert('Unable to like this item\n'+error)
+                })*/
 
-            $.ajax({
-                url: "/action/verify_disliked",
-                type: "POST",
-                data: JSON.stringify({userID: uid, commentID: id}),
-                dataType: 'json',
-                contentType: 'application/json',
-                success: function (data) {
-                    console.log(data)
-                    if (data.result) {
-                        console.log('liked');
-                        alert('You already disliked this comment!')
-                    } else {
-                        console.log('not liked');
-                        $.ajax({
-                            url: "/action/like",
-                            type: "POST",
-                            data: JSON.stringify({action: 'down', article_id: id, type: 'comment'}),
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            success: function (response) {
-                                console.log(response);
-                                relatedLiker.removeClass('like-pressed');
-                                elem.addClass('dislike-pressed');
-                                const newCount = parseInt(response.new_value);
-                                console.log(valueField.text());
-                                valueField.text(newCount);
-                            }
-                        })
+                $.ajax({
+                    url: "/action/verify_disliked",
+                    type: "POST",
+                    data: JSON.stringify({userID: uid, commentID: id}),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        console.log(data)
+                        if(data.result === true) {
+                            // console.log('liked');
+                            alert('You already disliked this comment!')
+                        }
+                         if(data.result === "clear"){
+                             $.ajax({
+                                url: "/action/like",
+                                type: "POST",
+                                data: JSON.stringify({action: 'like_clear', article_id: id, type: 'comment', commentID: id}),
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                success: function (response) {
+                                    // console.log(response);
+                                    relatedLiker.removeClass('like-pressed');
+                                    const newCount = parseInt(response.new_value);
+                                    // console.log(valueField.text());
+                                    valueField.text(newCount);
+                                }
+                            })
+                        }
+                        if(data.result === false) {
+                            console.log('not liked');
+                            $.ajax({
+                                url: "/action/like",
+                                type: "POST",
+                                data: JSON.stringify({action: 'down', article_id: id, type: 'comment'}),
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                success: function (response) {
+                                    // console.log(response);
+                                    relatedLiker.removeClass('like-pressed');
+                                    elem.addClass('dislike-pressed');
+                                    const newCount = parseInt(response.new_value);
+                                    // console.log(valueField.text());
+                                    valueField.text(newCount);
+                                }
+                            })
+                        }
                     }
-                }
-            });
-        })
+                });
+            })
     });
 </script>
 {% endblock %}
