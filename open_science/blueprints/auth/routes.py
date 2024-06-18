@@ -13,7 +13,7 @@ from flask_login import login_user, logout_user, current_user
 from flask import render_template, redirect, url_for, flash, request
 import datetime as dt
 from flask import current_app as app
-from open_science.enums import EmailTypeEnum
+from open_science.enums import EmailTypeEnum, UserTypeEnum
 from open_science import strings as STR
 from open_science import limiter
 from flask_login import login_required, fresh_login_required
@@ -81,14 +81,12 @@ def login_page():
     if current_user.is_authenticated:
         flash(STR.ALREADY_LOGGED, category='warning')
         return redirect(url_for('main.home_page'))
-    
-    if app.config['READONLY_MODE'] is True:
-        flash(STR.READOLNY_SIGNIN_DISABLED, category='warning')
-        return redirect(url_for('main.home_page'))
+
 
     form = LoginForm()
     if form.validate_on_submit():
         attempted_user = User.query.filter_by(email=form.email.data).first()
+
         if attempted_user and attempted_user.check_password_correction(
                 attempted_password=form.password.data
         ) and attempted_user.confirmed \
@@ -112,7 +110,12 @@ def login_page():
         else:
             flash(STR.EMAIL_PASSWORD_NOT_MATCH,
                   category='error')
-
+        if attempted_user:
+            endorser_priviliege_id = db.session.query(
+                User.privileges_set).filter_by(id=attempted_user.id).scalar()
+            if not endorser_priviliege_id == UserTypeEnum.ADMIN.value:
+                flash('The application is in read-only mode. Editing is disabled.')
+                return redirect(url_for('main.home_page'))
     return render_template('auth/login.html', form=form)
 
 
