@@ -1,6 +1,6 @@
 from open_science.blueprints.review.forms import ReviewRequestForm, ReviewEditForm, CommentForm, EditTaggedPaperReviewersForm
 from open_science import db
-from open_science.models import Comment, PaperRevision, ReviewRequest, Review
+from open_science.models import Comment, PaperRevision, ReviewRequest, Review, Paper
 from open_science.models import Suggestion, User
 from flask_login import current_user
 from flask import render_template, redirect, url_for, flash, request, abort, Markup
@@ -179,7 +179,10 @@ def review_edit_page(review_id):
         'review/review_edit.html',
         form=form,
         data=data,
-        previous_reviews=previous_reviews, suggestions=suggestions)
+        previous_reviews=previous_reviews,
+        suggestions=suggestions,
+        pdf_url=review.rel_related_paper_version.pdf_url,
+        review_id=review_id)
 
 
 @bp.route('/review/<review_id>',
