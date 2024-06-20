@@ -1,5 +1,10 @@
-from flask import render_template, redirect, url_for, flash
+from collections import OrderedDict
+
+import pandas as pd
+from flask import render_template, redirect, url_for, flash, jsonify
 from flask_login import login_required
+from sklearn.decomposition import PCA
+
 from open_science.blueprints.main import bp
 from flask import current_app as app
 from open_science import strings as STR
@@ -14,6 +19,9 @@ from flask import request
 # TODO fix circular import schedule
 #import open_science.schedule.schedule as schedule
 from os.path import exists
+
+from text_processing.search_engine import get_similar_users_to_user
+
 
 @bp.before_app_request
 def before_req():
@@ -137,11 +145,50 @@ def contact_staff_page():
 
 @bp.route("/plot3D")
 def users_plot_3d():
+    user_id = request.args.get('id', type=int)
+    if user_id is None:
+        return "Error: No id provided", 400
     if exists(app.config['USERS_PLOT_3D_FILE_PATH']):
-        return render_template("users_plot.html")
+        return render_template("users_plot.html", user_id=user_id)
     else:
         return redirect(url_for('main.home_page'))
 
+@bp.route("/generate_users_plot_data")
+def generate_users_plot_data():
+    user_id_ranking_dict = get_user_id_ranking_dict()
+    ranking_list = [ranking for ranking in user_id_ranking_dict.values()]
+    users_ids_with_initals = get_users_ids_with_initials()
+    # print("ranking_dict: ",user_id_ranking_dict)
+    # print(users_ids_with_initals)
+
+    if user_id_ranking_dict:
+        pca = PCA(n_components=3, random_state=42)
+        standarlized_pca = pca.fit_transform(ranking_list)
+        df = pd.DataFrame(standarlized_pca, columns=['x', 'y', 'z'])
+        df['text'] = [users_ids_with_initals[id] for id in user_id_ranking_dict.keys()]
+        df['id'] = user_id_ranking_dict.keys()
+        # print(df)
+        return jsonify(df.to_dict(orient='records'))
+    else:
+        return jsonify([])
+
+
+def get_users_ids_with_initials():
+    users = User.query.filter(User.id != 0).all()
+    return { user.id: f'{user.first_name[0]}{user.second_name[0]}'.upper() for user in users}
+
+def get_user_id_ranking_dict():
+    user_id_ranking_dict = {}
+
+    user_id_revisions_ids_dict = {user.id: [revision.id for revision in user.rel_created_paper_revisions] +\
+                                  [calibration_paper.id for calibration_paper in user.rel_calibration_papers]
+                                  for user in User.query.filter(User.id != 0).all()}
+
+    for user_id, revisions_ids in user_id_revisions_ids_dict.items():
+        if revisions_ids:
+            _, ranking_array = get_similar_users_to_user(user_id, user_id_revisions_ids_dict)
+            user_id_ranking_dict[user_id] = ranking_array
+    return OrderedDict(user_id_ranking_dict)
 
 # TODO fix circular import schedule
 # @bp.route('/admin/force_daily_jobs')
