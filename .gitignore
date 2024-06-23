@@ -157,7 +157,7 @@ open_science/static/res/profileImages
 
 # generated files
 open_science/static/res/users_plot.png
-open_science/templates/users_plot_3D.html
+open_science/static/res/users_plot_3D.json
 generated/dictionary
 generated/tfidf_matrix
 generated/similarities_matrix.npy

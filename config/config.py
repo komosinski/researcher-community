@@ -128,7 +128,7 @@ class Config(object):
     # Path to processing text users plot
     USERS_PLOT_2D_FILE_PATH = 'open_science/static/res/users_plot'
 
-    USERS_PLOT_3D_FILE_PATH = 'open_science/templates/users_plot_3D.html'
+    USERS_PLOT_3D_FILE_PATH = 'open_science/static/res/users_plot_3D.json'
 
     # Path to pdfs folder
     PDFS_DIR_PATH = 'open_science/static/articles'
