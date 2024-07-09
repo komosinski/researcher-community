@@ -1,4 +1,112 @@
-<!-- user's id from request: {{ request.args.get('id') }}  -->
 
-{% include 'users_plot_3D.html' %}
 
+{% block scripts %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+        const id = {{ user_id }};
+        const data = {{ data|tojson }};
+
+        function plotData() {
+            if (data.length === 0) {
+                console.log('No data available');
+                return;
+            }
+
+            const x = [];
+            const y = [];
+            const z = [];
+            const text = [];
+            const ids = [];
+
+            const xHighlight = [];
+            const yHighlight = [];
+            const zHighlight = [];
+            const textHighlight = [];
+            const idsHighlight = [];
+
+            data.forEach((row) => {
+                if (row.id === id) {
+                    xHighlight.push(row.x);
+                    yHighlight.push(row.y);
+                    zHighlight.push(row.z);
+                    textHighlight.push(row.text);
+                    idsHighlight.push(row.id);
+                } else {
+                    x.push(row.x);
+                    y.push(row.y);
+                    z.push(row.z);
+                    text.push(row.text);
+                    ids.push(row.id);
+                }
+            });
+
+            const trace1 = {
+                x: x,
+                y: y,
+                z: z,
+                mode: 'markers',
+                type: 'scatter3d',
+                hoverinfo: 'text',
+                text: text,
+                customdata: ids,
+                marker: {
+                    size: 5,
+                    color: 'blue'
+                }
+            };
+
+            const trace2 = {
+                x: xHighlight,
+                y: yHighlight,
+                z: zHighlight,
+                mode: 'markers',
+                type: 'scatter3d',
+                hoverinfo: 'text',
+                text: textHighlight,
+                customdata: idsHighlight,
+                marker: {
+                    size: 7,
+                    color: 'red'
+                }
+            };
+
+            const layout = {
+                title: '',
+                showlegend: false,
+                scene: {
+                    xaxis: {backgroundcolor: 'rgba(200,200,200,0.9)', showbackground: true},
+                    yaxis: {backgroundcolor: 'rgba(200,200,200,0.9)', showbackground: true},
+                    zaxis: {backgroundcolor: 'rgba(200,200,200,0.9)', showbackground: true},
+                    xaxis_title: '',
+                    yaxis_title: '',
+                    zaxis_title: '',
+                    xaxis_showticklabels: false,
+                    yaxis_showticklabels: false,
+                    zaxis_showticklabels: false
+                }
+            };
+
+            Plotly.newPlot('users_plot', [trace1, trace2], layout);
+
+            document.getElementById('users_plot').on('plotly_click', function(data) {
+                const point = data.points[0];
+                const userId = point.customdata;
+                window.location.href = '/user/' + userId;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', plotData);
+    </script>
+{% endblock %}
+
+{% block content %}
+
+
+
+    <div id="users_plot" style="width:90vw; height:90vh;">
+    </div>
+
+
+
+{% endblock %}

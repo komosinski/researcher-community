@@ -1,5 +1,12 @@
-from flask import render_template, redirect, url_for, flash
+import json
+import os
+from collections import OrderedDict
+
+import pandas as pd
+from flask import render_template, redirect, url_for, flash, jsonify
 from flask_login import login_required
+from sklearn.decomposition import PCA
+
 from open_science.blueprints.main import bp
 from flask import current_app as app
 from open_science import strings as STR
@@ -14,6 +21,9 @@ from flask import request
 # TODO fix circular import schedule
 #import open_science.schedule.schedule as schedule
 from os.path import exists
+
+from text_processing.search_engine import get_similar_users_to_user
+
 
 @bp.before_app_request
 def before_req():
@@ -137,8 +147,14 @@ def contact_staff_page():
 
 @bp.route("/plot3D")
 def users_plot_3d():
+    user_id = request.args.get('id', type=int)
+    if user_id is None:
+        return "Error: No id provided", 400
     if exists(app.config['USERS_PLOT_3D_FILE_PATH']):
-        return render_template("users_plot.html")
+        users_plot_url_3d = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_3D_FILE_PATH'])
+        with open(users_plot_url_3d, 'r') as f:
+            data = [json.loads(line) for line in f]
+        return render_template("users_plot.html", user_id=user_id, data=data)
     else:
         return redirect(url_for('main.home_page'))
 

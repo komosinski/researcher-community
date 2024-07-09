@@ -43,7 +43,7 @@ def create_save_users_plot():
 
 # This function creates an interactive 3D plot for the main page.
 # It uses the get_similar_users_to_user() function to create the matrix of dissimilarity of all users in the system.
-def create_save_users_plot_3d():
+def create_save_users_plot_3d_old():
     user_id_ranking_dict = get_user_id_ranking_dict()
     ranking_list = [ranking for ranking in user_id_ranking_dict.values()]
     users_ids_with_initals = get_users_ids_with_initials()
@@ -63,6 +63,24 @@ def create_save_users_plot_3d():
 
     users_plot_url_3d = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_3D_FILE_PATH'])
     fig.write_html(users_plot_url_3d) # , title='The map of researcher.community') # setting HTML title not always supported
+
+
+def create_save_users_plot_3d():
+    user_id_ranking_dict = get_user_id_ranking_dict()
+    ranking_list = [ranking for ranking in user_id_ranking_dict.values()]
+    users_ids_with_initals = get_users_ids_with_initials()
+    pca = PCA(n_components=3, random_state=42)
+    standarlized_pca = pca.fit_transform(ranking_list)
+    df = pd.DataFrame(standarlized_pca, columns=['x', 'y', 'z'])
+    users_plot_url_3d = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_3D_FILE_PATH'])
+
+    if user_id_ranking_dict:
+        df['text'] = [users_ids_with_initals[id] for id in user_id_ranking_dict.keys()]
+        df['id'] = user_id_ranking_dict.keys()
+    else:
+        print("No data available to save")
+
+    df.to_json(users_plot_url_3d, orient='records', lines=True)
 
 
 # Returns dict that contains ids of all users paired with names initials in uppercase
