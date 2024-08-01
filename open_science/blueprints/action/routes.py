@@ -96,7 +96,7 @@ def user_flag(id):
 @bp.route('/action/like', methods=['POST'])
 def addLike():
     likeType = request.json.get('type')
-    aid = request.json.get('article_id')
+    aid = request.json.get('comment_id')
     action = request.json.get('action')
 
     print(request.json)

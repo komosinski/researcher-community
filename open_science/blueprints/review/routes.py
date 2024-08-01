@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from open_science.blueprints.review.forms import ReviewRequestForm, ReviewEditForm, CommentForm, EditTaggedPaperReviewersForm
 from open_science import db
 from open_science.models import Comment, PaperRevision, ReviewRequest, Review, Paper
@@ -7,7 +9,7 @@ from flask import render_template, redirect, url_for, flash, request, abort, Mar
 import json
 from open_science.blueprints.database.db_helper import get_hidden_filter
 import datetime as dt
-from open_science.utils import check_numeric_args, researcher_user_required
+from open_science.utils import check_numeric_args, researcher_user_required, build_comment_tree
 from flask import current_app as app
 from flask_login import login_required
 from open_science.blueprints.notification.helpers import add_new_review_notification
@@ -248,7 +250,7 @@ def review_page(review_id):
             flash(STR.STH_WENT_WRONG, category='error')
             return redirect(url_for('main.home_page'))
 
-        return redirect(url_for("review_page",
+        return redirect(url_for("review.review_page",
                                 review_id=review_id) + f"#c{comment.id}")
 
     data = {
@@ -261,13 +263,15 @@ def review_page(review_id):
         'creator_second_name': creator.second_name,
         'paper_title': review.rel_related_paper_version.title
     }
+    comments = build_comment_tree(review.rel_comments_to_this_review)
 
     return render_template('review/review.html',
                            review=review,
                            data=data,
                            form=commentForm,
                            user_liked_comments=user_liked_comments,
-                           user_disliked_comments=user_disliked_comments)
+                           user_disliked_comments=user_disliked_comments,
+                           comments=comments)
 
 
 @bp.route('/review/increase_confidence_level/<revision_id>')

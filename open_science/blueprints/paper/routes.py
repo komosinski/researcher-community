@@ -21,7 +21,7 @@ from open_science.blueprints.notification.helpers import create_paper_comment_no
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
 from open_science import strings as STR
-from open_science.utils import check_numeric_args, researcher_user_required
+from open_science.utils import check_numeric_args, researcher_user_required, build_comment_tree
 from open_science.blueprints.paper import bp
 
 
@@ -63,7 +63,7 @@ def article(id):
                 creator_role = current_user.privileges_set
             )
 
-            if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
+            if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data)) is not None:
                 print(commentForm.comment_ref.data)
                 comment.comment_ref = ref_comment.id
 
@@ -94,12 +94,14 @@ def article(id):
     except Exception as ex:
         similar_papers = []
         print(ex)
-    
+
+    comments = build_comment_tree(pv.rel_related_comments)
     return render_template("article/view.html",
                            article=pv, similar=similar_papers[:3],
                            form=commentForm,
                            user_liked_comments=user_liked_comments,
-                           user_disliked_comments=user_disliked_comments)
+                           user_disliked_comments=user_disliked_comments,
+                           comments=comments)
 
 
 @bp.route('/paper/anon/<id>')
