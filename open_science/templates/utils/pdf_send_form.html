@@ -194,6 +194,7 @@
 <div class="spacer"></div>
 
     Add remaining co-authors.
+    <a href="javascript:void(0);" class="add-input-author" title="Add author"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
     <div id="coauthors-wrapper">
         <p style="margin: 0;">Note: you will not be able to change the list of authors in the future.</p>
         <div>
@@ -201,17 +202,16 @@
         <input type="text" placeholder="Last name" value="" id="sname-input-0"/>
         <input type="text" placeholder="E-mail" value="" id="email-input-0"/>
         <div class="hidden" style="color: red;">Invalid e-mail!</div>
-        <a href="javascript:void(0);" class="add-input-author" title="Add author"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
         </div>
     </div>
 
 <div class="spacer"></div>
 
     Optionally, assign tags.
+    <a href="javascript:void(0);" class="add-input-tag" title="Add tag"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
     <div id="tags-wrapper">
         <div id="0">
             <select placeholder="Select tag" id="tag-select-0"></select>
-        <a href="javascript:void(0);" class="add-input-tag" title="Add tag"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
         </div>
     </div>
 
