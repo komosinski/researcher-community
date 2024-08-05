@@ -18,12 +18,7 @@
     $(document).ready(function () {
         $("#flag").click(function (e) {
             e.preventDefault();
-            const aid = {
-            {
-                article.parent_paper
-            }
-        }
-            ;
+            const aid = {{article.parent_paper}};
             $.post(`/paper/${aid}/flag`, function () {
                 alert("Paper has been reported. Thanks for letting us know.")
             }).fail(function () {

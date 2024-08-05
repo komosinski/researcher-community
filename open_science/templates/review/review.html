@@ -40,7 +40,7 @@
             console.log($("#comment_ref").val());
         });
 
-        $(".comment").on('click', '.like-icon', function (e) {
+         $(".comment").on('click', '.like-icon', function (e) {
             e.preventDefault();
             const id = $(this).closest('.comment-wrapper').attr('id').substring(1);
             const relatedDisliker = $(this).closest('.stats-element-wraper').find('.dislike-icon');
@@ -54,6 +54,7 @@
                 data: JSON.stringify({userID: uid, commentID: id}),
                 dataType: 'json',
                 contentType: 'application/json',
+
                 success: function (data) {
                     console.log(data)
                     if (data.result) {
@@ -85,6 +86,10 @@
                             data: JSON.stringify({action: 'up', comment_id: id, type: 'comment'}),
                             dataType: 'json',
                             contentType: 'application/json',
+                            error: function (request, error) {
+                                console.log(arguments);
+                                alert(" Can't do because: " + error);
+                            },
                             success: function (response) {
                                 console.log(response);
                                 relatedDisliker.removeClass('dislike-pressed');
@@ -106,7 +111,7 @@
             const valueField = $(this).closest('.stats-element-wraper').find('.stat-value');
             const elem = $(this);
             const uid = {{ current_user.id }};
-
+            console.log("dislike-clicked");
             $.ajax({
                url: "/action/verify_disliked",
                     type: "POST",
