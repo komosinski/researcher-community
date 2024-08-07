@@ -10,8 +10,7 @@ import pandas as pd
 import open_science.models as db_models
 from text_processing.similarity_matrix import get_dictionary
 from gensim.utils import simple_preprocess
-from gensim import corpora, models, similarities
-import numpy as np
+from gensim import models
 
 def get_user_id_ranking_dict():
     user_id_ranking_dict = {}
@@ -50,6 +49,12 @@ def create_save_users_plot():
     if user_id_ranking_dict:
         pca = PCA(n_components=2, random_state=42) #TODO can reuse the calculated 3D PCA and just use the two first dimensions for 2D
         standardized_pca = pca.fit_transform(ranking_list)
+        # saving file
+        # file_save_dir = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_2D_FILE_PATH'])
+        # r = np.array(ranking_list)
+        # np.savetxt("data_3_categories.csv", r,
+        #              delimiter=",")
+        #print("Explained variance ratio:", pca.explained_variance_ratio_)
         plt.scatter(standardized_pca[:, 0], standardized_pca[:, 1], marker='')
         ax.axes.xaxis.set_visible(False)
         ax.axes.yaxis.set_visible(False)
