@@ -14,6 +14,8 @@ from config.config import Config
 from flask_login import current_user
 from open_science.enums import EmailTypeEnum
 from open_science import strings as STR
+from sqlalchemy import func
+
 
 
 def validate_password(form, password):
@@ -52,7 +54,9 @@ def was_email_used_in_site(email):
 
 
 def validate_register_email(self, email):
-    user_with_email_address = User.query.filter_by(email=email.data).first()
+    user_with_email_address = User.query.filter(
+        func.lower(User.email) == func.lower(email.data)
+    ).first()
     if user_with_email_address \
        and user_with_email_address.registered_on:
         raise ValidationError(
