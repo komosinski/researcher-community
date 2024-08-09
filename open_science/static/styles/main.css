@@ -528,3 +528,23 @@ a:link {
 .revision_changes {
     margin-left: 4rem
 }
+
+.my-divider {
+        padding: 20px;
+        margin: 20px 0;
+        border: 1px solid #eee;
+        border-left-width: 5px;
+        border-radius: 3px;
+    }
+
+.left-border-info {
+    border-left-color: #1b809e;
+    }
+
+ .left-border-about-me {
+        border-left-color: #aa6708;
+    }
+
+ .left-border-tag {
+        border-left-color: #267221;
+    }
