@@ -10,7 +10,6 @@
 {% block scripts %}
 {{ super() }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     $(document).ready(function () {
         $(".comment").on('click', '.flag-comment', function (e) {
@@ -56,9 +55,9 @@
                 contentType: 'application/json',
 
                 success: function (data) {
-                    console.log(data)
+                   // console.log(data)
                     if (data.result) {
-                        console.log('liked');
+                        //console.log('liked');
                         alert('You already liked this comment!')
                     }
                    if(data.result === "clear"){
@@ -79,7 +78,7 @@
                             })
                         }
                     if(data.result === false) {
-                        console.log('not liked');
+                        // console.log('not liked');
                         $.ajax({
                             url: "/action/like",
                             type: "POST",
@@ -87,11 +86,11 @@
                             dataType: 'json',
                             contentType: 'application/json',
                             error: function (request, error) {
-                                console.log(arguments);
+                                // console.log(arguments);
                                 alert(" Can't do because: " + error);
                             },
                             success: function (response) {
-                                console.log(response);
+                                // console.log(response);
                                 relatedDisliker.removeClass('dislike-pressed');
                                 elem.addClass('like-pressed');
                                 const newCount = parseInt(response.new_value);
@@ -111,7 +110,7 @@
             const valueField = $(this).closest('.stats-element-wraper').find('.stat-value');
             const elem = $(this);
             const uid = {{ current_user.id }};
-            console.log("dislike-clicked");
+            // console.log("dislike-clicked");
             $.ajax({
                url: "/action/verify_disliked",
                     type: "POST",
@@ -119,7 +118,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
                         if(data.result === true) {
                             // console.log('liked');
                             alert('You already disliked this comment!')
@@ -141,7 +140,7 @@
                             })
                         }
                         if(data.result === false) {
-                            console.log('not liked');
+                            // console.log('not liked');
                             $.ajax({
                                 url: "/action/like",
                                 type: "POST",

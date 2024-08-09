@@ -15,7 +15,7 @@
     $(document).ready(function () {
         $(".comment").on('click', '.reply-action', function (e) {
             e.preventDefault();
-            const id = $(this).closest('.comment-wrapper').attr('id').substring(1);
+            const id = $(this).closest('.comment-wrapper').attr('id');
             $("#reply-info").html(`Replying to <a href="#${id}">#${id}</a>`)
             $("#reply-info-wrapper").removeClass("disabled");
             $("#comment_ref").val(id);
@@ -44,7 +44,7 @@
 
         $(".comment").on('click', '.like-icon', function (e) {
             e.preventDefault();
-            console.log("like-clicked");
+            // console.log("like-clicked");
             const id = $(this).closest('.comment-wrapper').attr('id').substring(1);
             const relatedDisliker = $(this).parents().closest('.stats-element-wraper').children().closest('.dislike-icon');//.addClass('dislike-pressed');
             const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
@@ -59,13 +59,13 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function (data) {
-                    console.log(data)
+                    // console.log(data)
                     if (data.result) {
-                        console.log('liked');
+                        // console.log('liked');
                         alert('You already liked this comment!')
                     }
                    if(data.result === "clear"){
-                            console.log("you are in clear like")
+                            // console.log("you are in clear like")
                             $.ajax({
                                 url: "/action/like",
                                 type: "POST",
@@ -82,7 +82,7 @@
                             })
                         }
                     if(data.result === false) {
-                        console.log('not liked');
+                        // console.log('not liked');
                         $.ajax({
                             url: "/action/like",
                             type: "POST",
@@ -90,11 +90,11 @@
                             dataType: 'json',
                             contentType: 'application/json',
                             success: function (response) {
-                                console.log(response);
+                                // console.log(response);
                                 relatedDisliker.removeClass('dislike-pressed');
                                 elem.addClass('like-pressed');
                                 const newCount = parseInt(response.new_value);
-                                console.log(newCount);
+                                // console.log(newCount);
                                 valueField.text(newCount);
                             }
                         })
@@ -119,7 +119,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
                         if(data.result === true) {
                             // console.log('liked');
                             alert('You already disliked this comment!')
@@ -141,7 +141,7 @@
                             })
                         }
                         if(data.result === false) {
-                            console.log('not liked');
+                            // console.log('not liked');
                             $.ajax({
                                 url: "/action/like",
                                 type: "POST",
@@ -169,8 +169,8 @@
 
 
 {% block content %}
-	<h1>{{ thread.title }}</h1>
-    <p>{{ thread.content }}</p>
+	<h1>{{ forum_topic.title }}</h1>
+    <p>{{ forum_topic.content }}</p>
 
                  <h3 class="comments-header">Comments</h3>
     <div class="comments-wrapper">
@@ -183,7 +183,7 @@
 
     {% if current_user.is_authenticated and current_user.can_comment() %}
     <div class="create-comment-wrapper" id="add-comment">
-        <form method="POST" action="{{url_for('forum.show_thread', id=thread.id)}}">
+        <form method="POST" action="{{url_for('forum.show_forum_topic', id=forum_topic.id)}}">
             {{ form.hidden_tag() }}
             {{ form.comment_ref() }}
             <div class="profile-edit-input-wrapper">

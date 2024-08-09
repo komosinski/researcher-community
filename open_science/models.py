@@ -58,11 +58,11 @@ association_comment_comment = Table('association_comment_comment', db.metadata,
                                               primary_key=True)
                                     )
 
-association_comment_thread = Table('association_comment_thread', db.metadata,
+association_comment_forum_topic = Table('association_comment_forum_topic', db.metadata,
                                    db.Column('comment_id', db.Integer, db.ForeignKey(
                                        'comments.id'), primary_key=True),
-                                   db.Column('thread_id', db.Integer, db.ForeignKey(
-                                       'threads.id'), primary_key=True)
+                                   db.Column('forum_topic_id', db.Integer, db.ForeignKey(
+                                       'forum_topics.id'), primary_key=True)
                                    )
 
 association_tag_paper_version = Table('association_tag_paper_version', db.metadata,
@@ -947,7 +947,8 @@ class Comment(db.Model):
     rel_red_flags_received = db.relationship("RedFlagComment", back_populates="rel_to_comment",
                                              foreign_keys="RedFlagComment.to_comment")
     rel_creator_role = db.relationship("PrivilegeSet", back_populates="rel_related_comments_ps")
-    rel_thread = db.relationship("Thread", secondary=association_comment_thread, back_populates="rel_comments")
+    rel_forum_topic = db.relationship("ForumTopic", secondary=association_comment_forum_topic,
+                                      back_populates="rel_comments")
 
     def to_dict(self):
         refers_to = ''
@@ -1375,8 +1376,8 @@ class EndorsementRequestLog(db.Model):
         return count
 
 
-class Thread(db.Model):
-    __tablename__ = "threads"
+class ForumTopic(db.Model):
+    __tablename__ = "forum_topics"
 
     # primary keys
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -1388,7 +1389,8 @@ class Thread(db.Model):
     date_created = db.Column(db.DateTime)
 
     # relationships
-    rel_comments = db.relationship("Comment", secondary=association_comment_thread, back_populates="rel_thread")
+    rel_comments = db.relationship("Comment", secondary=association_comment_forum_topic,
+                                   back_populates="rel_forum_topic")
 
 
 # db functions

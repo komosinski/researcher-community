@@ -8,7 +8,6 @@
 
 {% block scripts %}
 {{ super() }}
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
 <script>
@@ -55,7 +54,7 @@
         });
 
          $(".comment").on('click', '.like-icon', function (e) {
-             console.log("like-clicked")
+             // console.log("like-clicked")
             e.preventDefault();
             const id = $(this).closest('.comment-wrapper').attr('id').substring(1);
             const relatedDisliker = $(this).closest('.stats-element-wraper').find('.dislike-icon');
@@ -71,9 +70,9 @@
                 contentType: 'application/json',
 
                 success: function (data) {
-                    console.log(data)
+                    // console.log(data)
                     if (data.result) {
-                        console.log('liked');
+                        // console.log('liked');
                         alert('You already liked this comment!')
                     }
                    if(data.result === "clear"){
@@ -94,7 +93,7 @@
                             })
                         }
                     if(data.result === false) {
-                        console.log('not liked');
+                        // console.log('not liked');
                         $.ajax({
                             url: "/action/like",
                             type: "POST",
@@ -102,15 +101,15 @@
                             dataType: 'json',
                             contentType: 'application/json',
                             error: function (request, error) {
-                                console.log(arguments);
+                                // console.log(arguments);
                                 alert(" Can't do because: " + error);
                             },
                             success: function (response) {
-                                console.log(response);
+                                // console.log(response);
                                 relatedDisliker.removeClass('dislike-pressed');
                                 elem.addClass('like-pressed');
                                 const newCount = parseInt(response.new_value);
-                                console.log(newCount);
+                                // console.log(newCount);
                                 valueField.text(newCount);
                             }
                         })
