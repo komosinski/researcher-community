@@ -11,8 +11,8 @@ from open_science.utils import build_comment_tree
 
 @bp.route('/forum')
 def forum():
-    threads = db.session.query(ForumTopic).all()
-    return render_template('forum/forum.html', threads=threads)
+    forum_topics = db.session.query(ForumTopic).all()
+    return render_template('forum/forum.html', forum_topics=forum_topics)
 
 @bp.route('/forum_topic/<int:id>/', methods=['GET', 'POST'])
 def show_forum_topic(id):
