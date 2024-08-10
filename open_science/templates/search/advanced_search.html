@@ -1,15 +1,19 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
 <a href="{{ url_for('search.search_papers_page',search_text='')}}">Simple search</a>
 
-<h3>Papers</h3>
-{% include 'search/advanced_search_paper_form.html' %}
-<br>
-<h3>Users</h3>
-{% include 'search/advanced_search_user_form.html' %}
-<br>
-<h3>Tags</h3>
-{% include 'search/advanced_search_tag_form.html' %}
-
+<div class="my-divider left-border-info">
+    <h3>Papers</h3>
+    {% include 'search/advanced_search_paper_form.html' %}
+</div>
+<div class="my-divider left-border-about-me">
+    <h3>Users</h3>
+    {% include 'search/advanced_search_user_form.html' %}
+</div>
+<div class="my-divider left-border-tag">
+    <h3>Tags</h3>
+    {% include 'search/advanced_search_tag_form.html' %}
+</div>
 {% endblock %}

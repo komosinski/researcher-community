@@ -228,7 +228,7 @@ def review_page(review_id):
             )
 
             if commentForm.comment_ref.data and \
-                    (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
+                    (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:  # [1:] removes the 'c' prefix from the comment id received from user interface
                 print(commentForm.comment_ref.data)
                 comment.comment_ref = ref_comment.id
 

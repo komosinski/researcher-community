@@ -1,3 +1,4 @@
+import gensim.matutils
 from matplotlib import pyplot as plt
 from sklearn.decomposition import PCA
 from open_science import app
@@ -6,7 +7,10 @@ import os
 from text_processing.search_engine import get_similar_users_to_user
 import plotly.express as px
 import pandas as pd
-
+import open_science.models as db_models
+from text_processing.similarity_matrix import get_dictionary
+from gensim.utils import simple_preprocess
+from gensim import models
 
 def get_user_id_ranking_dict():
     user_id_ranking_dict = {}
@@ -15,10 +19,24 @@ def get_user_id_ranking_dict():
                                   [calibration_paper.id for calibration_paper in user.rel_calibration_papers]
                                   for user in User.query.filter(User.id != 0).all()}
 
+    all_paper_revisions = db_models.PaperRevision.query.all()
+    all_calibration_papers = db_models.CalibrationPaper.query.all()
+    all_paper_texts = [paper.preprocessed_text for paper in all_paper_revisions + all_calibration_papers]
+    dictionary = get_dictionary()
+    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
+    corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
+    tfidf = models.TfidfModel(corpus, smartirs='ntc')
     for user_id, revisions_ids in user_id_revisions_ids_dict.items():
         if revisions_ids:
             _, ranking_array = get_similar_users_to_user(user_id, user_id_revisions_ids_dict)
-            user_id_ranking_dict[user_id] = ranking_array
+            # user_id_ranking_dict[user_id] = ranking_array
+        all_papers = [i for i in all_calibration_papers if i.author == user_id]
+        all_paper_texts = [paper.preprocessed_text for paper in all_papers]
+        tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
+        corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
+        corpus_tfidf = tfidf[corpus[0]]
+        user_id_ranking_dict[user_id] = gensim.matutils.sparse2full(corpus_tfidf, length=len(dictionary))
+
     return user_id_ranking_dict
 
 
@@ -28,8 +46,13 @@ def create_save_users_plot():
     ranking_list = [ranking for ranking in user_id_ranking_dict.values()]
     users_ids_with_initals = get_users_ids_with_initials()
     if user_id_ranking_dict:
-        pca = PCA(n_components=2, random_state=42) #TODO can reuse the calculated 3D PCA and just use the two first dimensions for 2D
+        pca = PCA(n_components=2, random_state=42)  # TODO can reuse the calculated 3D PCA and just use the two first dimensions for 2D
         standardized_pca = pca.fit_transform(ranking_list)
+        print("Explained variance ratio:", pca.explained_variance_ratio_)
+        # saving file for debugging or external analysis:
+        # file_save_dir = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_2D_FILE_PATH'])
+        # r = np.array(ranking_list)
+        # np.savetxt("ranking_nameyourdataset.csv", r, delimiter=",")
         plt.scatter(standardized_pca[:, 0], standardized_pca[:, 1], marker='')
         ax.axes.xaxis.set_visible(False)
         ax.axes.yaxis.set_visible(False)

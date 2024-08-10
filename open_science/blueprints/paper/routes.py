@@ -63,7 +63,7 @@ def article(id):
                 creator_role = current_user.privileges_set
             )
 
-            if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
+            if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:  # [1:] removes the 'c' prefix from the comment id received from user interface
                 print(commentForm.comment_ref.data)
                 comment.comment_ref = ref_comment.id
 
@@ -338,7 +338,7 @@ def upload_new_revision(id):
             db.session.commit()
 
             # bind old unpublished reviews and unanswered review reqests
-            # to nthe ewest paper's revision
+            # to the newest paper's revision
             transfer_old_reviews(parent_paper)
 
         except Exception as e:

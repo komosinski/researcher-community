@@ -34,7 +34,7 @@
                     {{user.first_name}} {{user.second_name}}
                 </h3>
                 {% if user.is_researcher() %}
-                <i id="verified-user-icon" class="fas fa-check-circle fa-center"></i>
+                <i id="verified-user-icon" class="fas fa-solid fa-graduation-cap fa-center" title="Verified researcher"></i>
                 {% endif %}
             </div>
 
@@ -77,7 +77,7 @@
                     <p class="stat-value">{{data['reputation']}}</p>
                 </div>
             </div>
-            {%if current_user.is_authenticated%}
+            {% if current_user.is_authenticated and (current_user.get_id()|int!=user.id) %}
             <div>
                 <a href="#" id="flag">Flag</a>
             </div>
@@ -117,7 +117,7 @@
 
 
 
-    <div>
+    <div class="my-divider left-border-about-me">
         <h3>About me</h3>
         {{user.about_me}}
     </div>
@@ -142,7 +142,7 @@
 
         
 
-        <div>
+        <div class="my-divider left-border-info">
             <h3>My papers</h3>
             {% if current_user.can_upload_paper() %}
             <form class="user-action" action="{{url_for('paper.upload_file_page')}}" method="GET">    
@@ -153,14 +153,14 @@
         </div>
       
         <br><br>
-        <div>
+        <div class="my-divider left-border-info">
             <h3>My reviews</h3>
             {% include 'user/tables/table_reviews.html' %}
         </div>
         <br><br>
 
  
-        <div>
+        <div class="my-divider left-border-info">
             <h3>Tags created by me</h3>
             {% if current_user.can_create_tag() %}
             <form class="user-action" action="{{url_for('tag.create_tag_page')}}" method="GET">    
@@ -176,12 +176,12 @@
 
     {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) %}
 
-        <div>
+        <div class="my-divider left-border-info">
             <h3>Tags assigned to me</h3>
             {% include 'user/tables/table_assigned_tags.html' %}
         </div>
 
-        <div>
+        <div class="my-divider left-border-info">
             <h3>My posts</h3>
             {% include 'user/tables/table_comments.html' %}
         </div>
