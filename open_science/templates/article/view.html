@@ -299,7 +299,7 @@
                     <div class="comment-header-wrapper">
                         <div class="author-wrapper comment-author">
                             <img class="author-profile-pic"
-                                 src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
+                                 src="{{url_for('static',filename='res/profileImages/'~author.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
                             <div class="comment-answer-info">
                                 <a style="font-size: 1.2rem;" class="author-name header-username"
                                    href="{{url_for('user.profile_page', user_id=author.get_id()|int)}}">{{author.first_name
