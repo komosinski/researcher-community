@@ -1,3 +1,5 @@
+from sqlalchemy import func
+
 from open_science.blueprints.auth.forms import RegisterForm, LoginForm, \
     ResendConfirmationForm, AccountRecoveryForm, \
     SetNewPasswordForm
@@ -85,7 +87,8 @@ def login_page():
 
     form = LoginForm()
     if form.validate_on_submit():
-        attempted_user = User.query.filter_by(email=form.email.data).first()
+        attempted_user = User.query.filter(
+    func.lower(User.email) == func.lower(form.email.data)).first()
 
         if attempted_user and attempted_user.check_password_correction(
                 attempted_password=form.password.data
