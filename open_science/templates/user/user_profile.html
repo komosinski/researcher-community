@@ -4,23 +4,6 @@
 
 {%block styles%}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
-<style>
-    .my-divider {
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-radius: 3px;
-    }
-
-    .left-border-info {
-    border-left-color: #1b809e;
-    }
-    .left-border-about-me {
-        border-left-color: #aa6708;
-    }
-
-</style>
 {%endblock%}
 
 {%block scripts%}
@@ -51,7 +34,7 @@
                     {{user.first_name}} {{user.second_name}}
                 </h3>
                 {% if user.is_researcher() %}
-                <i id="verified-user-icon" class="fas fa-check-circle fa-center"></i>
+                <i id="verified-user-icon" class="fas fa-solid fa-graduation-cap fa-center" title="Verified researcher"></i>
                 {% endif %}
             </div>
 

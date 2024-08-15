@@ -228,8 +228,8 @@ def review_page(review_id):
                 date=dt.datetime.utcnow(),
                 creator_role=current_user.privileges_set
             )
-            # [1:] perform action of cutting prefix c from id of comment taken from user interface
-            if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
+
+            if commentForm.comment_ref.data and (ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:  # [1:] removes the 'c' prefix from the comment id received from user interface
                 print(commentForm.comment_ref.data)
                 comment.comment_ref = ref_comment.id
 

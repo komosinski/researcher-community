@@ -26,7 +26,6 @@ def get_user_id_ranking_dict():
     tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
     corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
     tfidf = models.TfidfModel(corpus, smartirs='ntc')
-    result = []
     for user_id, revisions_ids in user_id_revisions_ids_dict.items():
         if revisions_ids:
             _, ranking_array = get_similar_users_to_user(user_id, user_id_revisions_ids_dict)
@@ -47,14 +46,13 @@ def create_save_users_plot():
     ranking_list = [ranking for ranking in user_id_ranking_dict.values()]
     users_ids_with_initals = get_users_ids_with_initials()
     if user_id_ranking_dict:
-        pca = PCA(n_components=2, random_state=42) #TODO can reuse the calculated 3D PCA and just use the two first dimensions for 2D
+        pca = PCA(n_components=2, random_state=42)  # TODO can reuse the calculated 3D PCA and just use the two first dimensions for 2D
         standardized_pca = pca.fit_transform(ranking_list)
-        # saving file
+        print("Explained variance ratio:", pca.explained_variance_ratio_)
+        # saving file for debugging or external analysis:
         # file_save_dir = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_2D_FILE_PATH'])
         # r = np.array(ranking_list)
-        # np.savetxt("data_3_categories.csv", r,
-        #              delimiter=",")
-        #print("Explained variance ratio:", pca.explained_variance_ratio_)
+        # np.savetxt("ranking_nameyourdataset.csv", r, delimiter=",")
         plt.scatter(standardized_pca[:, 0], standardized_pca[:, 1], marker='')
         ax.axes.xaxis.set_visible(False)
         ax.axes.yaxis.set_visible(False)
