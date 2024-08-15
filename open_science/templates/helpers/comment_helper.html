@@ -1,0 +1,66 @@
+{% macro render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author) %}
+{% set author = comment.rel_creator %}
+<div class="comment-wrapper" id="c{{ comment.id }}"
+     style="margin-left: {% if comment.comment_ref %}30px{% else %}0{% endif %};">
+    {% if is_author %}
+    <div class="comment comment-by-author">
+    {% else %}
+    <div class="comment comment-{{ comment.creator_role }}">
+    {% endif %}
+        <div class="comment-header-wrapper">
+            <div class="author-wrapper comment-author">
+                <img class="author-profile-pic"
+                     src="{{ url_for('static', filename='res/profileImages/'~author.get_id()~'.jpg') if author.has_photo else url_for('static', filename='res/profileImages/img.jpg') }}"/>
+                <div class="comment-answer-info">
+                    <a style="font-size: 1.2rem;" class="author-name header-username"
+                       href="{{ url_for('user.profile_page', user_id=author.get_id()|int) }}">{{ author.first_name + " " + author.second_name }}</a>
+                    {% if comment.comment_ref %}
+                    answering to <a href="#c{{ comment.comment_ref }}">#c{{ comment.comment_ref }}</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="filler"></div>
+            <div class="comment-info-wrapper">
+                <div class="stats-element-wraper">
+                    {% if comment in user_liked_comments %}
+                    <a href="/login" class="linked-icon like-icon like-pressed">
+                        <i class="fas fa-arrow-up fa-center"></i>
+                    </a>
+                    {% else %}
+                    <a href="/login" class="linked-icon like-icon">
+                        <i class="fas fa-arrow-up fa-center"></i>
+                    </a>
+                    {% endif %}
+                    {% if comment in user_disliked_comments %}
+                    <a href="/login" class="linked-icon dislike-icon dislike-pressed">
+                        <i class="fas fa-arrow-down fa-center"></i>
+                        <p class="stat-value">{{ comment.votes_score }}</p>
+                    </a>
+                    {% else %}
+                    <a href="/login" class="linked-icon dislike-icon">
+                        <i class="fas fa-arrow-down fa-center"></i>
+                        <p class="stat-value">{{ comment.votes_score }}</p>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="comment-text-wrapper">
+            {{ comment.text }}
+        </div>
+        {% if current_user.is_authenticated %}
+        <div class="reply-action-wrapper">
+            <a href="#add-comment" class="reply-action"
+               onclick="setReplyTo({{ comment.id }}, '{{ author.first_name }} {{ author.second_name }}')">Reply</a>
+            |
+            <a href="#" class="flag-comment">Flag</a>
+        </div>
+        {% endif %}
+    </div>
+    {% if comment.children %}
+        {% for child in comment.children %}
+            {{ render_comment(child, user_liked_comments, user_disliked_comments, current_user, review_creator) }}
+        {% endfor %}
+    {% endif %}
+</div>
+{% endmacro %}

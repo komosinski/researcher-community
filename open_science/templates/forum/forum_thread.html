@@ -1,32 +1,21 @@
-{% from "helpers/form_helper.html" import render_register_field %}
 {% from "helpers/comment_helper.html" import render_comment %}
+
 {% extends 'base.html' %}
 
 {% block styles %}
 <link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}"/>
 {% endblock %}
 
+
 {% block scripts %}
 {{ super() }}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
 <script>
-    const url = '{{article.pdf_url}}';
-</script>
-<script>
     $(document).ready(function () {
-        $("#flag").click(function (e) {
+        $(".comment").on('click', '.reply-action', function (e) {
             e.preventDefault();
-            const aid = {{article.parent_paper}};
-            $.post(`/paper/${aid}/flag`, function () {
-                alert("Paper has been reported. Thanks for letting us know.")
-            }).fail(function () {
-                alert("Error");
-            });
-        });
-
-        $(".comment").on('click', '.reply-action', function () {
-            const id = $(this).parents().closest('.comment-wrapper').attr('id');
+            const id = $(this).closest('.comment-wrapper').attr('id');
             $("#reply-info").html(`Replying to <a href="#${id}">#${id}</a>`)
             $("#reply-info-wrapper").removeClass("disabled");
             $("#comment_ref").val(id);
@@ -45,7 +34,7 @@
 
         $(".comment").on('click', '.flag-comment', function (e) {
             e.preventDefault();
-            const id = $(this).parents().closest('.comment').attr('id').substring(1);
+            const id = $(this).closest('.comment').attr('id').substring(1);
             $.post(`/comment/${id}/flag`, function () {
                 alert("Comment has been reported. Thanks for letting us know.")
             }).fail(function () {
@@ -53,14 +42,15 @@
             });
         });
 
-         $(".comment").on('click', '.like-icon', function (e) {
-             // console.log("like-clicked")
+        $(".comment").on('click', '.like-icon', function (e) {
             e.preventDefault();
+            // console.log("like-clicked");
             const id = $(this).closest('.comment-wrapper').attr('id').substring(1);
-            const relatedDisliker = $(this).closest('.stats-element-wraper').find('.dislike-icon');
-            const valueField = $(this).closest('.stats-element-wraper').find('.stat-value');
+            const relatedDisliker = $(this).parents().closest('.stats-element-wraper').children().closest('.dislike-icon');//.addClass('dislike-pressed');
+            const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
             const elem = $(this);
-            const uid = {{ current_user.id }};
+            const uid = {{current_user.id}};
+
 
             $.ajax({
                 url: "/action/verify_liked",
@@ -68,7 +58,6 @@
                 data: JSON.stringify({userID: uid, commentID: id}),
                 dataType: 'json',
                 contentType: 'application/json',
-
                 success: function (data) {
                     // console.log(data)
                     if (data.result) {
@@ -100,10 +89,6 @@
                             data: JSON.stringify({action: 'up', comment_id: id, type: 'comment'}),
                             dataType: 'json',
                             contentType: 'application/json',
-                            error: function (request, error) {
-                                // console.log(arguments);
-                                alert(" Can't do because: " + error);
-                            },
                             success: function (response) {
                                 // console.log(response);
                                 relatedDisliker.removeClass('dislike-pressed');
@@ -118,22 +103,23 @@
             });
         });
 
-        $(".comment").on('click', '.dislike-icon', function (e) {
-            e.preventDefault();
-            const id = $(this).closest('.comment-wrapper').attr('id').substring(1);
-            const relatedLiker = $(this).closest('.stats-element-wraper').find('.like-icon');
-            const valueField = $(this).closest('.stats-element-wraper').find('.stat-value');
-            const elem = $(this);
-            const uid = {{ current_user.id }};
-            console.log("dislike-clicked");
-            $.ajax({
-               url: "/action/verify_disliked",
+            $(".comment").on('click', '.dislike-icon', function(e) {
+                e.preventDefault();
+                const id = $(this).closest('.comment-wrapper').attr('id').substring(1);
+                const relatedLiker = $(this).parents().closest('.stats-element-wraper').children().closest('.like-icon');
+                const valueField = $(this).parents().closest('.stats-element-wraper').find('.stat-value');
+                // console.log(relatedLiker);
+                const elem = $(this);
+                const uid = {{current_user.id}}
+
+                $.ajax({
+                    url: "/action/verify_disliked",
                     type: "POST",
                     data: JSON.stringify({userID: uid, commentID: id}),
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
                         if(data.result === true) {
                             // console.log('liked');
                             alert('You already disliked this comment!')
@@ -155,7 +141,7 @@
                             })
                         }
                         if(data.result === false) {
-                            console.log('not liked');
+                            // console.log('not liked');
                             $.ajax({
                                 url: "/action/like",
                                 type: "POST",
@@ -173,101 +159,20 @@
                             })
                         }
                     }
-            });
-        });
+                });
+            })
     });
 </script>
 {% endblock %}
 
 
+
+
 {% block content %}
-<div class="article-page-wrapper">
-    <div class="article-page">
-        <div class="article-info-wrapper">
-            <h2 class="article-title">{{article.title}}</h2>
-            {% if current_user.is_authenticated %}
-            <div class="flag-wrapper">
-                <a href="#" id="flag">Flag this paper</a>
-            </div>
-            {%endif%}
-            <div class="stats-wrapper">
-                <div class="stats-element-wraper">
-                    <a href="/login" class="linked-icon">
-                        <i class="fas fa-heart fa-center"></i>
-                        <p class="stat-value">{{article.votes_score}}</p>
-                    </a>
-                </div>
-                <div class="stats-element-wraper">
-                    <i class="fas fa-comment fa-center"></i>
-                    <p class="stat-value">{{article.rel_comments_to_this_paper|length if
-                        article.rel_comments_to_this_paper is not none else '0'}}</p>
-                </div>
-                <div class="reviews-wrapper">
-                    <p class="reviews-header">
-                        Reviews: ({{article.average_grade}})
-                    </p>
-                    <p class="reviews-entry">
-                        {{article.average_novel}}
-                    </p>
-                    <p class="reviews-entry">
-                        {{article.average_conclusion}}
-                    </p>
-                    <p class="reviews-entry">
-                        {{article.average_error}}
-                    </p>
-                    <p class="reviews-entry">
-                        {{article.average_organize}}
-                    </p>
-                    <p class="reviews-entry">
-                        {{article.average_accept}}
-                    </p>
+	<h1>{{ forum_topic.title }}</h1>
+    <p>{{ forum_topic.content }}</p>
 
-                    |
-
-                    {%for review in article.rel_related_reviews %}
-                    <a href="/review/{{review.id}}">
-                        Review {{loop.index}}
-                    </a>
-                    {%endfor%}
-                    <!-- {% for review in article.rel_related_reviews %}
-                        {% if review.decision %}
-                            <a href="/review/{{review.id}}" class="reviews-entry reviews-entry-accepted">
-                                {{review.votes_score}}
-                            </a>
-                        {%else%}
-                            <a href="/review/{{review.id}}" class="reviews-entry reviews-entry-declined">
-                                {{review.votes_score}}
-                            </a>
-                        {%endif%}
-                    {%endfor%} -->
-                </div>
-            </div>
-            <div class="article-authors-wrapper">
-                {% for user in article.rel_creators %}
-                <div class="author-wrapper">
-                    <img class="author-profile-pic"
-                         src="{{url_for('static',filename='res/profileImages/'~user.id~'.jpg') if user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
-                    <a class="author-name" href="{{url_for('user.profile_page', user_id=user.id)}}">{{user.first_name +
-                        " " + user.second_name}}</a>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="article-description-wrapper">
-                <p class="article-description-text">{{article.description}}</p>
-            </div>
-            <div class="tags-wrapper">
-                {% for tag in article.rel_related_tags %}
-                <a href="{{url_for('tag.tag_page',tag_name=tag.name)}}">#{{tag.name}}</a>
-                {%endfor%}
-            </div>
-        </div>
-
-
-        <div class="my-pdf-content-wrapper">
-            <div id="my-pdf-container"></div>
-        </div>
-
-             <h3 class="comments-header">Comments</h3>
+                 <h3 class="comments-header">Comments</h3>
     <div class="comments-wrapper">
         {% for comment in comments %}
             {% set author=comment.rel_creator %}
@@ -278,7 +183,7 @@
 
     {% if current_user.is_authenticated and current_user.can_comment() %}
     <div class="create-comment-wrapper" id="add-comment">
-        <form method="POST" action="{{url_for('paper.article', id=article.parent_paper, version=article.version)}}">
+        <form method="POST" action="{{url_for('forum.show_forum_topic', id=forum_topic.id)}}">
             {{ form.hidden_tag() }}
             {{ form.comment_ref() }}
             <div class="profile-edit-input-wrapper">
@@ -301,57 +206,20 @@
         </form>
     </div>
     {% endif %}
-        <div class="similar-articles-column">
-            <h3>Similar articles</h3>
-            <ol>
-                {% for result in similar%}
 
-                {% with item=result%}
-                {% include 'search/article_item.html' %}
-                {% endwith %}
-                {%endfor%}
-            </ol>
-            <h3>Another versions</h3>
-            <ol>
-                {% for version in article.rel_parent_paper.rel_related_versions %}
-                <div>
-                    {% if version.version == article.version %}
-                    <p style="margin: 0">v{{version.version}}, {{moment(version.publication_date).format('L')}}
-                        {% if version.version >1%}
-                        [<a href="{{url_for('paper.revision_changes_page', id=article.parent_paper, version=version.version)}}">changes</a>]
-                        {%endif%}
-                    </p>
+    <p><a href="{{ url_for('forum.forum') }}">Back to Forum</a></p>
 
-                    {%else%}
-                    <a href="{{url_for('paper.article', id=article.parent_paper, version=version.version)}}">v{{version.version}},
-                        {{moment(version.publication_date).format('L')}}</a>
-                    {% if version.version >1%}
-                    [<a href="{{url_for('paper.revision_changes_page', id=article.parent_paper, version=version.version)}}">changes</a>]
-                    {%endif%}
-                    {%endif%}
-
-
-                </div>
-                {% endfor %}
-            </ol>
-        </div>
-    </div>
-
-
-    <script type="text/javascript">
-        function setReplyTo(commentId, authorName) {
+<script type="text/javascript">
+     function setReplyTo(commentId, authorName) {
             document.getElementById('reply-info-wrapper').classList.remove('disabled');
             document.getElementById('reply-info').textContent = 'Replying to ' + authorName;
             document.querySelector('input[name="comment_ref"]').value = commentId;
             document.getElementById('add-comment').scrollIntoView();
         }
-
-        function cancelReply() {
-            document.getElementById('reply-info-wrapper').classList.add('disabled');
-            document.getElementById('reply-info').textContent = '';
-            document.querySelector('input[name="comment_ref"]').value = '';
-        }
-    </script>
-
-    <script src="{{ url_for('static', filename='js/pdfviewer2.js') }}"></script>
-    {% endblock %}
+    function cancelReply() {
+        document.getElementById('reply-info-wrapper').classList.add('disabled');
+        document.getElementById('reply-info').textContent = '';
+        document.querySelector('input[name="comment_ref"]').value = '';
+    }
+</script>
+{% endblock %}
