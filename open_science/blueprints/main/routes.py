@@ -49,9 +49,6 @@ def home_page():
                            users_plot_url=users_plot_url)
 
 
-@bp.route('/forum')
-def forum_page():
-    return render_template('forum.html')
 
 
 @bp.route('/about')

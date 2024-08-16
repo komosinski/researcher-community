@@ -1,5 +1,5 @@
 # for auto-endorsing users based on their university or scientific institution email domain
 EMAIL_REGEXPS = [
-           "@cs\.put\.poznan\.pl",
-           "@put\.poznan\.pl"
+           "(?i)@cs\.put\.poznan\.pl",
+           "(?i)@put\.poznan\.pl"
           ]

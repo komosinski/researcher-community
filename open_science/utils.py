@@ -46,3 +46,25 @@ def researcher_user_required(func):
         return func(*args, **kwargs)
 
     return decorated_view
+
+def build_comment_tree(comments):
+    comment_dict = {comment.id: comment for comment in comments}
+    root_comments = []
+
+    for comment in comments:
+        comment.children = []
+
+    for comment in comments:
+        if comment.comment_ref:
+            parent = comment_dict.get(comment.comment_ref)
+            if parent:
+                parent.children.append(comment)
+        else:
+            root_comments.append(comment)
+
+    for comment in comment_dict.values():
+        comment.children.sort(key=lambda x: x.date)
+
+    root_comments.sort(key=lambda x: x.date)
+
+    return root_comments

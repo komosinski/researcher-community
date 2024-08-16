@@ -58,6 +58,13 @@ association_comment_comment = Table('association_comment_comment', db.metadata,
                                               primary_key=True)
                                     )
 
+association_comment_forum_topic = Table('association_comment_forum_topic', db.metadata,
+                                   db.Column('comment_id', db.Integer, db.ForeignKey(
+                                       'comments.id'), primary_key=True),
+                                   db.Column('forum_topic_id', db.Integer, db.ForeignKey(
+                                       'forum_topics.id'), primary_key=True)
+                                   )
+
 association_tag_paper_version = Table('association_tag_paper_version', db.metadata,
                                       db.Column('tag_id', db.Integer, db.ForeignKey(
                                           'tags.id'), primary_key=True),
@@ -940,6 +947,8 @@ class Comment(db.Model):
     rel_red_flags_received = db.relationship("RedFlagComment", back_populates="rel_to_comment",
                                              foreign_keys="RedFlagComment.to_comment")
     rel_creator_role = db.relationship("PrivilegeSet", back_populates="rel_related_comments_ps")
+    rel_forum_topic = db.relationship("ForumTopic", secondary=association_comment_forum_topic,
+                                      back_populates="rel_comments")
 
     def to_dict(self):
         refers_to = ''
@@ -1365,6 +1374,23 @@ class EndorsementRequestLog(db.Model):
                                                        EndorsementRequestLog.date) > date_after,
                                                    EndorsementRequestLog.decision == True).count()
         return count
+
+
+class ForumTopic(db.Model):
+    __tablename__ = "forum_topics"
+
+    # primary keys
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    # columns
+    title = db.Column(db.String(length=200), nullable=False)
+    content = db.Column(db.String(length=1000), nullable=False)
+    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    date_created = db.Column(db.DateTime)
+
+    # relationships
+    rel_comments = db.relationship("Comment", secondary=association_comment_forum_topic,
+                                   back_populates="rel_forum_topic")
 
 
 # db functions
