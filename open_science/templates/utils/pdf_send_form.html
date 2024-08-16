@@ -22,9 +22,13 @@
 {% block scripts %}
 <script>
     window.onload = () => {
-        $("#confidence_level").prop('disabled', true);
+        if(!$("#review_declaration").is(":checked"))
+        {
+            $("#confidence_level").prop('disabled', true);
+        }
+
         $("#review_declaration").on('change', function() {
-            console.log($(this).val());
+            // console.log($(this).val());
             if($(this).is(":checked")){
                 $('#confidence_level').prop('disabled', false);
             } else {
@@ -57,7 +61,7 @@
 
         const getCoauthors = () => {
             let coauthors = [];
-            console.log(coauthorStartId);
+            // console.log(coauthorStartId);
             for(i = 0; i <= coauthorStartId; i++){
                 const authorName = document.getElementById(`name-input-${i}`).value;
                 const authorLastName = document.getElementById(`sname-input-${i}`).value;
@@ -95,8 +99,8 @@
             const coauthors = getCoauthors();
             const tagArray = getTags();
 
-            console.log(coauthors);
-            console.log(tagArray);
+            // console.log(coauthors);
+            // console.log(tagArray);
 
             document.getElementById("coauthors-input-field").value = JSON.stringify(coauthors);
             document.getElementById("tags-input-field").value = JSON.stringify(tagArray);
