@@ -22,7 +22,10 @@
 {% block scripts %}
 <script>
     window.onload = () => {
-        $("#confidence_level").prop('disabled', true);
+        if(!$("#review_declaration").is(":checked"))
+        {
+            $("#confidence_level").prop('disabled', true);
+        }
         $("#review_declaration").on('change', function() {
             if($(this).is(":checked")){
                 $('#confidence_level').prop('disabled', false);
