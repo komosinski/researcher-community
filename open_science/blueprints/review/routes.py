@@ -288,7 +288,7 @@ def increase_needed_reviews(revision_id):
             flash('You are not authorized', category='error')
             return redirect(url_for('user.profile_page', user_id=current_user.id))
 
-        if revision.confidence_level >= app.config['MAX_CONFIDECNE_LEVEL']:
+        if revision.confidence_level >= app.config['MAX_CONFIDENCE_LEVEL']:
             flash('You cannot request more reviews', category='warning')
             return redirect(url_for('user.profile_page', user_id=current_user.id))
         else:

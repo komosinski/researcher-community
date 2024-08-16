@@ -100,12 +100,12 @@ class Config(object):
 
     # To calculate workload of researchers
     # how many reviews they agreed to prepare in the last period of time
-    REVIEWER_WORKOLOAD_ON_DAYS = int(os.environ.get(
-        'REVIEWER_WORKOLOAD_ON_DAYS') or 365)
+    REVIEWER_WORKLOAD_ON_DAYS = int(os.environ.get(
+        'REVIEWER_WORKLOAD_ON_DAYS') or 365)
 
     # the maximum number of reviews a user can request
-    MAX_CONFIDECNE_LEVEL = int(os.environ.get(
-        'MAX_CONFIDECNE_LEVEL') or 3)
+    MAX_CONFIDENCE_LEVEL = int(os.environ.get(
+        'MAX_CONFIDENCE_LEVEL') or 3)
 
     # project directory path
     ROOTDIR = "./"
