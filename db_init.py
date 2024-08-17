@@ -17,6 +17,7 @@ def db_init():
         create_database(init_engine.url)
 
     drop_all_from_database()
+    #db.drop_all() #This method drop tables relying on models
     db.create_all()
     db.session.commit()
 
