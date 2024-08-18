@@ -185,8 +185,9 @@
     <div class="article-page">
         <div class="article-info-wrapper">
             <h2 class="article-title">{{article.title}}</h2>
+
             {% if current_user.is_authenticated %}
-            <div class="flag-wrapper">
+            <div id="flag-wrapper" class="flag-wrapper" style="display:none;">
                 <a href="#" id="flag">Flag this paper</a>
             </div>
             {%endif%}
@@ -352,6 +353,21 @@
             document.querySelector('input[name="comment_ref"]').value = '';
         }
     </script>
+    <script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+            const currentUserId = {{ current_user.get_id()|int }};
+            const relAuthors = {{ article.rel_authors }};
 
+            function isUserAuthor(userId, authors) {
+                return authors.some(author => author.id === userId);
+            }
+
+            const isAuthor = isUserAuthor(currentUserId, relAuthors);
+
+            if (!isAuthor) {
+                document.getElementById('flag-wrapper').style.display = 'block';
+            }
+        });
+    </script>
     <script src="{{ url_for('static', filename='js/pdfviewer2.js') }}"></script>
     {% endblock %}

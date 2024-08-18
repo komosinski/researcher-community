@@ -62,8 +62,10 @@
         <div class="reply-action-wrapper">
             <a href="#add-comment" class="reply-action"
                onclick="setReplyTo({{ comment.id }}, '{{ author.first_name }} {{ author.second_name }}')">Reply</a>
+            {% if current_user.is_authenticated and ( comment.rel_creator.id != current_user.id ) %}
             |
-            <a href="#" class="flag-comment">Flag</a>
+                <a href="#" class="flag-comment">Flag</a>
+            {% endif %}
         </div>
         {% endif %}
     </div>
