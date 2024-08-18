@@ -18,29 +18,48 @@
                     answering to <a href="#c{{ comment.comment_ref }}">#c{{ comment.comment_ref }}</a>
                     {% endif %}
                 </div>
+                <div
+                        style=" font-size: 14px;
+                        color: #555;
+                        margin-left: 8px;
+                        margin-bottom: 4px;
+                        font-weight: 400;
+                        font-family: 'Arial', sans-serif;" >
+                {{ comment.date.strftime('%Y-%m-%d %H:%M') }}
+                </div>
             </div>
             <div class="filler"></div>
             <div class="comment-info-wrapper">
-                <div class="stats-element-wraper">
-                    {% if comment in user_liked_comments %}
-                    <a href="/login" class="linked-icon like-icon like-pressed">
-                        <i class="fas fa-arrow-up fa-center"></i>
-                    </a>
+                 <div class="stats-element-wraper">
+                    {% if comment.rel_creator.id == current_user.id %}
+                        <span class="linked-icon like-disabled" style="color: grey;">
+                            <i class="fas fa-arrow-up fa-center"></i>
+                        </span>
+                        <span class="linked-icon dislike-disabled" style="color: grey;">
+                            <i class="fas fa-arrow-down fa-center"></i>
+                            <p class="stat-value">{{ comment.votes_score }}</p>
+                        </span>
                     {% else %}
-                    <a href="/login" class="linked-icon like-icon">
-                        <i class="fas fa-arrow-up fa-center"></i>
-                    </a>
-                    {% endif %}
-                    {% if comment in user_disliked_comments %}
-                    <a href="/login" class="linked-icon dislike-icon dislike-pressed">
-                        <i class="fas fa-arrow-down fa-center"></i>
-                        <p class="stat-value">{{ comment.votes_score }}</p>
-                    </a>
-                    {% else %}
-                    <a href="/login" class="linked-icon dislike-icon">
-                        <i class="fas fa-arrow-down fa-center"></i>
-                        <p class="stat-value">{{ comment.votes_score }}</p>
-                    </a>
+                        {% if comment in user_liked_comments %}
+                        <a href="/login" class="linked-icon like-icon like-pressed">
+                            <i class="fas fa-arrow-up fa-center"></i>
+                        </a>
+                        {% else %}
+                        <a href="/login" class="linked-icon like-icon">
+                            <i class="fas fa-arrow-up fa-center"></i>
+                        </a>
+                        {% endif %}
+                        {% if comment in user_disliked_comments %}
+                        <a href="/login" class="linked-icon dislike-icon dislike-pressed">
+                            <i class="fas fa-arrow-down fa-center"></i>
+                            <p class="stat-value">{{ comment.votes_score }}</p>
+                        </a>
+                        {% else %}
+                        <a href="/login" class="linked-icon dislike-icon">
+                            <i class="fas fa-arrow-down fa-center"></i>
+                            <p class="stat-value">{{ comment.votes_score }}</p>
+                        </a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -52,8 +71,10 @@
         <div class="reply-action-wrapper">
             <a href="#add-comment" class="reply-action"
                onclick="setReplyTo({{ comment.id }}, '{{ author.first_name }} {{ author.second_name }}')">Reply</a>
+            {% if current_user.is_authenticated and ( comment.rel_creator.id != current_user.id ) %}
             |
-            <a href="#" class="flag-comment">Flag</a>
+                <a href="#" class="flag-comment">Flag</a>
+            {% endif %}
         </div>
         {% endif %}
     </div>

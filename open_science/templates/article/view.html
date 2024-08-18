@@ -15,6 +15,7 @@
 </script>
 <script>
     $(document).ready(function () {
+        const uid = {{ current_user.id }};
         $("#flag").click(function (e) {
             e.preventDefault();
             const aid = {{article.parent_paper}};
@@ -60,7 +61,6 @@
             const relatedDisliker = $(this).closest('.stats-element-wraper').find('.dislike-icon');
             const valueField = $(this).closest('.stats-element-wraper').find('.stat-value');
             const elem = $(this);
-            const uid = {{ current_user.id }};
 
             $.ajax({
                 url: "/action/verify_liked",
@@ -124,8 +124,8 @@
             const relatedLiker = $(this).closest('.stats-element-wraper').find('.like-icon');
             const valueField = $(this).closest('.stats-element-wraper').find('.stat-value');
             const elem = $(this);
-            const uid = {{ current_user.id }};
-            console.log("dislike-clicked");
+
+
             $.ajax({
                url: "/action/verify_disliked",
                     type: "POST",
@@ -184,9 +184,14 @@
 <div class="article-page-wrapper">
     <div class="article-page">
         <div class="article-info-wrapper">
-            <h2 class="article-title">{{article.title}}</h2>
+            <div class="article-header">
+                <h2 class="article-title">{{article.title}}</h2>
+                <div class="article-date" >
+                    {{ article.publication_date.strftime('%Y-%m-%d %H:%M') }}
+                </div>
+            </div>
             {% if current_user.is_authenticated %}
-            <div class="flag-wrapper">
+            <div id="flag-wrapper" class="flag-wrapper" style="display:none;">
                 <a href="#" id="flag">Flag this paper</a>
             </div>
             {%endif%}
@@ -352,6 +357,23 @@
             document.querySelector('input[name="comment_ref"]').value = '';
         }
     </script>
+    <script type="text/javascript">
+        // could not do this in jinja this script is responsible for checking if currently logged user is one of the authors
+         // this was needed to turn off flag button if currently logged user one of the authors
+         document.addEventListener('DOMContentLoaded', function() {
+            const currentUserId = {{ current_user.get_id()|int }};
+            const relAuthors = {{ article.rel_authors }};
 
+            function isUserAuthor(userId, authors) {
+                return authors.some(author => author.id === userId);
+            }
+
+            const isAuthor = isUserAuthor(currentUserId, relAuthors);
+
+            if (!isAuthor) {
+                document.getElementById('flag-wrapper').style.display = 'block';
+            }
+        });
+    </script>
     <script src="{{ url_for('static', filename='js/pdfviewer2.js') }}"></script>
     {% endblock %}

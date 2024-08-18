@@ -72,7 +72,7 @@ def show_forum_topic(id):
 def add_forum_topic():
     title = request.form['title']
     content = request.form['content']
-    forum_topic = ForumTopic(title=title, content=content, creator_id=current_user.id)
+    forum_topic = ForumTopic(title=title, content=content, creator_id=current_user.id, date_created=dt.datetime.now())
     db.session.add(forum_topic)
     db.session.commit()
     return redirect(url_for('forum.forum'))
