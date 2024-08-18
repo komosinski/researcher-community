@@ -18,6 +18,15 @@
                     answering to <a href="#c{{ comment.comment_ref }}">#c{{ comment.comment_ref }}</a>
                     {% endif %}
                 </div>
+                <div
+                        style=" font-size: 14px;
+                        color: #555;
+                        margin-left: 8px;
+                        margin-bottom: 4px;
+                        font-weight: 400;
+                        font-family: 'Arial', sans-serif;" >
+                {{ comment.date.strftime('%Y-%m-%d %H:%M') }}
+                </div>
             </div>
             <div class="filler"></div>
             <div class="comment-info-wrapper">

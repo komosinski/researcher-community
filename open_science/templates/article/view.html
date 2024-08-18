@@ -184,8 +184,12 @@
 <div class="article-page-wrapper">
     <div class="article-page">
         <div class="article-info-wrapper">
-            <h2 class="article-title">{{article.title}}</h2>
-
+            <div class="article-header">
+                <h2 class="article-title">{{article.title}}</h2>
+                <div class="article-date" >
+                    {{ article.publication_date.strftime('%Y-%m-%d %H:%M') }}
+                </div>
+            </div>
             {% if current_user.is_authenticated %}
             <div id="flag-wrapper" class="flag-wrapper" style="display:none;">
                 <a href="#" id="flag">Flag this paper</a>

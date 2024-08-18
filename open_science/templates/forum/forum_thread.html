@@ -169,7 +169,12 @@
 
 
 {% block content %}
-	<h1>{{ forum_topic.title }}</h1>
+    <div class="topic-header">
+        <h2 class="topic-title">{{ forum_topic.title }}</h2>
+        <div class="topic-date" >
+            {{ forum_topic.date_created.strftime('%Y-%m-%d %H:%M') }}
+        </div>
+    </div>
     <p>{{ forum_topic.content }}</p>
 
                  <h3 class="comments-header">Comments</h3>

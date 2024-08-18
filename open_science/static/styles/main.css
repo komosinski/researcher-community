@@ -75,6 +75,34 @@ a:hover {
     background-color: rgb(207, 248, 197);
 }
 
+.article-date {
+    font-size: 20px;
+    color: #555;
+    font-weight: 400;
+    font-family: 'Arial', sans-serif;
+    margin-left: 10px;
+    margin-top: 6px;
+    white-space: nowrap;
+}
+
+.article-header {
+    display: flex;
+}
+
+.topic-date {
+    font-size: 20px;
+    color: #555;
+    font-weight: 400;
+    font-family: 'Arial', sans-serif;
+    margin-left: 10px;
+    margin-top: 6px;
+    white-space: nowrap;
+}
+
+.topic-header {
+    display: flex;
+}
+
 textarea {
     resize: none !important;
 }
