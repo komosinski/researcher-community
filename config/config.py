@@ -53,6 +53,9 @@ class Config(object):
     MAINTENANCE_MODE = False
     READONLY_MODE = False
 
+    HOME_PAGE_FLASH_TEST_VERSION_MSG = False  # show "This is a test version" (the FLASH_TEST_VERSION string) message box on home page?
+
+    
     # Mail Limit = ML
     # per day
     CONFIRM_REGISTRATION_ML = int(
