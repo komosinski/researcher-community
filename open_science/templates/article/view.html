@@ -358,6 +358,8 @@
         }
     </script>
     <script type="text/javascript">
+        // could not do this in jinja this script is responsible for checking if currently logged user is one of the authors
+         // this was needed to turn off flag button if currently logged user one of the authors
          document.addEventListener('DOMContentLoaded', function() {
             const currentUserId = {{ current_user.get_id()|int }};
             const relAuthors = {{ article.rel_authors }};
