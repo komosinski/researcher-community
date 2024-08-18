@@ -34,6 +34,13 @@ a:hover {
     color: red !important;
 }
 
+.like-disabled, .dislike-disabled {
+    pointer-events: none;
+    cursor: default;
+    color: grey;
+    margin-right: 8px;
+}
+
 .reply-action-wrapper {
     margin-top: 12px;
 }

@@ -15,6 +15,7 @@
 </script>
 <script>
     $(document).ready(function () {
+        const uid = {{ current_user.id }};
         $("#flag").click(function (e) {
             e.preventDefault();
             const aid = {{article.parent_paper}};
@@ -60,7 +61,6 @@
             const relatedDisliker = $(this).closest('.stats-element-wraper').find('.dislike-icon');
             const valueField = $(this).closest('.stats-element-wraper').find('.stat-value');
             const elem = $(this);
-            const uid = {{ current_user.id }};
 
             $.ajax({
                 url: "/action/verify_liked",
@@ -124,8 +124,8 @@
             const relatedLiker = $(this).closest('.stats-element-wraper').find('.like-icon');
             const valueField = $(this).closest('.stats-element-wraper').find('.stat-value');
             const elem = $(this);
-            const uid = {{ current_user.id }};
-            console.log("dislike-clicked");
+
+
             $.ajax({
                url: "/action/verify_disliked",
                     type: "POST",
