@@ -43,7 +43,7 @@ ENDORSEMENT_REQUEST_NOT_EXISTS = 'The endorsement request does not exist.'
 
 ENDORSEMENT_REQUEST_ALREADY_CONSIDERED = 'The endorsement request has already been considered.'
 
-FLASH_TEST_VERISON = 'This is a test version.'
+FLASH_TEST_VERSION = 'This is a test version.'
 
 CP_NOT_EXISTS = 'Calibration paper does not exist.'
 
