@@ -245,7 +245,7 @@
     <div class="comments-wrapper">
         {% for comment in comments %}
         {% set is_author = author == review_creator %}
-            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author) }}
+            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author, time_ago) }}
         {% endfor %}
     </div>
 

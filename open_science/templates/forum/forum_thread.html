@@ -1,5 +1,5 @@
 {% from "helpers/comment_helper.html" import render_comment %}
-
+{% from "helpers/header_helper.html" import render_header %}
 {% extends 'base.html' %}
 
 {% block styles %}
@@ -169,12 +169,16 @@
 
 
 {% block content %}
-    <div class="topic-header">
-        <h2 class="topic-title">{{ forum_topic.title }}</h2>
-        <div class="topic-date" >
-            {{ forum_topic.date_created.strftime('%Y-%m-%d %H:%M') }}
-        </div>
-    </div>
+
+    {{render_header(forum_topic.title, forum_topic.date_created, "topic-header", "topic-title", "topic-date", time_ago)}}
+            <div class="article-authors-wrapper">
+                <div class="author-wrapper">
+                    <img class="author-profile-pic"
+                         src="{{url_for('static',filename='res/profileImages/'~creator.id~'.jpg') if creator.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
+                    <a class="author-name" href="{{url_for('user.profile_page', user_id=creator.id)}}">{{creator.first_name +
+                        " " + creator.second_name}}</a>
+                </div>
+            </div>
     <p>{{ forum_topic.content }}</p>
 
                  <h3 class="comments-header">Comments</h3>
@@ -182,7 +186,7 @@
         {% for comment in comments %}
             {% set author=comment.rel_creator %}
             {% set is_author = author in article_creators %}
-            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author) }}
+            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author, time_ago) }}
         {% endfor %}
     </div>
 

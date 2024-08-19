@@ -21,7 +21,7 @@ from open_science.blueprints.notification.helpers import create_paper_comment_no
 from text_processing.prepocess_text import get_text
 import text_processing.similarity_matrix as sm
 from open_science import strings as STR
-from open_science.utils import check_numeric_args, researcher_user_required, build_comment_tree
+from open_science.utils import check_numeric_args, researcher_user_required, build_comment_tree, time_ago
 from open_science.blueprints.paper import bp
 
 
@@ -101,7 +101,8 @@ def article(id):
                            form=commentForm,
                            user_liked_comments=user_liked_comments,
                            user_disliked_comments=user_disliked_comments,
-                           comments=comments)
+                           comments=comments,
+                           time_ago=time_ago)
 
 
 @bp.route('/paper/anon/<id>')
