@@ -2,22 +2,23 @@ from flask import session, render_template, request, redirect, url_for, Markup, 
 import datetime as dt
 from open_science.blueprints.forum import bp
 from open_science.blueprints.forum.forms import CommentForm
-from open_science.models import ForumTopic, Comment
+from open_science.models import ForumTopic, Comment, User
 from flask_login import current_user
 from open_science import strings as STR
 from open_science import db
-from open_science.utils import build_comment_tree
+from open_science.utils import build_comment_tree, time_ago
 
 
 @bp.route('/forum')
 def forum():
     forum_topics = db.session.query(ForumTopic).all()
-    return render_template('forum/forum.html', forum_topics=forum_topics)
+    return render_template('forum/forum.html', forum_topics=forum_topics, current_user=current_user)
 
 @bp.route('/forum_topic/<int:id>/', methods=['GET', 'POST'])
 def show_forum_topic(id):
     forum_topic = ForumTopic.query.filter(ForumTopic.id == id).first()
     commentForm = CommentForm(refObject="forum", refObjectID=forum_topic.id)
+    creator = User.query.get(forum_topic.creator_id)
 
     user_liked_comments = [vote.rel_to_comment for vote in current_user.rel_comment_votes_created if vote.is_up] if current_user.is_authenticated else []
     user_disliked_comments = [vote.rel_to_comment for vote in current_user.rel_comment_votes_created if not vote.is_up] if current_user.is_authenticated else []
@@ -66,7 +67,9 @@ def show_forum_topic(id):
                            comments=comments,
                            form=commentForm,
                            user_liked_comments=user_liked_comments,
-                           user_disliked_comments=user_disliked_comments)
+                           user_disliked_comments=user_disliked_comments,
+                           time_ago=time_ago,
+                           creator=creator)
 
 @bp.route('/add_forum_topic', methods=['POST'])
 def add_forum_topic():

@@ -69,12 +69,11 @@
 
 {% block content %}
 <div class="container">
-        <h1>Forum</h1>
-
-        <button type="button" class="btn btn-primary" id="openModalButton">
-            Add New Forum Topic
-        </button>
-
+        {% if current_user.is_authenticated %}
+            <button type="button" class="btn btn-primary" id="openModalButton">
+                Add New Forum Topic
+            </button>
+        {%endif%}
         <h2>Forum Topics</h2>
         <ul class="thread-list">
             {% for forum_topic in forum_topics %}

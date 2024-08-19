@@ -1,4 +1,4 @@
-{% macro render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author) %}
+{% macro render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author, time_ago) %}
 {% set author = comment.rel_creator %}
 <div class="comment-wrapper" id="c{{ comment.id }}"
      style="margin-left: {% if comment.comment_ref %}30px{% else %}0{% endif %};">
@@ -25,7 +25,9 @@
                         margin-bottom: 4px;
                         font-weight: 400;
                         font-family: 'Arial', sans-serif;" >
-                {{ comment.date.strftime('%Y-%m-%d %H:%M') }}
+                    {% if comment.date %}
+                        {{ time_ago(comment.date) }}
+                    {% endif %}
                 </div>
             </div>
             <div class="filler"></div>
@@ -80,7 +82,7 @@
     </div>
     {% if comment.children %}
         {% for child in comment.children %}
-            {{ render_comment(child, user_liked_comments, user_disliked_comments, current_user, review_creator) }}
+            {{ render_comment(child, user_liked_comments, user_disliked_comments, current_user, review_creator, time_ago) }}
         {% endfor %}
     {% endif %}
 </div>

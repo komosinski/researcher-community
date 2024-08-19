@@ -1,0 +1,10 @@
+{% macro render_header(title, creation_date, header_class, title_class, date_class, time_ago) %}
+<div class="{{ header_class }}">
+    <h2 class="{{ title_class }}">{{ title }}</h2>
+    <div class="{{ date_class }}">
+        {% if creation_date %}
+            {{ time_ago(creation_date) }}
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
