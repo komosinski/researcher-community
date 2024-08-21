@@ -56,19 +56,19 @@ Dropzone.options.uploadCalibartionPDFs = {
             <br>
 
             <h2>Uploaded calibration papers</h2>
-            <h3>
+            <p>
                 {% if calibration_papers | length == 0 %}
-                    You didn't upload any calibration papers yet. Consider adding calibration papers to your profile &ndash;
+                    💡 You didn't upload any calibration papers yet. Consider adding calibration papers to your profile &ndash;
                     this will help in better understanding your area of expertise!
                 {% elif calibration_papers | length == 1 %}
-                    You uploaded {{ calibration_papers | length }} calibration paper. Consider adding a few more, as
+                    💡 You uploaded {{ calibration_papers | length }} calibration paper. Consider adding a few more, as
                     this will help in better understanding your area of expertise!
                 {% elif calibration_papers | length < 5 %}
                     You uploaded {{ calibration_papers | length }} calibration papers &ndash; maybe consider adding a few more?
                 {% else %}
                     You uploaded {{ calibration_papers | length }} calibration papers. Please keep the papers representative of your area of expertise!
                 {% endif %}
-            </h3>
+            </p>
             <br>
             {% for calibration_paper in calibration_papers %}
 
