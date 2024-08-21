@@ -415,9 +415,6 @@ https://stackoverflow.com/questions/15940338/is-there-a-way-via-css-to-set-the-i
 } */
 
 .input-wrapper {
-    margin-right: auto;
-    margin-left:  auto;
-
     max-width: 650px;
 }
 .select-input-adjust {
