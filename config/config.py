@@ -151,8 +151,8 @@ class Config(object):
     # it is working the same way as for styles and resources
     TEST_PDFS_DIR_PATH = '/static/articles/'
 
-    DROPZONE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js'
-    DROPZONE_CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css'
+    DROPZONE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js'
+    DROPZONE_CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css'
 
     PAPER_MIN_WORDS_COUNT = 10
     

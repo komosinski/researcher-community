@@ -34,6 +34,7 @@ def profile_page(user_id):
 
     user = User.query.filter(User.id == user_id,
                              get_hidden_filter(User)).first()
+    hasUserCalibrationPapers = len(user.rel_calibration_papers) > 0
 
     if not user or user.confirmed is False or user.is_deleted is True:
         flash(STR.USER_NOT_EXISTS, category='error')
@@ -52,12 +53,12 @@ def profile_page(user_id):
         db.session.commit()
         flash(STR.REMARKS_SAVED, category='success')
         return render_template('user/user_profile.html',
-                               user=user, data=data, remarks_form=remarks_form)
+                               user=user, data=data, remarks_form=remarks_form, hasUserCalibrationPapers=hasUserCalibrationPapers)
     elif request.method == 'GET':
         remarks_form.remarks.data = user.remarks
 
     return render_template('user/user_profile.html',
-                           user=user, data=data, remarks_form=remarks_form)
+                           user=user, data=data, remarks_form=remarks_form, hasUserCalibrationPapers=hasUserCalibrationPapers)
 
 
 @bp.route('/user/edit_profile', methods=['GET', 'POST'])

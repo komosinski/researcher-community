@@ -56,7 +56,16 @@ Dropzone.options.uploadCalibartionPDFs = {
             <br>
 
             <h2>Uploaded calibration papers</h2>
-         
+            <h3>
+                {% if calibration_papers | length == 0 %}
+                    You haven't uploaded any calibration papers yet.
+                {% elif calibration_papers | length < 3 %}
+                    You uploaded {{ calibration_papers | length }} calibration papers, maybe consider uploading more?
+                {% elif calibration_papers | length >= 3 %}
+                    You uploaded {{ calibration_papers | length }} calibration papers, thank you!
+
+                {% endif %}
+            </h3>
             <br>
             {% for calibration_paper in calibration_papers %}
 
@@ -83,7 +92,9 @@ First extracted words:
 ...
 
                 <a href="{{url_for('user.delete_calibration_paper', paper_id=calibration_paper.id)}}">
-                    <img src="{{url_for('static', filename='res/del.png')}}"/>
+                    <button class="my-delete-button">
+                        Delete calibration paper
+                    </button>
                 </a>
                 <br>
             {% endfor %}
