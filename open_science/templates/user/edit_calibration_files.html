@@ -9,7 +9,7 @@
 <script src="{{ DROPZONE_JS_URL }}"></script>
 <script>
 Dropzone.options.uploadCalibartionPDFs = {
-    dictDefaultMessage: "Drop calibration papers here to upload",
+    dictDefaultMessage: "Drop here calibration papers to upload",
     acceptedFiles: '.pdf',
     maxFiles: 25,
     init: function () {
@@ -58,12 +58,15 @@ Dropzone.options.uploadCalibartionPDFs = {
             <h2>Uploaded calibration papers</h2>
             <h3>
                 {% if calibration_papers | length == 0 %}
-                    You haven't uploaded any calibration papers yet.
-                {% elif calibration_papers | length < 3 %}
-                    You uploaded {{ calibration_papers | length }} calibration papers, maybe consider uploading more?
-                {% elif calibration_papers | length >= 3 %}
-                    You uploaded {{ calibration_papers | length }} calibration papers, thank you!
-
+                    You didn't upload any calibration papers yet. Consider adding calibration papers to your profile &ndash;
+                    this will help in better understanding your area of expertise!
+                {% elif calibration_papers | length == 1 %}
+                    You uploaded {{ calibration_papers | length }} calibration paper. Consider adding a few more, as
+                    this will help in better understanding your area of expertise!
+                {% elif calibration_papers | length < 5 %}
+                    You uploaded {{ calibration_papers | length }} calibration papers &ndash; maybe consider adding a few more?
+                {% else %}
+                    You uploaded {{ calibration_papers | length }} calibration papers. Please keep the papers representative of your area of expertise!
                 {% endif %}
             </h3>
             <br>
@@ -93,7 +96,7 @@ First extracted words:
 
                 <a href="{{url_for('user.delete_calibration_paper', paper_id=calibration_paper.id)}}">
                     <button class="my-delete-button">
-                        Delete calibration paper
+                        Delete this calibration paper
                     </button>
                 </a>
                 <br>
