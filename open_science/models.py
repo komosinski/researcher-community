@@ -1198,7 +1198,7 @@ class Suggestion(db.Model):
 
     @validates('location')
     def set_location(self, key, value):
-        if len(value) > mc.S_LOCATION_L:
+        if value and len(value) > mc.S_LOCATION_L:
             return value[:mc.S_LOCATION_L]
         else:
             return value

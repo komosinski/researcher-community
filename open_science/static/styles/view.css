@@ -175,6 +175,7 @@ button:hover {
 .suggestion-no-location {
     width: 100%;
     height: 20rem;
+    margin: 1rem;
 }
 .suggestion-no-location textarea{
     width: 90%;

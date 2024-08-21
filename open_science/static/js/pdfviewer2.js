@@ -374,6 +374,7 @@ function loadSuggestions() {
                 const locData = JSON.parse(location);
 
                 const pageDivs = document.querySelectorAll('.pdf-page');
+                if(!locData.page) return;
                 if (pageDivs[locData.page - 1]) {
                     const pageDiv = pageDivs[locData.page - 1];
                     const rect = createSelectionRect(pageDiv, locData.page, true);
