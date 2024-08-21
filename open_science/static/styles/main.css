@@ -586,3 +586,25 @@ a:link {
  .left-border-tag {
         border-left-color: #267221;
     }
+
+ .my-delete-button {
+    background-color: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.my-delete-button:hover {
+    background-color: #ff1a1a;
+}
+
+.my-delete-button:active {
+    background-color: #cc0000;
+}

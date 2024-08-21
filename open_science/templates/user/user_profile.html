@@ -42,6 +42,12 @@
 
             <div>Verified email at {{user.email.split('@')[1]}}</div>
 
+            {% if current_user.is_researcher() and hasUserCalibrationPapers == false %}
+                <a href="{{ url_for('user.edit_calibration_files') }}">
+                    Please consider adding calibration papers
+                </a>
+            {% endif %}
+
             <div>Last seen: {{ moment(user.last_seen).fromNow() if user.last_seen else 'never'  }}</div>
 
             {% if user.orcid%}
