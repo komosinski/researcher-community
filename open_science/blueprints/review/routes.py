@@ -106,13 +106,13 @@ def review_edit_page(review_id):
             review.confidence = form.confidence.data/100
 
             print(form.suggestionsField.data)
-            suggestions = json.loads(form.suggestionsField.data)
-            [db.session.delete(suggestion)
-             for suggestion in review.rel_suggestions]
+            no_located_suggestions = json.loads(form.suggestionsField.data)
+            # why deleting suggestions
+            # [db.session.delete(suggestion)
+            #  for suggestion in review.rel_suggestions]
             review.rel_suggestions = [Suggestion(
-                suggestion=s["suggestion"],
-                location=s["location"]
-            ) for s in suggestions]
+                suggestion=s["suggestion"]
+            ) for s in no_located_suggestions]
 
             if review.publication_datetime is not None:
                 # TODO: check if suggestions have changed
