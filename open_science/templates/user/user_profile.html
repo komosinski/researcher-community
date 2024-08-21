@@ -40,25 +40,25 @@
 
             <h6 class="afiliation">{{user.affiliation}}</h6>
 
-            <div>Verified email at {{user.email.split('@')[1]}}</div>
+            <p>Verified email at {{user.email.split('@')[1]}}</p>
 
             {% if current_user.is_researcher() and hasUserCalibrationPapers == false %}
-                Consider <a href="{{ url_for('user.edit_calibration_files') }}">adding calibration papers to your profile</a>.
-                This will help in better understanding your area of expertise!
+                <p>💡 Consider <a href="{{ url_for('user.edit_calibration_files') }}">adding calibration papers to your profile</a>.
+                This will help in better understanding your area of expertise!</p>
             {% endif %}
 
-            <div>Last seen: {{ moment(user.last_seen).fromNow() if user.last_seen else 'never'  }}</div>
+            <p>Last seen: {{ moment(user.last_seen).fromNow() if user.last_seen else 'never'  }}</p>
 
             {% if user.orcid%}
-                <div>ORCID: {{user.get_orcid()}}</div>
+                <p>ORCID: {{user.get_orcid()}}</p>
             {% endif %}
 
             {% if user.google_scholar%}
-                <div>Google scholar: <a href="https://scholar.google.com/{{user.get_google_scholar()}}">https://scholar.google.com/{{user.get_google_scholar()}}</a> </div>
+                <p>Google scholar: <a href="https://scholar.google.com/{{user.get_google_scholar()}}">https://scholar.google.com/{{user.get_google_scholar()}}</a></p>
             {% endif %}
 
             {% if user.personal_website%}
-            <div>Personal website: <a href="{{ user.personal_website }}">{{user.personal_website}}</a></div>
+            <p>Personal website: <a href="{{ user.personal_website }}">{{user.personal_website}}</a></p>
             {% endif %}
 
             <div class="stats-wrapper">
