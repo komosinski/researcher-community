@@ -12,17 +12,31 @@
 {% block scripts%}
 <script>
 function showReviewWarning(value) {
-    var mails_limit = document.querySelector('#review_mails_limit').value;
-    if (mails_limit==0){
-        alert("With this choice, you will never be asked by researcher.community to peer review papers, and the option to ask peers to review your papers will be disabled.");
+        var mails_limit = document.querySelector('#review_mails_limit').value;
+        if (mails_limit == 0) {
+            alert("With this choice, you will never be asked by researcher.community to peer review papers, and the option to ask peers to review your papers will be disabled.");
+        }
     }
-}
 
+<!--    added $(document).ready to make sure that profile-image-input is already loaded so then i can perform action on it-->
 $(document).ready(function() {
-    if ('{{user_type}}' == 'standard_user')
-    {
+    if ('{{ user_type }}' == 'standard_user') {
         $("#researcher_options :input").prop('disabled', true);
-        document.getElementById('researcher_options').style.color='#A9A9A9';
+        document.getElementById('researcher_options').style.color = '#A9A9A9';
+    }
+
+    var profileImageInput = document.getElementById('profile-image-input');
+    if (profileImageInput) {
+        profileImageInput.onchange = function(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('preview-image');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+    } else {
+        console.log("Profile image input not found!");
     }
 });
 </script>
@@ -42,11 +56,11 @@ $(document).ready(function() {
         <br><br>
 
         <div class="profile-pic-selection-wrapper">
-            <img src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="edit-profile-picture" />
+            <img id="preview-image" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="edit-profile-picture" />
             <div class="profile-edit-input-wrapper">
-                <div clas="label-wrapper">{{ form.profile_image.label()}}</div>
+                <div class="label-wrapper">{{ form.profile_image.label()}}</div>
                 <div class="label-wrapper">(Please use a photo of your face if you decide to set a photo)</div>
-                <div class="input-wrapper">{{ form.profile_image()}}</div>
+                <div class="input-wrapper">{{ form.profile_image(id='profile-image-input') }}</div>
                 {% for error in form.profile_image.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
