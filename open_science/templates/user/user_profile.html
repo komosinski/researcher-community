@@ -13,7 +13,7 @@
             e.preventDefault();
             const uid = {{user.id}};
             $.post(`/user/${uid}/flag`, function() {
-                alert("User has been reported. Thanks for letting us know.")
+                alert("The user has been reported. Thanks for letting us know.")
             }).fail(function() {
                 alert("Error");
             });
@@ -43,9 +43,8 @@
             <div>Verified email at {{user.email.split('@')[1]}}</div>
 
             {% if current_user.is_researcher() and hasUserCalibrationPapers == false %}
-                <a href="{{ url_for('user.edit_calibration_files') }}">
-                    Please consider adding calibration papers
-                </a>
+                Consider <a href="{{ url_for('user.edit_calibration_files') }}">adding calibration papers to your profile</a>.
+                This will help in better understanding your area of expertise!
             {% endif %}
 
             <div>Last seen: {{ moment(user.last_seen).fromNow() if user.last_seen else 'never'  }}</div>
