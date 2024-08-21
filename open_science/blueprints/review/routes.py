@@ -17,6 +17,7 @@ from open_science.blueprints.review import bp
 from open_science import strings as STR
 from sqlalchemy.sql.elements import and_
 from open_science.blueprints.review.helpers import create_review_request
+import markupsafe
 
 @bp.route('/review/request/<request_id>', methods=['GET', 'POST'])
 @login_required
@@ -90,7 +91,14 @@ def review_edit_page(review_id):
               category='warning')
         return redirect(url_for('user.profile_page', user_id=current_user.id))
 
-    suggestions = [s.to_dict() for s in review.rel_suggestions]
+    suggestions = []
+    for s in review.rel_suggestions:
+        markup_data = {}
+        markup_data['id'] = s.id
+        markup_data['location'] = s.location
+        markup_data['suggestion'] = s.suggestion
+        markup_data['review'] = s.review
+        suggestions.append(markup_data)
 
     previous_reviews = review.get_previous_creator_reviews()
 
@@ -105,14 +113,20 @@ def review_edit_page(review_id):
             review.evaluation_accept = form.evaluation_accept.data
             review.confidence = form.confidence.data/100
 
-            print(form.suggestionsField.data)
-            suggestions = json.loads(form.suggestionsField.data)
+            # print(form.suggestionsField.data)
+            no_located_suggestions = json.loads(form.suggestionsField.data)
+            suggestions = [s for s in suggestions if s['location'] != ""]
+
+            for s in no_located_suggestions:
+                s['location'] = ""
+            suggestions += no_located_suggestions
             [db.session.delete(suggestion)
              for suggestion in review.rel_suggestions]
+
             review.rel_suggestions = [Suggestion(
                 suggestion=s["suggestion"],
                 location=s["location"]
-            ) for s in suggestions]
+            ) for s in suggestions ]
 
             if review.publication_datetime is not None:
                 # TODO: check if suggestions have changed
@@ -133,10 +147,16 @@ def review_edit_page(review_id):
             review.confidence = form.confidence.data/100
             review.publication_datetime = dt.datetime.utcnow()
 
-            print(form.suggestionsField.data)
-            suggestions = json.loads(form.suggestionsField.data)
+            # print(form.suggestionsField.data)
+            no_located_suggestions = json.loads(form.suggestionsField.data)
+            suggestions = [s for s in suggestions if s['location'] != ""]
+
+            for s in no_located_suggestions:
+                s['location'] = ""
+            suggestions += no_located_suggestions
             [db.session.delete(suggestion)
              for suggestion in review.rel_suggestions]
+
             review.rel_suggestions = [Suggestion(
                 suggestion=s["suggestion"],
                 location=s["location"]

@@ -52,40 +52,78 @@ function setupCanvasEventListeners(canvas, pageNumber, pageDiv) {
     });
     canvas.addEventListener('mousemove', drag);
     canvas.addEventListener('mouseup', stopDragging);
+    document.addEventListener('mouseup', stopDragging);
 }
 
 function startDragging(event) {
+    if (!isAddingRect) return;
+
     console.log('Starting drag at', event.offsetX, event.offsetY);
     isDragging = true;
     startX = event.offsetX;
     startY = event.offsetY;
-    let rect = createSelectionRect(currentPageDiv, currentPageNumber);
+
+    document.querySelectorAll('.selection-rect').forEach(rect => {
+        rect.style.pointerEvents = 'none';
+        rect.style.opacity = '0.5';
+    });
+
+    let rect = createSelectionRect(currentPageDiv, currentPageNumber, false);
     setupTooltipForRect(rect, '');
 }
 
 function drag(event) {
-    if (isDragging && currentPageDiv && currentPageDiv.currentRect) {
-        endX = event.offsetX;
-        endY = event.offsetY;
-        updateSelectionRect();
+   if (!isDragging || !currentPageDiv || !currentPageDiv.currentRect) return;
+
+    let canvas = event.target;
+
+    let rect = canvas.getBoundingClientRect();
+    if (
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+    ) {
+        return;
     }
+
+    endX = event.offsetX;
+    endY = event.offsetY;
+    updateSelectionRect();
 }
 
 function stopDragging() {
+    if (!isDragging) return;
+    const overlay = document.getElementById('overlay');
+    overlay.style.display = 'none';
     isDragging = false;
+
     if (isAddingRect && currentPageDiv.currentRect) {
         showSelectionRect(true);
         createCommentForm(currentPageDiv.currentRect);
     }
+
+    document.querySelectorAll('.selection-rect').forEach(rect => {
+        rect.style.pointerEvents = 'auto';
+        rect.style.opacity = '1';
+    });
+
+    isAddingRect = false;
 }
 
-function createSelectionRect(pageDiv, pageNumber) {
+function createSelectionRect(pageDiv, pageNumber, fromLoad) {
     var newSelectionRect = document.createElement('div');
     newSelectionRect.className = 'selection-rect';
     newSelectionRect.style.position = 'absolute';
     newSelectionRect.style.border = '2px solid red';
     newSelectionRect.style.boxSizing = 'border-box';
     newSelectionRect.style.background = 'transparent';
+
+    if (currentPageNumber !== pageNumber && !fromLoad) {
+        console.warn('Attempted to create a rect on a different page.');
+        return null;
+    }
+
     pageDiv.appendChild(newSelectionRect);
     newSelectionRect.pageNumber = pageNumber;
     pageDiv.currentRect = newSelectionRect;
@@ -183,6 +221,8 @@ function createCommentForm(rect) {
 
 function updateSelectionRect() {
     let rect = currentPageDiv.currentRect;
+    if (!rect) return;
+
     rect.style.left = Math.min(startX, endX) + 'px';
     rect.style.top = Math.min(startY, endY) + 'px';
     rect.style.width = Math.abs(endX - startX) + 'px';
@@ -196,6 +236,11 @@ function showSelectionRect(show) {
 
 
 function handleCommentSubmit(comment, rect) {
+    if (!rect) {
+        console.error('No valid rectangle to associate with the comment.');
+        return;
+    }
+
     fetch('/review/edit/add-suggestion', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -249,14 +294,21 @@ function highlightRectAndScroll(rect) {
 document.addEventListener('DOMContentLoaded', function () {
     const addRectBtn = document.getElementById('addRectBtn');
     const removeRectBtn = document.getElementById('removeRectBtn');
+    const overlay = document.getElementById('overlay');
     let isRemovingRect = false;
 
-    if (addRectBtn) {
+     if (addRectBtn) {
         addRectBtn.addEventListener('click', function () {
             isAddingRect = !isAddingRect;
             isRemovingRect = false;
             this.classList.toggle('active', isAddingRect);
             removeRectBtn.classList.remove('active');
+
+            if (isAddingRect) {
+                overlay.style.display = 'block';
+            } else {
+                overlay.style.display = 'none';
+            }
         });
     }
 
@@ -276,6 +328,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    overlay.addEventListener('click', function () {
+        if (isAddingRect) {
+            isAddingRect = false;
+            overlay.style.display = 'none';
+            addRectBtn.classList.remove('active');
+        }
+    });
 
     if (removeRectBtn) {
         document.getElementById('my-pdf-container').addEventListener('click', function (event) {
@@ -308,14 +368,16 @@ function loadSuggestions() {
     fetch(`/review/get-suggestions/${review_id}`)
         .then(response => response.json())
         .then(suggestions => {
+            console.log('got-suggestions', suggestions)
             suggestions.forEach(suggestion => {
                 const {id, suggestion: commentText, location} = suggestion;
                 const locData = JSON.parse(location);
 
                 const pageDivs = document.querySelectorAll('.pdf-page');
+                if(!locData.page) return;
                 if (pageDivs[locData.page - 1]) {
                     const pageDiv = pageDivs[locData.page - 1];
-                    const rect = createSelectionRect(pageDiv, locData.page);
+                    const rect = createSelectionRect(pageDiv, locData.page, true);
                     rect.dataset.rectId = id;
 
                     rect.style.left = `${locData.startX}px`;
