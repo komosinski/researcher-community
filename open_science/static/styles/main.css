@@ -436,8 +436,8 @@ https://stackoverflow.com/questions/15940338/is-there-a-way-via-css-to-set-the-i
 }
 
 .input-wrapper textarea {
-    width: 620px;
-    height: 100px;
+    width: 80rem;
+    height: 20rem;
 }
 
 label {

@@ -60,12 +60,12 @@ class CommentForm(FlaskForm):
 
 
 class FileUploadForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(max=mc.PV_TITLE_L)])
     file = FileField("Paper PDF",
                      validators=[FileRequired(), FileAllowed(['pdf'])])
     anonymousFile = FileField("Anonymous version (optional)",
                               validators=[FileAllowed(['pdf'])])
-    description = TextAreaField("Abstract", validators=[DataRequired()])
+    description = TextAreaField("Abstract", validators=[DataRequired(), Length(max=mc.PV_ABSTRACT_L)])
     changes = TextAreaField("Changes since last version")
     license = SelectField("License", coerce=int)
 
