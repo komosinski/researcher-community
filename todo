@@ -23,8 +23,6 @@ pdf dropped to a field area (drag-drop) additionally to the "Browse" button
 
 the ability of researchers to update/delete/add their "profiling papers" anytime
 
-the <head>'s <title> should also contain the title of each particular page; maybe shoud be unified with the <h1> contents?
-
 if the profile image is larger than 256px in any dimension, rescale proportionally down to max 256px, then save as jpeg, quality 90%.
 
 ------------------------------------------------------------------------
