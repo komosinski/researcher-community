@@ -42,7 +42,7 @@
 
             <p>Verified email at {{user.email.split('@')[1]}}</p>
 
-            {% if current_user.is_researcher() and hasUserCalibrationPapers == false %}
+            {% if current_user.is_researcher() and hasUserCalibrationPapers == false and (current_user.get_id()|int==user.id) %}
                 <p>💡 Consider <a href="{{ url_for('user.edit_calibration_files') }}">adding calibration papers to your profile</a>.
                 This will help in better understanding your area of expertise!</p>
             {% endif %}
