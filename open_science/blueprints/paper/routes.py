@@ -177,7 +177,8 @@ def upload_file_page():
             rel_creators=[current_user] + users,
             rel_related_tags=tags,
             preprocessed_text="",
-            confidence_level=chosen_confidence_level
+            confidence_level=chosen_confidence_level,
+            interest_conflicts=form.interest_conflicts.data
         )
         db.session.flush()
 

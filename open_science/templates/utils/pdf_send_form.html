@@ -43,6 +43,44 @@
                 $("#anonymity_declaration").prop('disabled', false);
             }
         });
+        var checkbox = document.getElementById('interest_conflict_declaration');
+        var textarea = document.getElementById('interest_conflicts');
+        var label = document.querySelector("label[for='interest_conflict_declaration']");
+
+        function toggleTextarea() {
+            if (checkbox.checked) {
+                textarea.disabled = true;
+                textarea.value = '';
+            } else {
+                textarea.disabled = false;
+            }
+        }
+
+        function toggleLabelState() {
+            if (checkbox.disabled) {
+                label.classList.add("disabled-label");
+            } else {
+                label.classList.remove("disabled-label");
+            }
+        }
+
+        toggleTextarea();
+        toggleLabelState();
+
+        checkbox.addEventListener('change', function () {
+            toggleTextarea();
+            toggleLabelState();
+        });
+
+        textarea.addEventListener('input', function () {
+            if (textarea.value.length > 0) {
+                checkbox.disabled = true;
+                toggleLabelState();
+            } else {
+                checkbox.disabled = false;
+                toggleLabelState();
+            }
+        });
 
         const createTagOption = (tag) => {
             return `<option value=${tag.id}>${tag.name}</option>`;
@@ -212,6 +250,7 @@
 <div class="spacer"></div>
 
     {{render_boolean_field(form.interest_conflict_declaration)}}
+    {{render_register_field(form.interest_conflicts, "Conflicts of interests")}}
     {{render_boolean_field(form.authors_declaration)}}
     {{render_boolean_field(form.rights_declaration)}}
     {{render_boolean_field(form.review_declaration)}}
