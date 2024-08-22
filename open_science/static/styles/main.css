@@ -608,3 +608,8 @@ a:link {
 .my-delete-button:active {
     background-color: #cc0000;
 }
+
+.disabled-label {
+    color: gray;
+    text-decoration: line-through;
+}
