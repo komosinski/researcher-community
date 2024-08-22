@@ -178,7 +178,7 @@ def upload_file_page():
             rel_related_tags=tags,
             preprocessed_text="",
             confidence_level=chosen_confidence_level,
-            interest_conflicts=form.interest_conflicts.data
+            conflicts_of_interest=form.conflicts_of_interest.data
         )
         db.session.flush()
 

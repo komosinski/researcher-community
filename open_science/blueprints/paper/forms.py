@@ -73,8 +73,8 @@ class FileUploadForm(FlaskForm):
         BooleanField(STR.DECLARATION_RIGHTS, validators=[DataRequired()])
     authors_declaration = BooleanField(STR.DECLARATION_AUTHORS,
                                        validators=[DataRequired()])
-    interest_conflict_declaration = BooleanField(STR.DECLARATION_NO_INTEREST_CONFLICT )
-    interest_conflicts = TextAreaField("Conflicts of interest", validators=[Length(max=mc.PV_CONFLICT_INTEREST_L)])
+    conflicts_of_interest_none = BooleanField(STR.DECLARATION_NO_INTEREST_CONFLICT )
+    conflicts_of_interest = TextAreaField("Conflicts of interest", validators=[Length(max=mc.PV_CONFLICT_OF_INTEREST_L)])
 
     anonymity_declaration = BooleanField(STR.DECLARATION_ANONYMITY)
     review_declaration = BooleanField(STR.DECLARATION_REVIEW)
@@ -86,10 +86,10 @@ class FileUploadForm(FlaskForm):
 
     submitbtn = SubmitField("Upload")
 
-    def validate_interest_conflicts(form, field):
-        if not form.interest_conflict_declaration.data and not field.data:
+    def validate_conflicts_of_interest(form, field):
+        if not form.conflicts_of_interest_none.data and not field.data:
             raise ValidationError('Conflicts of interest field is required unless the declaration is checked.')
-        if form.interest_conflict_declaration.data and field.data:
+        if form.conflicts_of_interest_none.data and field.data:
             raise ValidationError('Conflicts of interest field must be empty if the declaration is checked.')
 
     # c = HiddenField()

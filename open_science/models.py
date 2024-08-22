@@ -594,7 +594,7 @@ class PaperRevision(db.Model):
     publication_date = db.Column(db.DateTime)
     confidence_level = db.Column(db.SmallInteger(), default=0, nullable=False)
     red_flags_count = db.Column(db.Integer(), default=0, nullable=False)
-    interest_conflicts = db.Column(db.String(length=mc.PV_CONFLICT_INTEREST_L), nullable=True)
+    conflicts_of_interest = db.Column(db.String(length=mc.PV_CONFLICT_OF_INTEREST_L), nullable=True)
     # is blank if no anonymous version exists
     anonymized_pdf_url = db.Column(db.String(mc.PV_PDF_URL_L), nullable=True)
     force_hide = db.Column(db.Boolean, nullable=False, default=False)
