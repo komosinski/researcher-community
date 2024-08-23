@@ -31,7 +31,7 @@ def get_user_id_ranking_dict():
             _, ranking_array = get_similar_users_to_user(user_id, user_id_revisions_ids_dict)
             # user_id_ranking_dict[user_id] = ranking_array
         all_papers = [i for i in all_calibration_papers if i.author == user_id]
-        if not all_papers:
+        if len(all_papers) == 0:  # user has no papers
             continue
         all_paper_texts = [paper.preprocessed_text for paper in all_papers]
         tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
