@@ -62,7 +62,7 @@ class CommentForm(FlaskForm):
 class FileUploadForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired(), Length(max=mc.PV_TITLE_L)])
     file = FileField("Paper PDF",
-                     validators=[FileRequired(message="Uploading a pdf file is necessary to submit an article."), FileAllowed(['pdf'])])
+                     validators=[FileRequired(message="Uploading the pdf file is necessary to submit a paper."), FileAllowed(['pdf'])])
     anonymousFile = FileField("Anonymous version (optional)",
                               validators=[FileAllowed(['pdf'])])
     description = TextAreaField("Abstract", validators=[DataRequired(), Length(max=mc.PV_ABSTRACT_L)])
