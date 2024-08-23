@@ -1,7 +1,7 @@
 from open_science.blueprints.api import bp
 from flask import current_app as app
 from flask_login import login_required
-from open_science.models import Tag, Review, Comment, PaperRevision, User, AssociationTagUser
+from open_science.models import Tag, Review, Comment, PaperRevision, User, AssociationTagUser, ForumTopic
 from flask import request
 from open_science import db
 from flask_login import current_user
@@ -221,6 +221,52 @@ def user_comments_data():
 
     return {
         'data': [comment.to_dict() for comment in query],
+        'recordsFiltered': total_filtered,
+        'recordsTotal': total_results,
+        'draw': request.args.get('draw', type=int),
+    }
+
+@bp.route('/api/user_forum_topics')
+@login_required
+def user_forum_topic_data():
+
+    query = ForumTopic.query.filter(ForumTopic.creator_id == current_user.id)
+    total_results = query.count()
+
+    # search filter
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(db.or_(
+            ForumTopic.title.like(f'%{search}%')
+        ))
+    total_filtered = query.count()
+
+    # sorting by one or more attributes
+    order = []
+    i = 0
+    while True:
+        col_index = request.args.get(f'order[{i}][column]')
+        if col_index is None:
+            break
+        col_name = request.args.get(f'columns[{col_index}][data]')
+        if col_name not in ['date_created', 'title', 'content']:
+            col_name = 'date_created'
+        descending = request.args.get(f'order[{i}][dir]') == 'desc'
+        col = getattr(ForumTopic, col_name)
+        if descending:
+            col = col.desc()
+        order.append(col)
+        i += 1
+    if order:
+        query = query.order_by(*order)
+
+    # pagination
+    start = request.args.get('start', type=int)
+    length = request.args.get('length', type=int)
+    query = query.offset(start).limit(length)
+
+    return {
+        'data': [forum_topic.to_dict() for forum_topic in query if forum_topic],
         'recordsFiltered': total_filtered,
         'recordsTotal': total_results,
         'draw': request.args.get('draw', type=int),

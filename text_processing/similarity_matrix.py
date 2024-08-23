@@ -15,7 +15,12 @@ def get_all_papers_texts():
     all_paper_revisions = db_models.PaperRevision.query.all()
     all_calibration_papers = db_models.CalibrationPaper.query.all()
     all_papers = sorted(all_paper_revisions + all_calibration_papers, key=lambda paper: paper.id)
-    all_paper_texts = [paper.preprocessed_text for paper in all_papers]
+    all_paper_texts = []
+    for paper in all_papers:
+        if paper.preprocessed_text:
+            all_paper_texts.append(paper.preprocessed_text)
+        else:
+            print(f"Warning: Paper with ID {paper.id} has no preprocessed_text.")
 
     return all_paper_texts
 
@@ -37,8 +42,11 @@ def create_dictionary():
     dictionary = []
 
     all_paper_texts = get_all_papers_texts()
-    texts = [[text for text in doc.split()] for doc in all_paper_texts]
-    dictionary = corpora.Dictionary(texts)
+    texts = [[text for text in doc.split()] for doc in all_paper_texts if doc]
+    if texts:
+        dictionary = corpora.Dictionary(texts)
+    else:
+        print("Warning: No valid texts found for dictionary creation.")
 
     return dictionary
 
@@ -65,7 +73,7 @@ def get_dictionary():
 # Adds new added words that didn't appear in dictionary
 def update_dictionary(new_article):
     dictionary = get_dictionary()
-    new_words = [[text for text in doc.split()] for doc in new_article]
+    new_words = [[text for text in doc.split()] for doc in new_article if doc]
     dictionary.add_documents(new_words)
     save_dictionary(dictionary)
 
@@ -97,10 +105,16 @@ def create_tfidf_matrix():
     save_tfidf_matrix_mapping_array(tfidf_matrix_mapping_array)
 
     dictionary = get_dictionary()
-    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
-    corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
-    tfidf = models.TfidfModel(corpus, smartirs='ntc')
-    tfidf_matrix = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary))
+    if dictionary:
+        tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts if doc]
+        corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
+        if corpus:
+            tfidf = models.TfidfModel(corpus, smartirs='ntc')
+            tfidf_matrix = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary))
+        else:
+            print("Warning: No valid corpus found for TF-IDF matrix creation.")
+    else:
+        print("Warning: Dictionary is empty or not created.")
 
     return tfidf_matrix
 
@@ -132,10 +146,16 @@ def update_tfidf_matrix():
     save_tfidf_matrix_mapping_array(tfidf_matrix_mapping_array)
 
     dictionary = get_dictionary()
-    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
-    corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
-    tfidf = models.TfidfModel(corpus, smartirs='ntc')
-    tfidf_matrix = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary))
+    if dictionary:
+        tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts if doc]
+        corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
+        if corpus:
+            tfidf = models.TfidfModel(corpus, smartirs='ntc')
+            tfidf_matrix = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary))
+        else:
+            print("Warning: No valid corpus found for TF-IDF matrix creation.")
+    else:
+        print("Warning: Dictionary is empty or not created.")
     save_tfidf_matrix(tfidf_matrix)
 
     return tfidf_matrix
@@ -167,13 +187,19 @@ def create_similarities_matrix():
     save_similarities_matrix_mapping_array(similarities_matrix_mapping_array)
 
     dictionary = get_dictionary()
-    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
-    corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
-    tfidf = models.TfidfModel(corpus, smartirs='ntc')
-    corpus_tfidf = tfidf[corpus]
+    if dictionary:
+        tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts if doc]
+        corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
+        if corpus:
+            tfidf = models.TfidfModel(corpus, smartirs='ntc')
+            corpus_tfidf = tfidf[corpus]
 
-    tfidf_matrix = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary))
-    similarities_matrix = np.array(tfidf_matrix[corpus_tfidf], dtype="float64")
+            tfidf_matrix = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary))
+            similarities_matrix = np.array(tfidf_matrix[corpus_tfidf], dtype="float64")
+        else:
+            print("Warning: No valid corpus found for similarities matrix creation.")
+    else:
+        print("Warning: Dictionary is empty or not created.")
 
     return similarities_matrix
 
