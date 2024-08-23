@@ -6,7 +6,7 @@ from open_science.models import ForumTopic, Comment, User
 from flask_login import current_user
 from open_science import strings as STR
 from open_science import db
-from open_science.utils import build_comment_tree, time_ago
+from open_science.utils import build_comment_tree
 
 
 @bp.route('/forum')
@@ -68,14 +68,13 @@ def show_forum_topic(id):
                            form=commentForm,
                            user_liked_comments=user_liked_comments,
                            user_disliked_comments=user_disliked_comments,
-                           time_ago=time_ago,
                            creator=creator)
 
 @bp.route('/add_forum_topic', methods=['POST'])
 def add_forum_topic():
     title = request.form['title']
     content = request.form['content']
-    forum_topic = ForumTopic(title=title, content=content, creator_id=current_user.id, date_created=dt.datetime.now())
+    forum_topic = ForumTopic(title=title, content=content, creator_id=current_user.id, date_created=dt.datetime.utcnow())
     db.session.add(forum_topic)
     db.session.commit()
     return redirect(url_for('forum.forum'))
