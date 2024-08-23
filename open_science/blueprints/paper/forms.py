@@ -62,7 +62,7 @@ class CommentForm(FlaskForm):
 class FileUploadForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired(), Length(max=mc.PV_TITLE_L)])
     file = FileField("Paper PDF",
-                     validators=[FileRequired(message="Uploading pdf file is necessary to upload article."), FileAllowed(['pdf'])])
+                     validators=[FileRequired(message="Uploading a pdf file is necessary to submit an article."), FileAllowed(['pdf'])])
     anonymousFile = FileField("Anonymous version (optional)",
                               validators=[FileAllowed(['pdf'])])
     description = TextAreaField("Abstract", validators=[DataRequired(), Length(max=mc.PV_ABSTRACT_L)])
@@ -73,8 +73,8 @@ class FileUploadForm(FlaskForm):
         BooleanField(STR.DECLARATION_RIGHTS, validators=[DataRequired()])
     authors_declaration = BooleanField(STR.DECLARATION_AUTHORS,
                                        validators=[DataRequired()])
-    conflicts_of_interest_none = BooleanField(STR.DECLARATION_NO_INTEREST_CONFLICT )
-    conflicts_of_interest = TextAreaField("Conflicts of interest", validators=[Length(max=mc.PV_CONFLICTS_OF_INTEREST_L)])
+    conflicts_of_interest_none = BooleanField(STR.DECLARATION_NO_INTEREST_CONFLICT)
+    conflicts_of_interest = TextAreaField("Declaration of interests", validators=[Length(max=mc.PV_CONFLICTS_OF_INTEREST_L)])
 
     anonymity_declaration = BooleanField(STR.DECLARATION_ANONYMITY)
     review_declaration = BooleanField(STR.DECLARATION_REVIEW)
@@ -88,9 +88,9 @@ class FileUploadForm(FlaskForm):
 
     def validate_conflicts_of_interest(form, field):
         if not form.conflicts_of_interest_none.data and not field.data:
-            raise ValidationError('Conflicts of interest field is required unless the declaration is checked.')
+            raise ValidationError('The "Conflicts of interest" field must be filled unless no conflict of interest is declared.')
         if form.conflicts_of_interest_none.data and field.data:
-            raise ValidationError('Conflicts of interest field must be empty if the declaration is checked.')
+            raise ValidationError('The "Conflicts of interest" field must be empty when no conflict of interest is declared.')
 
     # c = HiddenField()
 
