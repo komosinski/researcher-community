@@ -186,7 +186,7 @@
     <div class="article-page">
         <div class="article-info-wrapper">
 
-            {{render_header(article.title, article.publication_date, "article-header", "article-title", "article-date", time_ago)}}
+            {{render_header(article.title, article.publication_date, "article-header", "article-title", "article-date", moment)}}
             {% if current_user.is_authenticated %}
             <div id="flag-wrapper" class="flag-wrapper" style="display:none;">
                 <a href="#" id="flag">Flag this paper</a>
@@ -274,7 +274,7 @@
         {% for comment in comments %}
             {% set author=comment.rel_creator %}
             {% set is_author = author in article_creators %}
-            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author, time_ago) }}
+            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author, moment) }}
         {% endfor %}
     </div>
 

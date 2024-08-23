@@ -26,7 +26,7 @@
                         font-weight: 400;
                         font-family: 'Arial', sans-serif;" >
                     {% if comment.date %}
-                        {{ time_ago(comment.date) }}
+                        {{ time_ago(comment.date).fromNow() }}
                     {% endif %}
                 </div>
             </div>

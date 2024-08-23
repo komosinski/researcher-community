@@ -3,7 +3,7 @@
     <h2 class="{{ title_class }}">{{ title }}</h2>
     <div class="{{ date_class }}">
         {% if creation_date %}
-            {{ time_ago(creation_date) }}
+            {{ time_ago(creation_date).fromNow() }}
         {% endif %}
     </div>
 </div>

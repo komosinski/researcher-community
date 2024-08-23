@@ -196,14 +196,14 @@
     <div>
         <table>
             <tr>
-                <th>Suggestions</th>
-                <th>Locations</th>
+                <th>Suggestions for the overall</th>
             </tr>
             {% for suggestion in review.rel_suggestions %}
-            <tr>
-                <td>{{ suggestion.suggestion }}</td>
-                <td>{{ suggestion.location }}</td>
-            </tr>
+                {% if suggestion.location == '' %}
+                    <tr>
+                        <td>{{ suggestion.suggestion }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </table>
     </div>
@@ -245,7 +245,7 @@
     <div class="comments-wrapper">
         {% for comment in comments %}
         {% set is_author = author == review_creator %}
-            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author, time_ago) }}
+            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author, moment) }}
         {% endfor %}
     </div>
 

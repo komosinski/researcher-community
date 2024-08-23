@@ -9,7 +9,7 @@ from flask import render_template, redirect, url_for, flash, request, abort, Mar
 import json
 from open_science.blueprints.database.db_helper import get_hidden_filter
 import datetime as dt
-from open_science.utils import check_numeric_args, researcher_user_required, build_comment_tree, time_ago
+from open_science.utils import check_numeric_args, researcher_user_required, build_comment_tree
 from flask import current_app as app
 from flask_login import login_required
 from open_science.blueprints.notification.helpers import add_new_review_notification
@@ -290,8 +290,7 @@ def review_page(review_id):
                            form=commentForm,
                            user_liked_comments=user_liked_comments,
                            user_disliked_comments=user_disliked_comments,
-                           comments=comments,
-                           time_ago=time_ago)
+                           comments=comments)
 
 
 @bp.route('/review/increase_confidence_level/<revision_id>')

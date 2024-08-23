@@ -1,6 +1,6 @@
+{% extends 'base.html' %}
 {% from "helpers/comment_helper.html" import render_comment %}
 {% from "helpers/header_helper.html" import render_header %}
-{% extends 'base.html' %}
 
 {% block styles %}
 <link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}"/>
@@ -170,7 +170,7 @@
 
 {% block content %}
 
-    {{render_header(forum_topic.title, forum_topic.date_created, "topic-header", "topic-title", "topic-date", time_ago)}}
+    {{render_header(forum_topic.title, forum_topic.date_created, "topic-header", "topic-title", "topic-date", moment)}}
             <div class="article-authors-wrapper">
                 <div class="author-wrapper">
                     <img class="author-profile-pic"
@@ -186,7 +186,7 @@
         {% for comment in comments %}
             {% set author=comment.rel_creator %}
             {% set is_author = author in article_creators %}
-            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author, time_ago) }}
+            {{ render_comment(comment, user_liked_comments, user_disliked_comments, current_user, is_author, moment) }}
         {% endfor %}
     </div>
 
