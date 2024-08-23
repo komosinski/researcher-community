@@ -196,14 +196,14 @@
     <div>
         <table>
             <tr>
-                <th>Suggestions</th>
-                <th>Locations</th>
+                <th>Suggestions for the overall</th>
             </tr>
             {% for suggestion in review.rel_suggestions %}
-            <tr>
-                <td>{{ suggestion.suggestion }}</td>
-                <td>{{ suggestion.location }}</td>
-            </tr>
+                {% if suggestion.location == '' %}
+                    <tr>
+                        <td>{{ suggestion.suggestion }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </table>
     </div>
