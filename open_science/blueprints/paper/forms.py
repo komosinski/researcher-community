@@ -74,7 +74,7 @@ class FileUploadForm(FlaskForm):
     authors_declaration = BooleanField(STR.DECLARATION_AUTHORS,
                                        validators=[DataRequired()])
     conflicts_of_interest_none = BooleanField(STR.DECLARATION_NO_INTEREST_CONFLICT )
-    conflicts_of_interest = TextAreaField("Conflicts of interest", validators=[Length(max=mc.PV_CONFLICT_OF_INTEREST_L)])
+    conflicts_of_interest = TextAreaField("Conflicts of interest", validators=[Length(max=mc.PV_CONFLICTS_OF_INTEREST_L)])
 
     anonymity_declaration = BooleanField(STR.DECLARATION_ANONYMITY)
     review_declaration = BooleanField(STR.DECLARATION_REVIEW)
