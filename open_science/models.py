@@ -949,7 +949,7 @@ class Comment(db.Model):
                                              foreign_keys="RedFlagComment.to_comment")
     rel_creator_role = db.relationship("PrivilegeSet", back_populates="rel_related_comments_ps")
     rel_forum_topic = db.relationship("ForumTopic", secondary=association_comment_forum_topic,
-                                      back_populates="rel_comments")
+                                      back_populates="rel_comments", uselist=False)
 
     def to_dict(self):
         refers_to = ''
@@ -967,6 +967,11 @@ class Comment(db.Model):
             refers_to = 'Review'
             show_url = url_for('review.review_page', review_id=review.id) \
                 + f'#c{self.id}'
+
+        forum_topic = self.rel_forum_topic
+        if forum_topic:
+            refers_to = forum_topic.title
+            show_url = url_for('forum.show_forum_topic', id=forum_topic.id)
 
         return {
             'id': self.id,
@@ -1392,6 +1397,15 @@ class ForumTopic(db.Model):
     # relationships
     rel_comments = db.relationship("Comment", secondary=association_comment_forum_topic,
                                    back_populates="rel_forum_topic")
+    def to_dict(self):
+
+        return {
+            'id': self.id,
+            'title': self.title,
+            'content': self.content,
+            'date_created': self.date_created,
+            'show_url': url_for('forum.show_forum_topic', id=self.id)
+        }
 
 
 # db functions

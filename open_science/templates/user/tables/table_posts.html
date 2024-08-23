@@ -1,0 +1,49 @@
+<table id="data_forum_topics" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Topic title</th>
+        <th>Content</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+
+{% set api_user_forum_topic_url = url_for('api.user_forum_topic_data')%}
+
+
+{%block scripts%}
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+      const table = $('#data_forum_topics').DataTable({
+        lengthChange: false,
+        ajax: '{{api_user_forum_topic_url}}',
+        serverSide: true,
+        rowId: 'id',
+        columns: [
+          {data: 'title'},
+          {data: 'content'},
+          {data: 'date_created'}
+        ],
+      });
+
+
+      $('#data_forum_topics').on('click', 'tr', function (e) {
+        e.stopPropagation();
+        const url = table.row($(this).closest('tr')).data().show_url;
+        window.location.assign(url);
+      });
+
+
+    });
+</script>
+
+{%endblock%}
