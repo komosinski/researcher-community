@@ -2,6 +2,7 @@
 {% from "helpers/form_helper.html" import render_register_field, render_boolean_field %}
 
 {% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
     .hidden {
         display: none;
@@ -20,6 +21,7 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     window.onload = () => {
         if(!$("#review_declaration").is(":checked"))
@@ -160,6 +162,18 @@
             </div>`;
         };
 
+        const createNewAuthorInputFilledFromSelect = (id, user) => {
+            return `<div id="${id}">
+                        <input type="text" placeholder="First name" value="${user.first_name}" id="name-input-${id}"/>
+                        <input type="text" placeholder="Last name" value="${user.second_name}" id="sname-input-${id}"/>
+                        <input type="text" placeholder="E-mail" value="${user.email}" id="email-input-${id}"/>
+                        <div class="hidden" style="color: red;">Invalid e-mail!</div>
+                        <a href="javascript:void(0);" class="remove-input-author" title="Remove author">
+                            <img src="{{url_for('static', filename='res/del.png')}}"/>
+                        </a>
+                    </div>`;
+        };
+
         const createNewTagInput = (id) => {
             return `<div id="${id}">
                 <select placeholder="Select tag" id="tag-select-${id}">
@@ -173,6 +187,10 @@
 
         const addInput = (wrapper, inputBuilder, id) => {
             $(`#${wrapper}`).append(inputBuilder(id));
+        };
+
+        const addInputFromSelect = (wrapper, inputBuilder, id, user) => {
+            $(`#${wrapper}`).append(inputBuilder(id, user));
         };
 
         $('.add-input-author').on('click', function () {
@@ -194,6 +212,15 @@
         });
 
         document.getElementById("articleUploadForm").addEventListener('submit', fillHiddenFields);
+
+         $('#selectUsers').on('select2:select', function (e) {
+            var user = e.params.data;
+            console.log(user)
+            handleUserSelection(user);
+          });
+         function handleUserSelection(user) {
+            addInputFromSelect('coauthors-wrapper', createNewAuthorInputFilledFromSelect, ++coauthorStartId, user);
+          }
     };
 </script>
 {% endblock %}
@@ -224,14 +251,20 @@
     {{render_register_field(form.license, "License")}}
 
 <div class="spacer"></div>
-
-    Add remaining co-authors.
-
-    <div id="coauthors-wrapper">
-        <p style="margin: 0;">Note: you will not be able to change the list of authors in the future.</p>
+   <div>
+        Add remaining co-authors.
+   </div>
+    <div>
+        By search: <select class="js-data-example-ajax" id="selectUsers" style="width: 50%;"></select>
     </div>
+    <div id="coauthors-wrapper">
+
+    </div>
+
+    Or manually:
     <a href="javascript:void(0);" class="add-input-author" title="Add author"><img src="{{url_for('static', filename='res/add.png')}}"/></a>
 
+    <p style="margin: 0;">Note: you will not be able to change the list of authors in the future.</p>
 <div class="spacer"></div>
 
     Optionally, assign tags.
@@ -267,5 +300,5 @@
     <input id="coauthor-email" type="text"/>
     <button id="add-coauthor" type="button">Add</button> -->
 </form>
-
+{% include 'utils/search_for_user_select2.html' %}
 {% endblock %}
