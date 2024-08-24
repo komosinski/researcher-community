@@ -35,7 +35,7 @@ class UserView(MyModelView):
 
     column_searchable_list = ['id', 'first_name', 'second_name', 'email']
 
-    list_columns = ['id', 'first_name', 'second_name', 'email',
+    column_list = ['id', 'first_name', 'second_name', 'email',
                     'privileges_set', 'registered_on', 'confirmed',
                     'force_hide', 'remarks']
 
