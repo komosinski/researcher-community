@@ -1,10 +1,12 @@
 from flask_migrate import current
+from sqlalchemy.orm import joinedload
+
 from open_science.blueprints.user.forms import  RemarksForm
 from open_science.blueprints.user.forms import InviteUserForm, EditProfileForm, \
     EndorsementRequestForm
 from open_science import db
-from open_science.models import CalibrationPaper, Notification,\
-     User, EndorsementRequestLog, NotificationType
+from open_science.models import CalibrationPaper, Notification, \
+    User, EndorsementRequestLog, NotificationType, UserBadge
 import open_science.myemail as em
 from flask_login import logout_user, current_user
 from flask import render_template, redirect, url_for, flash, request
@@ -34,6 +36,8 @@ def profile_page(user_id):
 
     user = User.query.filter(User.id == user_id,
                              get_hidden_filter(User)).first()
+    user_badges = UserBadge.query.options(joinedload(UserBadge.badge)).filter_by(user_id=user_id).all()
+    badges = [user_badge.badge for user_badge in user_badges]
     hasUserCalibrationPapers = len(user.rel_calibration_papers) > 0
 
     if not user or user.confirmed is False or user.is_deleted is True:
@@ -53,12 +57,14 @@ def profile_page(user_id):
         db.session.commit()
         flash(STR.REMARKS_SAVED, category='success')
         return render_template('user/user_profile.html',
-                               user=user, data=data, remarks_form=remarks_form, hasUserCalibrationPapers=hasUserCalibrationPapers)
+                               user=user, data=data, remarks_form=remarks_form,
+                               hasUserCalibrationPapers=hasUserCalibrationPapers, badges=badges)
     elif request.method == 'GET':
         remarks_form.remarks.data = user.remarks
 
     return render_template('user/user_profile.html',
-                           user=user, data=data, remarks_form=remarks_form, hasUserCalibrationPapers=hasUserCalibrationPapers)
+                           user=user, data=data, remarks_form=remarks_form,
+                           hasUserCalibrationPapers=hasUserCalibrationPapers, badges=badges)
 
 
 @bp.route('/user/edit_profile', methods=['GET', 'POST'])

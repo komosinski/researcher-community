@@ -613,3 +613,7 @@ a:link {
     color: gray;
     text-decoration: line-through;
 }
+.user-badge-wrapper {
+    margin-left: 2%;
+    font-size: 1.875em;
+}
