@@ -9,7 +9,7 @@ class Config(object):
     #  TODO: Delete/Hide some default config values like KEYs in the future
 
     SERVER_NAME = os.environ.get('SERVER_NAME') or '127.0.0.1:5000'
-
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     # 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'SQLALCHEMY_DATABASE_URI') or "postgresql://postgres:postgres@localhost:5432/open_science"

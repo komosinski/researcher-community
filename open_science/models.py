@@ -1112,11 +1112,11 @@ class NotificationType(db.Model):
     # columns
     name = db.Column(db.String(length=mc.EM_TYPE_NAME_L),
                      nullable=False, unique=True)
-    rel_email_logs = db.relationship("Notification")
+    rel_email_logs = db.relationship("Notification",overlaps="rel_notifications")
 
     # relations
     rel_notifications = db.relationship(
-        "Notification", back_populates="rel_notification_type", lazy='dynamic')
+        "Notification", back_populates="rel_notification_type", lazy='dynamic', overlaps="rel_email_logs")
 
     def insert_types():
         for t in NotificationTypeEnum:
@@ -1151,7 +1151,7 @@ class Notification(db.Model):
 
     # relationships
     rel_notification_type = db.relationship(
-        "NotificationType", back_populates="rel_notifications")
+        "NotificationType", back_populates="rel_notifications", overlaps="rel_email_logs")
     rel_user = db.relationship("User", back_populates="rel_notifications")
 
     notification_types_enum = NotificationTypeEnum
