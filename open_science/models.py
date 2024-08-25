@@ -12,6 +12,9 @@ import re
 import text_processing.search_engine as se
 
 from flask import current_app as app
+
+from open_science.db_badge_triggers import b_first_article_award_function, b_first_comment_award_function, \
+    b_first_article_award_trigger, b_first_comment_award_trigger
 # ImportError, use current_app instead
 # from open_science import app
 
@@ -175,6 +178,8 @@ class User(db.Model, UserMixin):
         "CalibrationPaper", back_populates="rel_author")
     rel_notifications = db.relationship(
         "Notification", back_populates="rel_user", lazy='dynamic')
+
+    rel_user_badges = db.relationship('UserBadge', backref='user', lazy=True)
 
     assoc_tags_to_user = db.relationship("AssociationTagUser", back_populates="rel_user")
 
@@ -436,6 +441,28 @@ class User(db.Model, UserMixin):
             'profile_url': url_for('user.profile_page', user_id=self.id),
             'profile_img_url': url_for('static', filename=f'res/profileImages/{self.id}.jpg') if self.has_photo else url_for('static',filename='res/profileImages/img.jpg')
         }
+
+#to introduce new badge it is nessesary to add on init deffinition of all badge objects in data_generator.py
+#also you can add logic to add badges to certain entpoints or as triggers on db
+class Badge(db.Model):
+    __tablename__ = 'badges'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(mc.B_NAME_L), unique=True, nullable=False) #Unique name to recognise by triger which badge to give
+    description = db.Column(db.String(mc.B_DESCRIPTION_L), nullable=False) #Descripcion how badge is assign - shown in tooltip of the badge
+    icon_unicode = db.Column(db.String(mc.B_ICON_UNICODE_L)) #Unicode of the icon with going to be displayed (please upload only icon nothing more)
+    condition = db.Column(db.String(mc.B_CONDITION_L), nullable=False) #For in code logic handling by parsing string and eventually assigning badge
+
+    ref_user_badges = db.relationship('UserBadge', backref='badge', lazy=True)
+
+
+class UserBadge(db.Model):
+    __tablename__ = 'user_badges'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    badge_id = db.Column(db.Integer, db.ForeignKey('badges.id'), nullable=False)
+    earned_at = db.Column(db.DateTime, default=dt.datetime.utcnow, nullable=False)
 
 
 class PrivilegeSet(db.Model):
@@ -1417,6 +1444,8 @@ db_fun_update_review_red_flags_count = DDL(q_update_review_red_flags_count)
 db_fun_update_revision_red_flags_count = DDL(q_update_revision_red_flags_count)
 db_fun_update_comment_red_flags_count = DDL(q_update_comment_red_flags_count)
 db_fun_update_revision_averages = DDL(q_update_revision_averages)
+db_fun_update_badge_first_article = DDL(b_first_article_award_function)
+db_fun_update_badge_first_comment = DDL(b_first_comment_award_function)
 
 # db triggers
 db_trig_update_comment_score = DDL(qt_update_comment_score)
@@ -1427,6 +1456,8 @@ db_trig_update_review_red_flags_count = DDL(qt_update_review_red_flags_count)
 db_trig_update_revision_red_flags_count = DDL(qt_update_revision_red_flags_count)
 db_trig_update_comment_red_flags_count = DDL(qt_update_comment_red_flags_count)
 db_trig_update_revision_averages = DDL(qt_update_revision_averages)
+db_trig_update_badge_first_article = DDL(b_first_article_award_trigger)
+db_trig_update_badge_first_comment = DDL(b_first_comment_award_trigger)
 
 # events to enable functions, procedures, triggers etc
 event.listen(
@@ -1523,4 +1554,28 @@ event.listen(
     Review.__table__,
     'after_create',
     db_trig_update_revision_averages.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    PaperRevision.__table__,
+    'after_create',
+    db_fun_update_badge_first_article.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    PaperRevision.__table__,
+    'after_create',
+    db_trig_update_badge_first_article.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    Comment.__table__,
+    'after_create',
+    db_fun_update_badge_first_comment.execute_if(dialect='postgresql')
+)
+
+event.listen(
+    Comment.__table__,
+    'after_create',
+    db_trig_update_badge_first_comment.execute_if(dialect='postgresql')
 )

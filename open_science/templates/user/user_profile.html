@@ -88,6 +88,16 @@
             </div>
             {%endif%}
         </div>
+        <div class="user-badge-wrapper">
+            {% if badges and badges|length > 0 %}
+                Badges:
+                {% for badge in badges %}
+                    <div class="badge" title="{{badge.description}}">
+                        {{badge.icon_unicode}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
  
     {% if current_user.is_authenticated and (current_user.get_id()|int==user.id) %}
