@@ -21,9 +21,13 @@ def get_user_id_ranking_dict():
 
     all_paper_revisions = db_models.PaperRevision.query.all()
     all_calibration_papers = db_models.CalibrationPaper.query.all()
-    all_paper_texts = [paper.preprocessed_text for paper in all_paper_revisions + all_calibration_papers]
+    all_paper_texts = [paper.preprocessed_text for paper in all_paper_revisions + all_calibration_papers
+                       if paper.preprocessed_text is not None]
     dictionary = get_dictionary()
-    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts]
+    if dictionary is None:
+        raise ValueError("Dictionary returned by get_dictionary() is None")
+
+    tokenized_list = [simple_preprocess(doc) for doc in all_paper_texts if doc is not None]
     corpus = [dictionary.doc2bow(doc, allow_update=True) for doc in tokenized_list]
     tfidf = models.TfidfModel(corpus, smartirs='ntc')
     for user_id, revisions_ids in user_id_revisions_ids_dict.items():

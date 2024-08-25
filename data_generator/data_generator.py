@@ -441,7 +441,7 @@ class DataGenerator:
                 related_review.rel_comments_to_this_review.append(comment)
                 comment.date = max(
                     comment.rel_creator.confirmed_on,
-                    related_review.publication_datetime[0]  # weird because of uselist=False in model
+                    related_review.publication_datetime  # weird because of uselist=False in model
                 ) + dt.timedelta(days=random.choice([1, 2, 3]))
                 comment.level = 0
             else:
