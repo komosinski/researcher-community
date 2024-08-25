@@ -15,7 +15,7 @@ def get_all_papers_texts():
     all_paper_revisions = db_models.PaperRevision.query.all()
     all_calibration_papers = db_models.CalibrationPaper.query.all()
     all_papers = sorted(all_paper_revisions + all_calibration_papers, key=lambda paper: paper.id)
-    all_paper_texts = []
+
     for paper in all_papers:
         if paper.preprocessed_text:
             all_paper_texts.append(paper.preprocessed_text)
