@@ -12,11 +12,13 @@
         $("#flag").click( function(e) {
             e.preventDefault();
             const uid = {{user.id}};
-            $.post(`/user/${uid}/flag`, function() {
-                alert("The user has been reported. Thanks for letting us know.")
-            }).fail(function() {
-                alert("Error");
-            });
+            if(confirm("Are you sure you want to flag this user?")) {
+                $.post(`/user/${uid}/flag`, function () {
+                    alert("The user has been reported. Thanks for letting us know.")
+                }).fail(function () {
+                    alert("Error");
+                });
+            }
         });
     });
 </script>
