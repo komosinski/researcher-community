@@ -72,8 +72,8 @@
 
                 success: function (data) {
                     // console.log(data)
-                    if (data.result) {
-                        // console.log('liked');
+                    if (data.result === true) {
+                        // console.log('liked', data);
                         alert('You already liked this comment!')
                     }
                    if(data.result === "clear"){
@@ -134,7 +134,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
-                        console.log(data)
+                        // console.log(data)
                         if(data.result === true) {
                             // console.log('liked');
                             alert('You already disliked this comment!')
@@ -156,7 +156,7 @@
                             })
                         }
                         if(data.result === false) {
-                            console.log('not liked');
+                            // console.log('not liked');
                             $.ajax({
                                 url: "/action/like",
                                 type: "POST",
