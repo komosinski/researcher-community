@@ -613,3 +613,11 @@ a:link {
     color: gray;
     text-decoration: line-through;
 }
+
+.coauthors-header {
+    margin-bottom: 1%;
+}
+
+.coauthors-searchbar {
+    margin-bottom: 1%;
+}
