@@ -449,10 +449,10 @@ class Badge(db.Model):
     __tablename__ = 'badges'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(mc.B_NAME_L), unique=True, nullable=False) #Unique name to recognise by triger which badge to give
-    description = db.Column(db.String(mc.B_DESCRIPTION_L), nullable=False) #Descripcion how badge is assign - shown in tooltip of the badge
-    icon_unicode = db.Column(db.String(mc.B_ICON_UNICODE_L)) #Unicode of the icon with going to be displayed (please upload only icon nothing more)
-    condition = db.Column(db.String(mc.B_CONDITION_L), nullable=False) #For in code logic handling by parsing string and eventually assigning badge
+    name = db.Column(db.String(mc.B_NAME_L), unique=True, nullable=False)  # unique name for the trigger to recognize which badge to award
+    description = db.Column(db.String(mc.B_DESCRIPTION_L), nullable=False)  # description of badge award requirements/conditions (for users), shown in the tooltip of the badge
+    icon_unicode = db.Column(db.String(mc.B_ICON_UNICODE_L))  # character(s) of the badge icon/emoji (expected to be short, ideally one symbol or graphics)
+    condition = db.Column(db.String(mc.B_CONDITION_L), nullable=False)  # for future usage: a string that can symbolically encode badge requirements, could be automatically parsed and executed to award a badge
 
     ref_user_badges = db.relationship('UserBadge', backref='badge', lazy=True)
 
