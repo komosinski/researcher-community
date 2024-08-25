@@ -253,8 +253,15 @@
                 <div class="author-wrapper">
                     <img class="author-profile-pic"
                          src="{{url_for('static',filename='res/profileImages/'~user.id~'.jpg') if user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
-                    <a class="author-name" href="{{url_for('user.profile_page', user_id=user.id)}}">{{user.first_name +
-                        " " + user.second_name}}</a>
+                    {% if user.confirmed %}
+                        <a class="author-name" href="{{url_for('user.profile_page', user_id=user.id)}}" >
+                            {{user.first_name + " " + user.second_name}}
+                        </a>
+                    {% else %}
+                        <div class="author-name" >
+                            {{user.first_name + " " + user.second_name}}
+                        </div>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>

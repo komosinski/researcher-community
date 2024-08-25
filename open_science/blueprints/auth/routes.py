@@ -103,7 +103,7 @@ def login_page():
                 return redirect(next_dest)
             return redirect(url_for('main.home_page'))
         elif not attempted_user:
-            flash(STR.EMAIL_PASSWORD_NOT_MATCH,
+            flash(STR.USER_NOT_EXISTS,
                   category='error')
         elif not attempted_user.confirmed:
             flash(STR.CONFIRM_YOUR_ACCOUNT, category='warning')

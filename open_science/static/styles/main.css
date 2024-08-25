@@ -613,6 +613,15 @@ a:link {
     color: gray;
     text-decoration: line-through;
 }
+
+.coauthors-header {
+    margin-bottom: 1%;
+}
+
+.coauthors-searchbar {
+    margin-bottom: 1%;
+}
+
 .user-badge-wrapper {
     margin-left: 2%;
     font-size: 1.875em;

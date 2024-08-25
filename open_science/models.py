@@ -439,7 +439,8 @@ class User(db.Model, UserMixin):
             'second_name': Markup.escape(self.second_name),
             'affiliation': Markup.escape(self.affiliation),
             'profile_url': url_for('user.profile_page', user_id=self.id),
-            'profile_img_url': url_for('static', filename=f'res/profileImages/{self.id}.jpg') if self.has_photo else url_for('static',filename='res/profileImages/img.jpg')
+            'profile_img_url': url_for('static', filename=f'res/profileImages/{self.id}.jpg') if self.has_photo else url_for('static',filename='res/profileImages/img.jpg'),
+            'email': self.email
         }
 
 #to introduce new badge it is nessesary to add on init deffinition of all badge objects in data_generator.py

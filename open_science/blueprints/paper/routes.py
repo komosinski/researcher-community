@@ -163,6 +163,10 @@ def upload_file_page():
             else:
                 users.append(user)
 
+            if current_user == user:
+                continue
+
+
         if form.review_declaration.data is True:
             chosen_confidence_level = form.confidence_level.data
         else:
