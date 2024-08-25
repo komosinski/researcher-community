@@ -28,8 +28,6 @@ def get_all_papers_texts():
 # We have to create it each time matrix is created to know
 # which row in matrix corresponds to which paper
 def create_matrix_mapping_array():
-    similarities_matrix_mapping = []
-
     all_paper_revisions = db_models.PaperRevision.query.with_entities(db_models.PaperRevision.id).all()
     all_calibration_papers = db_models.CalibrationPaper.query.with_entities(db_models.CalibrationPaper.id).all()
     similarities_matrix_mapping = sorted([row[0] for row in all_paper_revisions] + [row[0] for row in all_calibration_papers])
@@ -60,12 +58,9 @@ def save_dictionary(dictionary):
 
 # Get dictionary from file
 def get_dictionary():
-    dictionary = []
-
     dictionary_url = os.path.join(app.config['ROOTDIR'],
                                   app.config['DICTIONARY_FILE_PATH'])
     dictionary = corpora.Dictionary.load(dictionary_url)
-
     return dictionary
 
 
@@ -76,7 +71,6 @@ def update_dictionary(new_article):
     new_words = [[text for text in doc.split()] for doc in new_article if doc]
     dictionary.add_documents(new_words)
     save_dictionary(dictionary)
-
     return dictionary
 
 
@@ -87,22 +81,19 @@ def save_tfidf_matrix_mapping_array(tfidf_matrix_mapping_array):
 
 
 def get_tfidf_matrix_mapping_array():
-    tfidf_matrix_mapping_array = []
-
     tfidf_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
                                                   app.config['TFIDF_MATRIX_MAPPING_ARRAY_FILE_PATH'])
     tfidf_matrix_mapping_array = np.load(tfidf_matrix_mapping_array_url, tfidf_matrix_mapping_array)
-
     return tfidf_matrix_mapping_array
 
 
 # returns tfidf matrix created from preprocessed texts
 def create_tfidf_matrix():
-    tfidf_matrix = []
-
     all_paper_texts = get_all_papers_texts()
     tfidf_matrix_mapping_array = create_matrix_mapping_array()
     save_tfidf_matrix_mapping_array(tfidf_matrix_mapping_array)
+
+    tfidf_matrix = []
 
     dictionary = get_dictionary()
     if dictionary:
@@ -128,22 +119,19 @@ def save_tfidf_matrix(tfidf_matrix):
 
 # Get tf-idf model from file
 def get_tfidf_matrix():
-    tfidf_matrix = []
-
     tfidf_matrix_url = os.path.join(app.config['ROOTDIR'],
                                     app.config['TFIDF_MATRIX_FILE_PATH'])
     tfidf_matrix = corpora.Dictionary.load(tfidf_matrix_url)
-
     return tfidf_matrix
 
 
 # Create new model with updated dictionary
 def update_tfidf_matrix():
-    tfidf_matrix = []
-
     all_paper_texts = get_all_papers_texts()
     tfidf_matrix_mapping_array = create_matrix_mapping_array()
     save_tfidf_matrix_mapping_array(tfidf_matrix_mapping_array)
+
+    tfidf_matrix = []
 
     dictionary = get_dictionary()
     if dictionary:
@@ -168,13 +156,10 @@ def save_similarities_matrix_mapping_array(similarities_matrix_mapping_array):
 
 
 def get_similarities_matrix_mapping_array():
-    similarities_matrix_mapping_array = []
-
     similarities_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
                                                          app.config['SIMILARITIES_MATRIX_MAPPING_ARRAY_FILE_PATH'])
     similarities_matrix_mapping_array = np.load(similarities_matrix_mapping_array_url,
                                                 similarities_matrix_mapping_array)
-
     return similarities_matrix_mapping_array
 
 
@@ -213,12 +198,9 @@ def save_similarities_matrix(similarities_matrix):
 
 # Get similarity matrix from file
 def get_similarities_matrix():
-    similarities_matrix = []
-
     similarities_matrix_url = os.path.join(app.config['ROOTDIR'],
                                            app.config['SIMILARITIES_MATRIX_FILE_PATH'])
     similarities_matrix = np.load(similarities_matrix_url, similarities_matrix)
-
     return similarities_matrix
 
 
