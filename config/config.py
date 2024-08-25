@@ -9,7 +9,6 @@ class Config(object):
     #  TODO: Delete/Hide some default config values like KEYs in the future
 
     SERVER_NAME = os.environ.get('SERVER_NAME') or '127.0.0.1:5000'
-
     # 'postgresql://USER:PASSWORD@localhost:5432/DB_NAME'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'SQLALCHEMY_DATABASE_URI') or "postgresql://postgres:postgres@localhost:5432/open_science"
@@ -58,8 +57,7 @@ class Config(object):
     
     # Mail Limit = ML
     # per day
-    CONFIRM_REGISTRATION_ML = int(
-        os.environ.get('CONFIRM_REGISTRATION_ML') or 5)
+    CONFIRM_REGISTRATION_ML = int(os.environ.get('CONFIRM_REGISTRATION_ML') or 5)
     INVITE_USER_ML = int(os.environ.get('INVITE_USER_ML') or 3)
     # per month
     CHANGE_MAIL_ML = int(os.environ.get('CHANGE_MAIL_ML') or 3)
@@ -87,28 +85,23 @@ class Config(object):
 
     # Exclusion of a reviewer
     # who is a co-author of papers by all authors of the reviewed paper
-    EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS = int(os.environ.get(
-        'EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS') or 730)
+    EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS = int(os.environ.get('EXCLUDE_CO_AUTHOR_FOR_REVIEW_DAYS') or 730)
 
     # Exclusion of a reviewer
     # for whom the current authors reviewed any paper
     # within the last n-days
-    EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS = int(os.environ.get(
-        'EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS') or 730)
+    EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS = int(os.environ.get('EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS') or 730)
 
     # if user declined review request with respond “Don’t have time”
     # don’t ask him for review request to this paper fot N days.
-    EXCLUDE_DECLINED_REQUEST_TIME_DAYS = int(os.environ.get(
-        'EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS') or 14)
+    EXCLUDE_DECLINED_REQUEST_TIME_DAYS = int(os.environ.get('EXCLUDE_REVIEWED_AUTHOR_FOR_REVIEW_DAYS') or 14)
 
     # To calculate workload of researchers
     # how many reviews they agreed to prepare in the last period of time
-    REVIEWER_WORKLOAD_ON_DAYS = int(os.environ.get(
-        'REVIEWER_WORKLOAD_ON_DAYS') or 365)
+    REVIEWER_WORKLOAD_ON_DAYS = int(os.environ.get('REVIEWER_WORKLOAD_ON_DAYS') or 365)
 
     # the maximum number of reviews a user can request
-    MAX_CONFIDENCE_LEVEL = int(os.environ.get(
-        'MAX_CONFIDENCE_LEVEL') or 3)
+    MAX_CONFIDENCE_LEVEL = int(os.environ.get('MAX_CONFIDENCE_LEVEL') or 3)
 
     # project directory path
     ROOTDIR = "./"
@@ -158,3 +151,5 @@ class Config(object):
     
     AJAX_SELECT_SEARCH_RESULTS = 10
 
+    # just to silence a warning since we are not using this mechanism:
+    SQLALCHEMY_TRACK_MODIFICATIONS = False  # https://stackoverflow.com/questions/33738467/how-do-i-know-if-i-can-disable-sqlalchemy-track-modifications

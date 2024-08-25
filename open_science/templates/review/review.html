@@ -15,11 +15,13 @@
         $(".comment").on('click', '.flag-comment', function (e) {
             e.preventDefault();
             const id = $(this).closest('.comment-wrapper').attr('id').substring(1);
-            $.post(`/comment/${id}/flag`, function () {
-                alert("Comment has been reported. Thanks for letting us know.")
-            }).fail(function () {
-                alert("An error occurred");
-            });
+            if(confirm("Are you sure you want to flag this comment?")) {
+                $.post(`/comment/${id}/flag`, function () {
+                    alert("Comment has been reported. Thanks for letting us know.")
+                }).fail(function () {
+                    alert("An error occured");
+                });
+            }
         });
 
         $(".comment").on('click', '.reply-action', function () {
@@ -56,7 +58,7 @@
 
                 success: function (data) {
                    // console.log(data)
-                    if (data.result) {
+                    if (data.result === true) {
                         //console.log('liked');
                         alert('You already liked this comment!')
                     }

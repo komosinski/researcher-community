@@ -14,7 +14,7 @@ from open_science.enums import UserTypeEnum
 from open_science.models import PrivilegeSet, DeclinedReason, MessageTopic, EmailType, NotificationType, License, User, \
     PaperRevision, Comment, Paper, Review, Tag, ReviewRequest, VoteComment, MessageToStaff, Notification, Suggestion, \
     CalibrationPaper, RevisionChangesComponent, RedFlagComment, RedFlagPaperRevision, RedFlagReview, RedFlagTag, \
-    RedFlagUser, AssociationTagUser
+    RedFlagUser, AssociationTagUser, Badge
 import datetime as dt
 import text_processing.similarity_matrix as sm
 
@@ -174,6 +174,9 @@ class DataGenerator:
         NotificationType.insert_types()
         License.insert_licenses()
 
+        #to introduce new badge it is nessesary to add on init deffinition of al badge objects
+        #also you can add logic to add badges to certain entpoints or as triggers on db
+        self.add_badges()
         # site as user to log emails send from site and use ForeignKey in EmailLog model
         # confirmed=False hides user
         if not User.query.filter(User.id == 0).first():
@@ -195,6 +198,27 @@ class DataGenerator:
         print("The essential data has been created")
 
         return True
+
+    def add_badges(self):
+        badges = [
+            Badge(
+                name='First Article',
+                description='Awarded for submitting your first article.',
+                icon_unicode='📝',
+                condition='This badge is handled using trigger'
+            ),
+            Badge(
+                name='First Comment',
+                description='Awarded for submitting your first comment.',
+                icon_unicode='💬',
+                condition='This badge is handled using trigger'
+            )
+        ]
+
+        for badge in badges:
+            db.session.add(badge)
+
+        print("Sample badges have been added to the database.")
 
     def generate_users(self):
         users_count = self.objects_count_dict[self.str_users_count]
@@ -417,7 +441,7 @@ class DataGenerator:
                 related_review.rel_comments_to_this_review.append(comment)
                 comment.date = max(
                     comment.rel_creator.confirmed_on,
-                    related_review.publication_datetime[0]  # weird because of uselist=False in model
+                    related_review.publication_datetime  # weird because of uselist=False in model
                 ) + dt.timedelta(days=random.choice([1, 2, 3]))
                 comment.level = 0
             else:
