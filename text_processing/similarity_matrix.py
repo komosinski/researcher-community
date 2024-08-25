@@ -158,6 +158,7 @@ def save_similarities_matrix_mapping_array(similarities_matrix_mapping_array):
 def get_similarities_matrix_mapping_array():
     similarities_matrix_mapping_array_url = os.path.join(app.config['ROOTDIR'],
                                                          app.config['SIMILARITIES_MATRIX_MAPPING_ARRAY_FILE_PATH'])
+    similarities_matrix_mapping_array = []
     similarities_matrix_mapping_array = np.load(similarities_matrix_mapping_array_url,
                                                 similarities_matrix_mapping_array)
     return similarities_matrix_mapping_array
@@ -200,6 +201,7 @@ def save_similarities_matrix(similarities_matrix):
 def get_similarities_matrix():
     similarities_matrix_url = os.path.join(app.config['ROOTDIR'],
                                            app.config['SIMILARITIES_MATRIX_FILE_PATH'])
+    similarities_matrix = []
     similarities_matrix = np.load(similarities_matrix_url, similarities_matrix)
     return similarities_matrix
 
