@@ -20,11 +20,13 @@
         $("#flag").click(function (e) {
             e.preventDefault();
             const aid = {{article.parent_paper}};
-            $.post(`/paper/${aid}/flag`, function () {
-                alert("Paper has been reported. Thanks for letting us know.")
-            }).fail(function () {
-                alert("Error");
-            });
+            if(confirm("Are you sure you want to flag this paper?")) {
+                $.post(`/paper/${aid}/flag`, function () {
+                    alert("Paper has been reported. Thanks for letting us know.")
+                }).fail(function () {
+                    alert("Error");
+                });
+            }
         });
 
         $(".comment").on('click', '.reply-action', function () {
@@ -47,12 +49,14 @@
 
         $(".comment").on('click', '.flag-comment', function (e) {
             e.preventDefault();
-            const id = $(this).parents().closest('.comment').attr('id').substring(1);
-            $.post(`/comment/${id}/flag`, function () {
-                alert("Comment has been reported. Thanks for letting us know.")
-            }).fail(function () {
-                alert("An error occured");
-            });
+            const id = $(this).parents().closest('.comment-wrapper').attr('id').substring(1);
+            if(confirm("Are you sure you want to flag this comment?")) {
+                $.post(`/comment/${id}/flag`, function () {
+                    alert("Comment has been reported. Thanks for letting us know.")
+                }).fail(function () {
+                    alert("An error occured");
+                });
+            }
         });
 
          $(".comment").on('click', '.like-icon', function (e) {
