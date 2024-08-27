@@ -17,9 +17,11 @@
           processResults: function(data, params) {
             params.page = params.page || 1;
     
-            var data_formated = $.map(data.results, function (obj) {
-              obj.text = obj.first_name +' '+ obj.second_name; // replace name with the property used for the text
-              return obj;
+             var data_formated = $.map(data.results, function (obj) {
+              if (!enableExclusion || (enableExclusion && obj.id !== excludedUserId)) {
+                obj.text = obj.first_name +' '+ obj.second_name;
+                return obj;
+              }
             });
             return {
               results: data_formated,

@@ -227,7 +227,7 @@ def upload_file_page():
     
         return redirect(url_for('paper.article', id=paper.id))
 
-    return render_template("utils/pdf_send_form.html", form=form, tags=tags)
+    return render_template("utils/pdf_send_form.html", form=form, tags=tags, current_user=current_user)
 
 
 @bp.route('/article/<id>/add_revision', methods=['GET', 'POST'])
