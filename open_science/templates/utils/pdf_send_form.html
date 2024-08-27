@@ -20,6 +20,7 @@
 </style>
 {% endblock %}
 
+
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
@@ -300,5 +301,10 @@
     <input id="coauthor-email" type="text"/>
     <button id="add-coauthor" type="button">Add</button> -->
 </form>
+{% set enableExclusion = true %}
+<script>
+    var excludedUserId = {{current_user.id}};
+    var enableExclusion = {{ enableExclusion | tojson }};
+</script>
 {% include 'utils/search_for_user_select2.html' %}
 {% endblock %}
