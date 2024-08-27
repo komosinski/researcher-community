@@ -4,7 +4,7 @@ from open_science.models import EmailLog, EmailType, Review, User, Paper
 import datetime as dt
 from sqlalchemy import func
 from flask import current_app as app
-from open_science import db, get_app
+from open_science import db
 from open_science.blueprints.notification.helpers import create_notification
 import open_science.myemail as em
 from open_science.blueprints.review.helpers import prepare_review_requests
@@ -85,20 +85,18 @@ def monthly_jobs():
 
 
 def daily_jobs():
-    app = get_app()
-    with app.app_context():
-        dictionary = sm.create_dictionary()
-        sm.save_dictionary(dictionary)
-        tfidf_matrix = sm.create_tfidf_matrix()
-        sm.save_tfidf_matrix(tfidf_matrix)
-        similarities_matrix = sm.create_similarities_matrix()
-        sm.save_similarities_matrix(similarities_matrix)
-        create_save_users_plot()
-        create_save_users_plot_3d()
+    dictionary = sm.create_dictionary()
+    sm.save_dictionary(dictionary)
+    tfidf_matrix = sm.create_tfidf_matrix()
+    sm.save_tfidf_matrix(tfidf_matrix)
+    similarities_matrix = sm.create_similarities_matrix()
+    sm.save_similarities_matrix(similarities_matrix)
+    create_save_users_plot()
+    create_save_users_plot_3d()
 
-        create_review_deadline_notification()
-        send_notifiactions_count()
-        prepare_and_send_review_requests()
+    create_review_deadline_notification()
+    send_notifiactions_count()
+    prepare_and_send_review_requests()
 
 
 def add_scheduler_jobs():
