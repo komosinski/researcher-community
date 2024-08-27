@@ -40,6 +40,11 @@
 </div>
 <br>
 
+
+{% set enableExclusion = false %}
+<script>
+    var enableExclusion = {{ enableExclusion | tojson }};
+</script>
 {% include 'utils/search_for_user_select2.html' %}
 
 <script>
