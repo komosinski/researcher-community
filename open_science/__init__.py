@@ -90,6 +90,9 @@ app = create_app()
 app.app_context().push()
 
 
+def get_app():
+    return app
+
 @app.before_request
 def check_read_only():
     excluded_routes = ['/login']
