@@ -1,5 +1,9 @@
 from flask import session, render_template, request, redirect, url_for, Markup, flash
 import datetime as dt
+
+from sqlalchemy import func
+from sqlalchemy.sql.functions import coalesce
+
 from open_science.blueprints.forum import bp
 from open_science.blueprints.forum.forms import CommentForm
 from open_science.models import ForumTopic, Comment, User
@@ -11,7 +15,11 @@ from open_science.utils import build_comment_tree
 
 @bp.route('/forum')
 def forum():
-    forum_topics = db.session.query(ForumTopic).all()
+    forum_topics = db.session.query(ForumTopic) \
+        .outerjoin(ForumTopic.rel_comments) \
+        .group_by(ForumTopic.id) \
+        .order_by(func.max(coalesce(Comment.date, ForumTopic.date_created)).desc()) \
+        .all()
     return render_template('forum/forum.html', forum_topics=forum_topics, current_user=current_user)
 
 @bp.route('/forum_topic/<int:id>/', methods=['GET', 'POST'])
@@ -37,11 +45,11 @@ def show_forum_topic(id):
             if commentForm.comment_ref.data and (
             # [1:] perform action of cutting prefix c from id of comment taken from user interface
             ref_comment := Comment.query.get(commentForm.comment_ref.data[1:])) is not None:
-                print(commentForm.comment_ref.data)
+                # print(commentForm.comment_ref.data)
                 comment.comment_ref = ref_comment.id
 
-            print(current_user.privileges_set)
-            print(current_user.rel_privileges_set)
+            # print(current_user.privileges_set)
+            # print(current_user.rel_privileges_set)
 
             if current_user.rel_created_comments:
                 current_user.rel_created_comments.append(comment)
