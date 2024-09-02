@@ -628,8 +628,7 @@ a:link {
 }
 
 #my-pdf-editor-wrapper {
-  /*  Calculated value height of device minus header and margin*/
-    height: calc(100vh - 250px);
+    height: calc(100vh - 250px); /* height of the viewport minus header and vertical margin (assumed 250px, approximate :/ ). Also consider using dvh */
     display: flex;
     flex-direction: column;
     border: 2.5px solid #ccc;
