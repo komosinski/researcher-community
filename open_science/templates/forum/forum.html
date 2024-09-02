@@ -71,7 +71,7 @@
 <div class="container">
         {% if current_user.is_authenticated %}
             <button type="button" class="btn btn-primary" id="openModalButton">
-                Add New Forum Topic
+                Add a new forum topic
             </button>
         {%endif%}
         <h2>Forum Topics</h2>
@@ -88,7 +88,7 @@
 
         <div id="modal" class="modal-background" style="display: none;">
             <div class="form-container">
-                <h5 class="modal-title">Add a New Forum Topic</h5>
+                <h5 class="modal-title">Add a new forum topic</h5>
                 <form action="{{ url_for('forum.add_forum_topic') }}" method="post">
                     <div class="form-group">
                         <label for="title">Title:</label>
