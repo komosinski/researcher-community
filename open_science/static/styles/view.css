@@ -126,7 +126,7 @@ button:hover {
 }
 
 #my-pdf-container {
-    width: 816px; /* Szerokość pliku pdf */
+    width: 816px; /* width of the rendered pdf, probably should not be hardcoded this way, but dependent on the viewport width and maybe user zoom actions */
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
