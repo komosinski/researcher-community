@@ -95,16 +95,17 @@ def create_save_users_plot_3d_old():
 
 
 def create_save_users_plot_3d():
+    SHOW_FULL_NAMES = True  # False means show only initials, just like in the 2D plot
     user_id_ranking_dict = get_user_id_ranking_dict()
     ranking_list = [ranking for ranking in user_id_ranking_dict.values()]
-    users_ids_with_names = get_users_ids_with_names()
+    users_ids_with_labels = get_users_ids_with_names() if SHOW_FULL_NAMES else get_users_ids_with_initials()
     pca = PCA(n_components=3, random_state=42)
     standarlized_pca = pca.fit_transform(ranking_list)
     df = pd.DataFrame(standarlized_pca, columns=['x', 'y', 'z'])
     users_plot_url_3d = os.path.join(app.config['ROOTDIR'], app.config['USERS_PLOT_3D_FILE_PATH'])
 
     if user_id_ranking_dict:
-        df['text'] = [users_ids_with_names[id] for id in user_id_ranking_dict.keys()]
+        df['text'] = [users_ids_with_labels[id] for id in user_id_ranking_dict.keys()]
         df['id'] = user_id_ranking_dict.keys()
     else:
         print("No data available to save")
@@ -112,11 +113,12 @@ def create_save_users_plot_3d():
     df.to_json(users_plot_url_3d, orient='records', lines=True)
 
 
-# Returns dict that contains ids of all users paired with names initials in uppercase
+# Returns dict that contains ids of all users paired with their name initials uppercased
 def get_users_ids_with_initials():
     users = User.query.filter(User.id != 0).all()
     return { user.id: f'{user.first_name[0]}{user.second_name[0]}'.upper() for user in users}
 
+# Returns dict that contains ids of all users paired with their names
 def get_users_ids_with_names():
     users = User.query.filter(User.id != 0).all()
-    return { user.id: f'{user.first_name} {user.second_name}'.upper() for user in users}
+    return { user.id: f'{user.first_name} {user.second_name}' for user in users}
