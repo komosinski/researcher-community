@@ -626,3 +626,12 @@ a:link {
     margin-left: 2%;
     font-size: 1.875em;
 }
+
+#my-pdf-editor-wrapper {
+  /*  Calculated value height of device minus header and margin*/
+    height: calc(100vh - 250px);
+    display: flex;
+    flex-direction: column;
+    border: 2.5px solid #ccc;
+    border-radius: 5px;
+}
