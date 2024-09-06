@@ -634,3 +634,12 @@ a:link {
     border: 2.5px solid #ccc;
     border-radius: 5px;
 }
+
+#basic-pdf-editor-wrapper {
+    height: calc(100vh - 250px); /* height of the viewport minus header and vertical margin (assumed 250px, approximate :/ ). Also consider using dvh */
+    display: flex;
+    width: max-content;
+    flex-direction: column;
+    border: 2.5px solid #ccc;
+    border-radius: 5px;
+}
