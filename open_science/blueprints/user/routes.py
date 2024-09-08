@@ -114,10 +114,8 @@ def allowed_file(filename):
 def scale_image(img, max_size):
     img = ImageOps.fit(img, (min(img.size), min(img.size)), Image.LANCZOS)
 
-    if max(img.size) > max_size:
-        scale = max_size / max(img.size)
-        new_size = tuple(int(dim * scale) for dim in img.size)
-        img = img.resize(new_size, Image.LANCZOS)
+    if max(img.width, img.height) > max_size:
+        img.thumbnail((max_size, max_size))
 
     return img
 @bp.route('/user/edit_profile', methods=['GET', 'POST'])
