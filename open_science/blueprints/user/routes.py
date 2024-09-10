@@ -9,13 +9,13 @@ from open_science.models import CalibrationPaper, Notification, \
     User, EndorsementRequestLog, NotificationType, UserBadge
 import open_science.myemail as em
 from flask_login import logout_user, current_user
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, jsonify
 from flask import abort
 from flask import Markup
 import datetime as dt
 from werkzeug.utils import secure_filename
 import os
-from PIL import Image
+from PIL import Image, ImageOps
 from flask import current_app as app
 from open_science.utils import check_numeric_args, researcher_user_required
 from open_science.enums import EmailTypeEnum, NotificationTypeEnum
@@ -67,6 +67,57 @@ def profile_page(user_id):
                            hasUserCalibrationPapers=hasUserCalibrationPapers, badges=badges)
 
 
+@bp.route('/user/upload_avatar', methods=['POST'])
+@login_required
+def upload_avatar():
+    if 'avatar' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
+
+    file = request.files['avatar']
+
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(f'{current_user.id}.jpg')
+        path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGES_DIR_PATH, filename)
+
+        try:
+            if current_user.has_photo:
+                os.remove(path)
+
+            img = Image.open(file)
+            img = img.convert('RGB')
+
+            img = scale_image(img, 256)
+            img.save(path, format="JPEG", quality=90)
+
+            current_user.has_photo = True
+            db.session.commit()
+
+            return jsonify({'message': 'Avatar uploaded successfully'}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({'error': 'Error uploading avatar'}), 500
+    else:
+        return jsonify({'error': 'File type not allowed'}), 400
+
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+#Scale the image to fit within max_size while maintaining aspect ratio.
+#Also crops the image to a square if it's not already square.
+def scale_image(img, max_size):
+    img = ImageOps.fit(img, (min(img.size), min(img.size)), Image.LANCZOS)
+
+    if max(img.width, img.height) > max_size:
+        img.thumbnail((max_size, max_size))
+
+    return img
 @bp.route('/user/edit_profile', methods=['GET', 'POST'])
 @fresh_login_required
 def edit_profile_page():
@@ -105,26 +156,12 @@ def edit_profile_page():
 
             if current_user.is_researcher():
                 current_user.review_mails_limit = form.review_mails_limit.data
-                
-            f = form.profile_image.data
-            if f:
-                filename = secure_filename(f'{current_user.id}.jpg')
-                path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGES_DIR_PATH, filename)
-                if current_user.has_photo:
-                    os.remove(path)
-
-                img = Image.open(f)
-                img = img.convert('RGB')
-                img = img.resize((256, 256))
-                img.save(path, format="JPEG", quality=90)
-
-                current_user.has_photo = True
 
             db.session.commit()
         except Exception as e:
             print(e)
             flash(STR.STH_WENT_WRONG, category='error')
-            redirect(url_for('main.home_page'))
+            return redirect(url_for('main.home_page'))
 
         flash(flash_message, category='success')
 

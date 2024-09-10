@@ -247,7 +247,7 @@ main {
 }
 
 .profile-picture {
-    height: 100%;
+    height: auto;
 }
 
 .username, .afiliation {
@@ -634,3 +634,12 @@ a:link {
     border: 2.5px solid #ccc;
     border-radius: 5px;
 }
+
+img {
+    max-width: 100%; /* Ensures the image does not exceed the container width */
+    max-height: 256px; /* Desired maximum height */
+    height: auto; /* Maintains the aspect ratio */
+/* optionally, depending on the container and its parameters: */
+    object-fit: cover; /* Ensures the image covers the container */
+}
+
