@@ -24,20 +24,45 @@ $(document).ready(function() {
         $("#researcher_options :input").prop('disabled', true);
         document.getElementById('researcher_options').style.color = '#A9A9A9';
     }
+    const avatarInput = document.getElementById('avatar-input');
+    const avatarUploadStatus = document.getElementById('avatar-upload-status');
+    const previewImage = document.getElementById('preview-image');
 
-    var profileImageInput = document.getElementById('profile-image-input');
-    if (profileImageInput) {
-        profileImageInput.onchange = function(event) {
-            var reader = new FileReader();
-            reader.onload = function() {
-                var output = document.getElementById('preview-image');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        };
-    } else {
-        console.log("Profile image input not found!");
-    }
+    avatarInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+
+        avatarUploadStatus.textContent = 'Uploading...';
+
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+        formData.append('csrf_token', csrfToken);
+
+        fetch('/user/upload_avatar', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                avatarUploadStatus.textContent = data.message;
+                previewImage.src = URL.createObjectURL(file);
+            } else {
+                avatarUploadStatus.textContent = data.error || 'An error occurred during upload.';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            avatarUploadStatus.textContent = 'An error occurred during upload.';
+        });
+    });
 });
 </script>
 {% endblock %}
@@ -46,63 +71,55 @@ $(document).ready(function() {
 {% block content %}
 
 <div class="profile-edit-wrapper">
-
-    <form method="POST" enctype="multipart/form-data">
+    <form id="edit-profile-form" method="POST">
         {{ form.hidden_tag() }}
-  
+
         {% with pressed='data' %}
             {% include 'user/edit_profile_tab.html' %}
         {% endwith %}
         <br><br>
-
         <div class="profile-pic-selection-wrapper">
             <img id="preview-image" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="edit-profile-picture" />
             <div class="profile-edit-input-wrapper">
-                <div class="label-wrapper">{{ form.profile_image.label()}}</div>
+                <div class="label-wrapper">Profile Image</div>
                 <div class="label-wrapper">(Please use a photo of your face if you decide to set a photo)</div>
-                <div class="input-wrapper">{{ form.profile_image(id='profile-image-input') }}</div>
-                {% for error in form.profile_image.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
+                <div class="input-wrapper">
+                    <input type="file" id="avatar-input" accept="image/*">
+                </div>
+                <div id="avatar-upload-status"></div>
             </div>
         </div>
-        
+
         <br>
-       
+
         <div class="double-input-wrapper">
             {{ render_edit_profile_field(form.first_name,"First name") }}
             {{ render_edit_profile_field(form.second_name,"Last name") }}
         </div>
-
         {{ render_edit_profile_field(form.about_me,"About me","(Will be displayed on your profile page. You may write any information you wish to be publicly visible)") }}
- 
+
         <div class="double-input-wrapper">
             {{ render_edit_profile_field(form.email,"Email address") }}
             {{ render_edit_profile_field(form.affiliation,"Affiliation") }}
         </div>
-
         <div class="double-input-wrapper">
             {{ render_edit_profile_field(form.orcid,"ORCID") }}
             {{ render_edit_profile_field(form.google_scholar,"Google scholar ID") }}
         </div>
-   
+
         {{ render_edit_profile_field(form.personal_website,"Personal website url") }}
 
-        
         <div class="profile-edit-input-wrapper">
             <div class="label-wrapper">{{ form.notifications_frequency.label() }}</div>
             <div class="label-wrapper">
                 When others post messages under my papers, I want to be notified every:
             </div>
-            <div class="input-wrapper">{{ form.notifications_frequency()}} </div>  
+            <div class="input-wrapper">{{ form.notifications_frequency()}} </div>
             <div class="label-wrapper">
                 (Note: you will always be notified immediately when your paper is reviewed)
             </div>
-        </div> 
-
-
+        </div>
         <div id="researcher_options">
-
             <div class="profile-edit-input-wrapper">
                 <div class="label-wrapper">{{ form.review_mails_limit.label() }}</div>
                 <div class="label-wrapper">
@@ -113,8 +130,8 @@ $(document).ready(function() {
                     Authors of some of these new papers may ask for an opinion or a review.<br>How many emails per month do you wish to receive at most?<br>(This is the maximal number, applicable only if you are selected as a reviewer for your peers).
                 </div>
                 <div class="input-wrapper">{{ form.review_mails_limit(id='review_mails_limit',oninput="showReviewWarning(value)")}} </div>
-            </div>   
-    
+            </div>
+
             <br>
         </div>
 
