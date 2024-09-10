@@ -11,6 +11,7 @@ from config.config import Config
 from data_generator.consts import name_surname_list, tags
 from open_science import db
 from open_science.enums import UserTypeEnum
+from open_science.licenses import LICENSE_DICT
 from open_science.models import PrivilegeSet, DeclinedReason, MessageTopic, EmailType, NotificationType, License, User, \
     PaperRevision, Comment, Paper, Review, Tag, ReviewRequest, VoteComment, MessageToStaff, Notification, Suggestion, \
     CalibrationPaper, RevisionChangesComponent, RedFlagComment, RedFlagPaperRevision, RedFlagReview, RedFlagTag, \
@@ -220,6 +221,20 @@ class DataGenerator:
 
         print("Sample badges have been added to the database.")
 
+    def update_licenses(self):
+        try:
+            for license_name, license_id in LICENSE_DICT.items():
+                if not License.query.filter(License.license == license_name).first():
+                    license_to_add = License(id=license_id, license=license_name)
+                    db.session.add(license_to_add)
+            db.session.commit()
+
+            print("Successfully created licences")
+        except Exception as e:
+            db.session.rollback()
+            print(f"An error has occurred when during adding licences: {str(e)}")
+        finally:
+            db.session.close()
     def generate_users(self):
         users_count = self.objects_count_dict[self.str_users_count]
 
