@@ -52,11 +52,11 @@ $(document).ready(function() {
             });
         },
         success: function(file, response) {
-            avatarUploadStatus.textContent = response.message || 'Avatar uploaded successfully';
+            avatarUploadStatus.textContent = response.message || 'Profile photo uploaded successfully';
             previewImage.src = URL.createObjectURL(file);
         },
         error: function(file, errorMessage) {
-            avatarUploadStatus.textContent = errorMessage.error || 'An error occurred during upload';
+            avatarUploadStatus.textContent = errorMessage.error || 'An error occurred during uploading the profile photo';
         },
         sending: function(file, xhr, formData) {
             formData.append("csrf_token", csrfToken);
@@ -80,11 +80,11 @@ $(document).ready(function() {
          <div class="profile-pic-selection-wrapper">
             <img id="preview-image" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="edit-profile-picture" />
             <div class="profile-edit-input-wrapper">
-                <div class="label-wrapper">Profile Image</div>
-                <div class="label-wrapper">(Please use a photo of your face if you decide to set a photo)</div>
+                <div class="label-wrapper">Profile image</div>
+                <div class="label-wrapper">(Please use a photo of your face if you decide to set an image)</div>
                 <div id="avatar-dropzone" class="dropzone">
                     <div class="dz-message" data-dz-message>
-                        <span>Drop your avatar here or click to upload</span>
+                        <span>Drop your profile photo here or click to upload</span>
                     </div>
                 </div>
                 <div id="avatar-upload-status"></div>
