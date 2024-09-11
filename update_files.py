@@ -13,6 +13,6 @@ def update_files():
     else:
         print("Text processing data have not been completely created")
 
-    License.insert_missing_licenses()
+    # License.insert_missing_licenses()  # only needed ad-hoc to update the set of licenses if new ones were defined
 
 update_files()
