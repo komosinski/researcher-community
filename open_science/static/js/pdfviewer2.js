@@ -328,15 +328,15 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
-    overlay.addEventListener('click', function () {
-        if (isAddingRect) {
-            isAddingRect = false;
-            overlay.style.display = 'none';
-            addRectBtn.classList.remove('active');
-        }
-    });
-
+    if(overlay) {
+        overlay.addEventListener('click', function () {
+            if (isAddingRect) {
+                isAddingRect = false;
+                overlay.style.display = 'none';
+                addRectBtn.classList.remove('active');
+            }
+        });
+    }
     if (removeRectBtn) {
         document.getElementById('my-pdf-container').addEventListener('click', function (event) {
             if (isRemovingRect && event.target.className === 'selection-rect') {
