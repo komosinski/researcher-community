@@ -93,10 +93,10 @@ def upload_avatar():
             current_user.has_photo = True
             db.session.commit()
 
-            return jsonify({'message': 'Avatar uploaded successfully'}), 200
+            return jsonify({'message': 'Profile photo uploaded successfully'}), 200
         except Exception as e:
             print("Error processing image:", str(e))
-            return jsonify({'error': 'Error processing and uploading avatar'}), 500
+            return jsonify({'error': 'Error processing and uploading the profile photo'}), 500
     else:
         return jsonify({'error': 'File type not allowed'}), 400
 
