@@ -19,13 +19,14 @@ from open_science.db_badge_triggers import b_first_article_award_function, b_fir
 # from open_science import app
 
 from open_science.enums import UserTypeEnum, EmailTypeEnum, \
-    NotificationTypeEnum, MessageTopicEnum, LicenseEnum
+    NotificationTypeEnum, MessageTopicEnum
 from open_science.db_queries import q_update_comment_score, q_update_user_red_flags_count, q_update_tag_red_flags_count, \
     q_update_review_red_flags_count, q_update_user_reputation, q_update_revision_red_flags_count, \
     q_update_comment_red_flags_count, q_update_revision_averages, qt_update_comment_score, qt_update_user_reputation, \
     qt_update_user_red_flags_count, qt_update_tag_red_flags_count, qt_update_review_red_flags_count, \
     qt_update_revision_red_flags_count, qt_update_comment_red_flags_count, qt_update_revision_averages
 from open_science.extensions import db, login_manager, bcrypt
+from open_science.licenses import LICENSE_DICT
 
 
 @login_manager.user_loader
@@ -1251,12 +1252,21 @@ class License(db.Model):
     rel_related_paper_revisions = db.relationship("PaperRevision", secondary=association_paper_version_license,
                                                   back_populates="rel_related_licenses")
 
-    def insert_licenses():
-        for en_license in LicenseEnum:
-            if not License.query.filter(License.license == en_license.name).first():
-                license = License(id=en_license.value, license=en_license.name)
-                db.session.add(license)
-        db.session.commit()
+    @classmethod
+    def insert_missing_licenses(cls):
+        try:
+            for license_name, license_id in LICENSE_DICT.items():
+                if not License.query.filter(License.license == license_name).first():
+                    license_to_add = License(id=license_id, license=license_name)
+                    db.session.add(license_to_add)
+            db.session.commit()
+
+            print("Successfully created licences")
+        except Exception as e:
+            db.session.rollback()
+            print(f"An error has occurred when during adding licences: {str(e)}")
+        finally:
+            db.session.close()
 
 
 class RevisionChangesComponent(db.Model):

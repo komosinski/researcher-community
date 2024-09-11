@@ -11,6 +11,7 @@ from config.config import Config
 from data_generator.consts import name_surname_list, tags
 from open_science import db
 from open_science.enums import UserTypeEnum
+from open_science.licenses import LICENSE_DICT
 from open_science.models import PrivilegeSet, DeclinedReason, MessageTopic, EmailType, NotificationType, License, User, \
     PaperRevision, Comment, Paper, Review, Tag, ReviewRequest, VoteComment, MessageToStaff, Notification, Suggestion, \
     CalibrationPaper, RevisionChangesComponent, RedFlagComment, RedFlagPaperRevision, RedFlagReview, RedFlagTag, \
@@ -172,7 +173,7 @@ class DataGenerator:
         MessageTopic.insert_topics()
         EmailType.insert_types()
         NotificationType.insert_types()
-        License.insert_licenses()
+        License.insert_missing_licenses()
 
         #to introduce new badge it is nessesary to add on init deffinition of al badge objects
         #also you can add logic to add badges to certain entpoints or as triggers on db
@@ -219,6 +220,7 @@ class DataGenerator:
             db.session.add(badge)
 
         print("Sample badges have been added to the database.")
+
 
     def generate_users(self):
         users_count = self.objects_count_dict[self.str_users_count]

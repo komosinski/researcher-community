@@ -46,11 +46,3 @@ class MessageTopicEnum(Enum):
     CORRETIONCS = 4
 
 
-@unique
-class LicenseEnum(Enum):
-
-    FreeBSD = 1
-    GNUFree = 2
-    GNUSimplerFree = 3
-    OpenContent = 4
-    OpenPublication = 5
