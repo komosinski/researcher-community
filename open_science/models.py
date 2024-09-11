@@ -1253,12 +1253,20 @@ class License(db.Model):
                                                   back_populates="rel_related_licenses")
 
     @classmethod
-    def insert_licenses(cls):
-        for license_name, license_id in LICENSE_DICT.items():
-            if not License.query.filter(License.license == license_name).first():
-                license_to_add = License(id=license_id, license=license_name)
-                db.session.add(license_to_add)
-        db.session.commit()
+    def insert_missing_licenses(cls):
+        try:
+            for license_name, license_id in LICENSE_DICT.items():
+                if not License.query.filter(License.license == license_name).first():
+                    license_to_add = License(id=license_id, license=license_name)
+                    db.session.add(license_to_add)
+            db.session.commit()
+
+            print("Successfully created licences")
+        except Exception as e:
+            db.session.rollback()
+            print(f"An error has occurred when during adding licences: {str(e)}")
+        finally:
+            db.session.close()
 
 
 class RevisionChangesComponent(db.Model):

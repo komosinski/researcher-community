@@ -173,7 +173,7 @@ class DataGenerator:
         MessageTopic.insert_topics()
         EmailType.insert_types()
         NotificationType.insert_types()
-        License.insert_licenses()
+        License.insert_missing_licenses()
 
         #to introduce new badge it is nessesary to add on init deffinition of al badge objects
         #also you can add logic to add badges to certain entpoints or as triggers on db
@@ -221,20 +221,7 @@ class DataGenerator:
 
         print("Sample badges have been added to the database.")
 
-    def update_licenses(self):
-        try:
-            for license_name, license_id in LICENSE_DICT.items():
-                if not License.query.filter(License.license == license_name).first():
-                    license_to_add = License(id=license_id, license=license_name)
-                    db.session.add(license_to_add)
-            db.session.commit()
 
-            print("Successfully created licences")
-        except Exception as e:
-            db.session.rollback()
-            print(f"An error has occurred when during adding licences: {str(e)}")
-        finally:
-            db.session.close()
     def generate_users(self):
         users_count = self.objects_count_dict[self.str_users_count]
 
