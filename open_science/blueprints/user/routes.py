@@ -70,10 +70,11 @@ def profile_page(user_id):
 @bp.route('/user/upload_avatar', methods=['POST'])
 @login_required
 def upload_avatar():
-    if 'avatar' not in request.files:
+
+    if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
 
-    file = request.files['avatar']
+    file = request.files['file']
 
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
@@ -83,9 +84,6 @@ def upload_avatar():
         path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGES_DIR_PATH, filename)
 
         try:
-            if current_user.has_photo:
-                os.remove(path)
-
             img = Image.open(file)
             img = img.convert('RGB')
 
@@ -97,8 +95,8 @@ def upload_avatar():
 
             return jsonify({'message': 'Avatar uploaded successfully'}), 200
         except Exception as e:
-            print(e)
-            return jsonify({'error': 'Error uploading avatar'}), 500
+            print("Error processing image:", str(e))
+            return jsonify({'error': 'Error processing and uploading avatar'}), 500
     else:
         return jsonify({'error': 'File type not allowed'}), 400
 
@@ -157,11 +155,25 @@ def edit_profile_page():
             if current_user.is_researcher():
                 current_user.review_mails_limit = form.review_mails_limit.data
 
+            f = form.profile_image.data
+            if f:
+                filename = secure_filename(f'{current_user.id}.jpg')
+                path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGES_DIR_PATH, filename)
+                if current_user.has_photo:
+                    os.remove(path)
+
+                img = Image.open(f)
+                img = img.convert('RGB')
+                img = img.resize((256, 256))
+                img.save(path, format="JPEG", quality=90)
+
+                current_user.has_photo = True
+
             db.session.commit()
         except Exception as e:
             print(e)
             flash(STR.STH_WENT_WRONG, category='error')
-            return redirect(url_for('main.home_page'))
+            redirect(url_for('main.home_page'))
 
         flash(flash_message, category='success')
 

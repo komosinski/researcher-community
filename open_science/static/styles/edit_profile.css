@@ -1,0 +1,30 @@
+.dropzone {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+    min-height: 150px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.dropzone .dz-message {
+    text-align: center;
+    margin: 2em 0;
+}
+
+.dropzone .dz-preview {
+    display: none !important;
+}
+
+.dropzone .dz-message {
+    font-size: 1.2em;
+    color: #0087F7;
+}
+#avatar-upload-status {
+    font-weight: bold;
+    color:green;
+}

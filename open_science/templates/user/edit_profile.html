@@ -1,7 +1,8 @@
 {% from "helpers/form_helper.html" import render_edit_profile_field %}
 
 {% extends 'base.html' %}
-
+{% set DROPZONE_JS_URL = config['DROPZONE_JS_URL'] %}
+{% set DROPZONE_CSS_URL = config['DROPZONE_CSS_URL'] %}
 
 {% if current_user.is_researcher() %}
     {% set user_type = 'researcher'%}
@@ -9,8 +10,14 @@
     {% set user_type = 'standard_user'%}
 {% endif %}
 
+{%block styles%}
+ <link rel="stylesheet" href="{{url_for('static', filename='styles/edit_profile.css')}}">
+{%endblock%}
+
 {% block scripts%}
+<script src="{{ DROPZONE_JS_URL }}"></script>
 <script>
+Dropzone.autoDiscover = false;
 function showReviewWarning(value) {
         var mails_limit = document.querySelector('#review_mails_limit').value;
         if (mails_limit == 0) {
@@ -24,44 +31,36 @@ $(document).ready(function() {
         $("#researcher_options :input").prop('disabled', true);
         document.getElementById('researcher_options').style.color = '#A9A9A9';
     }
-    const avatarInput = document.getElementById('avatar-input');
-    const avatarUploadStatus = document.getElementById('avatar-upload-status');
+    const csrfToken = document.querySelector('input[name="csrf_token"]').value;
     const previewImage = document.getElementById('preview-image');
+    const avatarUploadStatus = document.getElementById('avatar-upload-status');
 
-    avatarInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (!file) {
-            return;
+    new Dropzone("#avatar-dropzone", {
+        url: "/user/upload_avatar",
+        method: "post",
+        maxFilesize: 5, // MB
+        acceptedFiles: "image/*",
+        maxFiles: 1,
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
+        init: function() {
+            this.on("addedfile", function(file) {
+                if (this.files.length > 1) {
+                    this.removeFile(this.files[0]);
+                }
+            });
+        },
+        success: function(file, response) {
+            avatarUploadStatus.textContent = response.message || 'Avatar uploaded successfully';
+            previewImage.src = URL.createObjectURL(file);
+        },
+        error: function(file, errorMessage) {
+            avatarUploadStatus.textContent = errorMessage.error || 'An error occurred during upload';
+        },
+        sending: function(file, xhr, formData) {
+            formData.append("csrf_token", csrfToken);
         }
-
-        avatarUploadStatus.textContent = 'Uploading...';
-
-        const formData = new FormData();
-        formData.append('avatar', file);
-
-        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
-        formData.append('csrf_token', csrfToken);
-
-        fetch('/user/upload_avatar', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': csrfToken
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                avatarUploadStatus.textContent = data.message;
-                previewImage.src = URL.createObjectURL(file);
-            } else {
-                avatarUploadStatus.textContent = data.error || 'An error occurred during upload.';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            avatarUploadStatus.textContent = 'An error occurred during upload.';
-        });
     });
 });
 </script>
@@ -78,13 +77,15 @@ $(document).ready(function() {
             {% include 'user/edit_profile_tab.html' %}
         {% endwith %}
         <br><br>
-        <div class="profile-pic-selection-wrapper">
+         <div class="profile-pic-selection-wrapper">
             <img id="preview-image" src="{{url_for('static',filename='res/profileImages/'~current_user.get_id()~'.jpg') if current_user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}" class="edit-profile-picture" />
             <div class="profile-edit-input-wrapper">
                 <div class="label-wrapper">Profile Image</div>
                 <div class="label-wrapper">(Please use a photo of your face if you decide to set a photo)</div>
-                <div class="input-wrapper">
-                    <input type="file" id="avatar-input" accept="image/*">
+                <div id="avatar-dropzone" class="dropzone">
+                    <div class="dz-message" data-dz-message>
+                        <span>Drop your avatar here or click to upload</span>
+                    </div>
                 </div>
                 <div id="avatar-upload-status"></div>
             </div>
