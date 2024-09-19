@@ -174,7 +174,7 @@
 
     {{render_header(forum_topic.title, forum_topic.date_created, "topic-header", "topic-title", "topic-date", moment)}}
             <div class="article-authors-wrapper">
-                <div class="author-wrapper">
+                <div class="inner-author-wrapper">
                     <img class="author-profile-pic"
                          src="{{url_for('static',filename='res/profileImages/'~creator.id~'.jpg') if creator.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
                     <a class="author-name" href="{{url_for('user.profile_page', user_id=creator.id)}}">{{creator.first_name +
