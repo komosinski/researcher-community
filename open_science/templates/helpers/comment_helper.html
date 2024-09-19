@@ -8,7 +8,7 @@
     <div class="comment comment-{{ comment.creator_role }}">
     {% endif %}
         <div class="comment-header-wrapper">
-            <div class="author-wrapper comment-author">
+            <div class="inner-author-wrapper comment-author">
                 <img class="author-profile-pic"
                      src="{{ url_for('static', filename='res/profileImages/'~author.get_id()~'.jpg') if author.has_photo else url_for('static', filename='res/profileImages/img.jpg') }}"/>
                 <div class="comment-answer-info">
