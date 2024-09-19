@@ -36,13 +36,14 @@ def profile_page(user_id):
 
     user = User.query.filter(User.id == user_id,
                              get_hidden_filter(User)).first()
-    user_badges = UserBadge.query.options(joinedload(UserBadge.badge)).filter_by(user_id=user_id).all()
-    badges = [user_badge.badge for user_badge in user_badges]
-    hasUserCalibrationPapers = len(user.rel_calibration_papers) > 0
 
     if not user or user.confirmed is False or user.is_deleted is True:
         flash(STR.USER_NOT_EXISTS, category='error')
         return redirect(url_for('main.home_page'))
+
+    user_badges = UserBadge.query.options(joinedload(UserBadge.badge)).filter_by(user_id=user_id).all()
+    badges = [user_badge.badge for user_badge in user_badges]
+    hasUserCalibrationPapers = len(user.rel_calibration_papers) > 0
 
     data = {
         'articles_num': len(user.rel_created_paper_revisions),

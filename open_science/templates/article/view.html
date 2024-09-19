@@ -250,7 +250,7 @@
             </div>
             <div class="article-authors-wrapper">
                 {% for user in article.rel_creators %}
-                <div class="author-wrapper">
+                <div class="inner-author-wrapper">
                     <img class="author-profile-pic"
                          src="{{url_for('static',filename='res/profileImages/'~user.id~'.jpg') if user.has_photo else url_for('static',filename='res/profileImages/img.jpg')}}"/>
                     {% if user.confirmed %}
