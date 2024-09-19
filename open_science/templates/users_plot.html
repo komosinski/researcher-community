@@ -112,6 +112,11 @@
 {% block content %}
 
 
+{% if  current_user.is_authenticated %}
+	<h3>This is the map of researchers in our community.</h3>
+{% else %}
+	<h3>This is the map of researchers in our community. Join us to be included!</h3>
+{% endif %}
 
     <div id="users_plot" style="width:90vw; height:90vh;">
     </div>
