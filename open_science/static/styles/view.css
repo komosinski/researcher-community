@@ -116,7 +116,7 @@ button:hover {
 }
 
 #my-pdf-container {
-    width: fit-content; /* width of the rendered pdf, probably should not be hardcoded this way, but dependent on the viewport width and maybe user zoom actions */
+    width: fit-content;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -151,9 +151,6 @@ button:hover {
     margin-right: 10px;
 }
 
-/*#my-toolbar button.active {*/
-/*    background-color: #ddd;*/
-/*}*/
 .my-pdf-content-wrapper {
    display: flex;
     width: 100%;
@@ -165,11 +162,13 @@ button:hover {
 #addRectButton {
     z-index: 1000;
 }
+
 .suggestion-no-location {
     width: 100%;
     height: 20rem;
     margin: 1rem;
 }
+
 .suggestion-no-location textarea{
     width: 90%;
     height: 100%;
