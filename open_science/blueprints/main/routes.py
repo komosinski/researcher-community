@@ -143,7 +143,7 @@ def contact_staff_page():
     return render_template('help/contact_staff.html', form=form)
 
 
-@bp.route("/plot3D")
+@bp.route("/map3D")
 def users_plot_3d():
     user_id = request.args.get('id', type=int)
     if user_id is None:

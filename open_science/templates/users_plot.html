@@ -1,4 +1,4 @@
-
+{% extends 'base.html' %}
 
 {% block scripts %}
 
@@ -74,16 +74,25 @@
             const layout = {
                 title: '',
                 showlegend: false,
-                scene: {
-                    xaxis: {backgroundcolor: 'rgba(200,200,200,0.9)', showbackground: true},
-                    yaxis: {backgroundcolor: 'rgba(200,200,200,0.9)', showbackground: true},
-                    zaxis: {backgroundcolor: 'rgba(200,200,200,0.9)', showbackground: true},
-                    xaxis_title: '',
-                    yaxis_title: '',
-                    zaxis_title: '',
-                    xaxis_showticklabels: false,
-                    yaxis_showticklabels: false,
-                    zaxis_showticklabels: false
+                 scene: {
+                    xaxis: {
+                        backgroundcolor: 'rgba(200,200,200,0.9)',
+                        showbackground: true,
+                        showspikes: false,
+                        title: ''
+                    },
+                    yaxis: {
+                        backgroundcolor: 'rgba(200,200,200,0.9)',
+                        showbackground: true,
+                        showspikes: false,
+                        title: ''
+                    },
+                    zaxis: {
+                        backgroundcolor: 'rgba(200,200,200,0.9)',
+                        showbackground: true,
+                        showspikes: false,
+                        title: ''
+                    }
                 }
             };
 
