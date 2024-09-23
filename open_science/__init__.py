@@ -27,14 +27,15 @@ def register_extensions(app):
     scheduler.init_app(app)
     moment.init_app(app)
 
-    from open_science.models import MessageToStaff, User, PaperRevision, Tag, Review, ReviewRequest, Comment
-    admin.add_view(MessageToStaffView(MessageToStaff, db.session, endpoint='messagetostaff_'))
-    admin.add_view(UserView(User, db.session, endpoint='user_'))
+    from open_science.models import MessageToStaff, User, PaperRevision, Tag, Review, ReviewRequest, Comment, ForumTopic
+    admin.add_view(MessageToStaffView(MessageToStaff, db.session))  # custom endpoints can be defined by an argument, e.g., endpoint='messagetostaff_'. Otherwise, by default, endpoints will be named in lowercase after the table names.
+    admin.add_view(UserView(User, db.session))
     admin.add_view(MyModelView(PaperRevision, db.session))
-    admin.add_view(MyModelView(Tag, db.session, endpoint='tag_'))
-    admin.add_view(MyModelView(Review, db.session, endpoint='review_'))
+    admin.add_view(MyModelView(Tag, db.session))
+    admin.add_view(MyModelView(Review, db.session))
     admin.add_view(MyModelView(ReviewRequest, db.session))
     admin.add_view(MyModelView(Comment, db.session))
+    admin.add_view(MyModelView(ForumTopic, db.session))
 
 
 def create_app(config_class=Config):
