@@ -27,7 +27,7 @@ def register_extensions(app):
     scheduler.init_app(app)
     moment.init_app(app)
 
-    from open_science.models import MessageToStaff, User, PaperRevision, Tag, Review, ReviewRequest, Comment
+    from open_science.models import MessageToStaff, User, PaperRevision, Tag, Review, ReviewRequest, Comment, ForumTopic
     admin.add_view(MessageToStaffView(MessageToStaff, db.session, endpoint='messagetostaff_'))
     admin.add_view(UserView(User, db.session, endpoint='user_'))
     admin.add_view(MyModelView(PaperRevision, db.session))
@@ -35,6 +35,7 @@ def register_extensions(app):
     admin.add_view(MyModelView(Review, db.session, endpoint='review_'))
     admin.add_view(MyModelView(ReviewRequest, db.session))
     admin.add_view(MyModelView(Comment, db.session))
+    admin.add_view(MyModelView(ForumTopic, db.session, endpoint='forum-topic_'))
 
 
 def create_app(config_class=Config):
