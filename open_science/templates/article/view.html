@@ -22,7 +22,7 @@
             const aid = {{article.parent_paper}};
             if(confirm("Are you sure you want to flag this paper?")) {
                 $.post(`/paper/${aid}/flag`, function () {
-                    alert("Paper has been reported. Thanks for letting us know.")
+                    alert("The paper has been reported. Thanks for letting us know.")
                 }).fail(function () {
                     alert("Error");
                 });
@@ -52,7 +52,7 @@
             const id = $(this).parents().closest('.comment-wrapper').attr('id').substring(1);
             if(confirm("Are you sure you want to flag this comment?")) {
                 $.post(`/comment/${id}/flag`, function () {
-                    alert("Comment has been reported. Thanks for letting us know.")
+                    alert("The comment has been reported. Thanks for letting us know.")
                 }).fail(function () {
                     alert("An error occured");
                 });
@@ -210,21 +210,22 @@
                 </div>
                 <div class="reviews-wrapper">
                     <p class="reviews-header">
-                        Reviews: ({{article.average_grade}})
+                        Reviews: <span title="Overall average">({{article.average_grade}})</span>
                     </p>
-                    <p class="reviews-entry">
+                    <!-- The title's below are the same as "Evaluation criteria" on the /review page - these strings could be unified -->
+                    <p class="reviews-entry" title="Novel and substantial compared to previous papers">
                         {{article.average_novel}}
                     </p>
-                    <p class="reviews-entry">
+                    <p class="reviews-entry" title="Claims and conclusions reasonable and justified">
                         {{article.average_conclusion}}
                     </p>
-                    <p class="reviews-entry">
+                    <p class="reviews-entry" title="Free of essential and technical errors">
                         {{article.average_error}}
                     </p>
-                    <p class="reviews-entry">
+                    <p class="reviews-entry" title="Well organized, well presented, readable">
                         {{article.average_organize}}
                     </p>
-                    <p class="reviews-entry">
+                    <p class="reviews-entry" title="Accepted">
                         {{article.average_accept}}
                     </p>
 
