@@ -621,6 +621,15 @@ a:link {
     margin-bottom: 1%;
 }
 
+.user-badge {
+    display: inline-block;
+    padding: .35em .65em;
+    font-size: .75em;
+    line-height: 1;
+    background-color: #ffe408;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
 .user-badge-wrapper {
     margin-left: 2%;
     font-size: 1.875em;
