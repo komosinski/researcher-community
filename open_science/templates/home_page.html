@@ -35,7 +35,7 @@
 {% if current_user.is_authenticated %}
 	</h4>
 {% else %}
-	Join us to be included!</h4>
+	<br/>Join us to be included!</h4>
 {% endif %}
 	
 	<a href="{{url_for('main.users_plot_3d', id=user_id)}}">
