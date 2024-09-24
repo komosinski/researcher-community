@@ -28,14 +28,16 @@ def register_extensions(app):
     moment.init_app(app)
 
     from open_science.models import MessageToStaff, User, PaperRevision, Tag, Review, ReviewRequest, Comment, ForumTopic
-    admin.add_view(MessageToStaffView(MessageToStaff, db.session))  # custom endpoints can be defined by an argument, e.g., endpoint='messagetostaff_'. Otherwise, by default, endpoints will be named in lowercase after the table names.
-    admin.add_view(UserView(User, db.session))
-    admin.add_view(MyModelView(PaperRevision, db.session))
-    admin.add_view(MyModelView(Tag, db.session))
-    admin.add_view(MyModelView(Review, db.session))
-    admin.add_view(MyModelView(ReviewRequest, db.session))
-    admin.add_view(MyModelView(Comment, db.session))
-    admin.add_view(MyModelView(ForumTopic, db.session))
+    # custom endpoints are defined for all views below for consistency. By default, endpoints would be named in lowercase after the table names,
+    # which could cause problems because endpoint names should be unique, e.g., "Exception: The name 'tag' is already registered for a different blueprint."
+    admin.add_view(MessageToStaffView(MessageToStaff, db.session, endpoint='messagetostaff_'))
+    admin.add_view(UserView(User, db.session, endpoint='user_'))
+    admin.add_view(MyModelView(PaperRevision, db.session, endpoint='paperrevision_'))
+    admin.add_view(MyModelView(Tag, db.session, endpoint='tag_'))
+    admin.add_view(MyModelView(Review, db.session, endpoint='review_'))
+    admin.add_view(MyModelView(ReviewRequest, db.session, endpoint='reviewrequest_'))
+    admin.add_view(MyModelView(Comment, db.session, endpoint='comment_'))
+    admin.add_view(MyModelView(ForumTopic, db.session, endpoint='forumtopic_'))
 
 
 def create_app(config_class=Config):
