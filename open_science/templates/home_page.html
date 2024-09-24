@@ -2,27 +2,51 @@
 {% block content %}
 
 
-{% if  current_user.is_authenticated %}
+{% if current_user.is_authenticated %}
 {% set user_id = current_user.get_id() %}
 {% else %}
 {% set user_id = '0' %}
 {% endif %}
 
+<table>
+<tr>
+<td style="width:50%;">
+<p>Welcome! This collaborative open-source service aims to:</p>
+<ul>
+<li> <b>Unite research</b>: Integrate research across all scientific disciplines.</li>
+<li> <b>Free access</b>: Make research findings freely available to everyone.</li>
+<li> <b>Simplify processes</b>: Streamline the submission, discussion, and review of research papers.</li>
+<li> <b>Support interdisciplinary work</b>: Address challenges in publishing and reviewing interdisciplinary studies.</li>
+<li> <b>Foster cooperation</b>: Act as a global platform that promotes collaboration over competition.</li>
+<li> <b>Facilitate community-driven improvement</b>: Continuously evolve based on feedback from the research community.</li>
+</ul>
 
+{% if current_user.is_authenticated %}
+<p>Access your papers, reviews, and preferences in your user profile at the top right corner.</p>
+{% endif %}
+
+</td>
+
+<td>
 
 <center>
 
-{% if  current_user.is_authenticated %}
-	<h3>This is the map of researchers in our community.</h3>
+<h4>This is the map of researchers in our community.
+{% if current_user.is_authenticated %}
+	</h4>
 {% else %}
-	<h3>This is the map of researchers in our community. Join us to be included!</h3>
+	Join us to be included!</h4>
 {% endif %}
 	
 	<a href="{{url_for('main.users_plot_3d', id=user_id)}}">
 		<img src="{{url_for('static', filename='res/users_plot.png')}}" title="Researchers, based on submitted/calibration papers.&#10;Click for an interactive 3D version." style="width:90vw; max-height:90vh; max-width:90vh;" />
 	</a>
-	<p>(refreshed daily)</p>
+	<p>Refreshed daily. Click for an interactive <a href="{{url_for('main.users_plot_3d', id=user_id)}}">3D version</a>.</p>
 </center>
+
+</td>
+</tr>
+</table>
 
 
 {% endblock %}
