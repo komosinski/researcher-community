@@ -117,7 +117,7 @@ function createSelectionRect(pageDiv, pageNumber, fromLoad) {
     newSelectionRect.style.position = 'absolute';
     newSelectionRect.style.border = '2px solid red';
     newSelectionRect.style.boxSizing = 'border-box';
-    newSelectionRect.style.background = 'transparent';
+    newSelectionRect.style.background = 'rgba(225,0,0,0.5)';
 
     if (currentPageNumber !== pageNumber && !fromLoad) {
         console.warn('Attempted to create a rect on a different page.');
