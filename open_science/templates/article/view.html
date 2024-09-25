@@ -209,9 +209,21 @@
                         article.rel_comments_to_this_paper is not none else '0'}}</p>
                 </div>
                 <div class="reviews-wrapper">
+
                     <p class="reviews-header">
-                        Reviews: <span title="Overall average">({{article.average_grade}})</span>
+                        Reviews: 
+{% if article.rel_related_reviews | length==0 %}
+                        <b>not reviewed</b>
+{%else%}
+                        <span title="Overall average">({{article.average_grade}})</span>
+{%endif%}
                     </p>
+
+
+{% if article.rel_related_reviews | length==0 %}
+<div style="opacity: 0.2;"> <!-- even if not reviewed, still faintly show the criteria to hint at what the evaluation would look like -->
+{%endif%}
+                    
                     <!-- The title's below are the same as "Evaluation criteria" on the /review page - these strings could be unified -->
                     <p class="reviews-entry" title="Novel and substantial compared to previous papers">
                         {{article.average_novel}}
@@ -229,13 +241,17 @@
                         {{article.average_accept}}
                     </p>
 
-                    |
+{% if article.rel_related_reviews | length==0 %}
+</div>
+{%endif%}
 
                     {%for review in article.rel_related_reviews %}
+                    |
                     <a href="/review/{{review.id}}">
                         Review {{loop.index}}
                     </a>
                     {%endfor%}
+
                     <!-- {% for review in article.rel_related_reviews %}
                         {% if review.decision %}
                             <a href="/review/{{review.id}}" class="reviews-entry reviews-entry-accepted">
