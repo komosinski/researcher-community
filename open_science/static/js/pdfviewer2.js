@@ -276,12 +276,14 @@ function handleCommentSubmit(comment, rect) {
 function highlightRectAndScroll(rect) {
     document.querySelectorAll('.selection-rect').forEach(el => {
         el.style.border = '2px solid red';
+        el.style.background = 'rgba(225,0,0,0.5)';
     });
     document.querySelectorAll('#commentList li').forEach(li => {
         li.style.backgroundColor = '';
     });
 
     rect.style.border = '2px solid green';
+    rect.style.background = 'rgba(0,128,0,0.5)';
     rect.scrollIntoView({behavior: 'smooth', block: 'center'});
 
     let associatedComment = Array.from(document.querySelectorAll('#commentList li')).find(li => li.rect === rect);
