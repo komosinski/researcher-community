@@ -156,20 +156,6 @@ def edit_profile_page():
             if current_user.is_researcher():
                 current_user.review_mails_limit = form.review_mails_limit.data
 
-            f = form.profile_image.data
-            if f:
-                filename = secure_filename(f'{current_user.id}.jpg')
-                path = os.path.join(Config.ROOTDIR, Config.PROFILE_IMAGES_DIR_PATH, filename)
-                if current_user.has_photo:
-                    os.remove(path)
-
-                img = Image.open(f)
-                img = img.convert('RGB')
-                img = img.resize((256, 256))
-                img.save(path, format="JPEG", quality=90)
-
-                current_user.has_photo = True
-
             db.session.commit()
         except Exception as e:
             print(e)
