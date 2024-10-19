@@ -47,8 +47,8 @@ class TfidfSimilarityMeasure(SimilarityMeasure):
 
 
 if __name__ == '__main__':
-    p = Path("/home/arabica/Downloads/openscience-priv/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2212682115300093-main.pdf")
-    p1 = Path("/home/arabica/Downloads/openscience-priv/tests/similarity/data/raw/dendrogram_1/1-s2.0-S221267161200090X-main.pdf")
+    p = Path("/home/arabica/Downloads/researcher-community/tests/similarity/data/raw/dendrogram_1/1-s2.0-S2212682115300093-main.pdf")
+    p1 = Path("/home/arabica/Downloads/researcher-community/tests/similarity/data/raw/dendrogram_1/1-s2.0-S221267161200090X-main.pdf")
     sim = TfidfSimilarityMeasure()
     sim.build_dictionary([p, p1, p])
     #print(sim.get_similarity(p, p1))
