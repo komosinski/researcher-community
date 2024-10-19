@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/openscience-priv.iml" filepath="$PROJECT_DIR$/.idea/openscience-priv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/researcher-community.iml" filepath="$PROJECT_DIR$/.idea/researcher-community.iml" />
     </modules>
   </component>
 </project>
