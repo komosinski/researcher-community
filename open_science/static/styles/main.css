@@ -247,7 +247,7 @@ main {
 }
 
 .profile-picture {
-    height: auto;
+    height: 100%;
 }
 
 .username, .afiliation {
