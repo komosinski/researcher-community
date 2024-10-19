@@ -11,7 +11,7 @@
       <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/measures/cosine_measure.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/measures/euclidean_measure.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/tests/similarity/src/similarity_measures/measures/measure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/openscience-priv.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/openscience-priv.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/researcher-community.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/researcher-community.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024 linear .pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024 linear .pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/tests/similarity/plots/BigBird - context_len: 1024.pdf" afterDir="false" />
@@ -88,29 +88,29 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/arabica/Downloads/openscience-priv&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/arabica/Downloads/researcher-community&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/tests/similarity/src" />
-      <recent name="C:\Users\piotr\PycharmProjects\openscience-priv" />
-      <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\tests" />
-      <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\open_science\static" />
-      <recent name="C:\Users\piotr\PycharmProjects\openscience-priv\server_files" />
+      <recent name="C:\Users\piotr\PycharmProjects\researcher-community" />
+      <recent name="C:\Users\piotr\PycharmProjects\researcher-community\tests" />
+      <recent name="C:\Users\piotr\PycharmProjects\researcher-community\open_science\static" />
+      <recent name="C:\Users\piotr\PycharmProjects\researcher-community\server_files" />
     </key>
   </component>
   <component name="RunManager" selected="Python.testing_methods_for_cassification">
     <configuration name="bigbird_cosine_similarity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="openscience-priv" />
+      <module name="researcher-community" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
-      <option name="SDK_NAME" value="Python 3.8 (openscience-priv)" />
+      <option name="SDK_NAME" value="Python 3.8 (researcher-community)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/similarity/src/similarity_measures" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -125,7 +125,7 @@
       <method v="2" />
     </configuration>
     <configuration name="openscience" type="PythonConfigurationType" factoryName="Python">
-      <module name="openscience-priv" />
+      <module name="researcher-community" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -147,7 +147,7 @@
       <method v="2" />
     </configuration>
     <configuration name="run_comparision" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="openscience-priv" />
+      <module name="researcher-community" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -168,7 +168,7 @@
       <method v="2" />
     </configuration>
     <configuration name="similarity_for_classification" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="openscience-priv" />
+      <module name="researcher-community" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -189,7 +189,7 @@
       <method v="2" />
     </configuration>
     <configuration name="testing_methods_for_cassification" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="openscience-priv" />
+      <module name="researcher-community" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -210,7 +210,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Python tests in testing_methods_for_cassification.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="openscience-priv" />
+      <module name="researcher-community" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
