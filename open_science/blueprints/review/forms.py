@@ -84,7 +84,7 @@ class ReviewEditForm(FlaskForm):
         default=False)
 
     check_hide = BooleanField(
-        "Hide review (You can change it whenever you want)", default=False)
+        "Hide review (you can change it whenever you want)", default=False)
 
     submit = SubmitField(label='Send')
     save = SubmitField(label='Save')
