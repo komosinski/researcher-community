@@ -218,10 +218,10 @@ def review_page(review_id):
                                  get_hidden_filter(Review)).first()
 
     if not review:
-        flash('Review does not exists', category='error')
+        flash('The review does not exists', category='error')
         return redirect(url_for('main.home_page'))
     elif review.is_published() is False or review.is_hidden:
-        flash('Review is not publshed', category='warning')
+        flash('The review is not published', category='warning')
         return redirect(url_for('main.home_page'))
 
     creator = review.rel_creator
