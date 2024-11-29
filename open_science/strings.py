@@ -102,8 +102,8 @@ PROFILE_IS_DELETED = 'The profile is deleted.'
 CHECK_READ_BEFORE_PROFILE_DELETE = "I have read the information stated above and understand the implications of having my profile deleted."
 
 # forms.py
-DECLARATION_RIGHTS = "I certify that this is original and not published anywhere else \
-            (except from venues not restricting publication on this site such as preprint servers, \
+DECLARATION_RIGHTS = "I certify that this work is original and has not been published elsewhere \
+            (except in venues not restricting publication on this site such as preprint servers, \
                  private websites, conferences and journals with permissive agreements, etc.)"
 
 DECLARATION_AUTHORS = "All authors read and approved the final manuscript"
