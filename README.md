@@ -1,6 +1,6 @@
 # The researcher.community project
 
-Motivations behind this project and an introductory video are provided [here](https://www.cs.put.poznan.pl/mkomosinski/site/?q=united-science-open-research).
+The motivations behind this project, contact information, and an introductory video are provided [here](https://www.cs.put.poznan.pl/mkomosinski/site/?q=united-science-open-research).
 
 (Note that the video is divided into chapters, so you can skip some parts and jump directly to the section you are interested in).
 
