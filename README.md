@@ -4,6 +4,7 @@ The motivations behind this project, contact information, and an introductory vi
 
 (Note that the video is divided into chapters, so you can skip some parts and jump directly to the section you are interested in).
 
+The easiest way to test and develop this service is to clone this repository locally and run the web server locally. Alternatively, you can use the dockerized version described below.
 
 Overview of the sources
 -----------------------
